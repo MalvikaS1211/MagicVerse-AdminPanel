@@ -10,6 +10,7 @@ import {
 import logo from '../../images/logo/logo-full.png'
 import bg6 from '../../images/background/bg6.jpg';
 
+
 function Register(props) {
 	const [heartActive, setHeartActive] = useState(true);
 
@@ -51,7 +52,9 @@ function Register(props) {
 										<div className="login-form style-2">
 											<div className="card-body">
 												<div className="logo-header">
-													<Link to="/login" className="logo"><img src={logo} alt="" className="width-230 mCS_img_loaded" /></Link>
+													<Link to="/login" className="logo">
+														<img src={logo} alt="" className="width-230 mCS_img_loaded" />
+														</Link>
 												</div>												
 												<nav className="nav nav-tabs border-bottom-0" >														
 													<div className="tab-content w-100" id="nav-tabContent">

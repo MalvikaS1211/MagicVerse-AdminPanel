@@ -7,6 +7,7 @@ import { loadingToggleAction,loginAction,
 
 import logo from '../../images/logo/logo-full.png'
 import bg6 from '../../images/background/bg6.jpg';
+import image from '../../images/t Text.svg'
 
 function Login (props) {
 	const [heartActive, setHeartActive] = useState(true);
@@ -51,7 +52,9 @@ function Login (props) {
 									<div className="login-form style-2">
 										<div className="card-body">
 											<div className="logo-header">
-												<Link to={"#"} className="logo"><img src={logo} alt="" className="width-230 mCS_img_loaded" /></Link>
+												<Link to={"#"} className="logo">
+													<img src={image} alt="" className="width-230 mCS_img_loaded" />
+													</Link>
 											</div>											
 											<div className="nav nav-tabs border-bottom-0" >														
 												<div className="tab-content w-100" id="nav-tabContent">
@@ -112,7 +115,7 @@ function Login (props) {
 												</div>												
 											</div>
 										</div>
-										<div className="card-footer">
+										{/* <div className="card-footer">
 											<div className=" bottom-footer clearfix m-t10 m-b20 row text-center">
 												<div className="col-lg-12 text-center">
 													<span> © Copyright by <span 
@@ -122,7 +125,7 @@ function Login (props) {
 													<a href="https://www.dexignzone.com/" target="_blank"> DexignZone </a> All rights reserved.</span> 
 												</div>
 											</div>
-										</div>													
+										</div>													 */}
 									</div>
 								</div>
 							</div>

@@ -1,46 +1,71 @@
+
 export const MenuList = [
     //Dashboard
     {
         title: 'Dashboard',	
         classsChange: 'mm-collapse',		
         iconStyle: <i className="material-icons">grid_view</i>,
-        content: [
+        to: 'dashboard',	
+        // content: [
             
-            {
-                title: 'Dashboard Light',
-                to: 'dashboard',					
-            },
-            {
-                title: 'Dashboard Dark',
-                to: 'dashboard-dark',
+        //     {
+        //         title: 'Dashboard Light',
+        //         to: 'dashboard',					
+        //     },
+        //     {
+        //         title: 'Dashboard Dark',
+        //         to: 'dashboard-dark',
                 
-            },
-            {
-                title: 'Dashboard-2',
-                to: 'index-1',
+        //     },
+        //     {
+        //         title: 'Dashboard-2',
+        //         to: 'index-1',
                 
-            },
-            {
-                title: 'Dashboard-3',
-                to: 'index-3',
+        //     },
+        //     {
+        //         title: 'Dashboard-3',
+        //         to: 'index-3',
                 
 
-            },
-            {
-                title: 'Dashboard-4',
-                to: 'index-4',
+        //     },
+        //     {
+        //         title: 'Dashboard-4',
+        //         to: 'index-4',
                 
-            },
-			{
-                title: 'Dashboard-5',
-                to: 'index-5',
+        //     },
+		// 	{
+        //         title: 'Dashboard-5',
+        //         to: 'index-5',
                 
-            },
+        //     },
             
             
-        ],
+        // ],
     },
-    //Trading
+
+    // Users
+   {
+
+    title: 'USERS',	
+    // classsChange: 'mm-collapse',		
+    iconStyle: <i className="material-icons">grid_view</i>,
+   },
+    {   
+        title:' User Profiles',
+        //classsChange: 'mm-collapse',
+       // iconStyle: Widget,
+       iconStyle: <i className="material-icons">account_circle</i>,
+        to: 'allUsers',
+    },
+       
+    {   
+        title:'User Activities',
+        //classsChange: 'mm-collapse',
+        //iconStyle: Widget,
+        iconStyle: <i className="material-icons">account_circle</i>,
+        to: 'allUsers',
+    },
+   
     {
         title: 'Trading',
         classsChange: 'mm-collapse',
@@ -96,7 +121,7 @@ export const MenuList = [
             },
         ]
     },
-    //Reports
+  //  Reports
     {
         title: 'Reports',
         classsChange: 'mm-collapse',
@@ -129,7 +154,7 @@ export const MenuList = [
         ],
     },
     
-    //Apps
+   // Apps
     {
         title: 'Apps',	
         classsChange: 'mm-collapse',
@@ -207,7 +232,7 @@ export const MenuList = [
             },
         ],
     },
-    //Charts
+   // Charts
     {
         title: 'Charts',	
         classsChange: 'mm-collapse',
@@ -232,7 +257,7 @@ export const MenuList = [
             },
         ]
     },
-    //Boosttrap
+  //  Boosttrap
     {
         title: 'Bootstrap',	
         classsChange: 'mm-collapse',
@@ -304,7 +329,7 @@ export const MenuList = [
             },
         ]
     },
-    //plugins
+  //  plugins
     {
         title:'Plugins',
         classsChange: 'mm-collapse',
@@ -336,14 +361,14 @@ export const MenuList = [
             },
         ]
     },
-    //Widget
+  //  Widget
     {   
         title:'Widget',
         //classsChange: 'mm-collapse',
         iconStyle: <i className="bi bi-gear-wide"></i>,
         to: 'widget-basic',
     },
-    //Forms
+  //  Forms
     {
         title:'Forms',
         classsChange: 'mm-collapse',
@@ -372,7 +397,7 @@ export const MenuList = [
 
         ]
     },
-    //Table
+   // Table
     {
         title:'Table',
         classsChange: 'mm-collapse',
@@ -394,7 +419,7 @@ export const MenuList = [
 
         ]
     },
-    //Pages
+   // Pages
     {
         title:'Pages',
         classsChange: 'mm-collapse',
@@ -433,5 +458,11 @@ export const MenuList = [
 
         ]
     },
+    {
+        title:'Logout',
+        // classsChange: 'mm-collapse',
+        iconStyle: <i class="material-icons"> logout </i>,
+    
+    }
     
 ]

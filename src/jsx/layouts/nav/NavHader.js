@@ -8,6 +8,7 @@ import logo1 from './../../../images/logo/logo.png';
 import logotext1 from './../../../images/logo/logo-text.png';
 import logoColor from './../../../images/logo/logo-color.png';
 import logoColorText from './../../../images/logo/logo-text-color.png';
+import image from "../../../images/t Text.svg"
 
 export function  NavMenuToggle(){
 	setTimeout(()=>{	
@@ -29,10 +30,10 @@ const NavHader = () => {
   return (
     <div className="nav-header">
       <Link to="/dashboard" className="brand-logo"> 
-		<img src={logo1}  className="logo-abbr" alt=""/>
-		<img src={logotext1} className="brand-title" alt=""/>
-		<img src={logoColor} className="logo-color" alt="" />
-		<img src={logoColorText} className="brand-title color-title" alt="" />
+		{/* <img src={logo1}  className="logo-abbr" alt=""/> */}
+		<img src={image} className="brand-title" alt=""/>
+		{/* <img src={logoColor} className="logo-color" alt="" /> */}
+		{/* <img src={logoColorText} className="brand-title color-title" alt="" /> */}
       </Link>
 
       <div
