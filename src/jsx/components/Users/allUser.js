@@ -1,8 +1,11 @@
-import React, { Fragment, useEffect, useState } from "react";
-import { useTable, useSortBy } from "react-table";
+import React, { Fragment, useEffect, useState,useMemo } from "react";
+import { useTable, useGlobalFilter, useFilters, usePagination } from 'react-table';
 import { Row, Col, Card, Table } from "react-bootstrap";
+// import { useTable, usePagination } from "react-table";
 import { allUser } from "../../../services/api_function";
 import { Link } from "react-router-dom";
+import {COLUMNS} from "../../components/table/FilteringTable/Columns"
+import MOCK_DATA  from "../../components/table/FilteringTable/MOCK_DATA_2.json"
 //import './table.css';
 
 export const AllUser = () => {
@@ -10,6 +13,7 @@ export const AllUser = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [selectedFilter, setSelectedFilter] = useState("");
+  const [search, setSearch] = useState("");
   const pageSize = 30;
   useEffect(() => {
     const fetchData = async () => {
@@ -58,6 +62,38 @@ const formatTimestamp = (timestamp) => {
     const minutes = String(date.getMinutes()).padStart(2, "0");
     return `${day}-${month}-${year} ${hours}:${minutes}`;
   };
+  const columns = useMemo( () => COLUMNS, [] )
+	const data = useMemo( () => MOCK_DATA, [] )
+	const tableInstance = useTable({
+		columns,
+		data,	
+		initialState : {pageIndex : 0}
+	}, useFilters, useGlobalFilter, usePagination)
+	
+	const { 
+		getTableProps, 
+		getTableBodyProps, 
+		headerGroups, 
+		prepareRow,
+		state,
+		page,
+		gotoPage,
+		pageCount,
+		pageOptions,
+		nextPage,
+		previousPage,
+		canNextPage,
+		canPreviousPage,
+		setGlobalFilter,
+	} = tableInstance
+	const {globalFilter, pageIndex} = state
+  const filteredData = useMemo(() => {
+    return apiData.filter(
+      (item) =>
+        item.userId.toLowerCase().includes(search.toLowerCase()) ||
+        item.user.toLowerCase().includes(search.toLowerCase())
+    );
+  }, [apiData, search]);
   return (
     <Fragment>
       <Row>
@@ -67,13 +103,39 @@ const formatTimestamp = (timestamp) => {
               <Card.Title> All Users</Card.Title>
             </Card.Header>
             <Card.Body>
+            <input
+                type="text"
+                placeholder="Search..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
               <Table responsive>
-                <thead>
+              {/* <thead>
+							   {headerGroups.map(headerGroup => (
+									<tr {...headerGroup.getHeaderGroupProps()}>
+										{headerGroup.headers.map(column => (
+											<th {...column.getHeaderProps()}>
+												{column.render('Header')}
+												{column.canFilter ? column.render('Filter') : null}
+											</th>
+										))}
+									</tr>
+							   ))}
+                 <input type="text" placeholder="Search..." />
+    
+							</thead> */}
+             <thead>
+
+             </thead>
+             <thead>
+             </thead>
+              <thead>
                   <tr>
                     {/* <th className="width50"></th> */}
                     <th>
                       <strong>NO.</strong>
                     </th>
+                    
                     <th>
                       <strong> UserID</strong>
                     </th>
@@ -108,7 +170,7 @@ const formatTimestamp = (timestamp) => {
                       <td>
                         <div className="d-flex align-items-center table-action-icon">
                           <Link
-                            to={`/team?user=${encodeURIComponent(
+                            to={`/team-list?user=${encodeURIComponent(
                               user.user
                             )}`}
                             className="btn btn-primary light shadow btn-xs sharp me-1"

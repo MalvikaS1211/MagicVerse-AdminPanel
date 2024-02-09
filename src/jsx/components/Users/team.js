@@ -3,34 +3,48 @@ import { useLocation } from "react-router-dom";
 import { useTable, useSortBy } from "react-table";
 import { Row, Col, Card, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { TeamData } from "../../../services/api_function";
+import {  TeamData as fetchTeamData } from "../../../services/api_function";
 
-const TeamDetails=(props)=>{
-    const location = useLocation();
-    const phoneNumberFromUrl = new URLSearchParams(location.search).get(
-      "user"
-    );
-    const [user, setUser] = useState(phoneNumberFromUrl);
-    const [userData, setUserData] = useState(null);
-  
-    const isInitialRender = useRef(true);
-    const memoizeduser = useMemo(() => user, [user]);
-  
-    useEffect(() => {
-        console.log("bdhsdeb",memoizeduser)
-      if (!isInitialRender.current && memoizeduser) {
-        TeamData(memoizeduser)
-          .then((response) => {
-            console.log(response)
-            setUserData(response);
-          })
-          .catch((error) => {
-            // NotificationManager.error("Something Went Wrong");
-          });
-      } else {
-        isInitialRender.current = false;
-      }
-    }, [memoizeduser]);
+const TeamDetails = (props) => {
+  const location = useLocation();
+  const phoneNumberFromUrl = new URLSearchParams(location.search).get('user');
+  const [user, setUser] = useState(phoneNumberFromUrl);
+  const [userData, setUserData] = useState(null);
+  const [apiTimestamp, setApiTimestamp] = useState(null);
+  const isInitialRender = useRef(true);
+  const memoizedUser = useMemo(() => user, [user]);
+  useEffect(() => {
+    if (!isInitialRender.current && memoizedUser) {
+      fetchTeamData(memoizedUser) 
+        .then((response) => {
+          console.log(response.data);
+          setUserData(response.data);
+          setApiTimestamp(response.timestamp);
+          console.log(response.timestamp)
+        })
+        .catch((error) => {
+          console.error('Error fetching team data:', error);
+        });
+    } else {
+      isInitialRender.current = false;
+    }
+  }, [memoizedUser]);
+
+//   const timestamp = 
+// console.log("asdhnfjh",timestamp)
+// const date = new Date(timestamp * 1000);
+
+// const year = date.getFullYear();
+
+// const month = date.getMonth() + 1;
+// const day = date.getDate();
+// const hour = date.getHours();
+// const minute = date.getMinutes();
+// const second = date.getSeconds();
+
+// const formattedDate = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day} ${hour < 10 ? '0' + hour : hour}:${minute < 10 ? '0' + minute : minute}:${second < 10 ? '0' + second : second}`;
+
+// console.log(formattedDate);
     return (
         <Fragment>
           <Row>
@@ -53,40 +67,32 @@ const TeamDetails=(props)=>{
                         <th>
                           <strong>User</strong>
                         </th>
-                        <th>
+                        {/* <th>
                           <strong>referrerId</strong>
-                        </th>
-                        <th>
+                        </th> */}
+                        {/* <th>
                           <strong>Leval</strong>
-                        </th>
+                        </th> */}
                         <th>
                           <strong>Team Business</strong>
                         </th>
                         <th>
                           <strong>Date</strong>
                         </th>
-                        <th>  <strong>Team</strong></th>
+                        {/* <th>  <strong>Team</strong></th> */}
                       </tr>
                     </thead>
                     <tbody>
-                      {/* {apiData?.map((user, index) => (
-                        <tr>
-                          <td>{(currentPage - 1) * pageSize + index + 1}</td>
-                          <td>{user.userId}</td>
-                          <td>   <span className="smaller-font">{user.user}</span></td>
-                          <td>{user.referrerId}</td>
-                          <td>{user.rank}</td>
-                          <td>{user.teamBusiness}</td>
-                          <td>{formatTimestamp(user.createdAt)}</td> */}
-                          {/* <Link
-                              href="#"
-                              className="btn btn-primary shadow btn-xs sharp me-1"
-                            >
-                              <i className="fas fa-pencil-alt"></i>
-                            </Link> */}
-                       
-                       
-                          {/* <td> */}
+                    {userData?.map((user, index) => (
+                    <tr>
+                      <td>{ index + 1}</td>
+                      <td>{user.userId}</td>
+                      <td>  <span className="smaller-font">{user.user}</span></td>
+                      {/* <td>{user.referrerId}</td> */}
+                      {/* <td>{user.rank}</td> */}
+                      <td>{user.teamBusiness}</td>
+                      {/* <td>{formatTimestamp(user.createdAt)}</td> */}
+                      <td>
                             {/* <div className="d-flex align-items-center table-action-icon">
                               <Link
                                 to={`/user-profile?phoneNumber=${encodeURIComponent(
@@ -97,9 +103,9 @@ const TeamDetails=(props)=>{
                                 <i className="fas fa-pencil-alt"></i>
                               </Link>
                             </div> */}
-                          {/* </td> */}
-                        {/* </tr> */}
-                      {/* ))} */}
+                          </td>
+                        </tr>
+                      ))}
                     </tbody>
                   </Table>
                   <div className="d-flex justify-content-between">

@@ -25,6 +25,7 @@ import Dashboard5 from "./components/Dashboard/Dashboard5";
 // Users
 import AllUser from "./components/Users/allUser";
 import TeamDetails from "./components/Users/team";
+import Announcement from "./components/Users/announcement";
 
 //Trading
 import Market from './components/Trading/Market';
@@ -155,7 +156,8 @@ const Markup = () => {
     { url: "index-5", component: <Dashboard5 /> },
     // Users
     { url: 'allUsers', auth: true, component: <AllUser/>},
-    {url:'team',component:<TeamDetails/>},
+    {url:'team-list',component:<TeamDetails/>},
+    {url:'announcement', component:<Announcement/>},
 
     //Trading
     { url: "market", component: <Market /> },

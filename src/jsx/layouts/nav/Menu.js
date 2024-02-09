@@ -59,11 +59,11 @@ export const MenuList = [
     },
        
     {   
-        title:'User Activities',
+        title:'Announcements',
         //classsChange: 'mm-collapse',
         //iconStyle: Widget,
         iconStyle: <i className="material-icons">account_circle</i>,
-        to: 'allUsers',
+        to: 'announcement',
     },
    
     {

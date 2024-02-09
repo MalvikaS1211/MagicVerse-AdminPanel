@@ -65,7 +65,7 @@ const Home = () => {
 				<div className="col-xl-8">
 					<div className="row">
 						<div className="col-xl-12">
-							<div className="card bubles">
+							{/* <div className="card bubles">
 								<div className="card-body">
 									<div className="buy-coin  bubles-down">
 										<div>
@@ -78,12 +78,12 @@ const Home = () => {
 										</div>
 									</div>
 								</div>
-							</div>
+							</div> */}
 						</div>
 						<div className="col-xl-12">
 							<BalanceCardSlider />
 						</div>
-						<div className="col-xl-12">
+						{/* <div className="col-xl-12">
 							<div className="card">
 								<div className="card-header border-0 align-items-start flex-wrap pb-0">
 									<div>
@@ -123,10 +123,10 @@ const Home = () => {
 								</div>
 								<div className="card-body">
 									 {/* <div id="tradingview_e8053" className="tranding-chart"></div> */}
-									 <DashboardComboChart />
-								</div>
-							</div>
-						</div>
+									 {/* <DashboardComboChart /> */}
+								{/* </div> */}
+							{/* </div> */}
+						{/* </div> */}
 						<div className="col-xl-5 assets-al col-lg-12">
 							<div className="card">
 								<div className="card-header border-0 pb-0">
@@ -201,7 +201,7 @@ const Home = () => {
 								</div>
 							</div>
 						</div>
-						<div className="col-xl-3 col-sm-6">
+						{/* <div className="col-xl-3 col-sm-6">
 							<div className="card bg-secondary email-susb">
 								<div className="card-body text-center">
 									<div className="">
@@ -215,7 +215,7 @@ const Home = () => {
 								</div>
 
 							</div>
-						</div>
+						</div> */}
 					</div>
 				</div>
 				<div className="col-xl-4">
@@ -352,7 +352,7 @@ const Home = () => {
 								</div>
 							</div>		
 						</div>
-						<div className="col-xl-12 col-sm-6 server-chart">
+						{/* <div className="col-xl-12 col-sm-6 server-chart">
 							<div className="card">
 								<div className="card-header border-0 pb-0">
 									<h2 className="heading mb-0">Server Status</h2>
@@ -375,7 +375,7 @@ const Home = () => {
 									</div>
 								</div>
 							</div>
-						</div>
+						</div> */}
 					</div>	
 				</div>
 			</div>		

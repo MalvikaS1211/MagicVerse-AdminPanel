@@ -47,7 +47,7 @@ export const FilteringTable = () => {
                 </div>
 				<div className="card-body">
 					<div className="table-responsive">
-						<GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
+						{/* <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} /> */}
 						<table {...getTableProps()} className="table dataTable display">
 							<thead>
 							   {headerGroups.map(headerGroup => (
