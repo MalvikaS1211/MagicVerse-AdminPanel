@@ -233,7 +233,9 @@ const SideBar = () => {
             ? "fixed"
             : ""
           : ""
-      }`}
+      }`
+    }
+    style={{background:"black"}}
     >
       <PerfectScrollbar className="deznav-scroll">         
           <ul className="metismenu" id="menu">
@@ -258,7 +260,7 @@ const SideBar = () => {
                                 <span className="nav-text">{data.title}</span>
                             </Link>
                         :
-                          <NavLink  to={data.to} >
+                          <NavLink  to={data.to} onClick={data.onClick} >
                               {data.iconStyle}
                               <span className="nav-text">{data.title}</span>
                           </NavLink>

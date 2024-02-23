@@ -61,7 +61,7 @@ function Login (props) {
 													<div className="tab-pane fade active show" id="nav-personal">
 														{props.errorMessage && (
 															<div className='bg-red-300 text-red-900 border border-red-900 p-1 my-2'>
-																{props.errorMessage}
+																{/* {props.errorMessage} */}
 															</div>
 														)}
 														{props.successMessage && (

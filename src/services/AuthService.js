@@ -19,6 +19,7 @@ export function signUp(email, password) {
 }
 
 export function login(email, password) {
+     console.log("fvbsdhvghv",email,password)
     const postData = {
         email,
         password,
@@ -38,6 +39,7 @@ export function formatError(errorResponse) {
             break;
         case 'EMAIL_NOT_FOUND':
             //return 'Email not found';
+            console.log("fgvsdhfhudgyh email not found",)
            swal("Oops", "Email not found", "error",{ button: "Try Again!",});
            break;
         case 'INVALID_PASSWORD':

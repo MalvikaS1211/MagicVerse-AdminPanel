@@ -28,12 +28,12 @@ const NavHader = () => {
     ThemeContext
   );
   return (
-    <div className="nav-header">
+    <div className="nav-header" style={{background:"black"}}>
       <Link to="/dashboard" className="brand-logo"> 
-		{/* <img src={logo1}  className="logo-abbr" alt=""/> */}
-		<img src={image} className="brand-title" alt=""/>
-		{/* <img src={logoColor} className="logo-color" alt="" /> */}
-		{/* <img src={logoColorText} className="brand-title color-title" alt="" /> */}
+		{/* <img src={logo1}  className="logo-abbr" alt=""/> 
+		<img src={logoColor} className="logo-color" alt="" />
+		<img src={logoColorText} className="brand-title color-title" alt="" /> */}
+    <img src={image} className="brand-title" alt=""/>
       </Link>
 
       <div

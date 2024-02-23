@@ -100,7 +100,7 @@ const Header = ({ onNote }) => {
           <div className="collapse navbar-collapse justify-content-between">
             <div className="header-left">
               <div
-                className="dashboard_bar"
+                className="dashboard_bar text-white"
                 style={{ textTransform: "capitalize" }}
               >
                 {finalName.join(" ").length === 0
@@ -113,7 +113,7 @@ const Header = ({ onNote }) => {
             <div className="navbar-nav header-right">
               <div className="nav-item d-flex align-items-center">
                 <div className="input-group search-area">
-                  <span className="input-group-text">
+                  {/* <span className="input-group-text">
                     <Link to={"#"}>
                       <svg
                         width="24"
@@ -128,15 +128,15 @@ const Header = ({ onNote }) => {
                         />
                       </svg>
                     </Link>
-                  </span>
-                  <input
+                  </span> */}
+                  {/* <input
                     type="text"
                     className="form-control"
                     placeholder="Search here..."
-                  />
+                  /> */}
                 </div>
               </div>
-              <div className="dz-side-menu">
+              {/* <div className="dz-side-menu">
                 <div className="search-coundry d-flex align-items-center">
                   <img src={United} alt="" className="mx-2" />
                   <Dropdown className="sidebar-dropdown me-2 mt-2">
@@ -515,7 +515,7 @@ const Header = ({ onNote }) => {
                     </Dropdown.Menu>
                   </Dropdown>
                 </ul>
-              </div>
+              </div> */}
             </div>
           </div>
         </nav>

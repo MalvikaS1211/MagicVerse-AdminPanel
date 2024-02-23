@@ -1,5 +1,5 @@
 import React, {Fragment, useState, useEffect, useMemo, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation,useNavigate } from "react-router-dom";
 import { useTable, useSortBy } from "react-table";
 import { Row, Col, Card, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -17,10 +17,10 @@ const TeamDetails = (props) => {
     if (!isInitialRender.current && memoizedUser) {
       fetchTeamData(memoizedUser) 
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           setUserData(response.data);
           setApiTimestamp(response.timestamp);
-          console.log(response.timestamp)
+          // console.log(response.timestamp)
         })
         .catch((error) => {
           console.error('Error fetching team data:', error);
@@ -29,32 +29,19 @@ const TeamDetails = (props) => {
       isInitialRender.current = false;
     }
   }, [memoizedUser]);
-
-//   const timestamp = 
-// console.log("asdhnfjh",timestamp)
-// const date = new Date(timestamp * 1000);
-
-// const year = date.getFullYear();
-
-// const month = date.getMonth() + 1;
-// const day = date.getDate();
-// const hour = date.getHours();
-// const minute = date.getMinutes();
-// const second = date.getSeconds();
-
-// const formattedDate = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day} ${hour < 10 ? '0' + hour : hour}:${minute < 10 ? '0' + minute : minute}:${second < 10 ? '0' + second : second}`;
-
-// console.log(formattedDate);
+  const navigate = useNavigate();
     return (
         <Fragment>
           <Row>
             <Col lg={12}>
               <Card>
-                <Card.Header>
-                  <Card.Title>Team</Card.Title>
+                <Card.Header style={{background:"black", border: '1px solid white'}}>
+                <i class="fas fa-circle-left "style={{fontSize:"2rem",}} onClick={() => navigate(-1)}></i>
+                  <Card.Title style={{color:"white",margin:"auto"}}>Team</Card.Title>
                 </Card.Header>
-                <Card.Body>
-                  <Table responsive>
+                <Card.Body  style={{background:"black", border: '1px solid white'}} >
+                  <Table responsive style={{ background: 'black', color: 'white' , borderBottom: '1px solid white' }}>
+
                     <thead>
                       <tr>
                         {/* <th className="width50"></th> */}
@@ -77,7 +64,7 @@ const TeamDetails = (props) => {
                           <strong>Team Business</strong>
                         </th>
                         <th>
-                          <strong>Date</strong>
+                          <strong>Date&Time</strong>
                         </th>
                         {/* <th>  <strong>Team</strong></th> */}
                       </tr>
@@ -90,8 +77,8 @@ const TeamDetails = (props) => {
                       <td>  <span className="smaller-font">{user.user}</span></td>
                       {/* <td>{user.referrerId}</td> */}
                       {/* <td>{user.rank}</td> */}
-                      <td>{user.teamBusiness}</td>
-                      {/* <td>{formatTimestamp(user.createdAt)}</td> */}
+                      <td>{(user.teamBusiness>0?(user.teamBusiness/1e18).toFixed(2):0)}</td>
+                      <td>{new Date(user.timestamp * 1000).toLocaleString()}</td>
                       <td>
                             {/* <div className="d-flex align-items-center table-action-icon">
                               <Link

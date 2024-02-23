@@ -27,7 +27,7 @@ function LogoutPage(props){
 	const navigate = useNavigate();
     function onLogout() {
 		//console.log('------------khelesh-------');
-       dispatch(Logout(navigate));
+       dispatch((navigate));
 	   //dispatch(Logout());
        //window.location.reload();
     }

@@ -43,10 +43,11 @@ export function signupAction(email, password, navigate) {
 }
 
 export function Logout(navigate) {
+    //  console.log("adbhhy123654")
 	localStorage.removeItem('userDetails');
     navigate('/login');
 	//history.push('/login');
-    
+
 	return {
         type: LOGOUT_ACTION,
     };

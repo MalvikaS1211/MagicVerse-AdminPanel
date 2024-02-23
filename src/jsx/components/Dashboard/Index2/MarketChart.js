@@ -2,19 +2,20 @@ import React from "react";
 import ReactApexChart from "react-apexcharts";
 //import ApexCharts from 'apexcharts';
 //import { Link } from "react-router-dom";
-
+import { Graph } from "../../../../services/api_function";
 class MarketChart extends React.Component {  
 	constructor(props) {
 		super(props);
 		this.state = {
-			series: [{
-                name: "Running",
-                data: [1400, 800, 1200, 550, 1550, 600, 1250]
-              },
-              {
-                name: "Pending",
-                data: [500, 600, 300, 1200, 1200, 800, 1400]
-              }
+			series: [
+        // {
+        //         name: "Running",
+        //         data: [1400, 800, 1200, 550, 1550, 600, 1250]
+        //       },
+              // {
+              //   name: "Pending",
+              //   data: [500, 600, 300, 1200, 1200, 800, 1400]
+              // }
             ],
 			options: {
 				chart: {
@@ -187,7 +188,23 @@ class MarketChart extends React.Component {
 			}, 
 		};
 	}
+  async componentDidMount() {
+    try {
+        const response = await  Graph();
+        const data = await response.StakesPerDay
+        // console.log(data)
+        const seriesData = [{
+            name: "Stake",
+            data: Object.values(data)
+           //  data: [1400, 800, 1200, 550, 1550, 600, 1250]
+        }];
 
+        this.setState({ series: seriesData });
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        // Handle error
+    }
+}
   
 	render() {
         return (

@@ -41,7 +41,7 @@ export function AuthReducer(state = initialState, action) {
     }
 
     if (action.type === LOGOUT_ACTION) {
-        return {
+            return {
             ...state,
             errorMessage: '',
             successMessage: '',
@@ -51,8 +51,11 @@ export function AuthReducer(state = initialState, action) {
                 localId: '',
                 expiresIn: '',
                 refreshToken: '',
+                
             },
+            
         };
+      
     }
 
     if (

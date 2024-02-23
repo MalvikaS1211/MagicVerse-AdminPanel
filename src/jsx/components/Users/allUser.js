@@ -1,12 +1,17 @@
-import React, { Fragment, useEffect, useState,useMemo } from "react";
-import { useTable, useGlobalFilter, useFilters, usePagination } from 'react-table';
+import React, { Fragment, useEffect, useState, useMemo, useRef } from "react";
+import { DownloadTableExcel } from "react-export-table-to-excel";
+import { DownloadExcel } from "react-excel-export";
+import {
+  useTable,
+  useGlobalFilter,
+  useFilters,
+  usePagination,
+} from "react-table";
 import { Row, Col, Card, Table } from "react-bootstrap";
-// import { useTable, usePagination } from "react-table";
 import { allUser } from "../../../services/api_function";
 import { Link } from "react-router-dom";
-import {COLUMNS} from "../../components/table/FilteringTable/Columns"
-import MOCK_DATA  from "../../components/table/FilteringTable/MOCK_DATA_2.json"
-//import './table.css';
+import { COLUMNS } from "../../components/table/FilteringTable/Columns";
+import MOCK_DATA from "../../components/table/FilteringTable/MOCK_DATA_2.json";
 
 export const AllUser = () => {
   const [apiData, setApiData] = useState([]);
@@ -14,12 +19,15 @@ export const AllUser = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [selectedFilter, setSelectedFilter] = useState("");
   const [search, setSearch] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
   const pageSize = 30;
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await allUser(currentPage, pageSize);
-        setApiData(result.usersData );
+        const result = await allUser(currentPage, { searchQuery: search });
+        setApiData(result.usersData);
+        setFilteredData(result.usersData);
         const total = result.totalUsers;
         const pages = Math.ceil(total / pageSize);
         setTotalPages(pages > 0 ? pages : 1);
@@ -29,7 +37,7 @@ export const AllUser = () => {
     };
 
     fetchData();
-  }, [currentPage]);
+  }, [currentPage, search]);
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) =>
@@ -44,16 +52,16 @@ export const AllUser = () => {
   const handleEditClick = (phoneNumber) => {
     console.log("Edit Clicked for phoneNumber:", phoneNumber);
   };
-//   const handleGoToPage = () => {
-//     const pageNumber = parseInt(inputPage);
-//     if (pageNumber >= 1 && pageNumber <= totalPages) {
-//       setCurrentPage(pageNumber);
-//       setInputPage("");
-//     } else {
-//       console.error("Invalid page number");
-//     }
-//   };
-const formatTimestamp = (timestamp) => {
+  //   const handleGoToPage = () => {
+  //     const pageNumber = parseInt(inputPage);
+  //     if (pageNumber >= 1 && pageNumber <= totalPages) {
+  //       setCurrentPage(pageNumber);
+  //       setInputPage("");
+  //     } else {
+  //       console.error("Invalid page number");
+  //     }
+  //   };
+  const formatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
     const day = String(date.getDate()).padStart(2, "0");
     const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -62,110 +70,171 @@ const formatTimestamp = (timestamp) => {
     const minutes = String(date.getMinutes()).padStart(2, "0");
     return `${day}-${month}-${year} ${hours}:${minutes}`;
   };
-  const columns = useMemo( () => COLUMNS, [] )
-	const data = useMemo( () => MOCK_DATA, [] )
-	const tableInstance = useTable({
-		columns,
-		data,	
-		initialState : {pageIndex : 0}
-	}, useFilters, useGlobalFilter, usePagination)
-	
-	const { 
-		getTableProps, 
-		getTableBodyProps, 
-		headerGroups, 
-		prepareRow,
-		state,
-		page,
-		gotoPage,
-		pageCount,
-		pageOptions,
-		nextPage,
-		previousPage,
-		canNextPage,
-		canPreviousPage,
-		setGlobalFilter,
-	} = tableInstance
-	const {globalFilter, pageIndex} = state
-  const filteredData = useMemo(() => {
-    return apiData.filter(
-      (item) =>
-        item.userId.toLowerCase().includes(search.toLowerCase()) ||
-        item.user.toLowerCase().includes(search.toLowerCase())
-    );
-  }, [apiData, search]);
+  const columns = useMemo(() => COLUMNS, []);
+  const data = useMemo(() => apiData, [apiData]);
+
+  const tableInstance = useTable(
+    {
+      columns,
+      data,
+      initialState: { pageIndex: 0 },
+    },
+    useFilters,
+    useGlobalFilter,
+    usePagination
+  );
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    prepareRow,
+    state,
+    page,
+    gotoPage,
+    pageCount,
+    pageOptions,
+    nextPage,
+    previousPage,
+    canNextPage,
+    canPreviousPage,
+    setGlobalFilter,
+  } = tableInstance;
+  const { globalFilter, pageIndex } = state;
+
+  const handleSearch = async (e) => {
+    const query = e.target.value.trim().toLowerCase();
+    const sanitizedQuery = query.replace(/[\\|^$*+?.(){}[\]]/g, "");
+    setSearch(sanitizedQuery);
+    if (currentPage !== 1) {
+      setCurrentPage(1);
+    }
+  };
+  const handlesearch = async (e) => {
+    const query = e.target.value.toLowerCase();
+    const sanitizedQuery = query.replace(/[\\|^$*+?.(){}[\]]/g, "");
+    setSearch(sanitizedQuery);
+  };
+  const tableRef = useRef(null);
   return (
     <Fragment>
       <Row>
         <Col lg={12}>
           <Card>
-            <Card.Header>
-              <Card.Title> All Users</Card.Title>
-            </Card.Header>
-            <Card.Body>
-            <input
-                type="text"
-                placeholder="Search..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-              <Table responsive>
-              {/* <thead>
-							   {headerGroups.map(headerGroup => (
-									<tr {...headerGroup.getHeaderGroupProps()}>
-										{headerGroup.headers.map(column => (
-											<th {...column.getHeaderProps()}>
-												{column.render('Header')}
-												{column.canFilter ? column.render('Filter') : null}
-											</th>
-										))}
-									</tr>
-							   ))}
-                 <input type="text" placeholder="Search..." />
-    
-							</thead> */}
-             <thead>
+            <Card.Header
+              style={{ background: "black", border: "1px solid white" }}
+            >
 
-             </thead>
-             <thead>
-             </thead>
-              <thead>
+              <Card.Title style={{ color: "white", margin: "auto" }}>
+                All Users
+              </Card.Title>
+              <DownloadExcel
+                data={apiData}
+                buttonLabel="Export Data"
+                fileName="Users"
+                //   className="export-button 0.5px solid white"
+                style={{ border: '0.5px solid white', background: " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)" }}
+              />
+            </Card.Header>
+            <Card.Body
+              style={{
+                background: "black",
+                border: "1px solid white",
+                borderRadius: "3px",
+              }}
+            >
+              <Table
+                responsive
+                style={{
+                  background: "black",
+                  color: "white",
+                  borderBottom: "0.5px solid white",
+                }}
+              >
+
+                <thead>
                   <tr>
-                    {/* <th className="width50"></th> */}
                     <th>
                       <strong>NO.</strong>
                     </th>
-                    
                     <th>
+                      <strong>Name</strong>
+                    </th>
+                    <th>
+                      <strong>Phone</strong>
+                    </th>
+                    <th>
+                      <thead>
+                          {/* <input
+                            type="text"
+                            class="form-control"
+                            style={{
+                              width: "70%",
+                              background:
+                                "linear-gradient(90deg, rgb(162, 210, 84) 15.9%, rgb(255, 211, 0) 98.32%); color: black",
+                            }}
+                            placeholder="Search "
+                            onChange={handleSearch}
+                          /> */}
+                      </thead>
                       <strong> UserID</strong>
                     </th>
                     <th>
-                      <strong>User</strong>
+                      <thead>
+                        <input
+                          type="text"
+                          class="form-control"
+                          // style={{ width: "70%" }}
+                          placeholder="Search here..."
+                          onChange={handleSearch}
+                        />
+                      </thead>
+                      <strong>User wallet</strong>
                     </th>
                     <th>
                       <strong>referrerId</strong>
                     </th>
                     <th>
-                      <strong>Leval</strong>
+                      <strong>Lavel</strong>
                     </th>
                     <th>
                       <strong>Team Business</strong>
                     </th>
                     <th>
+                      <strong>Transaction ID</strong>
+                    </th>
+                    <th>
                       <strong>Date</strong>
                     </th>
-                    <th>  <strong>Team</strong></th>
+                    <th>
+                      {" "}
+                      <strong>Team</strong>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {apiData?.map((user, index) => (
+                  {filteredData.map((user, index) => (
                     <tr>
                       <td>{(currentPage - 1) * pageSize + index + 1}</td>
+                      <td>{user.name}</td>
+                      <td>{user.phone}</td>
                       <td>{user.userId}</td>
-                      <td>   <span className="smaller-font">{user.user}</span></td>
+                      <td>
+                        {" "}
+                        <span className="smaller-font">{user.user}</span>
+                      </td>
                       <td>{user.referrerId}</td>
                       <td>{user.rank}</td>
-                      <td>{user.teamBusiness}</td>
+                      <td>{(user.teamBusiness / 1e18).toFixed(2)}</td>
+                      <td>
+                        <a
+                          href={`https://wyzthscan.org/tx/${user.txHash}`}
+                          className="text-white"
+                          target="_blank"
+                        >
+                          {user.txHash.slice(0, 5)}... {user.txHash.slice(-5)}
+                        </a>
+                      </td>
                       <td>{formatTimestamp(user.createdAt)}</td>
                       <td>
                         <div className="d-flex align-items-center table-action-icon">
@@ -183,39 +252,45 @@ const formatTimestamp = (timestamp) => {
                   ))}
                 </tbody>
               </Table>
+
               <div className="d-flex justify-content-between">
                 <span>
                   {/* Page{" "} */}
                   <strong>{/* {currentPage} of {totalPages} */}</strong>
                 </span>
                 {/* <span className="table-index">
-                      Go to page :{" "}
-                      <input
-                        type="number"
-                        className="ml-2"
-                        min="1"
-                        max={totalPages}
-                        value={inputPage}
-                        onChange={(e) => setInputPage(e.target.value)}
-                        style={{ width: "50px" }}
-                      />
-                      <button
-                        className="btn btn-primary ml-2"
-                        onClick={handleGoToPage}
-                      >
-                        Go
-                      </button>
-                    </span> */}
+                        Go to page :{" "}
+                        <input
+                          type="number"
+                          className="ml-2"
+                          min="1"
+                          max={totalPages}
+                          value={inputPage}
+                          onChange={(e) => setInputPage(e.target.value)}
+                          style={{ width: "50px" }}
+                        />
+                        <button
+                          className="btn btn-primary ml-2"
+                          onClick={handleGoToPage}
+                        >
+                          Go
+                        </button>
+                      </span> */}
               </div>
               <div
                 className="text-center mb-3 col-lg-6"
                 style={{ margin: "auto" }}
               >
-                <div className="filter-pagination  mt-3">
+                <div className="filter-pagination  mt-3 bg-black">
                   <button
                     className="previous-button"
                     onClick={handlePreviousPage}
                     disabled={currentPage === 1}
+                    style={{
+                      background:
+                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
+                      color: "black",
+                    }}
                   >
                     {"<<"}
                   </button>
@@ -224,6 +299,11 @@ const formatTimestamp = (timestamp) => {
                     className="previous-button"
                     onClick={handlePreviousPage}
                     disabled={currentPage === 1}
+                    style={{
+                      background:
+                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
+                      color: "black",
+                    }}
                   >
                     Previous
                   </button>
@@ -232,6 +312,11 @@ const formatTimestamp = (timestamp) => {
                     className="next-button"
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}
+                    style={{
+                      background:
+                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
+                      color: "black",
+                    }}
                   >
                     Next
                   </button>
@@ -240,11 +325,16 @@ const formatTimestamp = (timestamp) => {
                     className="next-button"
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}
+                    style={{
+                      background:
+                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
+                      color: "black",
+                    }}
                   >
                     {">>"}
                   </button>
 
-                  <span>
+                  <span className="bg-black text-white">
                     Page {currentPage} of {totalPages}
                   </span>
                 </div>

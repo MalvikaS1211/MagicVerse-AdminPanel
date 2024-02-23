@@ -26,7 +26,16 @@ import Dashboard5 from "./components/Dashboard/Dashboard5";
 import AllUser from "./components/Users/allUser";
 import TeamDetails from "./components/Users/team";
 import Announcement from "./components/Users/announcement";
-
+import WithdrawClaim from "./components/Users/withdrawClaim";
+import WithdrawRoi from "./components/Users/withdrawRoi";
+import Commission from "./components/Users/commission";
+import CommissionData from "./components/Users/commissionData";
+import BlockData from "./components/Users/block";
+//Histroy
+import Transaction from "./components/Users/tranzation";
+import DepositHisory from "./components/Users/depositeHistory";
+import Withdrawal from "./components/Users/withdrawHistroy";
+import Deposit from "./components/Users/deposite";
 //Trading
 import Market from './components/Trading/Market';
 import IcoListing from './components/Trading/IcoListing';
@@ -159,6 +168,17 @@ const Markup = () => {
     {url:'team-list',component:<TeamDetails/>},
     {url:'announcement', component:<Announcement/>},
 
+    {url:"commission",component:<Commission/>},
+    {url:"commission-data",component:<CommissionData/>},
+    {url:"transaction",component:<Transaction/>},
+    {url:"block",component:<BlockData/>},
+// History
+
+    {url:"deposit",component:<DepositHisory/>},
+    {url:"withdrawal", component:<Withdrawal/>},
+    {url:"withdrawRoi",component:<WithdrawRoi/>},
+    {url:"withdrawClaim",component:<WithdrawClaim/>},
+    {url:"deposit-data",component:<Deposit/>},
     //Trading
     { url: "market", component: <Market /> },
     { url: "ico-listing", component: <IcoListing /> },
@@ -310,7 +330,7 @@ function MainLayout(){
   return (
     <div id="main-wrapper" className={`show ${ menuToggle ? "menu-toggle" : ""}`}>  
       <Nav />
-      <div className="content-body" style={{ minHeight: window.screen.height - 45 }}>
+      <div className="content-body" style={{ minHeight: window.screen.height - 45,background:"black" }}>
           <div className="container-fluid">
             <Outlet />                
           </div>
