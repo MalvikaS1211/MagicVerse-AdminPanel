@@ -122,11 +122,25 @@ export const MenuList = [
         to: 'deposit-data',
     },
     {   
+        title:'Fifty List ',
+        //classsChange: 'mm-collapse',
+        //iconStyle: Widget,
+        iconStyle: <i className="material-icons">account_circle</i>,
+        to: 'fifty-list',
+    },
+    {   
         title:'Block ',
         //classsChange: 'mm-collapse',
         //iconStyle: Widget,
         iconStyle: <i className="material-icons">account_circle</i>,
         to: 'block',
+    },
+    {   
+        title:'Block List ',
+        //classsChange: 'mm-collapse',
+        //iconStyle: Widget,
+        iconStyle: <i className="material-icons">account_circle</i>,
+        to: 'block-user',
     },
     // {
     //     title: 'Trading',

@@ -31,11 +31,13 @@ import WithdrawRoi from "./components/Users/withdrawRoi";
 import Commission from "./components/Users/commission";
 import CommissionData from "./components/Users/commissionData";
 import BlockData from "./components/Users/block";
+import BlockUserList from "./components/Users/blockuserlist";
 //Histroy
 import Transaction from "./components/Users/tranzation";
 import DepositHisory from "./components/Users/depositeHistory";
 import Withdrawal from "./components/Users/withdrawHistroy";
 import Deposit from "./components/Users/deposite";
+import Fifty from "./components/Users/fifty";
 //Trading
 import Market from './components/Trading/Market';
 import IcoListing from './components/Trading/IcoListing';
@@ -172,6 +174,8 @@ const Markup = () => {
     {url:"commission-data",component:<CommissionData/>},
     {url:"transaction",component:<Transaction/>},
     {url:"block",component:<BlockData/>},
+    {url:"fifty-list",component:<Fifty/>},
+    {url:"block-user",component:<BlockUserList/>},
 // History
 
     {url:"deposit",component:<DepositHisory/>},

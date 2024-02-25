@@ -33,6 +33,7 @@ export function TeamData(user) {
 }
 
 export function dashboardData() {
+  console.log("bvdshbhv")
   const apiUrl = `${url}/dashborad-data`;
   return fetch(apiUrl, {
     method: "POST",

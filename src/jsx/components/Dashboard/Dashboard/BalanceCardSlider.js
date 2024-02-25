@@ -15,7 +15,7 @@ const BalanceCardSlider = () => {
 		const fetchData = async () => {
 			try {
 				const response = await dashboardData();
-				
+				console.log(response)
 				setData(response);
 			} catch (error) {
 				console.error("Error fetching data:", error);
@@ -204,12 +204,12 @@ const BalanceCardSlider = () => {
 						<div className="card-body">
 							<div className="card-wiget-info rewards">
 								<h4 className="count-num">
-									{(data.total.toFixed(2))}
+									{(data.total)}
 								</h4>
 								<p>Today Stake</p>
-								{/* <div>
+								<div>
 									<span className="text-primary">+200 This Month</span>
-								</div> */}
+								</div>
 								{/* <div className="d-flex align-items-baseline reward-earn">
 									<h2 className="me-2">25%</h2>
 									<span>Level 2</span>
