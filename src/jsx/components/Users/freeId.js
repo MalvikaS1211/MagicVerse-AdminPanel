@@ -1,9 +1,9 @@
 import React,{ Fragment, useEffect, useState,useMemo } from "react";
 import { useTable, useGlobalFilter, useFilters, usePagination } from 'react-table';
 import { Row, Col, Card, Table } from "react-bootstrap";
-import { FiftyList } from "../../../services/api_function";
+import { FreeIdlist } from "../../../services/api_function";
 
-const Fifty=()=>{
+const FreeIddata=()=>{
 
   const [apiData, setApiData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -16,7 +16,7 @@ const Fifty=()=>{
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await FiftyList(currentPage);
+        const result = await FreeIdlist(currentPage);
         setApiData(result);
         console.log(result)
         //setFilteredData(result.usersData);
@@ -47,7 +47,7 @@ const Fifty=()=>{
         <Col lg={12}>
           <Card>
           <Card.Header style={{background:"black", border: '1px solid white'}}>
-                  <Card.Title style={{color:"white",margin:"auto"}}>50 50 List</Card.Title>
+                  <Card.Title style={{color:"white",margin:"auto"}}>Free Id List</Card.Title>
                 </Card.Header>
                 <Card.Body  style={{background:"black", border: '1px solid white'}} >
                   <Table responsive style={{ background: 'black', color: 'white' , borderBottom: '1px solid white' }}>
@@ -221,4 +221,4 @@ const Fifty=()=>{
 }
 
 
-export default Fifty
+export default FreeIddata

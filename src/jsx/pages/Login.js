@@ -95,7 +95,7 @@ function Login (props) {
 																	Forget Password ?
 																</Link> 	 */}
 															</div>
-															<div className="dz-social">
+															{/* <div className="dz-social">
 																<h5 className="form-title fs-20">Sign In With</h5>
 																<ul className="dz-social-icon dz-border dz-social-icon-lg text-white">
 																	<li><a target="_blank" href="https://www.facebook.com/" className="fab fa-facebook-f btn-facebook"></a></li>
@@ -103,13 +103,13 @@ function Login (props) {
 																	<li><a target="_blank" href="https://www.linkedin.com/" className="fab fa-linkedin-in btn-linkedin"></a></li>
 																	<li><a target="_blank" href="https://twitter.com/" className="fab fa-twitter btn-twitter"></a></li>
 																</ul>
-															</div>
+															</div> */}
 														</form>
-														<div className="text-center bottom"> 
+														{/* <div className="text-center bottom"> 
 															<NavLink to="/page-register" className="btn btn-primary button-md btn-block" >
 																Create an account
 															</NavLink> 																	
-														</div>
+														</div> */}
 													</div>
 																										
 												</div>												

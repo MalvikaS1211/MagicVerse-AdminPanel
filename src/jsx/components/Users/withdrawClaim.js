@@ -77,7 +77,7 @@ export const WithdrawClaim = () => {
               <Card.Title style={{ color: "white", margin: "auto" }}>
                 Withdraw Claim
               </Card.Title>
-              <DownloadExcel
+              {/* <DownloadExcel
                 data={apiData}
                 buttonLabel="Export Data"
                 fileName="withdrawClaim"
@@ -87,7 +87,7 @@ export const WithdrawClaim = () => {
                   background:
                     " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
                 }}
-              />
+              /> */}
               {/* <CSVLink data={apiData} className="btn btn-primary"></CSVLink> */}
             </Card.Header>
 

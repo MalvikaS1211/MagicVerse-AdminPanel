@@ -67,13 +67,13 @@ export const WithdrawRoi=()=>{
           <Card>
           <Card.Header style={{ background: "black", border: '1px solid white' }}>
                             <Card.Title style={{ color: "white",margin:"auto" }}>Withdraw ROI</Card.Title>
-                            <DownloadExcel
+                            {/* <DownloadExcel
                 data={(apiData)}
                 buttonLabel="Export Data"
                 fileName="withdrwaRoi"
                 //   className="export-button 0.5px solid white"
                 style={{ border: '0.5px solid white', background: " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)" }}
-              />
+              /> */}
                         </Card.Header>
                   
                         <Card.Body style={{ background: "black", border: '1px solid white' }} >

@@ -199,33 +199,14 @@ const BalanceCardSlider = () => {
 						</div>
 					</div>
 				</SwiperSlide>
-				<SwiperSlide>
+				{/* <SwiperSlide>
 					<div className="card card-wiget">
 						<div className="card-body">
 							<div className="card-wiget-info rewards">
 								<h4 className="count-num">
 									{(data.total)}
 								</h4>
-								<p>Today Stake</p>
-								<div>
-									<span className="text-primary">+200 This Month</span>
-								</div>
-								{/* <div className="d-flex align-items-baseline reward-earn">
-									<h2 className="me-2">25%</h2>
-									<span>Level 2</span>
-								</div> */}
-								{/* <div className="progress-box">
-									<div className="progress">
-										<div
-											className="progress-bar bg-primary"
-											style={{
-												width: "50%",
-												height: "7px",
-												borderRadius: "4px",
-											}}
-										></div>
-									</div>
-								</div> */}
+								<p>Today Farm	</p>
 							</div>
 						</div>
 						<div className="back-icon">
@@ -257,7 +238,7 @@ const BalanceCardSlider = () => {
 							</svg>
 						</div>
 					</div>
-				</SwiperSlide>
+				</SwiperSlide> */}
 			</Swiper>
 		</>
 	);

@@ -32,6 +32,7 @@ import Commission from "./components/Users/commission";
 import CommissionData from "./components/Users/commissionData";
 import BlockData from "./components/Users/block";
 import BlockUserList from "./components/Users/blockuserlist";
+import FreeIddata from "./components/Users/freeId";
 //Histroy
 import Transaction from "./components/Users/tranzation";
 import DepositHisory from "./components/Users/depositeHistory";
@@ -176,6 +177,7 @@ const Markup = () => {
     {url:"block",component:<BlockData/>},
     {url:"fifty-list",component:<Fifty/>},
     {url:"block-user",component:<BlockUserList/>},
+    {url:"freeid-list",component:<FreeIddata/>},
 // History
 
     {url:"deposit",component:<DepositHisory/>},

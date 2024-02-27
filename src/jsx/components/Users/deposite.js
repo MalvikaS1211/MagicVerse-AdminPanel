@@ -20,7 +20,7 @@ const Deposit = () => {
       try {
         const result = await DepositeHistory(currentPage, pageSize);
         setApiData(result.data);
-        //  console.log(result)
+        console.log(result)
         //  setFilteredData(result.data);
         const total = result.totalCount;
         const pages = Math.ceil(total / pageSize);

@@ -136,6 +136,13 @@ export const MenuList = [
         to: 'block',
     },
     {   
+        title:'Free Id ',
+        //classsChange: 'mm-collapse',
+        //iconStyle: Widget,
+        iconStyle: <i className="material-icons">account_circle</i>,
+        to: 'freeid-list',
+    },
+    {   
         title:'Block List ',
         //classsChange: 'mm-collapse',
         //iconStyle: Widget,

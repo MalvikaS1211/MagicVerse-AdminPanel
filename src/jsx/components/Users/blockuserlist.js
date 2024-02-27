@@ -1,37 +1,63 @@
 
-import React,{ Fragment, useEffect, useState,useMemo } from "react";
+import React, { Fragment, useEffect, useState, useMemo } from "react";
 import { useTable, useGlobalFilter, useFilters, usePagination } from 'react-table';
 import { Row, Col, Card, Table } from "react-bootstrap";
+import { BlockList } from "../../../services/api_function";
 
 
+const BlockUserList = () => {
 
-const BlockUserList=()=>{
 
+  const [apiData, setApiData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [selectedFilter, setSelectedFilter] = useState("");
+  const [search, setSearch] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredData, setFilteredData] = useState([]);
+  const pageSize = 30
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await BlockList();
+        setApiData(result);
+        console.log(result)
+        const total = result.totalCount;
+        const pages = Math.ceil(total / pageSize);
+        setTotalPages(pages > 0 ? pages : 1);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
-    const [apiData, setApiData] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [selectedFilter, setSelectedFilter] = useState("");
-    const [search, setSearch] = useState("");
-    const [searchQuery, setSearchQuery] = useState('');
-    const [filteredData, setFilteredData] = useState([]);
-    return(
-        <Fragment>
+    fetchData();
+  }, []);
+  const formatTimestamp = (timestamp) => {
+    const date = new Date(timestamp);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    return `${day}-${month}-${year} ${hours}:${minutes}`;
+  };
+  return (
+    <Fragment>
       <Row>
         <Col lg={12}>
           <Card>
-          <Card.Header style={{background:"black", border: '1px solid white'}}>
-                  <Card.Title style={{color:"white",margin:"auto"}}>Withdraw Block List</Card.Title>
-                </Card.Header>
-                <Card.Body  style={{background:"black", border: '1px solid white'}} >
-                  <Table responsive style={{ background: 'black', color: 'white' , borderBottom: '1px solid white' }}>
-              <thead>
-                
+            <Card.Header style={{ background: "black", border: '1px solid white' }}>
+              <Card.Title style={{ color: "white", margin: "auto" }}>Withdraw Block List</Card.Title>
+            </Card.Header>
+            <Card.Body style={{ background: "black", border: '1px solid white' }} >
+              <Table responsive style={{ background: 'black', color: 'white', borderBottom: '1px solid white' }}>
+                <thead>
+
                   <tr>
-                    
+
                     <th>
                       <strong>NO.</strong>
-                      
+
                     </th>
                     {/* <th>
                       <strong>Name</strong>
@@ -40,7 +66,7 @@ const BlockUserList=()=>{
                       <strong>Phone</strong>
                     </th> */}
                     <th>
-                      <thead>
+                      {/* <thead>
                       <input
                           type="text"
                           class="form-control"
@@ -48,11 +74,11 @@ const BlockUserList=()=>{
                           placeholder="Search here..."
                         //  onChange={handleSearch}
                         />
-                      </thead>
-                      <strong> UserID</strong>
+                      </thead> */}
+                      {/* <strong> UserID</strong> */}
                     </th>
                     <th>
-                      <thead>
+                      {/* <thead>
                       <input
                           type="text"
                           class="form-control"
@@ -60,54 +86,38 @@ const BlockUserList=()=>{
                           placeholder="Search here..."
                          // onChange={handleSearch}
                         />
-                      </thead>
+                      </thead> */}
                       <strong>User</strong>
                     </th>
-                    <th>
+                    {/* <th>
                       <strong>referrerId</strong>
-                    </th>
+                    </th> */}
                     <th>
                       <strong>Date&Time</strong>
                     </th>
-                    <th>  <strong>Deposit</strong></th>
-                    <th>  <strong>Withdraw</strong></th>
+                    {/* <th>  <strong>Deposit</strong></th>
+                    <th>  <strong>Withdraw</strong></th> */}
                   </tr>
                 </thead>
-                {/* <tbody>
-                {filteredData.map((user, index) => (
-                    <tr>
-                      <td>{(currentPage - 1) * pageSize + index + 1}</td>
-                      <td>{user.userId}</td>
-                      <td>   <span className="smaller-font">{user.user}</span></td>
-                      <td>{user.referrerId}</td>
-                      <td>{formatTimestamp(user.createdAt)}</td>
-                      <td>
-                        <div className="d-flex align-items-center table-action-icon">
-                          <Link
-                            to={`/deposit?user=${encodeURIComponent(
-                              user.user
-                            )}`}
-                            className="btn btn-primary light shadow btn-xs sharp me-1"
-                          >
-                            <i className="fas fa-pencil-alt"></i>
-                          </Link>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="d-flex align-items-center table-action-icon">
-                          <Link
-                            to={`/withdrawal?user=${encodeURIComponent(
-                              user.user
-                            )}`}
-                            className="btn btn-primary light shadow btn-xs sharp me-1"
-                          >
-                            <i className="fas fa-pencil-alt"></i>
-                          </Link>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody> */}
+                <tbody>
+                  {apiData && apiData.data ? (
+                    apiData.data.map((user, index) => (
+                      <tr key={index}> {/* Added a key for each row for better performance and to avoid warnings */}
+                        <td>{(currentPage - 1) * pageSize + index + 1}</td>
+                        <td><span className="smaller-font">{user.user}</span></td>
+                        <td>{formatTimestamp(user.updatedAt)}</td>
+                        <td>
+                          {/* Additional cells or content can go here */}
+                        </td>
+                        <td>
+                          <div className="d-flex align-items-center table-action-icon">
+                            {/* Icons or actions can be added here */}
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  ) : null}
+                </tbody>
               </Table>
               <div className="d-flex justify-content-between">
                 <span>
@@ -187,7 +197,7 @@ const BlockUserList=()=>{
         </Col>
       </Row>
     </Fragment>
-    )
+  )
 }
 
 
