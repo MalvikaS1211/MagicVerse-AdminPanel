@@ -54,13 +54,7 @@ const Deposit = () => {
               <Card.Title style={{ color: "white", margin: "auto" }}>
                 Deposit Hisory
               </Card.Title>
-              <DownloadExcel
-                data={apiData}
-                buttonLabel="Export Data"
-                fileName="deposite"
-             //   className="export-button 0.5px solid white"
-                style={{ border: '0.5px solid white', background:" linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)" }}
-              />
+           
             </Card.Header>
 
             <Card.Body

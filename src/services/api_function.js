@@ -1,5 +1,6 @@
 
-const url = "http://localhost:8080/api"
+//const url = "http://localhost:8080/api"
+const url="http://167.71.199.150/api"
 
 export function allUser(page, filteredData) {
   const { searchQuery } = filteredData; 
@@ -15,10 +16,10 @@ export function allUser(page, filteredData) {
     .then((res) => res.json())
     .catch((e) => e);
 }
-export function TeamData(user) {  
+export function TeamData(user,limit) {  
   ////console.log("123654", user);
-  const apiUrl = `${url}/team-list?user=${user}`;
-  //console.log(apiUrl)
+  const apiUrl = `${url}/team-list?user=${user}&limit=${limit}`;
+    console.log(apiUrl)
   return fetch(apiUrl, {
     method: "GET",
     headers: {

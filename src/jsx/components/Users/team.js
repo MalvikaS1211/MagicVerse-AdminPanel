@@ -13,21 +13,20 @@ const TeamDetails = (props) => {
   const [apiTimestamp, setApiTimestamp] = useState(null);
   const isInitialRender = useRef(true);
   const memoizedUser = useMemo(() => user, [user]);
+
+  const limit = 100;
+
   useEffect(() => {
-    if (!isInitialRender.current && memoizedUser) {
-      fetchTeamData(memoizedUser) 
+      fetchTeamData(memoizedUser,limit) 
         .then((response) => {
-          // console.log(response.data);
           setUserData(response.data);
           setApiTimestamp(response.timestamp);
-          // console.log(response.timestamp)
+      
         })
         .catch((error) => {
           console.error('Error fetching team data:', error);
         });
-    } else {
-      isInitialRender.current = false;
-    }
+   
   }, [memoizedUser]);
   const navigate = useNavigate();
     return (

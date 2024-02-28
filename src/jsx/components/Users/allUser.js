@@ -128,13 +128,7 @@ export const AllUser = () => {
               <Card.Title style={{ color: "white", margin: "auto" }}>
                 All Users
               </Card.Title>
-              {/* <DownloadExcel
-                data={apiData}
-                buttonLabel="Export Data"
-                fileName="Users"
-                //   className="export-button 0.5px solid white"
-                style={{ border: '0.5px solid white', background: " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)" }}
-              /> */}
+          
             </Card.Header>
             <Card.Body
               style={{
@@ -195,10 +189,13 @@ export const AllUser = () => {
                       <strong>referrerId</strong>
                     </th>
                     <th>
-                      <strong>Lavel</strong>
+                      <strong>Level</strong>
                     </th>
                     <th>
                       <strong>Team Business</strong>
+                    </th>
+                    <th>
+                      <strong>WYS Farm</strong>
                     </th>
                     <th>
                       <strong>Transaction ID</strong>
@@ -221,11 +218,13 @@ export const AllUser = () => {
                       <td>{user.userId}</td>
                       <td>
                         {" "}
-                        <span className="smaller-font">{user.user}</span>
+                        <span className="smaller-font">{user?.user?.slice(0,4)+"..."+user?.user.slice(-12)}</span>
                       </td>
                       <td>{user.referrerId}</td>
                       <td>{user.rank}</td>
+                    
                       <td>{(user.teamBusiness / 1e18).toFixed(2)}</td>
+                      <td>{(user.wysStaked / 1e18).toFixed(2)}</td>
                       <td>
                         <a
                           href={`https://wyzthscan.org/tx/${user.txHash}`}

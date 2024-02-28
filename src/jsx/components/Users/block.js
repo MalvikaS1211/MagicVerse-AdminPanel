@@ -168,7 +168,7 @@ const BlockData = () => {
           <div className="card">
             <div className="card-header">
               <h4 className="card-title center" style={{ margin: "auto" }}>
-                Lavel Unblock
+              Level Unblock
               </h4>
             </div>
             <div className="card-body ">

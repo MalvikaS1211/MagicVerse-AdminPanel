@@ -15,7 +15,7 @@ const CommissionData = (props) => {
   const memoizedUser = useMemo(() => user, [user]);
 
   useEffect(() => {
-    if (!isInitialRender.current && memoizedUser) {
+    // if (!isInitialRender.current && memoizedUser) {
       Commissiondata(memoizedUser)
         .then((response) => {
           //  console.log("API Response:", response);
@@ -26,9 +26,9 @@ const CommissionData = (props) => {
         .catch((error) => {
           console.error("Error fetching team data:", error);
         });
-    } else {
-      isInitialRender.current = false;
-    }
+    // } else {
+    //   isInitialRender.current = false;
+    // }
   }, [memoizedUser]);
 
   // console.log("UserData:", userData);
