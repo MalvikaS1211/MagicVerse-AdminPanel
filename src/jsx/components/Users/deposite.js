@@ -5,6 +5,7 @@ import { useTable, useSortBy } from "react-table";
 import { Row, Col, Card, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { DepositeHistory } from "../../../services/api_function";
+import reactSelect from "react-select";
 
 const Deposit = () => {
   const [apiData, setApiData] = useState([]);
@@ -14,24 +15,49 @@ const Deposit = () => {
   const [search, setSearch] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+
   const pageSize = 30;
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const result = await DepositeHistory(currentPage, pageSize, { searchQuery: search });
+  //       setApiData(result.data);
+  //       console.log(result.data)
+  //      setFilteredData(result.data);
+  //       const total = result.totalCount;
+  //       const pages = Math.ceil(total / pageSize);
+  //       setTotalPages(pages > 0 ? pages : 1);
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [currentPage,search]);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await DepositeHistory(currentPage, pageSize);
-        setApiData(result.data);
-        console.log(result)
-        //  setFilteredData(result.data);
-        const total = result.totalCount;
-        const pages = Math.ceil(total / pageSize);
-        setTotalPages(pages > 0 ? pages : 1);
+        const token = localStorage.getItem("token");
+        const response = await DepositeHistory(
+          currentPage,
+          { searchQuery: search },
+          token
+        );
+        if (response && response.status === 200 && !response.error) {
+          const { data, totalCount } = response;
+          setApiData(data);
+          setFilteredData(data); // Assuming you want to initially show all data
+          console.log("Data fetched:", data);
+          const pages = Math.ceil(totalCount / pageSize);
+          setTotalPages(pages > 0 ? pages : 1);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-  }, [currentPage]);
+  }, [currentPage, search]);
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) =>
@@ -42,10 +68,46 @@ const Deposit = () => {
   const handlePreviousPage = () => {
     setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : prevPage));
   };
+  const handleSearch = async (e) => {
+    const query = e.target.value.trim().toLowerCase();
+    const sanitizedQuery = query.replace(/[\\|^$*+?.(){}[\]]/g, "");
+    setSearch(sanitizedQuery);
+    if (currentPage !== 1) {
+      setCurrentPage(1);
+    }
+  };
+  const formatTimestamp = (timestamp) => {
+    const date = new Date(timestamp);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    return `${day}-${month}-${year} ${hours}:${minutes}`;
+  };
 
   return (
     <Fragment>
       <Row>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            width: "100%",
+            marginBottom: "20px",
+          }}
+        >
+          <div className="input-group" style={{ maxWidth: "300px" }}>
+            <input
+              type="search"
+              id="form1"
+              className="form-control"
+              placeholder="Search here..."
+              onChange={handleSearch}
+            />
+          </div>
+          <label class="form-label" for="form1"></label>
+        </div>
         <Col lg={12}>
           <Card>
             <Card.Header
@@ -54,7 +116,6 @@ const Deposit = () => {
               <Card.Title style={{ color: "white", margin: "auto" }}>
                 Deposit Hisory
               </Card.Title>
-           
             </Card.Header>
 
             <Card.Body
@@ -86,6 +147,12 @@ const Deposit = () => {
                       <strong>Total Amount</strong>
                     </th>
                     <th>
+                      <strong>Duration</strong>
+                    </th>
+                    <th>
+                      <strong>Pool</strong>
+                    </th>
+                    <th>
                       <strong>Transaction Id</strong>
                     </th>
                     <th>
@@ -93,44 +160,37 @@ const Deposit = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody>
-                  {apiData.map((data, index) => (
-                    <tr key={index}>
-                      <td>{(currentPage - 1) * pageSize + index + 1}</td>
-                      <td>{data.user}</td>
-                      {/* <td>{data.wysAmount / 1e18}</td> */}
-                      <td>
-                        {data.wysAmount > 0
-                          ? (data.wysAmount / 1e18).toFixed(2)
-                          : 0}{" "}
-                      </td>
-                      <td>
-                        {data.otherAmt > 0
-                          ? (data.otherAmt / 1e18).toFixed(2)
-                          : 0}
-                      </td>
-                      <td>
-                        {data.ttlAmt > 0 ? (data.ttlAmt / 1e18).toFixed(2) : 0}
-                      </td>
-                      <td>
-                        <a
-                          href={`https://wyzthscan.org/tx/${data.txHash}`}
-                          className="text-white"
-                          target="_blank"
-                        >
-                          {data.txHash.slice(0, 5)}... {data.txHash.slice(-5)}
-                        </a>
-                      </td>
-                      {/* <td>{data.txHash.slice(0, 9)}...{data.txHash.slice(-5)}</td> */}
 
-                      <td>
-                        {new Date(data.timestamp * 1000).toLocaleString(
-                          "en-US",
-                          { hour12: false }
-                        )}
-                      </td>
+                <tbody>
+                  {Array.isArray(filteredData) && filteredData.length > 0 ? (
+                    filteredData.map((data, index) => (
+                      <tr key={index}>
+                        <td>{(currentPage - 1) * pageSize + index + 1}</td>
+                        <td>{data.user}</td>
+                        <td>{(data.wysAmount / 1e18).toFixed(2)}</td>
+                        <td>{(data.otherAmt / 1e18).toFixed(2)}</td>
+                        <td>{(data.ttlAmt / 1e18).toFixed(2)}</td>
+                        <td>{data.duration}</td>
+                        <td>{data.planId == 1 && "WYS"}
+          {data.planId == 2 && "BNB"}
+          {data.planId == 3 && "ARB"}</td>
+                        <td>
+                          <a
+                            href={`https://wyzthscan.org/tx/${data.txHash}`}
+                            className="text-white"
+                            target="_blank"
+                          >
+                            {data.txHash.slice(0, 5)}... {data.txHash.slice(-5)}
+                          </a>
+                        </td>
+                        <td>{formatTimestamp(data.createdAt)}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="7">No data found</td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
               </Table>
               <div

@@ -23,9 +23,11 @@ export const AllUser = () => {
   const [filteredData, setFilteredData] = useState([]);
   const pageSize = 30;
   useEffect(() => {
+    
     const fetchData = async () => {
       try {
-        const result = await allUser(currentPage, { searchQuery: search });
+        const token = localStorage.getItem('token')
+        const result = await allUser(currentPage, { searchQuery: search },token);
         setApiData(result.usersData);
         setFilteredData(result.usersData);
         const total = result.totalUsers;
@@ -52,15 +54,6 @@ export const AllUser = () => {
   const handleEditClick = (phoneNumber) => {
     console.log("Edit Clicked for phoneNumber:", phoneNumber);
   };
-  //   const handleGoToPage = () => {
-  //     const pageNumber = parseInt(inputPage);
-  //     if (pageNumber >= 1 && pageNumber <= totalPages) {
-  //       setCurrentPage(pageNumber);
-  //       setInputPage("");
-  //     } else {
-  //       console.error("Invalid page number");
-  //     }
-  //   };
   const formatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
     const day = String(date.getDate()).padStart(2, "0");
@@ -119,16 +112,34 @@ export const AllUser = () => {
   return (
     <Fragment>
       <Row>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            width: "100%",
+            marginBottom: "20px",
+          }}
+        >
+          <div className="input-group" style={{ maxWidth: "300px" }}>
+            <input
+              type="search"
+              id="form1"
+              className="form-control"
+              placeholder="Search here..."
+              onChange={handleSearch}
+            />
+          </div>
+          <label class="form-label" for="form1"></label>
+        </div>
+
         <Col lg={12}>
           <Card>
             <Card.Header
               style={{ background: "black", border: "1px solid white" }}
             >
-
               <Card.Title style={{ color: "white", margin: "auto" }}>
                 All Users
               </Card.Title>
-          
             </Card.Header>
             <Card.Body
               style={{
@@ -145,7 +156,6 @@ export const AllUser = () => {
                   borderBottom: "0.5px solid white",
                 }}
               >
-
                 <thead>
                   <tr>
                     <th>
@@ -158,23 +168,11 @@ export const AllUser = () => {
                       <strong>Phone</strong>
                     </th>
                     <th>
-                      <thead>
-                          {/* <input
-                            type="text"
-                            class="form-control"
-                            style={{
-                              width: "70%",
-                              background:
-                                "linear-gradient(90deg, rgb(162, 210, 84) 15.9%, rgb(255, 211, 0) 98.32%); color: black",
-                            }}
-                            placeholder="Search "
-                            onChange={handleSearch}
-                          /> */}
-                      </thead>
+                      <thead></thead>
                       <strong> UserID</strong>
                     </th>
                     <th>
-                      <thead>
+                      {/* <thead>
                         <input
                           type="text"
                           class="form-control"
@@ -182,21 +180,22 @@ export const AllUser = () => {
                           placeholder="Search here..."
                           onChange={handleSearch}
                         />
-                      </thead>
+                      </thead> */}
                       <strong>User wallet</strong>
                     </th>
                     <th>
                       <strong>referrerId</strong>
                     </th>
-                    <th>
+                    {/* <th>
                       <strong>Level</strong>
+                    </th> */}
+                    <th>
+                      <strong>WYS Farm</strong>
                     </th>
                     <th>
                       <strong>Team Business</strong>
                     </th>
-                    <th>
-                      <strong>WYS Farm</strong>
-                    </th>
+
                     <th>
                       <strong>Transaction ID</strong>
                     </th>
@@ -218,13 +217,17 @@ export const AllUser = () => {
                       <td>{user.userId}</td>
                       <td>
                         {" "}
-                        <span className="smaller-font">{user?.user?.slice(0,4)+"..."+user?.user.slice(-12)}</span>
+                        <span className="smaller-font">
+                          {user?.user?.slice(0, 4) +
+                            "..." +
+                            user?.user.slice(-12)}
+                        </span>
                       </td>
                       <td>{user.referrerId}</td>
-                      <td>{user.rank}</td>
-                    
-                      <td>{(user.teamBusiness / 1e18).toFixed(2)}</td>
+                      {/* <td>{user.rank}</td> */}
                       <td>{(user.wysStaked / 1e18).toFixed(2)}</td>
+                      <td>{(user.teamBusiness / 1e18).toFixed(2)}</td>
+
                       <td>
                         <a
                           href={`https://wyzthscan.org/tx/${user.txHash}`}

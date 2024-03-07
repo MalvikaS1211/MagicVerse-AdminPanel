@@ -3,40 +3,38 @@ import { useLocation,useNavigate } from "react-router-dom";
 import { useTable, useSortBy } from "react-table";
 import { Row, Col, Card, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import {  TeamData as fetchTeamData } from "../../../services/api_function";
 
-const TeamDetails = (props) => {
-  const location = useLocation();
-  const phoneNumberFromUrl = new URLSearchParams(location.search).get('user');
-  const [user, setUser] = useState(phoneNumberFromUrl);
-  const [userData, setUserData] = useState(null);
-  const [apiTimestamp, setApiTimestamp] = useState(null);
-  const isInitialRender = useRef(true);
-  const memoizedUser = useMemo(() => user, [user]);
+import { Topteams } from "../../../services/api_function";
 
-  const limit = 200;
 
-  useEffect(() => {
-      fetchTeamData(memoizedUser,limit) 
-        .then((response) => {
-          setUserData(response.data);
-          setApiTimestamp(response.timestamp);
-      
-        })
-        .catch((error) => {
-          console.error('Error fetching team data:', error);
-        });
-   
-  }, [memoizedUser]);
-  const navigate = useNavigate();
+
+
+const TopTeams=()=>{
+
+    const [userData, setUserData] = useState(null);
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const result = await Topteams();
+            setUserData(result.topUsers);
+            console.log("fbdgsfh",result.topUsers)
+          //  setFilteredData(result.usersData)
+          } catch (error) {
+            console.error("Error fetching data:", error);
+          }
+        };
+    
+        fetchData();
+      }, []);
     return (
         <Fragment>
           <Row>
             <Col lg={12}>
               <Card>
                 <Card.Header style={{background:"black", border: '1px solid white'}}>
-                <i class="fas fa-circle-left "style={{fontSize:"2rem",}} onClick={() => navigate(-1)}></i>
-                  <Card.Title style={{color:"white",margin:"auto"}}>Team</Card.Title>
+                  <Card.Title style={{color:"white",margin:"auto"}}>Top 10 Team </Card.Title>
                 </Card.Header>
                 <Card.Body  style={{background:"black", border: '1px solid white'}} >
                   <Table responsive style={{ background: 'black', color: 'white' , borderBottom: '1px solid white' }}>
@@ -47,12 +45,9 @@ const TeamDetails = (props) => {
                         <th>
                           <strong>NO.</strong>
                         </th>
-                        <th>
-                          <strong>Name</strong>
-                        </th>
-                        <th>
-                          <strong>Phone</strong>
-                        </th>
+                        {/* <th>
+                          <strong> Name</strong>
+                        </th> */}
                         <th>
                           <strong> UserID</strong>
                         </th>
@@ -62,15 +57,9 @@ const TeamDetails = (props) => {
                         <th>
                           <strong>referrerId</strong>
                         </th>
-                        <th>
-                          <strong>Leval</strong>
-                        </th>
-                        <th>
+                        {/* <th>
                           <strong>WYS Farm</strong>
-                        </th>
-                        <th>
-                          <strong>Transaction ID</strong>
-                        </th>
+                        </th> */}
                         <th>
                           <strong>Team Business</strong>
                         </th>
@@ -84,21 +73,23 @@ const TeamDetails = (props) => {
                     {userData?.map((user, index) => (
                     <tr>
                       <td>{ index + 1}</td>
-                      <td>{user.name}</td>
-                      <td>{user.phone}</td>
+                      {/* <td>{user.name}</td> */}
                       <td>{user.userId}</td>
-                      <td>
+                      <td>{user.user}</td>
+                      <td>{user.userId}</td>
+                      {/* <td>
                         {" "}
                         <span className="smaller-font">
                           {user?.user?.slice(0, 4) +
                             "..." +
                             user?.user.slice(-12)}
                         </span>
-                      </td>
-                      <td>{user.referrerId}</td>
-                      <td>{user.level}</td>
-                      <td>{(user.wysStaked>0?(user.wysStaked/1e18).toFixed(2):0)}</td>
-                      <td>
+                      </td> */}
+                       <td>{(user.teamBusiness>0?(user.teamBusiness/1e18).toFixed(2):0)}</td>
+                      {/* <td>{user.referrerId}</td>
+                      <td>{user.level}</td> */}
+                      {/* <td>{(user.teamBusiness>0?(user.teamBusiness/1e18).toFixed(2):0)}</td> */}
+                      {/* <td>
                         <a
                           href={`https://wyzthscan.org/tx/${user.txHash}`}
                           className="text-white"
@@ -106,20 +97,11 @@ const TeamDetails = (props) => {
                         >
                           {user.txHash.slice(0, 5)}... {user.txHash.slice(-5)}
                         </a>
-                      </td>
-                      <td>{(user.teamBusiness>0?(user.teamBusiness/1e18).toFixed(2):0)}</td>
+                      </td> */}
+                      {/* <td>{(user.teamBusiness>0?(user.teamBusiness/1e18).toFixed(2):0)}</td> */}
                       <td>{new Date(user.timestamp * 1000).toLocaleString()}</td>
                       <td>
-                            {/* <div className="d-flex align-items-center table-action-icon">
-                              <Link
-                                to={`/user-profile?phoneNumber=${encodeURIComponent(
-                                  user.userId
-                                )}`}
-                                className="btn btn-primary light shadow btn-xs sharp me-1"
-                              >
-                                <i className="fas fa-pencil-alt"></i>
-                              </Link>
-                            </div> */}
+                            
                           </td>
                         </tr>
                       ))}
@@ -200,4 +182,5 @@ const TeamDetails = (props) => {
 
 
 }
-export default TeamDetails
+
+export default TopTeams

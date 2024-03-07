@@ -45,6 +45,10 @@ export const MenuList = [
             
         // ],
     },
+  {  title: 'User Registration',	
+    classsChange: 'mm-collapse',		
+    iconStyle: <i className="material-icons">grid_view</i>,
+    to: 'user-registration'},
 
     // Users
    {
@@ -89,10 +93,10 @@ export const MenuList = [
         iconStyle: <i className="material-icons">account_circle</i>,
         to: 'commission',
     },
-  {  title: 'History',	
-    // classsChange: 'mm-collapse',		
-    iconStyle: <i className="material-icons">grid_view</i>,
-   },
+//   {  title: 'History',	
+//     // classsChange: 'mm-collapse',		
+//     iconStyle: <i className="material-icons">grid_view</i>,
+//    },
     {   
         title:'Transaction ',
         //classsChange: 'mm-collapse',
@@ -129,7 +133,7 @@ export const MenuList = [
         to: 'fifty-list',
     },
     {   
-        title:'Block ',
+        title:'Admin Change ',
         //classsChange: 'mm-collapse',
         //iconStyle: Widget,
         iconStyle: <i className="material-icons">account_circle</i>,
@@ -148,6 +152,13 @@ export const MenuList = [
         //iconStyle: Widget,
         iconStyle: <i className="material-icons">account_circle</i>,
         to: 'block-user',
+    },
+    {   
+        title:'Top Teams ',
+        //classsChange: 'mm-collapse',
+        //iconStyle: Widget,
+        iconStyle: <i className="material-icons">account_circle</i>,
+        to: 'top-team',
     },
     // {
     //     title: 'Trading',

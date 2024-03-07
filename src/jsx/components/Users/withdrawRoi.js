@@ -20,7 +20,7 @@ export const WithdrawRoi = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await withdrawRoi(currentPage, pageSize);
+        const result = await withdrawRoi(currentPage, pageSize, { searchQuery: search });
         setApiData(result.Data);
         const total = result.totalUsers;
         const pages = Math.ceil(total / pageSize);
@@ -64,10 +64,36 @@ export const WithdrawRoi = () => {
     const minutes = String(date.getMinutes()).padStart(2, "0");
     return `${day}-${month}-${year} ${hours}:${minutes}`;
   };
-
+  const handleSearch = async (e) => {
+    const query = e.target.value.trim().toLowerCase();
+    const sanitizedQuery = query.replace(/[\\|^$*+?.(){}[\]]/g, "");
+    setSearch(sanitizedQuery);
+    if (currentPage !== 1) {
+      setCurrentPage(1);
+    }
+  };
   return (
     <Fragment>
       <Row>
+      <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            width: "100%",
+            marginBottom: "20px",
+          }}
+        >
+          <div className="input-group" style={{ maxWidth: "300px" }}>
+            <input
+              type="search"
+              id="form1"
+              className="form-control"
+              placeholder="Search here..."
+               onChange={handleSearch}
+            />
+          </div>
+          <label class="form-label" for="form1"></label>
+        </div>
         <Col lg={12}>
           <Card>
             <Card.Header

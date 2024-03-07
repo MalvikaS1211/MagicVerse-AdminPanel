@@ -54,6 +54,7 @@ const listData = [
 ];
 
 const Home = () => {
+	console.log("Rendiering HOme")
 	const { changeBackground } = useContext(ThemeContext);	
 	useEffect(() => {
 		changeBackground({ value: "light", label: "Light" });
@@ -64,7 +65,7 @@ const Home = () => {
 	return(
 		<>
 			<div className="row">
-				<div className="col-xl-8">
+				<div className="col-xl-12">
 					<div className="row">
 						<div className="col-xl-12">
 							{/* <div className="card bubles">

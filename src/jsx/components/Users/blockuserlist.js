@@ -59,39 +59,12 @@ const BlockUserList = () => {
                       <strong>NO.</strong>
 
                     </th>
-                    {/* <th>
-                      <strong>Name</strong>
-                    </th>
                     <th>
-                      <strong>Phone</strong>
-                    </th> */}
-                    <th>
-                      {/* <thead>
-                      <input
-                          type="text"
-                          class="form-control"
-                          style={{ width: "70%" }}
-                          placeholder="Search here..."
-                        //  onChange={handleSearch}
-                        />
-                      </thead> */}
-                      {/* <strong> UserID</strong> */}
-                    </th>
-                    <th>
-                      {/* <thead>
-                      <input
-                          type="text"
-                          class="form-control"
-                          // style={{ width: "70%" }}
-                          placeholder="Search here..."
-                         // onChange={handleSearch}
-                        />
-                      </thead> */}
                       <strong>User</strong>
+
                     </th>
-                    {/* <th>
-                      <strong>referrerId</strong>
-                    </th> */}
+                  
+                   
                     <th>
                       <strong>Date&Time</strong>
                     </th>
@@ -106,9 +79,7 @@ const BlockUserList = () => {
                         <td>{(currentPage - 1) * pageSize + index + 1}</td>
                         <td><span className="smaller-font">{user.user}</span></td>
                         <td>{formatTimestamp(user.updatedAt)}</td>
-                        <td>
-                          {/* Additional cells or content can go here */}
-                        </td>
+                        
                         <td>
                           <div className="d-flex align-items-center table-action-icon">
                             {/* Icons or actions can be added here */}

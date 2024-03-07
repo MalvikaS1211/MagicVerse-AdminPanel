@@ -38,9 +38,10 @@ function Login (props) {
 		
 		dispatch(loadingToggleAction(true));
 		dispatch(loginAction(email, password, navigate));
+		//console.log("fdgfh")
     }
 
-
+	
   	return (        
 		<div className="page-wraper">
 			<div className="browse-job login-style3">

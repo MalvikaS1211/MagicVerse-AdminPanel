@@ -106,6 +106,25 @@ const formatTimestamp = (timestamp) => {
   return (
     <Fragment>
       <Row>
+      <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            width: "100%",
+            marginBottom: "20px",
+          }}
+        >
+          <div className="input-group" style={{ maxWidth: "300px" }}>
+            <input
+              type="search"
+              id="form1"
+              className="form-control"
+              placeholder="Search here..."
+              onChange={handleSearch}
+            />
+          </div>
+          <label class="form-label" for="form1"></label>
+        </div>
         <Col lg={12}>
           <Card>
           <Card.Header style={{background:"black", border: '1px solid white'}}>
@@ -118,35 +137,15 @@ const formatTimestamp = (timestamp) => {
                     <th>
                       <strong>NO.</strong>
                     </th>
-                    {/* <th>
+                     <th>
                       <strong>Name</strong>
                     </th>
+                    
                     <th>
-                      <strong>Phone</strong>
-                    </th> */}
-                    <th>
-                      <thead>
-                        <input
-                          type="text"
-                          class="form-control"
-                          style={{ width: "70%" }}
-                          placeholder="Search here..."
-                          onChange={handleSearch}
-                        />
-                      </thead>
                       <strong> UserID</strong>
                     </th>
                     
                     <th>
-                      <thead>
-                      <input
-                          type="text"
-                          class="form-control"
-                          // style={{ width: "70%" }}
-                          onChange={handleSearch}
-                          placeholder="Search here..."
-                        />
-                      </thead>
                       <strong>User</strong>
                       </th>
                     {/* <th>
@@ -171,6 +170,7 @@ const formatTimestamp = (timestamp) => {
                   {apiData?.map((user, index) => (
                     <tr>
                       <td>{(currentPage - 1) * pageSize + index + 1}</td>
+                      <td>{user.name}</td>
                       <td>{user.userId}</td>
                       <td>   <span className="smaller-font">{user.user}</span></td>
                       <td>{user.referrerId}</td>

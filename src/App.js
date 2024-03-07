@@ -10,6 +10,7 @@ import { isAuthenticated } from './store/selectors/AuthSelectors';
 /// Style
 import "./vendor/bootstrap-select/dist/css/bootstrap-select.min.css";
 import "./css/style.css";
+import Home from './jsx/components/Dashboard/Home';
 
 
 const SignUp = lazy(() => import('./jsx/pages/Registration'));
@@ -51,9 +52,11 @@ function App (props) {
     let routeblog = ( 
         
       <Routes>
-        <Route path='/login' element={<Login />} />
+        <Route path='/login' element={<Login />} /> 
         <Route path='/page-register' element={<SignUp />} />
         <Route path='/page-forgot-password' element={<ForgotPassword />} />
+        <Route path='/dashboard' element={<Home />} />
+
       </Routes> 
     );
     if (props.isAuthenticated) {

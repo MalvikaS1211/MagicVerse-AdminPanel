@@ -3,15 +3,22 @@ import {
   WithdrawBlock,
   LavelBlock,
   FiftyActivate,
-  FreeID
+  FreeID,
+  url,
 } from "../../../services/api_function";
 import { NotificationManager } from "react-notifications";
+import { checkUser } from "../../config/config";
+import { isRegisteredInContract } from "./web3/web3Helper";
+import { toast } from "react-toastify";
+import axios from "axios";
 const BlockData = () => {
   const [userInputBlock, setUserInputBlock] = useState("");
   const [userInputUnblock, setUserInputUnblock] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [userlebal, setuserlebal] = useState("");
   const [user, setUser] = useState("");
+  const [plan1, setPlan1] = useState("");
+  const [plan, setplan] = useState("");
   const [wysAmount, setWysAmount] = useState("");
   const [duration, setDuration] = useState("");
   const [user1, setUser1] = useState("");
@@ -69,36 +76,68 @@ const BlockData = () => {
       setErrorMessage("User input for unblocking is empty!");
     }
   };
-  const handleActivate = () => {
-    FiftyActivate(user, wysAmount, duration)
-      .then((response) => {
-        if (response.status == 200) {
-          NotificationManager.success(response.message);
-        } else {
-          NotificationManager.error(response.message);
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  };
-  const handleFree = () => {
-    if (user1.trim() !== "" && wysAmount1.trim() !== "" && duration1.trim() !== "") {
-      FreeID(user1, wysAmount1, duration1, true) 
-        .then((response) => {
-          if (response.status === 200) {
-            NotificationManager.success(response.message);
-          } else {
-            NotificationManager.error(response.message);
-          }
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
+  const handleActivate = async () => {
+    const apiregister = await axios.post(url + "/isUserExist", {
+      address: user,
+    });
+    if (apiregister?.data?.exist === true) {
+      const reg = await isRegisteredInContract(user);
+      if (reg) {
+        FiftyActivate(user, wysAmount, duration, plan)
+          .then((response) => {
+            if (response.status == 200) {
+              NotificationManager.success(response.message);
+            } else {
+              NotificationManager.error(response.message);
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      } else {
+        NotificationManager.error("Please Register First");
+      }
     } else {
-      setErrorMessage("User, WYS Amount, or Duration is empty!");
+      NotificationManager.error("Please Signup");
     }
   };
+  const handleFree = async () => {
+    const apiregister = await axios.post(url + "/isUserExist", {
+      address: user1,
+    });
+    console.log(apiregister?.data.exist,"::::::::::::::::")
+    if (apiregister?.data?.exist === true) {
+      const reg = await isRegisteredInContract(user1);
+      if (reg) {
+        if (
+          user1.trim() !== "" &&
+          wysAmount1.trim() !== "" &&
+          duration1.trim() !== "" &&
+          plan1
+        ) {
+          FreeID(user1, wysAmount1, duration1, true, plan1)
+            .then((response) => {
+              if (response.status === 200) {
+                NotificationManager.success(response.message);
+              } else {
+                NotificationManager.error(response.message);
+              }
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            });
+        } else {
+          setErrorMessage("User, WYS Amount, or Duration is empty!");
+        }
+      } else {
+        // toast.error("Please register User");
+        NotificationManager.error("Please Register First");
+      }
+    } else {
+      NotificationManager.error("Please Signup first");
+    }
+  };
+
   return (
     <Fragment>
       <div className="row">
@@ -168,7 +207,7 @@ const BlockData = () => {
           <div className="card">
             <div className="card-header">
               <h4 className="card-title center" style={{ margin: "auto" }}>
-              Level Unblock
+                Level Unblock
               </h4>
             </div>
             <div className="card-body ">
@@ -236,7 +275,19 @@ const BlockData = () => {
                         <option value="36">36 Month</option>
                       </select>
                     </div>
-                    <div></div>
+                    <div class="col-6">
+                      <select
+                        class="form-select"
+                        aria-label="Default select example"
+                        value={plan}
+                        onChange={(e) => setplan(e.target.value)}
+                      >
+                        <option selected>Plan</option>
+                        <option value="1">WYS</option>
+                        <option value="2">WYS:ARB</option>
+                        <option value="3">WYS:BNB</option>
+                      </select>
+                    </div>
                     <button
                       type="button "
                       className="btn btn-success"
@@ -289,6 +340,19 @@ const BlockData = () => {
                         <option selected>Duration</option>
                         <option value="24">24 Month</option>
                         <option value="36">36 Month</option>
+                      </select>
+                    </div>
+                    <div class="col-6">
+                      <select
+                        class="form-select"
+                        aria-label="Default select example"
+                        value={plan1}
+                        onChange={(e) => setPlan1(e.target.value)}
+                      >
+                        <option selected>Plan</option>
+                        <option value="1">WYS</option>
+                        <option value="2">WYS:ARB</option>
+                        <option value="3">WYS:BNB</option>
                       </select>
                     </div>
                     <div></div>

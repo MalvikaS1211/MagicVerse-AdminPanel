@@ -12,14 +12,14 @@ const FreeIddata=()=>{
   const [search, setSearch] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
-  const pageSize = 30;
+  const pageSize = 50;
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await FreeIdlist(currentPage);
+        const result = await FreeIdlist(currentPage, { searchQuery: search });
         setApiData(result);
-        console.log(result)
-        //setFilteredData(result.usersData);
+      //  console.log(result)
+        setFilteredData(result.data);
         const total = result.totalCount;
         const pages = Math.ceil(total / pageSize);
         setTotalPages(pages > 0 ? pages : 1);
@@ -29,7 +29,7 @@ const FreeIddata=()=>{
     };
 
     fetchData();
-  }, [currentPage]);
+  }, [currentPage,search]);
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) =>
@@ -40,10 +40,37 @@ const FreeIddata=()=>{
   const handlePreviousPage = () => {
     setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : prevPage));
   };
+  const handleSearch = async (e) => {
+    const query = e.target.value.trim().toLowerCase();
+    const sanitizedQuery = query.replace(/[\\|^$*+?.(){}[\]]/g, "");
+    setSearch(sanitizedQuery);
+    if (currentPage !== 1) {
+      setCurrentPage(1);
+    }
+  };
 
     return (
 <Fragment>
       <Row>
+      <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            width: "100%",
+            marginBottom: "20px",
+          }}
+        >
+          <div className="input-group" style={{ maxWidth: "300px" }}>
+            <input
+              type="search"
+              id="form1"
+              className="form-control"
+              placeholder="Search here..."
+              onChange={handleSearch}
+            />
+          </div>
+          <label class="form-label" for="form1"></label>
+        </div>
         <Col lg={12}>
           <Card>
           <Card.Header style={{background:"black", border: '1px solid white'}}>
@@ -101,40 +128,31 @@ const FreeIddata=()=>{
                   </tr>
                 </thead>
                 <tbody>
-  {apiData && apiData.data ? (
-    apiData.data.map((user, index) => {
-      console.log("User data:", user);
-      return (
-        <tr key={index}>
-        
-          <td>{index + 1}</td>
-          <td><span className="smaller-font">{user.user}</span></td>
-          <td>{(user.wysAmount/1e18).toFixed(2)}</td>
-          <td>{(user.otherAmt/1e18).toFixed(2)}</td>
-          <td>{(user.ttlAmt/1e18).toFixed(2)}</td>
-          <td>{user.duration}</td>
-          <td>
-                        <a
-                          href={`https://wyzthscan.org/tx/${user.txHash}`}
-                          className="text-white"
-                          target="_blank"
-                        >
-                          {user.txHash.slice(0, 5)}... {user.txHash.slice(-5)}
-                        </a>
-                      </td>
-                      <td>
-                      <td>
-                        {new Date(user.timestamp * 1000).toLocaleString(
-                          "en-US",
-                          { hour12: false }
-                        )}
-                      </td></td>
-        </tr>
-      );
-    })
+  {Array.isArray(filteredData) && filteredData.length > 0 ? (
+    filteredData.map((data, index) => (
+      <tr key={index}>
+        <td>{(currentPage - 1) * pageSize + index + 1}</td>
+        <td>{data.user}</td>
+        <td>{(data.wysAmount / 1e18).toFixed(2)}</td>
+        <td>{(data.otherAmt / 1e18).toFixed(2)}</td>
+        <td>{(data.ttlAmt / 1e18).toFixed(2)}</td>
+        <td>{data.duration}</td>
+        <td>
+          <a
+            href={`https://wyzthscan.org/tx/${data.txHash}`}
+            className="text-white"
+            target="_blank"
+          >
+            {data.txHash.slice(0, 5)}... {data.txHash.slice(-5)}
+          </a>
+        </td>
+        <td>{new Date(data.timestamp * 1000).toLocaleString()}</td>
+
+      </tr>
+    ))
   ) : (
     <tr>
-      <td colSpan="5">No data available</td>
+      <td colSpan="7">No data found</td>
     </tr>
   )}
 </tbody>

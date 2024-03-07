@@ -33,6 +33,8 @@ import CommissionData from "./components/Users/commissionData";
 import BlockData from "./components/Users/block";
 import BlockUserList from "./components/Users/blockuserlist";
 import FreeIddata from "./components/Users/freeId";
+import UserRegester from "./components/Users/regesterUser";
+import TopTeams from "./components/Users/topTeams";
 //Histroy
 import Transaction from "./components/Users/tranzation";
 import DepositHisory from "./components/Users/depositeHistory";
@@ -159,7 +161,7 @@ const Markup = () => {
 
   const allroutes = [
     /// Dashboard
-    { url: "", component: <Home /> },
+    // { url: "", component: <Home /> },
     { url: "dashboard", component: <Home /> },
     { url: "dashboard-dark", component: <DashboardDark /> },
     { url: "index-1", component: <Dashboard2 /> },
@@ -178,6 +180,8 @@ const Markup = () => {
     {url:"fifty-list",component:<Fifty/>},
     {url:"block-user",component:<BlockUserList/>},
     {url:"freeid-list",component:<FreeIddata/>},
+    {url:"user-registration",component:<UserRegester/>},
+    {url:"top-team",component:<TopTeams/>},
 // History
 
     {url:"deposit",component:<DepositHisory/>},
@@ -313,6 +317,8 @@ const Markup = () => {
             <Route path='page-error-404' element={<Error404/>} />
             <Route path='page-error-500' element={<Error500/>} />
             <Route path='page-error-503' element={<Error503/>} />
+            {/* <Route path='/dashboard' element={<Home />} /> */}
+            
             <Route  element={<MainLayout />} > 
                 {allroutes.map((data, i) => (
                   <Route
