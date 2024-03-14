@@ -17,27 +17,13 @@ const Deposit = () => {
   const [filteredData, setFilteredData] = useState([]);
 
   const pageSize = 30;
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const result = await DepositeHistory(currentPage, pageSize, { searchQuery: search });
-  //       setApiData(result.data);
-  //       console.log(result.data)
-  //      setFilteredData(result.data);
-  //       const total = result.totalCount;
-  //       const pages = Math.ceil(total / pageSize);
-  //       setTotalPages(pages > 0 ? pages : 1);
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [currentPage,search]);
+ 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const userDetails = localStorage.getItem('userDetails');
+        const parsedDetails = JSON.parse(userDetails);
+        const token = parsedDetails.token
         const response = await DepositeHistory(
           currentPage,
           { searchQuery: search },
@@ -47,7 +33,7 @@ const Deposit = () => {
           const { data, totalCount } = response;
           setApiData(data);
           setFilteredData(data); // Assuming you want to initially show all data
-          console.log("Data fetched:", data);
+         // console.log("Data fetched:", data);
           const pages = Math.ceil(totalCount / pageSize);
           setTotalPages(pages > 0 ? pages : 1);
         }
@@ -171,9 +157,11 @@ const Deposit = () => {
                         <td>{(data.otherAmt / 1e18).toFixed(2)}</td>
                         <td>{(data.ttlAmt / 1e18).toFixed(2)}</td>
                         <td>{data.duration}</td>
-                        <td>{data.planId == 1 && "WYS"}
-          {data.planId == 2 && "BNB"}
-          {data.planId == 3 && "ARB"}</td>
+                        <td>
+                          {data.planId == 1 && "WYS"}
+                          {data.planId == 2 && "BNB"}
+                          {data.planId == 3 && "ARB"}
+                        </td>
                         <td>
                           <a
                             href={`https://wyzthscan.org/tx/${data.txHash}`}

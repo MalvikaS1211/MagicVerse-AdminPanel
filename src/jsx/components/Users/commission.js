@@ -18,7 +18,10 @@ export const Commission = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await allUser(currentPage,  { searchQuery: search });
+        const userDetails = localStorage.getItem('userDetails');
+        const parsedDetails = JSON.parse(userDetails);
+        const token = parsedDetails.token
+        const result = await allUser(currentPage,  { searchQuery: search },token);
         setApiData(result.usersData );
         const total = result.totalUsers;
         const pages = Math.ceil(total / pageSize);

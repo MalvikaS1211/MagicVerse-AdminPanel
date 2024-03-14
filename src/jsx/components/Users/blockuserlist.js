@@ -19,9 +19,12 @@ const BlockUserList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await BlockList();
+        const userDetails = localStorage.getItem('userDetails');
+        const parsedDetails = JSON.parse(userDetails);
+        const token = parsedDetails.token
+        const result = await BlockList(token);
         setApiData(result);
-        console.log(result)
+       // console.log(result)
         const total = result.totalCount;
         const pages = Math.ceil(total / pageSize);
         setTotalPages(pages > 0 ? pages : 1);

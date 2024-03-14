@@ -32,7 +32,7 @@ export function AuthReducer(state = initialState, action) {
     }
     if (action.type === LOGIN_CONFIRMED_ACTION) {
         return {
-            //...state,
+            ...state,
             auth: action.payload,
             errorMessage: '',
            // successMessage: 'Login Successfully Completed',
@@ -41,7 +41,7 @@ export function AuthReducer(state = initialState, action) {
     }
 
     if (action.type === LOGOUT_ACTION) {
-        console.log("dbfgvf ghfbjf123654")
+     //   console.log("dbfgvf ghfbjf123654")
             return {
             ...state,
             errorMessage: '',

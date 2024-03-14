@@ -40,72 +40,73 @@ export function signupAction(email, password, navigate) {
 }
 
 export function Logout(navigate) {
-    //  console.log("adbhhy123654")
-	localStorage.removeItem('token');
-    navigate('/login');
-	//history.push('/login');
+  //  console.log("adbhhy123654")
+  localStorage.removeItem("userDetails");
+  navigate("/login");
+  //history.push('/login');
 
   return {
     type: LOGOUT_ACTION,
   };
 }
-// export function login(email, password) {
-//     console.log("fvbsdhvghv",email,password)
-//    // const postData = {
-//    //     email,
-//    //     password,
-//    //     returnSecureToken: true,
-//    // };
 
-//    return SignIn(email,password,)
-//        .then(response => {
-//            if(response.status ){
-//                // navigate('/dashboard');
-//                NotificationManager.success(response.message)
-//            }
 
-//        })
-//        .catch(error => {
-//            console.error("Login failed:", error);
-//          NotificationManager.error(error)
-//        })
+// export function loginAction(email, password, navigate) {
+//   return (dispatch) => {
+//     SignIn(email, password)
+//       .then((response) => {
+//         if (response.status === 200) {
+//           console.log("expiresIn", response.expiresIn);
+//           const { token, expiresIn } = response;
+//           if (token != "") {
+//          //   console.log(response, "in if");
+//           } else {
+//            // console.log("token blank");
+//           }
+
+//           runLogoutTimer(dispatch, expiresIn, navigate);
+
+//           dispatch(
+//             loginConfirmedAction({
+//               email: email,
+//               idToken: email,
+//               localId: email,
+//               expiresIn: expiresIn,
+//               refreshToken: "",
+//             })
+//           );
+//           navigate("/dashboard");
+//          //  saveTokenInLocalStorage(response.token);
+          
+//           NotificationManager.success(response.message);
+//         } else {
+//           NotificationManager.error(response.message);
+//         }
+//       })
+//       .catch((error) => {
+//         console.log(error);
+//       });
+//   };
 // }
-
 export function loginAction(email, password, navigate) {
   return (dispatch) => {
     SignIn(email, password)
       .then((response) => {
-        if (response.status === 200) {
-          console.log("expiresIn",response.expiresIn);
-          const { token, expiresIn } = response; 
-      console.log("fdjgvb",token)
-          if (token != "") {
-            console.log(response, "in if");
-  
-          } else {
-            console.log("token blank");
-          }
-        
-           runLogoutTimer(dispatch, expiresIn , navigate);
-         
-          dispatch(
-            loginConfirmedAction({
-              email: email,
-              idToken: email,
-              localId: email,
-              expiresIn: expiresIn,
-              refreshToken: "",
-            })
-          );
+        if (response.status == 200) {
+          saveTokenInLocalStorage(response);
+          runLogoutTimer(dispatch, response.expiresIn, navigate);
+          dispatch(loginConfirmedAction(response));
           navigate("/dashboard");
-           saveTokenInLocalStorage(response);
           NotificationManager.success(response.message);
         } else {
-          NotificationManager.error(response.message);
+        NotificationManager.error(response.message)
+          const errorMessage = formatError(response.data);
+          dispatch(loginFailedAction(errorMessage));
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error, "error");
+        // Handle any errors appropriately.
       });
   };
 }
@@ -117,7 +118,7 @@ export function loginFailedAction(data) {
   };
 }
 
-export function loginConfirmedAction(data) {
+export function loginConfirmedAction(data) {  
   return {
     type: LOGIN_CONFIRMED_ACTION,
     payload: data,

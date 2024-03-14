@@ -26,7 +26,9 @@ export const AllUser = () => {
     
     const fetchData = async () => {
       try {
-        const token = localStorage.getItem('token')
+        const userDetails = localStorage.getItem('userDetails');
+        const parsedDetails = JSON.parse(userDetails);
+        const token = parsedDetails.token
         const result = await allUser(currentPage, { searchQuery: search },token);
         setApiData(result.usersData);
         setFilteredData(result.usersData);
@@ -103,11 +105,7 @@ export const AllUser = () => {
       setCurrentPage(1);
     }
   };
-  const handlesearch = async (e) => {
-    const query = e.target.value.toLowerCase();
-    const sanitizedQuery = query.replace(/[\\|^$*+?.(){}[\]]/g, "");
-    setSearch(sanitizedQuery);
-  };
+
   const tableRef = useRef(null);
   return (
     <Fragment>

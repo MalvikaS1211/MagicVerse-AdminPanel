@@ -24,10 +24,13 @@ const BlockData = () => {
   const [user1, setUser1] = useState("");
   const [wysAmount1, setWysAmount1] = useState("");
   const [duration1, setDuration1] = useState("");
+  const userDetails = localStorage.getItem('userDetails');
+  const parsedDetails = JSON.parse(userDetails);
+  const token = parsedDetails.token
 
   const handleBlock = () => {
     if (userInputBlock.trim() !== "") {
-      WithdrawBlock(userInputBlock, "block")
+      WithdrawBlock(userInputBlock, "block",token)
         .then((response) => {
           if (response.status == 200) {
             NotificationManager.success(response.message);
@@ -44,7 +47,7 @@ const BlockData = () => {
   };
   const handleUnblock = () => {
     if (userInputUnblock.trim() !== "") {
-      WithdrawBlock(userInputUnblock, "unblock")
+      WithdrawBlock(userInputUnblock, "unblock",token)
         .then((response) => {
           if (response.status == 200) {
             NotificationManager.success(response.message);
@@ -60,7 +63,7 @@ const BlockData = () => {
     }
   };
   const handleLavel = () => {
-    if (userlebal.trim() !== "") {
+    if (userlebal.trim() !== "",token) {
       LavelBlock(userlebal)
         .then((response) => {
           if (response.status == 200) {
@@ -76,17 +79,19 @@ const BlockData = () => {
       setErrorMessage("User input for unblocking is empty!");
     }
   };
-  const handleActivate = async () => {
+  const handleActivate = async (e) => {
+    e.preventDefault()
     const apiregister = await axios.post(url + "/isUserExist", {
       address: user,
     });
     if (apiregister?.data?.exist === true) {
       const reg = await isRegisteredInContract(user);
       if (reg) {
-        FiftyActivate(user, wysAmount, duration, plan)
+        FiftyActivate(user, wysAmount, duration, plan,token)
           .then((response) => {
             if (response.status == 200) {
               NotificationManager.success(response.message);
+              clearFormData1()
             } else {
               NotificationManager.error(response.message);
             }
@@ -101,24 +106,29 @@ const BlockData = () => {
       NotificationManager.error("Please Signup");
     }
   };
-  const handleFree = async () => {
+  const handleFree = async (e) => {
+    e.preventDefault();
     const apiregister = await axios.post(url + "/isUserExist", {
       address: user1,
     });
-    console.log(apiregister?.data.exist,"::::::::::::::::")
-    if (apiregister?.data?.exist === true) {
+   // console.log(apiregister?.data.exist,"::::::::::::::::")
+    if (apiregister?.data?.exist == true) {
+      console.log("from contract in ",user1)
       const reg = await isRegisteredInContract(user1);
+      console.log(reg,"from contract step 2")
       if (reg) {
+        console.log(reg,"step 2")
         if (
           user1.trim() !== "" &&
           wysAmount1.trim() !== "" &&
           duration1.trim() !== "" &&
           plan1
         ) {
-          FreeID(user1, wysAmount1, duration1, true, plan1)
+          FreeID(user1, wysAmount1, duration1, true, plan1,token)
             .then((response) => {
               if (response.status === 200) {
                 NotificationManager.success(response.message);
+                clearFormData()
               } else {
                 NotificationManager.error(response.message);
               }
@@ -138,6 +148,20 @@ const BlockData = () => {
     }
   };
 
+  const clearFormData = () => {
+
+    setUser1("");
+    setWysAmount1("");
+    setDuration1("");
+    setPlan1("");
+}
+const clearFormData1 = () => {
+
+  setUser("");
+  setWysAmount("");
+  setDuration("");
+  setplan("");
+}
   return (
     <Fragment>
       <div className="row">

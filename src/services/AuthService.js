@@ -38,54 +38,89 @@ export function formatError(errorResponse) {
   }
 }
 
-export function saveTokenInLocalStorage(tokenDetails) {
-
-  const expireDate = new Date(new Date().getTime()* 1000);
-  
-  
-  tokenDetails = JSON.stringify(tokenDetails);
-
+// export function saveTokenInLocalStorage(tokenDetails) {
+//   tokenDetails = tokenDetails;
+// console.log("fdbs",tokenDetails)
  
-  localStorage.setItem('userDetails', tokenDetails);
+//   localStorage.setItem('userDetails', tokenDetails);
+// }
+
+export function saveTokenInLocalStorage(tokenDetails) {
+  tokenDetails.expireDate = new Date(
+    new Date().getTime() + tokenDetails.expiresIn
+  );
+  localStorage.setItem("userDetails", JSON.stringify(tokenDetails));
 }
+
+// export function runLogoutTimer(dispatch, timer, navigate) {
+//     setTimeout(() => {
+//         //dispatch(Logout(history));
+//         dispatch(Logout(navigate));
+//     }, timer);
+// }
+
+
+
+
+// export function checkAutoLogin(dispatch, navigate) {
+//     const tokenDetailsString = localStorage.getItem('userDetails');
+//     let tokenDetails = '';
+//     if (!tokenDetailsString) {
+//         dispatch(Logout(navigate));
+// 		return;
+//     }
+
+//     if(tokenDetailsString) {
+//       tokenDetails = tokenDetailsString
+//     }
+
+//    // console.log("tokenDetails",tokenDetails)
+//     // const parseD = tokenDetails
+//     // const { expiresIn } = parseD
+
+
+//     // let todaysDate = new Date().getTime();
+
+//     // if (todaysDate > expiresIn) {
+//     //     dispatch(Logout(navigate));
+//     //     return;
+//     // }
+		
+//     // dispatch(loginConfirmedAction(tokenDetails));
+	
+//   //  const timer = expiresIn - todaysDate;
+//   //  runLogoutTimer(dispatch, timer, navigate);
+// }
+
 
 export function runLogoutTimer(dispatch, timer, navigate) {
-    setTimeout(() => {
-        //dispatch(Logout(history));
-        dispatch(Logout(navigate));
-    }, timer);
+  setTimeout(() => {
+    //dispatch(Logout(history));
+
+    dispatch(Logout(navigate));
+  }, timer);
 }
 
-
-
-
 export function checkAutoLogin(dispatch, navigate) {
-    const tokenDetailsString = localStorage.getItem('userDetails');
-    console.log('tokenDetailsString',tokenDetailsString)
-    let tokenDetails = '';
-    if (!tokenDetailsString) {
-        dispatch(Logout(navigate));
-		return;
-    }
+  const tokenDetailsString = localStorage.getItem("userDetails");
 
-    if(tokenDetailsString) {
-      tokenDetails = tokenDetailsString
-    }
+  let tokenDetails = "";
+  if (!tokenDetailsString) {
+    dispatch(Logout(navigate));
+    return;
+  }
 
-    console.log("tokenDetails",tokenDetails)
-    const parseD = JSON.parse(tokenDetails)
-    const { expiresIn } = parseD
+  tokenDetails = JSON.parse(tokenDetailsString);
+  let expireDate = new Date(tokenDetails.expiresIn);
+  let todaysDate = new Date();
 
+  if (todaysDate > expireDate) {
+    dispatch(Logout(navigate));
+    return;
+  }
 
-    let todaysDate = new Date().getTime();
+  dispatch(loginConfirmedAction(tokenDetails));
 
-    if (todaysDate > expiresIn) {
-        dispatch(Logout(navigate));
-        return;
-    }
-		
-    dispatch(loginConfirmedAction(tokenDetails));
-	
-    const timer = expiresIn - todaysDate;
-    runLogoutTimer(dispatch, timer, navigate);
+  const timer = expireDate.getTime() - todaysDate.getTime();
+  runLogoutTimer(dispatch, timer, navigate);
 }

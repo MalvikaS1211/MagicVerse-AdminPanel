@@ -22,7 +22,9 @@ const Login = lazy(() => {
 });
 
 function withRouter(Component) {
+ 
   function ComponentWithRouterProp(props) {
+
     let location = useLocation();
     let navigate = useNavigate();
     let params = useParams();
@@ -41,6 +43,7 @@ function withRouter(Component) {
 
 
 function App (props) {
+
     const dispatch = useDispatch();
 	const navigate = useNavigate();
     useEffect(() => {
@@ -55,11 +58,13 @@ function App (props) {
         <Route path='/login' element={<Login />} /> 
         <Route path='/page-register' element={<SignUp />} />
         <Route path='/page-forgot-password' element={<ForgotPassword />} />
-        <Route path='/dashboard' element={<Home />} />
+        {/* <Route path='/dashboard' element={<Home />} /> */}
 
       </Routes> 
     );
     if (props.isAuthenticated) {
+  
+   
 		return (
 			<>
           <Suspense fallback={
@@ -99,6 +104,7 @@ function App (props) {
 
 
 const mapStateToProps = (state) => {
+
     return {
         isAuthenticated: isAuthenticated(state),
     };

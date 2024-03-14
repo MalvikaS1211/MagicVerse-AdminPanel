@@ -17,9 +17,12 @@ const TopTeams=()=>{
     useEffect(() => {
         const fetchData = async () => {
           try {
-            const result = await Topteams();
+            const userDetails = localStorage.getItem('userDetails');
+            const parsedDetails = JSON.parse(userDetails);
+            const token = parsedDetails.token
+            const result = await Topteams(token);
             setUserData(result.topUsers);
-            console.log("fbdgsfh",result.topUsers)
+         
           //  setFilteredData(result.usersData)
           } catch (error) {
             console.error("Error fetching data:", error);

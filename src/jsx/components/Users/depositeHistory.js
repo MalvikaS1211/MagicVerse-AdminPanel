@@ -17,8 +17,10 @@ const DepositHisory = (props) => {
   const memoizedUser = useMemo(() => user, [user]);
   const pageSize = 30;
   useEffect(() => {
-    // if (!isInitialRender.current && memoizedUser) {
-      Depositedata(memoizedUser)
+    const userDetails = localStorage.getItem('userDetails');
+    const parsedDetails = JSON.parse(userDetails);
+    const token = parsedDetails.token
+      Depositedata(memoizedUser,currentPage,token)
         .then((response) => {
           setUserData(response.depositeHistory);
           const total = response.totalCount;
@@ -28,9 +30,7 @@ const DepositHisory = (props) => {
         .catch((error) => {
           console.error("Error fetching team data:", error);
         });
-    // } else {
-    //   isInitialRender.current = false;
-    // }
+  
   }, [memoizedUser]);
 
   const handleNextPage = () => {

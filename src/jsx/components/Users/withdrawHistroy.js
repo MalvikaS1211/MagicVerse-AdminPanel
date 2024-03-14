@@ -17,8 +17,10 @@ const Withdrawal = (props) => {
   const memoizedUser = useMemo(() => user, [user]);
   const pageSize = 30;
   useEffect(() => {
-    // if (!isInitialRender.current && memoizedUser) {
-      Withdrawdata(memoizedUser)
+    const userDetails = localStorage.getItem('userDetails');
+    const parsedDetails = JSON.parse(userDetails);
+    const token = parsedDetails.token
+      Withdrawdata(memoizedUser,currentPage,token)
         .then((response) => {
           setUserData(response.data);
           const total = response.totalCount;
@@ -28,9 +30,6 @@ const Withdrawal = (props) => {
         .catch((error) => {
           console.error("Error fetching team data:", error);
         });
-    // } else {
-    //   isInitialRender.current = false;
-    // }
   }, [memoizedUser]);
 
   const handleNextPage = () => {

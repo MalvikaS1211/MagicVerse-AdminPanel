@@ -1,10 +1,14 @@
-import React,{ Fragment, useEffect, useState,useMemo } from "react";
-import { useTable, useGlobalFilter, useFilters, usePagination } from 'react-table';
+import React, { Fragment, useEffect, useState, useMemo } from "react";
+import {
+  useTable,
+  useGlobalFilter,
+  useFilters,
+  usePagination,
+} from "react-table";
 import { Row, Col, Card, Table } from "react-bootstrap";
 import { FiftyList } from "../../../services/api_function";
 
-const Fifty=()=>{
-
+const Fifty = () => {
   const [apiData, setApiData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -16,10 +20,16 @@ const Fifty=()=>{
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await FiftyList(currentPage, { searchQuery: search });
+        const userDetails = localStorage.getItem("userDetails");
+        const parsedDetails = JSON.parse(userDetails);
+        const token = parsedDetails.token;
+
+        const result = await FiftyList(
+          currentPage,
+          { searchQuery: search },
+          token
+        );
         setApiData(result);
-       // console.log(result)
-        //setFilteredData(result.usersData);
         const total = result.totalCount;
         const pages = Math.ceil(total / pageSize);
         setTotalPages(pages > 0 ? pages : 1);
@@ -29,7 +39,7 @@ const Fifty=()=>{
     };
 
     fetchData();
-  }, [currentPage]);
+  }, [currentPage, search]);
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) =>
@@ -48,10 +58,19 @@ const Fifty=()=>{
       setCurrentPage(1);
     }
   };
-    return (
-<Fragment>
+  const formatTimestamp = (timestamp) => {
+    const date = new Date(timestamp);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    return `${day}-${month}-${year} ${hours}:${minutes}`;
+  };
+  return (
+    <Fragment>
       <Row>
-      <div
+        <div
           style={{
             display: "flex",
             justifyContent: "flex-end",
@@ -72,18 +91,28 @@ const Fifty=()=>{
         </div>
         <Col lg={12}>
           <Card>
-          <Card.Header style={{background:"black", border: '1px solid white'}}>
-                  <Card.Title style={{color:"white",margin:"auto"}}>50 50 List</Card.Title>
-                </Card.Header>
-                <Card.Body  style={{background:"black", border: '1px solid white'}} >
-                  <Table responsive style={{ background: 'black', color: 'white' , borderBottom: '1px solid white' }}>
-              <thead>
-                
+            <Card.Header
+              style={{ background: "black", border: "1px solid white" }}
+            >
+              <Card.Title style={{ color: "white", margin: "auto" }}>
+                50 50 List
+              </Card.Title>
+            </Card.Header>
+            <Card.Body
+              style={{ background: "black", border: "1px solid white" }}
+            >
+              <Table
+                responsive
+                style={{
+                  background: "black",
+                  color: "white",
+                  borderBottom: "1px solid white",
+                }}
+              >
+                <thead>
                   <tr>
-                    
                     <th>
                       <strong>NO.</strong>
-                      
                     </th>
                     {/* <th>
                       <strong>Name</strong>
@@ -121,49 +150,56 @@ const Fifty=()=>{
                     <th>
                       <strong>Total Amount</strong>
                     </th>
-                    <th>  <strong>Duration</strong></th>
-                    <th>  <strong>Transaction ID</strong></th>
-                    <th>  <strong>Date&Time</strong></th>
+                    <th>
+                      {" "}
+                      <strong>Duration</strong>
+                    </th>
+                    <th>
+                      {" "}
+                      <strong>Transaction ID</strong>
+                    </th>
+                    <th>
+                      {" "}
+                      <strong>Date&Time</strong>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
-  {apiData && apiData.data ? (
-    apiData.data.map((user, index) => {
-     // console.log("User data:", user);
-      return (
-        <tr key={index}>
-        
-          <td>{index + 1}</td>
-          <td><span className="smaller-font">{user.user}</span></td>
-          <td>{(user.wysAmount/1e18).toFixed(2)}</td>
-          <td>{(user.otherAmt/1e18).toFixed(2)}</td>
-          <td>{(user.ttlAmt/1e18).toFixed(2)}</td>
-          <td>{user.duration}</td>
-          <td>
-                        <a
-                          href={`https://wyzthscan.org/tx/${user.txHash}`}
-                          className="text-white"
-                          target="_blank"
-                        >
-                          {user.txHash.slice(0, 5)}... {user.txHash.slice(-5)}
-                        </a>
-                      </td>
-                      <td>
-                      <td>
-                        {new Date(user.timestamp * 1000).toLocaleString(
-                          "en-US",
-                          { hour12: false }
-                        )}
-                      </td></td>
-        </tr>
-      );
-    })
-  ) : (
-    <tr>
-      <td colSpan="5">No data available</td>
-    </tr>
-  )}
-</tbody>
+                  {apiData && apiData.data ? (
+                    apiData.data.map((user, index) => {
+                      // console.log("User data:", user);
+                      return (
+                        <tr key={index}>
+                          <td>{index + 1}</td>
+                          <td>
+                            <span className="smaller-font">{user.user}</span>
+                          </td>
+                          <td>{(user.wysAmount / 1e18).toFixed(2)}</td>
+                          <td>{(user.otherAmt / 1e18).toFixed(2)}</td>
+                          <td>{(user.ttlAmt / 1e18).toFixed(2)}</td>
+                          <td>{user.duration}</td>
+                          <td>
+                            <a
+                              href={`https://wyzthscan.org/tx/${user.txHash}`}
+                              className="text-white"
+                              target="_blank"
+                            >
+                              {user.txHash.slice(0, 5)}...{" "}
+                              {user.txHash.slice(-5)}
+                            </a>
+                          </td>
+                          <td>
+                          <td>{formatTimestamp(user.createdAt)}</td>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  ) : (
+                    <tr>
+                      <td colSpan="5">No data available</td>
+                    </tr>
+                  )}
+                </tbody>
               </Table>
               <div className="d-flex justify-content-between">
                 <span>
@@ -194,12 +230,16 @@ const Fifty=()=>{
                 className="text-center mb-3 col-lg-6"
                 style={{ margin: "auto" }}
               >
-              <div className="filter-pagination  mt-3 bg-black"  >
+                <div className="filter-pagination  mt-3 bg-black">
                   <button
                     className="previous-button"
                     onClick={handlePreviousPage}
                     disabled={currentPage === 1}
-                    style={{background:" linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",color:"black"}}
+                    style={{
+                      background:
+                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
+                      color: "black",
+                    }}
                   >
                     {"<<"}
                   </button>
@@ -208,7 +248,11 @@ const Fifty=()=>{
                     className="previous-button"
                     onClick={handlePreviousPage}
                     disabled={currentPage === 1}
-                    style={{background:" linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",color:"black"}}
+                    style={{
+                      background:
+                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
+                      color: "black",
+                    }}
                   >
                     Previous
                   </button>
@@ -217,7 +261,11 @@ const Fifty=()=>{
                     className="next-button"
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}
-                    style={{background:" linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",color:"black"}}
+                    style={{
+                      background:
+                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
+                      color: "black",
+                    }}
                   >
                     Next
                   </button>
@@ -226,7 +274,11 @@ const Fifty=()=>{
                     className="next-button"
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}
-                    style={{background:" linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",color:"black"}}
+                    style={{
+                      background:
+                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
+                      color: "black",
+                    }}
                   >
                     {">>"}
                   </button>
@@ -235,16 +287,13 @@ const Fifty=()=>{
                     Page {currentPage} of {totalPages}
                   </span>
                 </div>
-                
               </div>
-        
             </Card.Body>
           </Card>
         </Col>
       </Row>
     </Fragment>
-    )
-}
+  );
+};
 
-
-export default Fifty
+export default Fifty;

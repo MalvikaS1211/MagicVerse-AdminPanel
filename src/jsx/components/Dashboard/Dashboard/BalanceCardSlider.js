@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate  } from 'react-router-dom'
 import { Swiper, SwiperSlide } from "swiper/react";
 //import { Autoplay } from "swiper";
 import { dashboardData } from "../../../../services/api_function";
@@ -10,13 +11,21 @@ import TotaldipositChart from "./TotaldipositChart";
 
 const BalanceCardSlider = () => {
   const [data, setData] = useState(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
+  
     const fetchData = async () => {
       try {
-        const response = await dashboardData();
-        //console.log(response)
+        const userDetails = localStorage.getItem('userDetails');
+        const parsedDetails = JSON.parse(userDetails);
+        const token = parsedDetails.token
+        const response = await dashboardData(token);
         setData(response);
+        if (response.status == 404) {
+          navigate('/login')  
+          localStorage.removeItem('userDetails')
+        
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -24,7 +33,7 @@ const BalanceCardSlider = () => {
 
     fetchData();
     return () => {};
-  }, []);
+  },  [navigate]);
   if (!data) {
     return <div>Loading...</div>;
   }

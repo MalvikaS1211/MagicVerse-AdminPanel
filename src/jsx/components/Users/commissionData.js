@@ -15,8 +15,10 @@ const CommissionData = (props) => {
   const memoizedUser = useMemo(() => user, [user]);
 
   useEffect(() => {
-    // if (!isInitialRender.current && memoizedUser) {
-      Commissiondata(memoizedUser)
+    const userDetails = localStorage.getItem('userDetails');
+    const parsedDetails = JSON.parse(userDetails);
+    const token = parsedDetails.token
+      Commissiondata(memoizedUser,token)
         .then((response) => {
           //  console.log("API Response:", response);
           setUserData(response.users);

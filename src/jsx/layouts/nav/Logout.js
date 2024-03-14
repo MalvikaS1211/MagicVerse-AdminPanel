@@ -42,6 +42,7 @@ function LogoutPage(props){
     )
 } 
 const mapStateToProps = (state) => {
+  console.log("logot",state)
     return {
         isAuthenticated: isAuthenticated(state),
     };

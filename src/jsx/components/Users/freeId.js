@@ -16,9 +16,11 @@ const FreeIddata=()=>{
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await FreeIdlist(currentPage, { searchQuery: search });
+        const userDetails = localStorage.getItem('userDetails');
+        const parsedDetails = JSON.parse(userDetails);
+        const token = parsedDetails.token
+        const result = await FreeIdlist(currentPage, { searchQuery: search },token);
         setApiData(result);
-      //  console.log(result)
         setFilteredData(result.data);
         const total = result.totalCount;
         const pages = Math.ceil(total / pageSize);

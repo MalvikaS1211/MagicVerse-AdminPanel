@@ -30,6 +30,7 @@ export async function registration(user, referal) {
 }
 
 export async function isRegisteredInContract(user) {
+  console.log(user,":::")
   try {
     const reslut = await contract.methods.isUserExists(user).call();
     console.log("isRegisteredInContract:", reslut);

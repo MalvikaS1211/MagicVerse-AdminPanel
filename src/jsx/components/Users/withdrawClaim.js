@@ -16,23 +16,34 @@ export const WithdrawClaim = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [selectedFilter, setSelectedFilter] = useState("");
   const [search, setSearch] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
   const pageSize = 30;
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await withdrawClaim(currentPage, pageSize, { searchQuery: search });
-        // console.log("", result)
-        setApiData(result.Data);
-        const total = result.totalUsers;
-        const pages = Math.ceil(total / pageSize);
-        setTotalPages(pages > 0 ? pages : 1);
+        const userDetails = localStorage.getItem('userDetails');
+        const parsedDetails = JSON.parse(userDetails);
+        const token = parsedDetails.token
+        const response = await withdrawClaim(
+          currentPage,
+          { searchQuery: search },
+          token
+        );
+        if (response && response.status === 200 && !response.error) {
+          const { Data, totalCount } = response;
+        //  setApiData(data);
+          setFilteredData(Data); 
+        //  console.log("Data fetched:", data);
+          const pages = Math.ceil(totalCount / pageSize);
+          setTotalPages(pages > 0 ? pages : 1);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-  }, [currentPage]);
+  }, [currentPage, search]);
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) =>
@@ -47,15 +58,6 @@ export const WithdrawClaim = () => {
   const handleEditClick = (phoneNumber) => {
     console.log("Edit Clicked for phoneNumber:", phoneNumber);
   };
-  //   const handleGoToPage = () => {
-  //     const pageNumber = parseInt(inputPage);
-  //     if (pageNumber >= 1 && pageNumber <= totalPages) {
-  //       setCurrentPage(pageNumber);
-  //       setInputPage("");
-  //     } else {
-  //       console.error("Invalid page number");
-  //     }
-  //   };
   const formatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
     const day = String(date.getDate()).padStart(2, "0");
@@ -144,38 +146,31 @@ export const WithdrawClaim = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {apiData?.map((Data, index) => (
+                  {Array.isArray(filteredData) && filteredData.length > 0 ? (
+                    filteredData.map((Data, index) => (
+                      <tr key={index}>
+                        <td>{(currentPage - 1) * pageSize + index + 1}</td>
+                        <td>{Data.user}</td>
+                      
+                     {/* //   <td>{Data.planId}</td> */}
+                        <td>{(Data.amount / 1e18).toFixed(2)}</td>
+                        <td>
+                          <a
+                            href={`https://wyzthscan.org/tx/${Data.txHash}`}
+                            className="text-white"
+                            target="_blank"
+                          >
+                            {Data.txHash.slice(0, 5)}... {Data.txHash.slice(-5)}
+                          </a>
+                        </td>
+                        <td>{formatTimestamp(Data.createdAt)}</td>
+                      </tr>
+                    ))
+                  ) : (
                     <tr>
-                      <td>{(currentPage - 1) * pageSize + index + 1}</td>
-                      {/* <td>{user.userId}</td> */}
-                      <td> {Data.user}</td>
-                      <td>{(Data.amount / 1e18).toFixed(2)}</td>
-                      {/* <td>{Data.roi}</td> */}
-                      {/* <td>{Data.txHash.slice(0, 10)}...{Data.txHash.slice(-5)}</td> */}
-                      <td>
-                        <a
-                          href={`https://wyzthscan.org/tx/${Data.txHash}`}
-                          className="text-white"
-                          target="_blank"
-                        >
-                          {Data.txHash.slice(0, 10)}... {Data.txHash.slice(-5)}
-                        </a>
-                      </td>
-                      <td>{formatTimestamp(Data.createdAt)}</td>
-                      <td>
-                        {/* <div className="d-flex align-items-center table-action-icon">
-                              <Link
-                                to={`/team-list?user=${encodeURIComponent(
-                                  user.user
-                                )}`}
-                                className="btn btn-primary light shadow btn-xs sharp me-1"
-                              >
-                                <i className="fas fa-pencil-alt"></i>
-                              </Link>
-                            </div> */}
-                      </td>
+                      <td colSpan="7">No data found</td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
               </Table>
               <div className="d-flex justify-content-between">

@@ -16,22 +16,32 @@ export const WithdrawRoi = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [selectedFilter, setSelectedFilter] = useState("");
   const [search, setSearch] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
   const pageSize = 30;
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await withdrawRoi(currentPage, pageSize, { searchQuery: search });
-        setApiData(result.Data);
-        const total = result.totalUsers;
-        const pages = Math.ceil(total / pageSize);
-        setTotalPages(pages > 0 ? pages : 1);
+        const token = localStorage.getItem("token");
+        const response = await withdrawRoi(
+          currentPage,
+          { searchQuery: search },
+          token
+        );
+        if (response && response.status === 200 && !response.error) {
+          const { Data, totalCount } = response;
+ 
+          setFilteredData(Data); 
+     
+          const pages = Math.ceil(totalCount / pageSize);
+          setTotalPages(pages > 0 ? pages : 1);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-  }, [currentPage]);
+  }, [currentPage, search]);
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) =>
@@ -135,6 +145,9 @@ export const WithdrawRoi = () => {
                       <strong>PlanId</strong>
                     </th>
                     <th>
+                      <strong>Duration</strong>
+                    </th>
+                    <th>
                       <strong>ROI</strong>
                     </th>
                     <th>
@@ -147,41 +160,32 @@ export const WithdrawRoi = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {apiData?.map((Data, index) => (
-                    <tr>
-                      <td>{(currentPage - 1) * pageSize + index + 1}</td>
-                      {/* <td>{user.userId}</td> */}
-                      <td>
-                        {" "}
-                        <span className="smaller-font">{Data.user}</span>
-                      </td>
-                      <td>{Data.planId}</td>
-                      <td>{(Data.roi / 1e18).toFixed(2)}</td>
-                      {/* <td>{Data.txHash.slice(0, 10)}...{Data.txHash.slice(-5)}</td> */}
-                      <td>
-                        <a
-                          href={`https://wyzthscan.org/tx/${Data.txHash}`}
-                          className="text-white"
-                          target="_blank"
-                        >
-                          {Data.txHash.slice(0, 10)}... {Data.txHash.slice(-5)}
-                        </a>
-                      </td>
-                      <td>{formatTimestamp(Data.createdAt)}</td>
-                      <td>
-                        {/* <div className="d-flex align-items-center table-action-icon">
-                          <Link
-                            to={`/team-list?user=${encodeURIComponent(
-                              user.user
-                            )}`}
-                            className="btn btn-primary light shadow btn-xs sharp me-1"
+                  {Array.isArray(filteredData) && filteredData.length > 0 ? (
+                    filteredData.map((Data, index) => (
+                      <tr key={index}>
+                        <td>{(currentPage - 1) * pageSize + index + 1}</td>
+                        <td>{Data.user}</td>
+                      
+                        <td>{Data.planId}</td>
+                        <td>{Data.duration}</td>
+                        <td>{(Data.roi / 1e18).toFixed(2)}</td>
+                        <td>
+                          <a
+                            href={`https://wyzthscan.org/tx/${Data.txHash}`}
+                            className="text-white"
+                            target="_blank"
                           >
-                            <i className="fas fa-pencil-alt"></i>
-                          </Link>
-                        </div> */}
-                      </td>
+                            {Data.txHash.slice(0, 5)}... {Data.txHash.slice(-5)}
+                          </a>
+                        </td>
+                        <td>{formatTimestamp(Data.createdAt)}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="7">No data found</td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
               </Table>
               <div className="d-flex justify-content-between">

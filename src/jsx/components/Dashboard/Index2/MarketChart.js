@@ -165,9 +165,11 @@ class MarketChart extends React.Component {
 
     async componentDidMount() {
         try {
-            // Fetch data from the API
-            const response = await Graph();
-            // Extract the stakes data from the response
+            const userDetails = localStorage.getItem('userDetails');
+            const parsedDetails = JSON.parse(userDetails);
+            const token = parsedDetails.token
+            const response = await Graph(token);
+        
             const data = response.StakesPerDay;
             // Define the order of days of the week
             const daysOfWeekOrdered = [

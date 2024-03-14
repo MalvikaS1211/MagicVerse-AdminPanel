@@ -54,7 +54,7 @@ const listData = [
 ];
 
 const Home = () => {
-	console.log("Rendiering HOme")
+	//console.log("Rendiering HOme")
 	const { changeBackground } = useContext(ThemeContext);	
 	useEffect(() => {
 		changeBackground({ value: "light", label: "Light" });
