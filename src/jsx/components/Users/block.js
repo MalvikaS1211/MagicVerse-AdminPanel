@@ -63,8 +63,8 @@ const BlockData = () => {
     }
   };
   const handleLavel = () => {
-    if (userlebal.trim() !== "",token) {
-      LavelBlock(userlebal)
+    if (userlebal.trim() !== "") {
+      LavelBlock(userlebal,token)
         .then((response) => {
           if (response.status == 200) {
             NotificationManager.success(response.message);

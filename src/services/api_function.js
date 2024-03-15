@@ -193,6 +193,7 @@ export function WithdrawBlock(user, action, token) {
 }
 
 export function LavelBlock(user, token) {
+  console.log("dbvxch",token)
   const apiUrl = `${url}/levlunblock`;
   return fetch(apiUrl, {
     method: "post",
