@@ -19,14 +19,14 @@ export function allUser(page, filteredData, token) {
     .then((res) => res.json())
     .catch((e) => e);
 }
-export function TeamData(user, limit,currentPage) {
+export function TeamData(user, limit, currentPage) {
   const apiUrl = `${url}/team-list?user=${user}&limit=${limit}&page=${currentPage}`;
   return fetch(apiUrl, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
       "Cache-Control": "no-cache",
-    "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Origin": "*",
     },
     body: JSON.stringify(),
   })
@@ -106,7 +106,6 @@ export function Commissiondata(user, token) {
     .catch((error) => console.error("Error fetching data:", error));
 }
 export function Depositedata(user, page, token) {
-  console.log("bv", token);
   const apiUrl = `${url}/deposite-history?user=${user}&page=${page}`;
   //console.log(apiUrl)
   return fetch(apiUrl, {
@@ -193,7 +192,7 @@ export function WithdrawBlock(user, action, token) {
 }
 
 export function LavelBlock(user, token) {
-  console.log("dbvxch",token)
+  console.log("dbvxch", token);
   const apiUrl = `${url}/levlunblock`;
   return fetch(apiUrl, {
     method: "post",
@@ -227,9 +226,9 @@ export function FiftyList(page, filteredData, token) {
     .then((res) => res.json())
     .catch((e) => e);
 }
-export function BlockList(token) {
+export function BlockList(token, page) {
   // console.log("Fetching page")
-  const apiUrl = `${url}/block-list`;
+  const apiUrl = `${url}/block-list?page=${page}`;
   return fetch(apiUrl, {
     method: "GET",
     headers: {

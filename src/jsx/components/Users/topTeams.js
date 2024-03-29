@@ -34,23 +34,20 @@ const TopTeams=()=>{
     return (
         <Fragment>
           <Row>
-            <Col lg={12}>
+            <Col lg={10}>
               <Card>
-                <Card.Header style={{background:"black", border: '1px solid white'}}>
+                <Card.Header style={{background:"white", border: '1px solid white'}}>
                   <Card.Title style={{color:"white",margin:"auto"}}>Top 10 Team </Card.Title>
                 </Card.Header>
-                <Card.Body  style={{background:"black", border: '1px solid white'}} >
-                  <Table responsive style={{ background: 'black', color: 'white' , borderBottom: '1px solid white' }}>
+                <Card.Body  style={{background:"white", border: '1px solid white'}} >
+                  <Table responsive style={{ background: 'white', color: 'white' , borderBottom: '1px solid white' }}>
 
                     <thead>
                       <tr>
-                        {/* <th className="width50"></th> */}
+                       
                         <th>
                           <strong>NO.</strong>
                         </th>
-                        {/* <th>
-                          <strong> Name</strong>
-                        </th> */}
                         <th>
                           <strong> UserID</strong>
                         </th>
@@ -79,7 +76,7 @@ const TopTeams=()=>{
                       {/* <td>{user.name}</td> */}
                       <td>{user.userId}</td>
                       <td>{user.user}</td>
-                      <td>{user.userId}</td>
+                      <td>{user.referrerId}</td>
                       {/* <td>
                         {" "}
                         <span className="smaller-font">

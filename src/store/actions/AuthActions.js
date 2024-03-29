@@ -40,7 +40,6 @@ export function signupAction(email, password, navigate) {
 }
 
 export function Logout(navigate) {
-  //  console.log("adbhhy123654")
   localStorage.removeItem("userDetails");
   navigate("/login");
   //history.push('/login');
@@ -94,7 +93,7 @@ export function loginAction(email, password, navigate) {
       .then((response) => {
         if (response.status == 200) {
           saveTokenInLocalStorage(response);
-          runLogoutTimer(dispatch, response.expiresIn, navigate);
+         //   runLogoutTimer(dispatch, response.expiresIn, navigate);
           dispatch(loginConfirmedAction(response));
           navigate("/dashboard");
           NotificationManager.success(response.message);

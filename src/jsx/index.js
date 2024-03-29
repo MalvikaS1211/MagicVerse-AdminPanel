@@ -161,7 +161,7 @@ const Markup = () => {
 
   const allroutes = [
     /// Dashboard
-    // { url: "", component: <Home /> },
+    { url: "", component: <Home /> },
     { url: "dashboard", component: <Home /> },
     { url: "dashboard-dark", component: <DashboardDark /> },
     { url: "index-1", component: <Dashboard2 /> },

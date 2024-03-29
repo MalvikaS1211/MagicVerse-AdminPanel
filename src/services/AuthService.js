@@ -46,6 +46,7 @@ export function formatError(errorResponse) {
 // }
 
 export function saveTokenInLocalStorage(tokenDetails) {
+  console.log("bjhv",tokenDetails)
   tokenDetails.expireDate = new Date(
     new Date().getTime() + tokenDetails.expiresIn
   );
@@ -94,9 +95,8 @@ export function saveTokenInLocalStorage(tokenDetails) {
 
 
 export function runLogoutTimer(dispatch, timer, navigate) {
-  setTimeout(() => {
-    //dispatch(Logout(history));
 
+  setTimeout(() => {
     dispatch(Logout(navigate));
   }, timer);
 }
@@ -122,5 +122,5 @@ export function checkAutoLogin(dispatch, navigate) {
   dispatch(loginConfirmedAction(tokenDetails));
 
   const timer = expireDate.getTime() - todaysDate.getTime();
-  runLogoutTimer(dispatch, timer, navigate);
+  // runLogoutTimer(dispatch, timer, navigate);
 }

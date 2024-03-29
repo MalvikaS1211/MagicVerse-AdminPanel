@@ -34,6 +34,7 @@ const BlockData = () => {
         .then((response) => {
           if (response.status == 200) {
             NotificationManager.success(response.message);
+            setUserInputUnblock("")
           } else {
             NotificationManager.error(response.message);
           }
@@ -51,6 +52,7 @@ const BlockData = () => {
         .then((response) => {
           if (response.status == 200) {
             NotificationManager.success(response.message);
+            setUserInputUnblock("")
           } else {
             NotificationManager.error(response.message);
           }
@@ -68,6 +70,7 @@ const BlockData = () => {
         .then((response) => {
           if (response.status == 200) {
             NotificationManager.success(response.message);
+            setuserlebal("")
           } else {
             NotificationManager.error(response.message);
           }
@@ -162,6 +165,8 @@ const clearFormData1 = () => {
   setDuration("");
   setplan("");
 }
+
+
   return (
     <Fragment>
       <div className="row">

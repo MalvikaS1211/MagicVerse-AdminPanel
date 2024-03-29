@@ -15,14 +15,14 @@ const BlockUserList = () => {
   const [search, setSearch] = useState("");
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredData, setFilteredData] = useState([]);
-  const pageSize = 30
+  const pageSize = 50
   useEffect(() => {
     const fetchData = async () => {
       try {
         const userDetails = localStorage.getItem('userDetails');
         const parsedDetails = JSON.parse(userDetails);
         const token = parsedDetails.token
-        const result = await BlockList(token);
+        const result = await BlockList(token,currentPage);
         setApiData(result);
        // console.log(result)
         const total = result.totalCount;
@@ -34,7 +34,7 @@ const BlockUserList = () => {
     };
 
     fetchData();
-  }, []);
+  }, [currentPage]);
   const formatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
     const day = String(date.getDate()).padStart(2, "0");
@@ -43,6 +43,15 @@ const BlockUserList = () => {
     const hours = String(date.getHours()).padStart(2, "0");
     const minutes = String(date.getMinutes()).padStart(2, "0");
     return `${day}-${month}-${year} ${hours}:${minutes}`;
+  };
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) =>
+      prevPage < totalPages ? prevPage + 1 : prevPage
+    );
+  };
+
+  const handlePreviousPage = () => {
+    setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : prevPage));
   };
   return (
     <Fragment>
@@ -98,26 +107,9 @@ const BlockUserList = () => {
                   {/* Page{" "} */}
                   <strong>{/* {currentPage} of {totalPages} */}</strong>
                 </span>
-                {/* <span className="table-index">
-                      Go to page :{" "}
-                      <input
-                        type="number"
-                        className="ml-2"
-                        min="1"
-                        max={totalPages}
-                        value={inputPage}
-                        onChange={(e) => setInputPage(e.target.value)}
-                        style={{ width: "50px" }}
-                      />
-                      <button
-                        className="btn btn-primary ml-2"
-                        onClick={handleGoToPage}
-                      >
-                        Go
-                      </button>
-                    </span> */}
+           
               </div>
-              {/* {filteredRowCount > 0 && (
+         
               <div
                 className="text-center mb-3 col-lg-6"
                 style={{ margin: "auto" }}
@@ -165,7 +157,7 @@ const BlockUserList = () => {
                 </div>
                 
               </div>
-                  )} */}
+                
             </Card.Body>
           </Card>
         </Col>

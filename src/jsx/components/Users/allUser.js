@@ -7,6 +7,8 @@ import {
   useFilters,
   usePagination,
 } from "react-table";
+import * as XLSX from 'xlsx';
+
 import { Row, Col, Card, Table } from "react-bootstrap";
 import { allUser } from "../../../services/api_function";
 import { Link } from "react-router-dom";
@@ -31,6 +33,7 @@ export const AllUser = () => {
         const token = parsedDetails.token
         const result = await allUser(currentPage, { searchQuery: search },token);
         setApiData(result.usersData);
+
         setFilteredData(result.usersData);
         const total = result.totalUsers;
         const pages = Math.ceil(total / pageSize);
@@ -105,7 +108,19 @@ export const AllUser = () => {
       setCurrentPage(1);
     }
   };
-
+  const exportToExcel = (data, fileName) => {
+   
+    const wb = XLSX.utils.book_new();
+  
+   
+    const ws = XLSX.utils.json_to_sheet(data);
+  
+   
+    XLSX.utils.book_append_sheet(wb, ws, "Data");
+  
+  
+    XLSX.writeFile(wb, `${fileName}.xlsx`);
+  }
   const tableRef = useRef(null);
   return (
     <Fragment>
@@ -154,6 +169,7 @@ export const AllUser = () => {
                   borderBottom: "0.5px solid white",
                 }}
               >
+                {/* <button onClick={() => exportToExcel(data, 'exported-data')}>Export to Excel</button> */}
                 <thead>
                   <tr>
                     <th>
