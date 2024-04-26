@@ -16,8 +16,8 @@ export const WithdrawClaim = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [selectedFilter, setSelectedFilter] = useState("");
   const [search, setSearch] = useState("");
-  const [filteredData, setFilteredData] = useState([]);
-  const pageSize = 30;
+  const [filteredData,  setFilteredData] = useState([]);
+  const pageSize = 100;
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -30,11 +30,11 @@ export const WithdrawClaim = () => {
           token
         );
         if (response && response.status === 200 && !response.error) {
-          const { Data, totalCount } = response;
-        //  setApiData(data);
+          const { Data, totalClount } = response;
+     //  console.log(response,":::::")
           setFilteredData(Data); 
         //  console.log("Data fetched:", data);
-          const pages = Math.ceil(totalCount / pageSize);
+          const pages = Math.ceil(totalClount / pageSize);
           setTotalPages(pages > 0 ? pages : 1);
         }
       } catch (error) {

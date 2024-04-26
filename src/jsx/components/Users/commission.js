@@ -14,7 +14,7 @@ export const Commission = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [selectedFilter, setSelectedFilter] = useState("");
   const [search, setSearch] = useState("");
-  const pageSize = 30;
+  const pageSize = 100;
   useEffect(() => {
     const fetchData = async () => {
       try {

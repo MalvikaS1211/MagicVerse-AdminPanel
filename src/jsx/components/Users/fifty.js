@@ -16,7 +16,7 @@ const Fifty = () => {
   const [search, setSearch] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
-  const pageSize = 30;
+  const pageSize = 100;
   useEffect(() => {
     const fetchData = async () => {
       try {

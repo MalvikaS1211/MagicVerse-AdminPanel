@@ -1,6 +1,6 @@
 import { writeContract, readContract, fetchBalance } from "@wagmi/core";
 import { waitForTransaction } from "@wagmi/core";
-export const contract_address = "0x06b5d78b5386a58a276598dfbd6a1abf5b473709";
+export const contract_address = "0x06b5d78b5386a58a276598dfbd6a1abf5b473709";//mainet cintract address
 export const farming_abi = [
   {
     type: "event",
@@ -440,7 +440,204 @@ export const farming_abi = [
     ],
   },
 ];
-
+// export const token_address = "0x5E63305B60C3AeF9194a9d799F737479E6a89467";//testnet
+export const token_address = "0x804075813fc537f284233e88784469ea390c25f2";//mainet
+export const token_abi = [
+  { type: "constructor", stateMutability: "nonpayable", inputs: [] },
+  {
+    type: "event",
+    name: "Approval",
+    inputs: [
+      {
+        type: "address",
+        name: "_owner",
+        internalType: "address",
+        indexed: true,
+      },
+      {
+        type: "address",
+        name: "_spender",
+        internalType: "address",
+        indexed: true,
+      },
+      {
+        type: "uint256",
+        name: "_value",
+        internalType: "uint256",
+        indexed: false,
+      },
+    ],
+    anonymous: false,
+  },
+  {
+    type: "event",
+    name: "Burn",
+    inputs: [
+      {
+        type: "address",
+        name: "_from",
+        internalType: "address",
+        indexed: true,
+      },
+      {
+        type: "uint256",
+        name: "_value",
+        internalType: "uint256",
+        indexed: false,
+      },
+    ],
+    anonymous: false,
+  },
+  {
+    type: "event",
+    name: "Multisended",
+    inputs: [
+      {
+        type: "uint256",
+        name: "value",
+        internalType: "uint256",
+        indexed: false,
+      },
+      {
+        type: "address",
+        name: "sender",
+        internalType: "address",
+        indexed: true,
+      },
+    ],
+    anonymous: false,
+  },
+  {
+    type: "event",
+    name: "Transfer",
+    inputs: [
+      {
+        type: "address",
+        name: "_from",
+        internalType: "address",
+        indexed: true,
+      },
+      { type: "address", name: "_to", internalType: "address", indexed: true },
+      {
+        type: "uint256",
+        name: "_value",
+        internalType: "uint256",
+        indexed: false,
+      },
+    ],
+    anonymous: false,
+  },
+  {
+    type: "function",
+    stateMutability: "view",
+    outputs: [{ type: "address", name: "", internalType: "address" }],
+    name: "_creator",
+    inputs: [],
+  },
+  {
+    type: "function",
+    stateMutability: "view",
+    outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
+    name: "allowance",
+    inputs: [
+      { type: "address", name: "", internalType: "address" },
+      { type: "address", name: "", internalType: "address" },
+    ],
+  },
+  {
+    type: "function",
+    stateMutability: "nonpayable",
+    outputs: [{ type: "bool", name: "success", internalType: "bool" }],
+    name: "approve",
+    inputs: [
+      { type: "address", name: "_spender", internalType: "address" },
+      { type: "uint256", name: "_value", internalType: "uint256" },
+    ],
+  },
+  {
+    type: "function",
+    stateMutability: "view",
+    outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
+    name: "balanceOf",
+    inputs: [{ type: "address", name: "", internalType: "address" }],
+  },
+  {
+    type: "function",
+    stateMutability: "nonpayable",
+    outputs: [{ type: "bool", name: "success", internalType: "bool" }],
+    name: "burn",
+    inputs: [{ type: "uint256", name: "_value", internalType: "uint256" }],
+  },
+  {
+    type: "function",
+    stateMutability: "nonpayable",
+    outputs: [{ type: "bool", name: "success", internalType: "bool" }],
+    name: "burnFrom",
+    inputs: [
+      { type: "address", name: "_from", internalType: "address" },
+      { type: "uint256", name: "_value", internalType: "uint256" },
+    ],
+  },
+  {
+    type: "function",
+    stateMutability: "view",
+    outputs: [{ type: "uint8", name: "", internalType: "uint8" }],
+    name: "decimals",
+    inputs: [],
+  },
+  {
+    type: "function",
+    stateMutability: "payable",
+    outputs: [],
+    name: "multisendTRX",
+    inputs: [
+      { type: "address", name: "_user", internalType: "address payable" },
+      { type: "uint256", name: "_balance", internalType: "uint256" },
+    ],
+  },
+  {
+    type: "function",
+    stateMutability: "view",
+    outputs: [{ type: "string", name: "", internalType: "string" }],
+    name: "name",
+    inputs: [],
+  },
+  {
+    type: "function",
+    stateMutability: "view",
+    outputs: [{ type: "string", name: "", internalType: "string" }],
+    name: "symbol",
+    inputs: [],
+  },
+  {
+    type: "function",
+    stateMutability: "view",
+    outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
+    name: "totalSupply",
+    inputs: [],
+  },
+  {
+    type: "function",
+    stateMutability: "nonpayable",
+    outputs: [{ type: "bool", name: "success", internalType: "bool" }],
+    name: "transfer",
+    inputs: [
+      { type: "address", name: "_to", internalType: "address" },
+      { type: "uint256", name: "_value", internalType: "uint256" },
+    ],
+  },
+  {
+    type: "function",
+    stateMutability: "nonpayable",
+    outputs: [{ type: "bool", name: "success", internalType: "bool" }],
+    name: "transferFrom",
+    inputs: [
+      { type: "address", name: "_from", internalType: "address" },
+      { type: "address", name: "_to", internalType: "address" },
+      { type: "uint256", name: "_value", internalType: "uint256" },
+    ],
+  },
+];
 // function getInstance() {
 //   (abi = abi), (address = contract_address);
 // }
@@ -448,7 +645,7 @@ export const farming_abi = [
 // export async function registerUser(userAddress, userRef) {
 //   try {
 //     const data = await writeContract({
-  
+
 //       functionName: "registration",
 //       args: [userAddress, userRef],
 //     });
@@ -458,8 +655,8 @@ export const farming_abi = [
 //   }
 // }
 
-export async function checkUser(userAddress,userRef) {
-    console.log(userAddress,userRef,":uuu")
+export async function checkUser(userAddress, userRef) {
+  console.log(userAddress, userRef, ":uuu");
   try {
     const data = await writeContract({
       address: contract_address,

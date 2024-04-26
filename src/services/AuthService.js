@@ -46,7 +46,7 @@ export function formatError(errorResponse) {
 // }
 
 export function saveTokenInLocalStorage(tokenDetails) {
-  console.log("bjhv",tokenDetails)
+//  console.log("bjhv",tokenDetails)
   tokenDetails.expireDate = new Date(
     new Date().getTime() + tokenDetails.expiresIn
   );

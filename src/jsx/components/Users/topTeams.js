@@ -36,11 +36,11 @@ const TopTeams=()=>{
           <Row>
             <Col lg={10}>
               <Card>
-                <Card.Header style={{background:"white", border: '1px solid white'}}>
-                  <Card.Title style={{color:"white",margin:"auto"}}>Top 10 Team </Card.Title>
+                <Card.Header style={{background:"black", border: '1px solid white'}}>
+                  <Card.Title style={{color:"black",margin:"auto"}}>Top 10 Team </Card.Title>
                 </Card.Header>
-                <Card.Body  style={{background:"white", border: '1px solid white'}} >
-                  <Table responsive style={{ background: 'white', color: 'white' , borderBottom: '1px solid white' }}>
+                <Card.Body  style={{background:"black", border: '1px solid white'}} >
+                  <Table responsive style={{ background: 'black', color: 'white' , borderBottom: '1px solid white' }}>
 
                     <thead>
                       <tr>
@@ -85,7 +85,11 @@ const TopTeams=()=>{
                             user?.user.slice(-12)}
                         </span>
                       </td> */}
-                       <td>{(user.teamBusiness>0?(user.teamBusiness/1e18).toFixed(2):0)}</td>
+                   <td>
+  {(user.teamBusiness20level || 0) == 0 
+    ? (user.teamBusiness / 1e18).toFixed(2)
+    : (user.teamBusiness20level / 1e18).toFixed(2)}
+</td>
                       {/* <td>{user.referrerId}</td>
                       <td>{user.level}</td> */}
                       {/* <td>{(user.teamBusiness>0?(user.teamBusiness/1e18).toFixed(2):0)}</td> */}

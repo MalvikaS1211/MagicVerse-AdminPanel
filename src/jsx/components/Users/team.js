@@ -4,6 +4,7 @@ import { useTable, useSortBy } from "react-table";
 import { Row, Col, Card, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { TeamData as fetchTeamData } from "../../../services/api_function";
+import { FastField } from "formik";
 
 const TeamDetails = (props) => {
   const location = useLocation();
@@ -14,15 +15,20 @@ const TeamDetails = (props) => {
   const [userData, setUserData] = useState(null);
   const [apiTimestamp, setApiTimestamp] = useState(null);
   const isInitialRender = useRef(true);
+  const [filter, setFilter] = useState("Leval");
   const memoizedUser = useMemo(() => user, [user]);
-  const pageSize = 50;
-  const limit = 50;
+  const [timestamp, setTimestamp] = useState(false);
+  const [level, setLevel] = useState(false);
+  const pageSize = 100;
+  const limit = 100;
+  // const [sortField1,setSortFiel1]=useState("level");
+  // const [sortField2,setSortFiel2]=useState(null);
 
-  useEffect(() => {
-    fetchTeamData(memoizedUser, limit, currentPage)
+  const fetchdata = (sortField1, sortField2) => {
+    fetchTeamData(memoizedUser, limit, currentPage, sortField1, sortField2)
       .then((response) => {
         setUserData(response.data);
-        setApiTimestamp(response.timestamp);
+
         const total = response.totalDataCount;
         const pages = Math.ceil(total / pageSize);
         setTotalPages(pages > 0 ? pages : 1);
@@ -30,7 +36,32 @@ const TeamDetails = (props) => {
       .catch((error) => {
         console.error("Error fetching team data:", error);
       });
-  }, [memoizedUser, currentPage]);
+  };
+  useEffect(() => {
+    if (timestamp) {
+      fetchdata(null, "timestamp");
+    } else if (level) {
+      fetchdata("level", null);
+    } else {
+      fetchdata("level", null);
+    }
+  }, [currentPage]);
+
+  const handleradioFilter = (sortField1, sortField2) => {
+    console.log(sortField1, sortField2, ":::::::::");
+    fetchTeamData(memoizedUser, limit, currentPage, sortField1, sortField2)
+      .then((response) => {
+        setUserData(response.data);
+
+        const total = response.totalDataCount;
+        const pages = Math.ceil(total / pageSize);
+        setTotalPages(pages > 0 ? pages : 1);
+      })
+      .catch((error) => {
+        console.error("Error fetching team data:", error);
+      });
+  };
+
   const navigate = useNavigate();
 
   const handleNextPage = () => {
@@ -42,6 +73,7 @@ const TeamDetails = (props) => {
   const handlePreviousPage = () => {
     setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : prevPage));
   };
+
   return (
     <Fragment>
       <Row>
@@ -58,7 +90,48 @@ const TeamDetails = (props) => {
               <Card.Title style={{ color: "white", margin: "auto" }}>
                 Team
               </Card.Title>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="flexRadioDefault"
+                  id="flexRadioDefault1"
+                  value="level"
+                  onClick={() => {
+                    setTimestamp(false);
+                    setLevel(true);
+                    fetchdata("level", null);
+                  }}
+                />
+                <label
+                  className="form-check-label"
+                  htmlFor="flexRadioDefault1"
+                  style={{
+                    marginRight: "10px",
+                  }}
+                >
+                  Level
+                </label>
+              </div>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="flexRadioDefault"
+                  id="flexRadioDefault2"
+                  value="timestamp"
+                  onClick={() => {
+                    setLevel(false);
+                    setTimestamp(true);
+                    fetchdata(null, "timestamp");
+                  }}
+                />
+                <label className="form-check-label" htmlFor="flexRadioDefault2">
+                  Date
+                </label>
+              </div>
             </Card.Header>
+
             <Card.Body
               style={{ background: "black", border: "1px solid white" }}
             >
@@ -141,9 +214,9 @@ const TeamDetails = (props) => {
                         </a>
                       </td>
                       <td>
-                        {user.teamBusiness > 0
+                        {(user.teamBusiness20level || 0) == 0
                           ? (user.teamBusiness / 1e18).toFixed(2)
-                          : 0}
+                          : (user.teamBusiness20level / 1e18).toFixed(2)}
                       </td>
                       <td>
                         {new Date(user.timestamp * 1000).toLocaleString()}

@@ -15,7 +15,7 @@ const DepositHisory = (props) => {
   const [apiTimestamp, setApiTimestamp] = useState(null);
   const isInitialRender = useRef(true);
   const memoizedUser = useMemo(() => user, [user]);
-  const pageSize = 30;
+  const pageSize = 100;
   useEffect(() => {
     const userDetails = localStorage.getItem('userDetails');
     const parsedDetails = JSON.parse(userDetails);

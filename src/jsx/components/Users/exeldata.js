@@ -1,14 +1,22 @@
-import React, { Fragment, useEffect, useState, useMemo } from "react";
+import React, { Fragment, useEffect, useState, useMemo, useRef } from "react";
+import { DownloadTableExcel } from "react-export-table-to-excel";
+import { DownloadExcel } from "react-excel-export";
+import { Exel_Data } from "../../../services/api_function";
 import {
   useTable,
   useGlobalFilter,
   useFilters,
   usePagination,
 } from "react-table";
+import * as XLSX from "xlsx";
+
 import { Row, Col, Card, Table } from "react-bootstrap";
-import { FreeIdlist } from "../../../services/api_function";
-import moment from "moment";
-const FreeIddata = () => {
+
+import { Link } from "react-router-dom";
+import { COLUMNS } from "../../components/table/FilteringTable/Columns";
+import MOCK_DATA from "../../components/table/FilteringTable/MOCK_DATA_2.json";
+
+export const ExelFormet = () => {
   const [apiData, setApiData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -20,17 +28,11 @@ const FreeIddata = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userDetails = localStorage.getItem("userDetails");
-        const parsedDetails = JSON.parse(userDetails);
-        const token = parsedDetails.token;
-        const result = await FreeIdlist(
-          currentPage,
-          { searchQuery: search },
-          token
-        );
-        setApiData(result);
-        setFilteredData(result.data);
-        const total = result.totalCount;
+        const result = await Exel_Data(currentPage, { searchQuery: search });
+
+        setFilteredData(result.Data);
+          // console.log(result.totalUsers)
+        const total = result.totalUsers;
         const pages = Math.ceil(total / pageSize);
         setTotalPages(pages > 0 ? pages : 1);
       } catch (error) {
@@ -50,14 +52,7 @@ const FreeIddata = () => {
   const handlePreviousPage = () => {
     setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : prevPage));
   };
-  const handleSearch = async (e) => {
-    const query = e.target.value.trim().toLowerCase();
-    const sanitizedQuery = query.replace(/[\\|^$*+?.(){}[\]]/g, "");
-    setSearch(sanitizedQuery);
-    if (currentPage !== 1) {
-      setCurrentPage(1);
-    }
-  };
+
   const formatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
     const day = String(date.getDate()).padStart(2, "0");
@@ -67,6 +62,48 @@ const FreeIddata = () => {
     const minutes = String(date.getMinutes()).padStart(2, "0");
     return `${day}-${month}-${year} ${hours}:${minutes}`;
   };
+  const columns = useMemo(() => COLUMNS, []);
+  const data = useMemo(() => apiData, [apiData]);
+
+  const tableInstance = useTable(
+    {
+      columns,
+      data,
+      initialState: { pageIndex: 0 },
+    },
+    useFilters,
+    useGlobalFilter,
+    usePagination
+  );
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    prepareRow,
+    state,
+    page,
+    gotoPage,
+    pageCount,
+    pageOptions,
+    nextPage,
+    previousPage,
+    canNextPage,
+    canPreviousPage,
+    setGlobalFilter,
+  } = tableInstance;
+  const { globalFilter, pageIndex } = state;
+
+  const handleSearch = async (e) => {
+    const query = e.target.value.trim().toLowerCase();
+    const sanitizedQuery = query.replace(/[\\|^$*+?.(){}[\]]/g, "");
+    setSearch(sanitizedQuery);
+    if (currentPage !== 1) {
+      setCurrentPage(1);
+    }
+  };
+
+  const tableRef = useRef(null);
   return (
     <Fragment>
       <Row>
@@ -89,24 +126,29 @@ const FreeIddata = () => {
           </div>
           <label class="form-label" for="form1"></label>
         </div>
-        <Col lg={12}>
+
+        <Col lg={16}>
           <Card>
             <Card.Header
               style={{ background: "black", border: "1px solid white" }}
             >
               <Card.Title style={{ color: "white", margin: "auto" }}>
-                Free Id List
+                All Users
               </Card.Title>
             </Card.Header>
             <Card.Body
-              style={{ background: "black", border: "1px solid white" }}
+              style={{
+                background: "black",
+                border: "1px solid white",
+                borderRadius: "3px",
+              }}
             >
               <Table
                 responsive
                 style={{
                   background: "black",
                   color: "white",
-                  borderBottom: "1px solid white",
+                  borderBottom: "0.5px solid white",
                 }}
               >
                 <thead>
@@ -114,110 +156,90 @@ const FreeIddata = () => {
                     <th>
                       <strong>NO.</strong>
                     </th>
-                    {/* <th>
+                    <th>
                       <strong>Name</strong>
                     </th>
                     <th>
                       <strong>Phone</strong>
-                    </th> */}
-                    <th>
-                      {/* <thead>
-                      <input
-                          type="text"
-                          class="form-control"
-                          style={{ width: "70%" }}
-                          placeholder="Search here..."
-                         onChange={handleSearch}
-                        />
-                      </thead> */}
-                      <strong> User</strong>
                     </th>
                     <th>
-                      {/* <thead>
-                      <input
-                          type="text"
-                          class="form-control"
-                          // style={{ width: "70%" }}
-                          placeholder="Search here..."
-                         // onChange={handleSearch}
-                        />
-                      </thead> */}
-                      <strong>wysAmount</strong>
+                      <strong> UserID</strong>
                     </th>
                     <th>
-                      <strong>Other Amount</strong>
+                      <strong>User wallet</strong>
                     </th>
                     <th>
-                      <strong>Total Amount</strong>
+                      <strong>Referrer Id</strong>
+                    </th>
+
+                    <th>
+                      <strong>(Free, 50-50)</strong>
                     </th>
                     <th>
-                      {" "}
-                      <strong>Duration</strong>
+                      <strong>(Free, 50-50)Amount</strong>
+                    </th>
+
+                    <th>
+                      <strong>Reward Withdraw</strong>
                     </th>
                     <th>
-                      {" "}
-                      <strong>Transaction ID</strong>
+                      <strong>ROI Withdraw</strong>
                     </th>
                     <th>
-                      {" "}
-                      <strong>Date&Time</strong>
+                      <strong>Total Withdraw</strong>
+                    </th>
+                    <th>
+                      <strong>Available Withdraw</strong>
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {Array.isArray(filteredData) && filteredData.length > 0 ? (
-                    filteredData.map((data, index) => (
-                      <tr key={index}>
-                        <td>{(currentPage - 1) * pageSize + index + 1}</td>
-                        <td>{data.user}</td>
-                        <td>{(data.wysAmount / 1e18).toFixed(2)}</td>
-                        <td>{(data.otherAmt / 1e18).toFixed(2)}</td>
-                        <td>{(data.ttlAmt / 1e18).toFixed(2)}</td>
-                        <td>{data.duration}</td>
-                        <td>
-                          <a
-                            href={`https://wyzthscan.org/tx/${data.txHash}`}
-                            className="text-white"
-                            target="_blank"
-                          >
-                            {data.txHash.slice(0, 5)}... {data.txHash.slice(-5)}
-                          </a>
-                        </td>
-                        <td>{formatTimestamp(data.createdAt)}</td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan="7">No data found</td>
+                  {filteredData.map((user, index) => (
+                    <tr >
+                      <td>{(currentPage - 1) * pageSize + index + 1}</td>
+                      <td>{user.name}</td>
+                      <td>{user.phone}</td>
+                      <td>{user.userId}</td>
+                      <td>
+                        <span>
+                          {user?.user?.slice(0, 4) +
+                            "..." +
+                            user?.user.slice(-12)}
+                        </span>
+                      </td>
+                      <td>{user.referrerId}</td>
+                      <td className="text-center">
+                        {user.freeid_status
+                          ? "Free ID"
+                          : user.freeid_status === false
+                          ? "50-50"
+                          : ""}
+                      </td>
+
+                      <td className="text-center">
+                        {user.adminstake_ttl
+                          ? (user.adminstake_ttl / 1e18).toFixed(2)
+                          : ""}
+                      </td>
+                      <td className="text-center">{(user.withdrawalReward / 1e18).toFixed(2)}</td>
+                      <td className="text-center">{(user.claimedRoi / 1e18).toFixed(2)}</td>
+                      <td className="text-center">
+                        {(
+                          (user.withdrawalReward + user.claimedRoi) /
+                          1e18
+                        ).toFixed(2)}
+                      </td>
+                      <td className="text-center">{(user.availabelReward / 1e18).toFixed(2)}</td>
                     </tr>
-                  )}
+                  ))}
                 </tbody>
               </Table>
+
               <div className="d-flex justify-content-between">
                 <span>
-                  {/* Page{" "} */}
-                  <strong>{/* {currentPage} of {totalPages} */}</strong>
+                  <strong></strong>
                 </span>
-                {/* <span className="table-index">
-                      Go to page :{" "}
-                      <input
-                        type="number"
-                        className="ml-2"
-                        min="1"
-                        max={totalPages}
-                        value={inputPage}
-                        onChange={(e) => setInputPage(e.target.value)}
-                        style={{ width: "50px" }}
-                      />
-                      <button
-                        className="btn btn-primary ml-2"
-                        onClick={handleGoToPage}
-                      >
-                        Go
-                      </button>
-                    </span> */}
               </div>
-
               <div
                 className="text-center mb-3 col-lg-6"
                 style={{ margin: "auto" }}
@@ -275,7 +297,7 @@ const FreeIddata = () => {
                     {">>"}
                   </button>
 
-                  <span className="text-white">
+                  <span className="bg-black text-white">
                     Page {currentPage} of {totalPages}
                   </span>
                 </div>
@@ -288,4 +310,4 @@ const FreeIddata = () => {
   );
 };
 
-export default FreeIddata;
+export default ExelFormet;

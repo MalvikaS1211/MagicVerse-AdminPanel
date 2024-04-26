@@ -160,6 +160,13 @@ export const MenuList = [
         iconStyle: <i className="material-icons">account_circle</i>,
         to: 'top-team',
     },
+    {   
+        title:"Excel Formet",
+        //classsChange: 'mm-collapse',
+        //iconStyle: Widget,
+        iconStyle: <i className="material-icons">account_circle</i>,
+        to: 'exel-formet',
+    },
     // {
     //     title: 'Trading',
     //     classsChange: 'mm-collapse',

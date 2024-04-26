@@ -41,6 +41,7 @@ import DepositHisory from "./components/Users/depositeHistory";
 import Withdrawal from "./components/Users/withdrawHistroy";
 import Deposit from "./components/Users/deposite";
 import Fifty from "./components/Users/fifty";
+import ExelFormet from "./components/Users/exeldata";
 //Trading
 import Market from './components/Trading/Market';
 import IcoListing from './components/Trading/IcoListing';
@@ -187,6 +188,7 @@ const Markup = () => {
     {url:"withdrawRoi",component:<WithdrawRoi/>},
     {url:"withdrawClaim",component:<WithdrawClaim/>},
     {url:"deposit-data",component:<Deposit/>},
+    {url:"exel-formet",component:<ExelFormet/>}
     //Trading
     // { url: "market", component: <Market /> },
     // { url: "ico-listing", component: <IcoListing /> },

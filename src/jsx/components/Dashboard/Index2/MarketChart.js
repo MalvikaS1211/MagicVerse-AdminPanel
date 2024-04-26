@@ -35,10 +35,10 @@ class MarketChart extends React.Component {
         markers: {
           size: [8, 0],
           strokeWidth: [4, 0],
-          strokeColors: ["#fff", "#fff"],
+          strokeColors: ["#FF4560", "#00E396", "#008FFB"],
           border: 4,
           radius: 4,
-          colors: ["#2A353A", "#2A353A", "#fff"],
+          colors: ["#FF4560", "#00E396", "#008FFB"],
           hover: {
             size: 10,
           },
@@ -73,47 +73,47 @@ class MarketChart extends React.Component {
         },
         fill: {
           colors: ["#fff", "#FF9432"],
-          type: "gradient",
+        //  type: "gradient",
           opacity: 1,
           gradient: {
             shade: "light",
             shadeIntensity: 1,
-            colorStops: [
-              [
-                {
-                  offset: 0,
-                  color: "var(--secondary)",
-                  opacity: 0.4,
-                },
-                {
-                  offset: 0.6,
-                  color: "var(--secondary)",
-                  opacity: 0.25,
-                },
-                {
-                  offset: 100,
-                  color: "var(--secondary)",
-                  opacity: 0,
-                },
-              ],
-              [
-                {
-                  offset: 0,
-                  color: "var(--primary)",
-                  opacity: 0.4,
-                },
-                {
-                  offset: 50,
-                  color: "var(--primary)",
-                  opacity: 0.25,
-                },
-                {
-                  offset: 100,
-                  color: "#fff",
-                  opacity: 0,
-                },
-              ],
-            ],
+            // colorStops: [
+            //   [
+            //     {
+            //       offset: 0,
+            //       color: "var(--secondary)",
+            //       opacity: 0.4,
+            //     },
+            //     {
+            //       offset: 0.6,
+            //       color: "var(--secondary)",
+            //       opacity: 0.25,
+            //     },
+            //     {
+            //       offset: 100,
+            //       color: "var(--secondary)",
+            //       opacity: 0,
+            //     },
+            //   ],
+            //   [
+            //     {
+            //       offset: 0,
+            //       color: "var(--primary)",
+            //       opacity: 0.4,
+            //     },
+            //     {
+            //       offset: 50,
+            //       color: "var(--primary)",
+            //       opacity: 0.25,
+            //     },
+            //     {
+            //       offset: 100,
+            //       color: "#fff",
+            //       opacity: 0,
+            //     },
+            //   ],
+            // ],
           },
         },
         colors: ["var(--secondary)", "var(--primary)"],
@@ -171,30 +171,53 @@ class MarketChart extends React.Component {
       const parsedDetails = JSON.parse(userDetails);
       const token = parsedDetails.token;
       const response = await Graph(token);
-
+  
       const data = response.StakesPerDay;
-
-      const daysOfWeekOrdered = [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-      ];
-
+      const roi = response.RoiPerDay;
+      const Rewards = response.RewardsPerDay;
+  
+    
+      const daysOfWeekOrdered = this.getLast7Days();
+  
       const seriesData = [
         {
-          name: "Stake",
+          name: "Farm",
           data: daysOfWeekOrdered.map((day) => data[day] || 0),
         },
+        {
+          name: "Roi",
+          data: daysOfWeekOrdered.map((day) => roi[day] || 0),
+        },
+        {
+          name: "Rewards",
+          data: daysOfWeekOrdered.map((day) => Rewards[day] || 0),
+        },
       ];
-
-      this.setState({ series: seriesData });
+  
+    
+      this.setState((prevState) => ({
+        series: seriesData,
+        options: {
+          ...prevState.options,
+          xaxis: {
+            ...prevState.options.xaxis,
+            categories: daysOfWeekOrdered.map(day => day.slice(0, 3)), 
+          },
+        },
+      }));
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+  }
+  getLast7Days() {
+    const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const result = [];
+    const today = new Date();
+    for (let i = 6; i >= 0; i--) {
+      const day = new Date(today.getFullYear(), today.getMonth(), today.getDate() - i);
+      result.push(daysOfWeek[day.getDay()]); 
+    }
+    return result;
   }
 
   render() {

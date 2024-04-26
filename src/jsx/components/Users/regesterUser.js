@@ -36,11 +36,14 @@ const UserRegester = () => {
 
       if (refaddr?.status == 200) {
         const isreg = await isRegisteredInContract(formData.address);
+        console.log(isreg, "is registered or not");
 
         if (!isreg) {
+          console.log("let rock")
           await registration(formData.address, refaddr?.data?.data?.user);
+          console.log('worked is reg');
         }
-        // console.log('worked',contract_register);
+        
         if (isreg) {
           console.log("worked");
           const response = await UserRegesation(formData);

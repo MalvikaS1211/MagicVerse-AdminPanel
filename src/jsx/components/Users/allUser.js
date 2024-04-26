@@ -7,7 +7,7 @@ import {
   useFilters,
   usePagination,
 } from "react-table";
-import * as XLSX from 'xlsx';
+import * as XLSX from "xlsx";
 
 import { Row, Col, Card, Table } from "react-bootstrap";
 import { allUser } from "../../../services/api_function";
@@ -23,17 +23,19 @@ export const AllUser = () => {
   const [search, setSearch] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
-  const pageSize = 30;
+  const pageSize = 100;
   useEffect(() => {
-    
     const fetchData = async () => {
       try {
-        const userDetails = localStorage.getItem('userDetails');
+        const userDetails = localStorage.getItem("userDetails");
         const parsedDetails = JSON.parse(userDetails);
-        const token = parsedDetails.token
-        const result = await allUser(currentPage, { searchQuery: search },token);
+        const token = parsedDetails.token;
+        const result = await allUser(
+          currentPage,
+          { searchQuery: search },
+          token
+        );
         setApiData(result.usersData);
-
         setFilteredData(result.usersData);
         const total = result.totalUsers;
         const pages = Math.ceil(total / pageSize);
@@ -109,18 +111,14 @@ export const AllUser = () => {
     }
   };
   const exportToExcel = (data, fileName) => {
-   
     const wb = XLSX.utils.book_new();
-  
-   
+
     const ws = XLSX.utils.json_to_sheet(data);
-  
-   
+
     XLSX.utils.book_append_sheet(wb, ws, "Data");
-  
-  
+
     XLSX.writeFile(wb, `${fileName}.xlsx`);
-  }
+  };
   const tableRef = useRef(null);
   return (
     <Fragment>
@@ -240,7 +238,11 @@ export const AllUser = () => {
                       <td>{user.referrerId}</td>
                       {/* <td>{user.rank}</td> */}
                       <td>{(user.wysStaked / 1e18).toFixed(2)}</td>
-                      <td>{(user.teamBusiness / 1e18).toFixed(2)}</td>
+                      <td>
+                        {(user.teamBusiness20level || 0) == 0
+                          ? (user.teamBusiness / 1e18).toFixed(2)
+                          : (user.teamBusiness20level / 1e18).toFixed(2)}
+                      </td>
 
                       <td>
                         <a

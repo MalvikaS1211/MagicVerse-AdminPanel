@@ -15,7 +15,7 @@ const BlockUserList = () => {
   const [search, setSearch] = useState("");
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredData, setFilteredData] = useState([]);
-  const pageSize = 50
+  const pageSize = 100
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -87,14 +87,14 @@ const BlockUserList = () => {
                 <tbody>
                   {apiData && apiData.data ? (
                     apiData.data.map((user, index) => (
-                      <tr key={index}> {/* Added a key for each row for better performance and to avoid warnings */}
+                      <tr key={index}> 
                         <td>{(currentPage - 1) * pageSize + index + 1}</td>
                         <td><span className="smaller-font">{user.user}</span></td>
                         <td>{formatTimestamp(user.updatedAt)}</td>
                         
                         <td>
                           <div className="d-flex align-items-center table-action-icon">
-                            {/* Icons or actions can be added here */}
+                           
                           </div>
                         </td>
                       </tr>

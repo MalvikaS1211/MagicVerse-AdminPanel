@@ -19,8 +19,9 @@ export function allUser(page, filteredData, token) {
     .then((res) => res.json())
     .catch((e) => e);
 }
-export function TeamData(user, limit, currentPage) {
-  const apiUrl = `${url}/team-list?user=${user}&limit=${limit}&page=${currentPage}`;
+export function TeamData(user, limit, currentPage,sortField1,sortField2) {
+console.log(user, limit, currentPage,sortField1,sortField2,":::::::::::")
+  const apiUrl = `${url}/team-list?user=${user}&limit=${limit}&page=${currentPage}&sortField1=${sortField1}&sortField2=${sortField2}`;
   return fetch(apiUrl, {
     method: "GET",
     headers: {
@@ -350,6 +351,43 @@ export function Topteams(token) {
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(),
+  })
+    .then((res) => res.json())
+    .catch((e) => e);
+}
+
+export function Exel_Data(page, filteredData, token) {
+  const { searchQuery } = filteredData;
+  const apiUrl = `${url}/exel-data?page=${page}&search=${encodeURIComponent(
+    searchQuery
+  )}`;
+  return fetch(apiUrl, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "cache-control": "no-cache",
+      "Access-Control-Allow-Origin": "*",
+    //  Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(),
+  })
+    .then((res) => res.json())
+    .catch((e) => e);
+}
+
+
+export function team_Busness(user) {
+ // console.log("dbvxch", user);
+  const apiUrl = `${url}/offer-data`;
+  return fetch(apiUrl, {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+      "cache-control": "no-cache",
+      "Access-Control-Allow-Origin": "*",
+   //   Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ user }),
   })
     .then((res) => res.json())
     .catch((e) => e);

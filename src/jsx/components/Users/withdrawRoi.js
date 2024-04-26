@@ -17,7 +17,7 @@ export const WithdrawRoi = () => {
   const [selectedFilter, setSelectedFilter] = useState("");
   const [search, setSearch] = useState("");
   const [filteredData, setFilteredData] = useState([]);
-  const pageSize = 30;
+  const pageSize = 100;
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -29,9 +29,9 @@ export const WithdrawRoi = () => {
         );
         if (response && response.status === 200 && !response.error) {
           const { Data, totalCount } = response;
- 
-          setFilteredData(Data); 
-     
+
+          setFilteredData(Data);
+
           const pages = Math.ceil(totalCount / pageSize);
           setTotalPages(pages > 0 ? pages : 1);
         }
@@ -85,7 +85,7 @@ export const WithdrawRoi = () => {
   return (
     <Fragment>
       <Row>
-      <div
+        <div
           style={{
             display: "flex",
             justifyContent: "flex-end",
@@ -99,7 +99,7 @@ export const WithdrawRoi = () => {
               id="form1"
               className="form-control"
               placeholder="Search here..."
-               onChange={handleSearch}
+              onChange={handleSearch}
             />
           </div>
           <label class="form-label" for="form1"></label>
@@ -112,7 +112,6 @@ export const WithdrawRoi = () => {
               <Card.Title style={{ color: "white", margin: "auto" }}>
                 Withdraw ROI
               </Card.Title>
-       
             </Card.Header>
 
             <Card.Body
@@ -165,7 +164,7 @@ export const WithdrawRoi = () => {
                       <tr key={index}>
                         <td>{(currentPage - 1) * pageSize + index + 1}</td>
                         <td>{Data.user}</td>
-                      
+
                         <td>{Data.planId}</td>
                         <td>{Data.duration}</td>
                         <td>{(Data.roi / 1e18).toFixed(2)}</td>
