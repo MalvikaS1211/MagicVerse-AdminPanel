@@ -239,9 +239,9 @@ export const AllUser = () => {
                       {/* <td>{user.rank}</td> */}
                       <td>{(user.wysStaked / 1e18).toFixed(2)}</td>
                       <td>
-                        {(user.teamBusiness20level || 0) == 0
-                          ? (user.teamBusiness / 1e18).toFixed(2)
-                          : (user.teamBusiness20level / 1e18).toFixed(2)}
+                      
+                          {( (user.teamBusiness / 1e18)
+                          + (user.teamBusiness20level / 1e18)).toFixed(2)}
                       </td>
 
                       <td>

@@ -214,10 +214,11 @@ const TeamDetails = (props) => {
                         </a>
                       </td>
                       <td>
-                        {(user.teamBusiness20level || 0) == 0
-                          ? (user.teamBusiness / 1e18).toFixed(2)
-                          : (user.teamBusiness20level / 1e18).toFixed(2)}
-                      </td>
+                      
+                      {( (user.teamBusiness / 1e18)
+                      + (user.teamBusiness20level / 1e18)).toFixed(2)}
+                  </td>
+
                       <td>
                         {new Date(user.timestamp * 1000).toLocaleString()}
                       </td>
