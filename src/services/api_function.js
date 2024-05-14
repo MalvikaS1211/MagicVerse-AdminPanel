@@ -1,6 +1,6 @@
 import axios from "axios";
-//export const url = "http://localhost:8080/api";
-export const url = "https://farming.wyscale.com/api";
+export const url = "http://localhost:8080/api";
+//export const url = "https://farming.wyscale.com/api";
 
 export function allUser(page, filteredData, token) {
   const { searchQuery } = filteredData;
@@ -268,7 +268,6 @@ export async function FreeID(
   plan,
   token
 ) {
-  // console.log("afjsdhvh", user, wysAmount, duration, freeId);
   const apiUrl = `${url}/admin-stake`;
   return fetch(apiUrl, {
     method: "POST",

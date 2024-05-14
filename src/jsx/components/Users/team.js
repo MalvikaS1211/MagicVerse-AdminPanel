@@ -213,11 +213,7 @@ const TeamDetails = (props) => {
                           {user.txHash.slice(0, 5)}... {user.txHash.slice(-5)}
                         </a>
                       </td>
-                      <td>
-                      
-                      {( (user.teamBusiness / 1e18)
-                      + (user.teamBusiness20level / 1e18)).toFixed(2)}
-                  </td>
+                      <td>{(user.teamBusiness / 1e18).toFixed(2)}</td>
 
                       <td>
                         {new Date(user.timestamp * 1000).toLocaleString()}

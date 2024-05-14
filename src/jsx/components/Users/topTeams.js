@@ -86,10 +86,9 @@ const TopTeams=()=>{
                         </span>
                       </td> */}
                    <td>
-  {(user.teamBusiness20level || 0) == 0 
-    ? (user.teamBusiness / 1e18).toFixed(2)
-    : (user.teamBusiness20level / 1e18).toFixed(2)}
-</td>
+                      
+                      { (user.teamBusiness / 1e18).toFixed(2)}
+                  </td>
                       {/* <td>{user.referrerId}</td>
                       <td>{user.level}</td> */}
                       {/* <td>{(user.teamBusiness>0?(user.teamBusiness/1e18).toFixed(2):0)}</td> */}

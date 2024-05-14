@@ -145,11 +145,12 @@ const Fifty = () => {
                       <strong>wysAmount</strong>
                     </th>
                     <th>
-                      <strong>Other Amount</strong>
-                    </th>
-                    <th>
                       <strong>Total Amount</strong>
                     </th>
+                    <th>
+                      <strong>Plan</strong>
+                    </th>
+                   
                     <th>
                       {" "}
                       <strong>Duration</strong>
@@ -175,8 +176,16 @@ const Fifty = () => {
                             <span className="smaller-font">{user.user}</span>
                           </td>
                           <td>{(user.wysAmount / 1e18).toFixed(2)}</td>
-                          <td>{(user.otherAmt / 1e18).toFixed(2)}</td>
+                         
                           <td>{(user.ttlAmt / 1e18).toFixed(2)}</td>
+                           <td>
+                          {user.planId == 1 && "WYS"}
+                          {user.planId == 2 && "ARB"}
+                          {user.planId == 3 && "BNB"}
+                          {user.planId == 4 && "WYZ(50:50)"}
+                          {user.planId == 5  && "WYZ(70:30)"}
+                          {user.planId == 6  && "USDT"}
+                        </td>
                           <td>{user.duration}</td>
                           <td>
                             <a

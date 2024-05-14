@@ -240,8 +240,7 @@ export const AllUser = () => {
                       <td>{(user.wysStaked / 1e18).toFixed(2)}</td>
                       <td>
                       
-                          {( (user.teamBusiness / 1e18)
-                          + (user.teamBusiness20level / 1e18)).toFixed(2)}
+                          { (user.teamBusiness / 1e18).toFixed(2)}
                       </td>
 
                       <td>

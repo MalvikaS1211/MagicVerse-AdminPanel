@@ -145,10 +145,10 @@ const FreeIddata = () => {
                       <strong>wysAmount</strong>
                     </th>
                     <th>
-                      <strong>Other Amount</strong>
+                      <strong>Total Amount</strong>
                     </th>
                     <th>
-                      <strong>Total Amount</strong>
+                      <strong>Plan</strong>
                     </th>
                     <th>
                       {" "}
@@ -171,9 +171,17 @@ const FreeIddata = () => {
                         <td>{(currentPage - 1) * pageSize + index + 1}</td>
                         <td>{data.user}</td>
                         <td>{(data.wysAmount / 1e18).toFixed(2)}</td>
-                        <td>{(data.otherAmt / 1e18).toFixed(2)}</td>
+                     
                         <td>{(data.ttlAmt / 1e18).toFixed(2)}</td>
-                        <td>{data.duration}</td>
+                        <td>
+                          {data.planId == 1 && "WYS"}
+                          {data.planId == 2 && "ARB"}
+                          {data.planId == 3 && "BNB"}
+                          {data.planId == 4 && "WYZ(50:50)"}
+                          {data.planId == 5  && "WYZ(70:30)"}
+                          {data.planId == 6  && "USDT"}
+                        </td>
+                        <td className="text-center">{data.duration}</td>
                         <td>
                           <a
                             href={`https://wyzthscan.org/tx/${data.txHash}`}

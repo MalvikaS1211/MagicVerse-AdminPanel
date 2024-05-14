@@ -65,6 +65,7 @@ const BlockData = () => {
   };
   const handleUnblock = () => {
     if (userInputUnblock.trim() !== "") {
+      console.log("unblock",userInputUnblock.trim())
       WithdrawBlock(userInputUnblock, "unblock", token)
         .then((response) => {
           if (response.status == 200) {
@@ -276,6 +277,8 @@ const BlockData = () => {
     setplan("");
   };
 
+  
+
   return (
     <Fragment>
       <div className="row">
@@ -409,6 +412,7 @@ const BlockData = () => {
                         onChange={(e) => setDuration(e.target.value)}
                       >
                         <option selected>Duration</option>
+                        <option value="12">12 Month</option>
                         <option value="24">24 Month</option>
                         <option value="36">36 Month</option>
                       </select>
@@ -422,6 +426,9 @@ const BlockData = () => {
                       >
                         <option selected>Plan</option>
                         <option value="1">WYS</option>
+                        <option value="6">USDT</option>
+                        <option value="4">WYZ(50:50)</option>
+                        <option value="5">WYZ(70:30)</option>
                         <option value="2">WYS:ARB</option>
                         <option value="3">WYS:BNB</option>
                       </select>
@@ -476,6 +483,7 @@ const BlockData = () => {
                         onChange={(e) => setDuration1(e.target.value)}
                       >
                         <option selected>Duration</option>
+                        <option value="12">12 Month</option>
                         <option value="24">24 Month</option>
                         <option value="36">36 Month</option>
                       </select>
@@ -487,8 +495,11 @@ const BlockData = () => {
                         value={plan1}
                         onChange={(e) => setPlan1(e.target.value)}
                       >
-                        <option selected>Plan</option>
+                         <option selected>Plan</option>
                         <option value="1">WYS</option>
+                        <option value="6">USDT</option>
+                        <option value="4">WYZ(50:50)</option>
+                        <option value="5">WYZ(70:30)</option>
                         <option value="2">WYS:ARB</option>
                         <option value="3">WYS:BNB</option>
                       </select>

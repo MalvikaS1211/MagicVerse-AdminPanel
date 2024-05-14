@@ -73,7 +73,7 @@ class MarketChart extends React.Component {
         },
         fill: {
           colors: ["#fff", "#FF9432"],
-        //  type: "gradient",
+          //  type: "gradient",
           opacity: 1,
           gradient: {
             shade: "light",
@@ -171,18 +171,26 @@ class MarketChart extends React.Component {
       const parsedDetails = JSON.parse(userDetails);
       const token = parsedDetails.token;
       const response = await Graph(token);
-  
+
       const data = response.StakesPerDay;
       const roi = response.RoiPerDay;
       const Rewards = response.RewardsPerDay;
-  
-    
+    const wysdusdt=response.Usdtwysday
+    const usdt=response.Usdtformdays
       const daysOfWeekOrdered = this.getLast7Days();
-  
+
       const seriesData = [
         {
-          name: "Farm",
+          name: "Farm WYS",
           data: daysOfWeekOrdered.map((day) => data[day] || 0),
+        },
+        {
+          name: "WYS(fusdt)",
+          data: daysOfWeekOrdered.map((day) => wysdusdt[day] || 0),
+        },
+        {
+          name: "fUSDT",
+          data: daysOfWeekOrdered.map((day) => usdt[day] || 0),
         },
         {
           name: "Roi",
@@ -193,29 +201,45 @@ class MarketChart extends React.Component {
           data: daysOfWeekOrdered.map((day) => Rewards[day] || 0),
         },
       ];
-  
-    
+
       this.setState((prevState) => ({
         series: seriesData,
         options: {
           ...prevState.options,
           xaxis: {
             ...prevState.options.xaxis,
-            categories: daysOfWeekOrdered.map(day => day.slice(0, 3)), 
+            categories: daysOfWeekOrdered.map((day) => day.slice(0, 3)),
           },
         },
       }));
+
+      if (response && response.status == 404) {
+        localStorage.removeItem("userDetails");
+        window.location.href = "/logout";
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   }
   getLast7Days() {
-    const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const daysOfWeek = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
     const result = [];
     const today = new Date();
     for (let i = 6; i >= 0; i--) {
-      const day = new Date(today.getFullYear(), today.getMonth(), today.getDate() - i);
-      result.push(daysOfWeek[day.getDay()]); 
+      const day = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate() - i
+      );
+      result.push(daysOfWeek[day.getDay()]);
     }
     return result;
   }
