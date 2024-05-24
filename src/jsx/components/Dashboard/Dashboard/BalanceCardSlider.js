@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 //import { Autoplay } from "swiper";
-import { dashboardData } from "../../../../services/api_function";
+import { dashboardData, Protocal } from "../../../../services/api_function";
 import "swiper/css";
 
 import TotalBalanceArea from "./TotalBalanceArea";
@@ -11,7 +11,25 @@ import TotaldipositChart from "./TotaldipositChart";
 
 const BalanceCardSlider = () => {
   const [data, setData] = useState(null);
+  const [protocal, setProtocal] = useState(null);
   const navigate = useNavigate();
+
+  const protocolData = async () => {
+    try {
+      const userDetails = localStorage.getItem("userDetails");
+      const parsedDetails = JSON.parse(userDetails);
+      const token = parsedDetails.token;
+      const response = await Protocal(token);
+      setProtocal(response.data);
+      if (response.status == 404) {
+        navigate("/login");
+        localStorage.removeItem("userDetails");
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -30,6 +48,7 @@ const BalanceCardSlider = () => {
     };
 
     fetchData();
+    protocolData();
     return () => {};
   }, [navigate]);
   if (!data) {
@@ -77,7 +96,7 @@ const BalanceCardSlider = () => {
             <div className="card-body">
               <div className="card-wiget-info">
                 <h4 className="count-num">
-                  <i class="fas fa-user"></i> {data.totalUsers}
+                  <i class="fas fa-user"></i> {data.totaluser ?? 0}
                 </h4>
                 <p>Total Users</p>
               </div>
@@ -106,7 +125,7 @@ const BalanceCardSlider = () => {
               <div className="card-wiget-info">
                 <h4 className="count-num">
                   <i class="fas fa-user"></i>
-                  {data.activeUser}
+                  {data.activeUser ?? 0}
                 </h4>
                 <p>Active Users</p>
                 {/* <div>
@@ -153,7 +172,7 @@ const BalanceCardSlider = () => {
             <div className="card-body">
               <div className="card-wiget-info">
                 <h4 className="count-num">
-                  <i class="fas fa-user"></i> {data.inactiveUser}
+                  <i class="fas fa-user"></i> {data.inactiveUser ?? 0}
                 </h4>
                 <p className="sm-chart">Inactive User</p>
               </div>
@@ -198,7 +217,9 @@ const BalanceCardSlider = () => {
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info rewards">
-                <h4 className="count-num">{data.totaldeposie}</h4>
+                <h4 className="count-num">
+                  {Number(data.totalwyz ?? 0).toFixed(2)}
+                </h4>
                 <p>Total Deposit (WYS)</p>
               </div>
             </div>
@@ -237,10 +258,9 @@ const BalanceCardSlider = () => {
             <div className="card-body">
               <div className="card-wiget-info rewards">
                 <h4 className="count-num">
-                  <i class="fas fa-user"></i>
-                  {data.todayDepositeCount}
+                  {Number(data.usdttotal ?? 0).toFixed(2)}
                 </h4>
-                <p>Today Deposit Count </p>
+                <p>Total Deposit (USDT) </p>
               </div>
             </div>
             <div className="back-icon">
@@ -277,7 +297,10 @@ const BalanceCardSlider = () => {
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info rewards">
-                <h4 className="count-num"> {data.totaldeposietoday}</h4>
+                <h4 className="count-num">
+                  {" "}
+                  {Number(data.wyzToday ?? 0).toFixed(2)}
+                </h4>
                 <p> Today Deposit (WYS) </p>
               </div>
             </div>
@@ -315,9 +338,11 @@ const BalanceCardSlider = () => {
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info rewards">
-              <h4 className="count-num">{data.todayusdtdepositewys}</h4>
+                <h4 className="count-num">
+                  {Number(data.usdtTody ?? 0).toFixed(2)}
+                </h4>
 
-                <p> Today Deposit WYS(fusdt) </p>
+                <p> Today Deposit USDT </p>
               </div>
             </div>
             <div className="back-icon">
@@ -354,8 +379,11 @@ const BalanceCardSlider = () => {
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info rewards">
-                <h4 className="count-num"> {data.usdtTodaydepsite}</h4>
-                <p> Today Deposit (fUSDT) </p>
+                <h4 className="count-num">
+                  {" "}
+                  {Number(protocal.firstdata ?? 0).toFixed(2)}
+                </h4>
+                <p> Total Deposit WYZ+stUSDT (10:90) </p>
               </div>
             </div>
             <div className="back-icon">
@@ -392,8 +420,10 @@ const BalanceCardSlider = () => {
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info rewards">
-                <h4 className="count-num">{data.totalWithdrawToday}</h4>
-                <p>Today Withdraw Rewards (WYS) </p>
+                <h4 className="count-num">
+                  {Number(protocal.seconddata ?? 0).toFixed(2)}
+                </h4>
+                <p>Total Deposit WYZ+stUSDT (20:80) </p>
               </div>
             </div>
             <div className="back-icon">
@@ -430,86 +460,10 @@ const BalanceCardSlider = () => {
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info">
-                <h4 className="count-num">{data.totalWithdrawAmount}</h4>
-                <p>Total Withdraw Rewards (WYS)</p>
-              </div>
-            </div>
-            <div className="back-icon">
-              <svg
-                width="64"
-                height="127"
-                viewBox="0 0 64 127"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <g opacity="0.05">
-                  <path
-                    d="M70.1991 32.0409C63.3711 28.2675 56.1119 25.3926 48.9246 22.4098C44.7559 20.6849 40.7669 18.6724 37.2451 15.8694C30.3093 10.3351 31.639 1.3509 39.7607 -2.20684C42.0606 -3.21307 44.4684 -3.5365 46.9121 -3.68024C56.3275 -4.18336 65.2758 -2.4584 73.7928 1.63839C78.0333 3.68679 79.4349 3.03993 80.8723 -1.38029C82.3817 -6.05207 83.6395 -10.7957 85.041 -15.5034C85.9753 -18.6659 84.8254 -20.7502 81.8426 -22.0799C76.3802 -24.4876 70.7741 -26.2126 64.8805 -27.1469C57.19 -28.3329 57.19 -28.3688 57.1541 -36.0952C57.1181 -46.984 57.1181 -46.984 46.1934 -46.984C44.6122 -46.984 43.0309 -47.02 41.4497 -46.984C36.3467 -46.8403 35.4842 -45.9419 35.3405 -40.8029C35.2686 -38.503 35.3405 -36.203 35.3045 -33.8671C35.2686 -27.0391 35.2327 -27.1469 28.6922 -24.7751C12.88 -19.0252 3.1052 -8.24421 2.06304 9.00543C1.12868 24.2785 9.10664 34.5924 21.6486 42.1032C29.375 46.739 37.9279 49.4702 46.1215 53.0998C49.3199 54.5014 52.3745 56.1185 55.0338 58.3466C62.904 64.8512 61.4665 75.6681 52.1229 79.7649C47.1277 81.957 41.845 82.4961 36.4186 81.8133C28.0453 80.7711 20.0314 78.579 12.4847 74.6619C8.06447 72.3619 6.77075 72.9729 5.2614 77.7524C3.96768 81.8852 2.81771 86.0538 1.66773 90.2225C0.122451 95.8286 0.697435 97.1583 6.05201 99.7817C12.88 103.088 20.1752 104.777 27.6141 105.963C33.4358 106.897 33.6155 107.149 33.6874 113.186C33.7233 115.917 33.7233 118.684 33.7593 121.416C33.7952 124.866 35.4483 126.878 39.006 126.95C43.0309 127.022 47.0918 127.022 51.1167 126.914C54.4229 126.842 56.1119 125.045 56.1119 121.703C56.1119 117.966 56.2916 114.192 56.1478 110.455C55.9682 106.646 57.6213 104.705 61.2868 103.699C69.7319 101.399 76.9193 96.8708 82.4535 90.1147C97.8345 71.4276 91.9768 44.0797 70.1991 32.0409Z"
-                    fill="#9568FF"
-                  />
-                </g>
-              </svg>
-            </div>
-          </div>
-        </div>
-        <div className="col-lg-2">
-          <div className="card card-wiget">
-            <div className="card-body">
-              <div className="card-wiget-info">
-                <h4 className="count-num">{data.totalRoiToday}</h4>
-                <p>Today Withdraw ROI(WYS)</p>
-              </div>
-            </div>
-            <div className="back-icon">
-              <svg
-                width="64"
-                height="127"
-                viewBox="0 0 64 127"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <g opacity="0.05">
-                  <path
-                    d="M70.1991 32.0409C63.3711 28.2675 56.1119 25.3926 48.9246 22.4098C44.7559 20.6849 40.7669 18.6724 37.2451 15.8694C30.3093 10.3351 31.639 1.3509 39.7607 -2.20684C42.0606 -3.21307 44.4684 -3.5365 46.9121 -3.68024C56.3275 -4.18336 65.2758 -2.4584 73.7928 1.63839C78.0333 3.68679 79.4349 3.03993 80.8723 -1.38029C82.3817 -6.05207 83.6395 -10.7957 85.041 -15.5034C85.9753 -18.6659 84.8254 -20.7502 81.8426 -22.0799C76.3802 -24.4876 70.7741 -26.2126 64.8805 -27.1469C57.19 -28.3329 57.19 -28.3688 57.1541 -36.0952C57.1181 -46.984 57.1181 -46.984 46.1934 -46.984C44.6122 -46.984 43.0309 -47.02 41.4497 -46.984C36.3467 -46.8403 35.4842 -45.9419 35.3405 -40.8029C35.2686 -38.503 35.3405 -36.203 35.3045 -33.8671C35.2686 -27.0391 35.2327 -27.1469 28.6922 -24.7751C12.88 -19.0252 3.1052 -8.24421 2.06304 9.00543C1.12868 24.2785 9.10664 34.5924 21.6486 42.1032C29.375 46.739 37.9279 49.4702 46.1215 53.0998C49.3199 54.5014 52.3745 56.1185 55.0338 58.3466C62.904 64.8512 61.4665 75.6681 52.1229 79.7649C47.1277 81.957 41.845 82.4961 36.4186 81.8133C28.0453 80.7711 20.0314 78.579 12.4847 74.6619C8.06447 72.3619 6.77075 72.9729 5.2614 77.7524C3.96768 81.8852 2.81771 86.0538 1.66773 90.2225C0.122451 95.8286 0.697435 97.1583 6.05201 99.7817C12.88 103.088 20.1752 104.777 27.6141 105.963C33.4358 106.897 33.6155 107.149 33.6874 113.186C33.7233 115.917 33.7233 118.684 33.7593 121.416C33.7952 124.866 35.4483 126.878 39.006 126.95C43.0309 127.022 47.0918 127.022 51.1167 126.914C54.4229 126.842 56.1119 125.045 56.1119 121.703C56.1119 117.966 56.2916 114.192 56.1478 110.455C55.9682 106.646 57.6213 104.705 61.2868 103.699C69.7319 101.399 76.9193 96.8708 82.4535 90.1147C97.8345 71.4276 91.9768 44.0797 70.1991 32.0409Z"
-                    fill="#9568FF"
-                  />
-                </g>
-              </svg>
-            </div>
-          </div>
-        </div>
-        <div className="col-lg-2">
-          <div className="card card-wiget">
-            <div className="card-body">
-              <div className="card-wiget-info">
-                <h4 className="count-num">{data.totalRoi}</h4>
-                <p>Total Withdraw ROI (WYS)</p>
-              </div>
-            </div>
-            <div className="back-icon">
-              <svg
-                width="64"
-                height="127"
-                viewBox="0 0 64 127"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <g opacity="0.05">
-                  <path
-                    d="M70.1991 32.0409C63.3711 28.2675 56.1119 25.3926 48.9246 22.4098C44.7559 20.6849 40.7669 18.6724 37.2451 15.8694C30.3093 10.3351 31.639 1.3509 39.7607 -2.20684C42.0606 -3.21307 44.4684 -3.5365 46.9121 -3.68024C56.3275 -4.18336 65.2758 -2.4584 73.7928 1.63839C78.0333 3.68679 79.4349 3.03993 80.8723 -1.38029C82.3817 -6.05207 83.6395 -10.7957 85.041 -15.5034C85.9753 -18.6659 84.8254 -20.7502 81.8426 -22.0799C76.3802 -24.4876 70.7741 -26.2126 64.8805 -27.1469C57.19 -28.3329 57.19 -28.3688 57.1541 -36.0952C57.1181 -46.984 57.1181 -46.984 46.1934 -46.984C44.6122 -46.984 43.0309 -47.02 41.4497 -46.984C36.3467 -46.8403 35.4842 -45.9419 35.3405 -40.8029C35.2686 -38.503 35.3405 -36.203 35.3045 -33.8671C35.2686 -27.0391 35.2327 -27.1469 28.6922 -24.7751C12.88 -19.0252 3.1052 -8.24421 2.06304 9.00543C1.12868 24.2785 9.10664 34.5924 21.6486 42.1032C29.375 46.739 37.9279 49.4702 46.1215 53.0998C49.3199 54.5014 52.3745 56.1185 55.0338 58.3466C62.904 64.8512 61.4665 75.6681 52.1229 79.7649C47.1277 81.957 41.845 82.4961 36.4186 81.8133C28.0453 80.7711 20.0314 78.579 12.4847 74.6619C8.06447 72.3619 6.77075 72.9729 5.2614 77.7524C3.96768 81.8852 2.81771 86.0538 1.66773 90.2225C0.122451 95.8286 0.697435 97.1583 6.05201 99.7817C12.88 103.088 20.1752 104.777 27.6141 105.963C33.4358 106.897 33.6155 107.149 33.6874 113.186C33.7233 115.917 33.7233 118.684 33.7593 121.416C33.7952 124.866 35.4483 126.878 39.006 126.95C43.0309 127.022 47.0918 127.022 51.1167 126.914C54.4229 126.842 56.1119 125.045 56.1119 121.703C56.1119 117.966 56.2916 114.192 56.1478 110.455C55.9682 106.646 57.6213 104.705 61.2868 103.699C69.7319 101.399 76.9193 96.8708 82.4535 90.1147C97.8345 71.4276 91.9768 44.0797 70.1991 32.0409Z"
-                    fill="#9568FF"
-                  />
-                </g>
-              </svg>
-            </div>
-          </div>
-        </div>
-        <div className="col-lg-2">
-          <div className="card card-wiget">
-            <div className="card-body">
-              <div className="card-wiget-info">
-                <h4 className="count-num">{data.fiftyTotalWysAmount}</h4>
-                <p>50 Amount (WYS)</p>
+                <h4 className="count-num">
+                  {Number(protocal.thirddata ?? 0).toFixed(2)}
+                </h4>
+                <p>Total Deposit WYZ+stUSDT (30:70)</p>
               </div>
             </div>
             <div className="back-icon">
@@ -535,9 +489,9 @@ const BalanceCardSlider = () => {
             <div className="card-body">
               <div className="card-wiget-info">
                 <h4 className="count-num">
-                  <i class="fas fa-user"></i> {data.fifty}
+                  {Number(protocal.fourthdata ?? 0).toFixed(2)}
                 </h4>
-                <p>50-50</p>
+                <p>Total Deposit WYZ+stUSDT (40:60)</p>
               </div>
             </div>
             <div className="back-icon">
@@ -563,9 +517,9 @@ const BalanceCardSlider = () => {
             <div className="card-body">
               <div className="card-wiget-info">
                 <h4 className="count-num">
-                  <i class="fas fa-user"></i> {data.freeId}
+                  {Number(protocal.fifthdata ?? 0).toFixed(2)}
                 </h4>
-                <p>Free Id</p>
+                <p>Total Deposit WYZ+stUSDT (50:50)</p>
               </div>
             </div>
             <div className="back-icon">
@@ -590,8 +544,10 @@ const BalanceCardSlider = () => {
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info">
-                <h4 className="count-num">{data.freeIdTotalWysAmount}</h4>
-                <p>Free Id Amount (WYS)</p>
+                <h4 className="count-num">
+                  {Number(protocal.sixdata ?? 0).toFixed(2)}
+                </h4>
+                <p>Total Deposit bUSDT+stUSDT(15:85)</p>
               </div>
             </div>
             <div className="back-icon">
@@ -616,8 +572,10 @@ const BalanceCardSlider = () => {
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info">
-                <h4 className="count-num">{data.totalrewardAmount}</h4>
-                <p>Total Rewards (WYS)</p>
+                <h4 className="count-num">
+                  {Number(protocal.sevendata ?? 0).toFixed(2)}
+                </h4>
+                <p>Total Deposit bUSDT+stUSDT(20:80)</p>
               </div>
             </div>
             <div className="back-icon">
@@ -642,8 +600,10 @@ const BalanceCardSlider = () => {
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info">
-                <h4 className="count-num">{data.totalwysAmount}</h4>
-                <p>Total Deposit (WYS)</p>
+                <h4 className="count-num">
+                  {Number(protocal.eightdata ?? 0).toFixed(2)}
+                </h4>
+                <p>Total Deposit bUSDT+stUSDT(25:75)</p>
               </div>
             </div>
             <div className="back-icon">
@@ -668,8 +628,10 @@ const BalanceCardSlider = () => {
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info">
-                <h4 className="count-num">{data.totalarbAmount}</h4>
-                <p>Total Deposit (ARB)</p>
+                <h4 className="count-num">
+                  {Number(data.firstdata ?? 0).toFixed(2)}
+                </h4>
+                <p>Today Deposit WYZ+stUSDT(10:90)</p>
               </div>
             </div>
             <div className="back-icon">
@@ -694,8 +656,10 @@ const BalanceCardSlider = () => {
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info">
-                <h4 className="count-num">{data.totalbnbAmount}</h4>
-                <p>Total Deposit (BNB)</p>
+                <h4 className="count-num">
+                  {Number(data.seconddata ?? 0).toFixed(2)}
+                </h4>
+                <p>Today Deposit WYZ+stUSDT(20:80)</p>
               </div>
             </div>
             <div className="back-icon">
@@ -720,8 +684,10 @@ const BalanceCardSlider = () => {
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info">
-                <h4 className="count-num">{data.totalwyzfifty ?? 0}</h4>
-                <p>Total Deposit (WYZ)50:50</p>
+                <h4 className="count-num">
+                  {Number(data.thirddata ?? 0).toFixed(2)}
+                </h4>
+                <p>Today Deposit WYZ+stUSDT(30:70)</p>
               </div>
             </div>
             <div className="back-icon">
@@ -746,8 +712,10 @@ const BalanceCardSlider = () => {
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info">
-                <h4 className="count-num">{data.totalwyzseventy ?? 0}</h4>
-                <p>Total Deposit (WYZ)70:30</p>
+                <h4 className="count-num">
+                  {Number(data.fourthdata ?? 0).toFixed(2)}
+                </h4>
+                <p>Today Deposit WYZ+stUSDT(40:60)</p>
               </div>
             </div>
             <div className="back-icon">
@@ -772,8 +740,206 @@ const BalanceCardSlider = () => {
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info">
-                <h4 className="count-num">{data.totalUsdt ?? 0}</h4>
-                <p>Total Deposit (fUSDT)</p>
+                <h4 className="count-num">
+                  {Number(data.fifthdata ?? 0).toFixed(2)}
+                </h4>
+                <p>Today Deposit WYZ+stUSDT(50:50)</p>
+              </div>
+            </div>
+            <div className="back-icon">
+              <svg
+                width="64"
+                height="127"
+                viewBox="0 0 64 127"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g opacity="0.05">
+                  <path
+                    d="M70.1991 32.0409C63.3711 28.2675 56.1119 25.3926 48.9246 22.4098C44.7559 20.6849 40.7669 18.6724 37.2451 15.8694C30.3093 10.3351 31.639 1.3509 39.7607 -2.20684C42.0606 -3.21307 44.4684 -3.5365 46.9121 -3.68024C56.3275 -4.18336 65.2758 -2.4584 73.7928 1.63839C78.0333 3.68679 79.4349 3.03993 80.8723 -1.38029C82.3817 -6.05207 83.6395 -10.7957 85.041 -15.5034C85.9753 -18.6659 84.8254 -20.7502 81.8426 -22.0799C76.3802 -24.4876 70.7741 -26.2126 64.8805 -27.1469C57.19 -28.3329 57.19 -28.3688 57.1541 -36.0952C57.1181 -46.984 57.1181 -46.984 46.1934 -46.984C44.6122 -46.984 43.0309 -47.02 41.4497 -46.984C36.3467 -46.8403 35.4842 -45.9419 35.3405 -40.8029C35.2686 -38.503 35.3405 -36.203 35.3045 -33.8671C35.2686 -27.0391 35.2327 -27.1469 28.6922 -24.7751C12.88 -19.0252 3.1052 -8.24421 2.06304 9.00543C1.12868 24.2785 9.10664 34.5924 21.6486 42.1032C29.375 46.739 37.9279 49.4702 46.1215 53.0998C49.3199 54.5014 52.3745 56.1185 55.0338 58.3466C62.904 64.8512 61.4665 75.6681 52.1229 79.7649C47.1277 81.957 41.845 82.4961 36.4186 81.8133C28.0453 80.7711 20.0314 78.579 12.4847 74.6619C8.06447 72.3619 6.77075 72.9729 5.2614 77.7524C3.96768 81.8852 2.81771 86.0538 1.66773 90.2225C0.122451 95.8286 0.697435 97.1583 6.05201 99.7817C12.88 103.088 20.1752 104.777 27.6141 105.963C33.4358 106.897 33.6155 107.149 33.6874 113.186C33.7233 115.917 33.7233 118.684 33.7593 121.416C33.7952 124.866 35.4483 126.878 39.006 126.95C43.0309 127.022 47.0918 127.022 51.1167 126.914C54.4229 126.842 56.1119 125.045 56.1119 121.703C56.1119 117.966 56.2916 114.192 56.1478 110.455C55.9682 106.646 57.6213 104.705 61.2868 103.699C69.7319 101.399 76.9193 96.8708 82.4535 90.1147C97.8345 71.4276 91.9768 44.0797 70.1991 32.0409Z"
+                    fill="#9568FF"
+                  />
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div className="col-lg-2">
+          <div className="card card-wiget">
+            <div className="card-body">
+              <div className="card-wiget-info">
+                <h4 className="count-num">
+                  {Number(data.sixdata ?? 0).toFixed(2)}
+                </h4>
+                <p>Today Deposit bUSDT+stUSDT(15:85)</p>
+              </div>
+            </div>
+            <div className="back-icon">
+              <svg
+                width="64"
+                height="127"
+                viewBox="0 0 64 127"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g opacity="0.05">
+                  <path
+                    d="M70.1991 32.0409C63.3711 28.2675 56.1119 25.3926 48.9246 22.4098C44.7559 20.6849 40.7669 18.6724 37.2451 15.8694C30.3093 10.3351 31.639 1.3509 39.7607 -2.20684C42.0606 -3.21307 44.4684 -3.5365 46.9121 -3.68024C56.3275 -4.18336 65.2758 -2.4584 73.7928 1.63839C78.0333 3.68679 79.4349 3.03993 80.8723 -1.38029C82.3817 -6.05207 83.6395 -10.7957 85.041 -15.5034C85.9753 -18.6659 84.8254 -20.7502 81.8426 -22.0799C76.3802 -24.4876 70.7741 -26.2126 64.8805 -27.1469C57.19 -28.3329 57.19 -28.3688 57.1541 -36.0952C57.1181 -46.984 57.1181 -46.984 46.1934 -46.984C44.6122 -46.984 43.0309 -47.02 41.4497 -46.984C36.3467 -46.8403 35.4842 -45.9419 35.3405 -40.8029C35.2686 -38.503 35.3405 -36.203 35.3045 -33.8671C35.2686 -27.0391 35.2327 -27.1469 28.6922 -24.7751C12.88 -19.0252 3.1052 -8.24421 2.06304 9.00543C1.12868 24.2785 9.10664 34.5924 21.6486 42.1032C29.375 46.739 37.9279 49.4702 46.1215 53.0998C49.3199 54.5014 52.3745 56.1185 55.0338 58.3466C62.904 64.8512 61.4665 75.6681 52.1229 79.7649C47.1277 81.957 41.845 82.4961 36.4186 81.8133C28.0453 80.7711 20.0314 78.579 12.4847 74.6619C8.06447 72.3619 6.77075 72.9729 5.2614 77.7524C3.96768 81.8852 2.81771 86.0538 1.66773 90.2225C0.122451 95.8286 0.697435 97.1583 6.05201 99.7817C12.88 103.088 20.1752 104.777 27.6141 105.963C33.4358 106.897 33.6155 107.149 33.6874 113.186C33.7233 115.917 33.7233 118.684 33.7593 121.416C33.7952 124.866 35.4483 126.878 39.006 126.95C43.0309 127.022 47.0918 127.022 51.1167 126.914C54.4229 126.842 56.1119 125.045 56.1119 121.703C56.1119 117.966 56.2916 114.192 56.1478 110.455C55.9682 106.646 57.6213 104.705 61.2868 103.699C69.7319 101.399 76.9193 96.8708 82.4535 90.1147C97.8345 71.4276 91.9768 44.0797 70.1991 32.0409Z"
+                    fill="#9568FF"
+                  />
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div className="col-lg-2">
+          <div className="card card-wiget">
+            <div className="card-body">
+              <div className="card-wiget-info">
+                <h4 className="count-num">
+                  {Number(data.sevendata ?? 0).toFixed(2)}
+                </h4>
+                <p>Today Deposit bUSDT+stUSDT(20:80)</p>
+              </div>
+            </div>
+            <div className="back-icon">
+              <svg
+                width="64"
+                height="127"
+                viewBox="0 0 64 127"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g opacity="0.05">
+                  <path
+                    d="M70.1991 32.0409C63.3711 28.2675 56.1119 25.3926 48.9246 22.4098C44.7559 20.6849 40.7669 18.6724 37.2451 15.8694C30.3093 10.3351 31.639 1.3509 39.7607 -2.20684C42.0606 -3.21307 44.4684 -3.5365 46.9121 -3.68024C56.3275 -4.18336 65.2758 -2.4584 73.7928 1.63839C78.0333 3.68679 79.4349 3.03993 80.8723 -1.38029C82.3817 -6.05207 83.6395 -10.7957 85.041 -15.5034C85.9753 -18.6659 84.8254 -20.7502 81.8426 -22.0799C76.3802 -24.4876 70.7741 -26.2126 64.8805 -27.1469C57.19 -28.3329 57.19 -28.3688 57.1541 -36.0952C57.1181 -46.984 57.1181 -46.984 46.1934 -46.984C44.6122 -46.984 43.0309 -47.02 41.4497 -46.984C36.3467 -46.8403 35.4842 -45.9419 35.3405 -40.8029C35.2686 -38.503 35.3405 -36.203 35.3045 -33.8671C35.2686 -27.0391 35.2327 -27.1469 28.6922 -24.7751C12.88 -19.0252 3.1052 -8.24421 2.06304 9.00543C1.12868 24.2785 9.10664 34.5924 21.6486 42.1032C29.375 46.739 37.9279 49.4702 46.1215 53.0998C49.3199 54.5014 52.3745 56.1185 55.0338 58.3466C62.904 64.8512 61.4665 75.6681 52.1229 79.7649C47.1277 81.957 41.845 82.4961 36.4186 81.8133C28.0453 80.7711 20.0314 78.579 12.4847 74.6619C8.06447 72.3619 6.77075 72.9729 5.2614 77.7524C3.96768 81.8852 2.81771 86.0538 1.66773 90.2225C0.122451 95.8286 0.697435 97.1583 6.05201 99.7817C12.88 103.088 20.1752 104.777 27.6141 105.963C33.4358 106.897 33.6155 107.149 33.6874 113.186C33.7233 115.917 33.7233 118.684 33.7593 121.416C33.7952 124.866 35.4483 126.878 39.006 126.95C43.0309 127.022 47.0918 127.022 51.1167 126.914C54.4229 126.842 56.1119 125.045 56.1119 121.703C56.1119 117.966 56.2916 114.192 56.1478 110.455C55.9682 106.646 57.6213 104.705 61.2868 103.699C69.7319 101.399 76.9193 96.8708 82.4535 90.1147C97.8345 71.4276 91.9768 44.0797 70.1991 32.0409Z"
+                    fill="#9568FF"
+                  />
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div className="col-lg-2">
+          <div className="card card-wiget">
+            <div className="card-body">
+              <div className="card-wiget-info">
+                <h4 className="count-num">
+                  {Number(data.eightdata ?? 0).toFixed(2) ?? 0 ?? 0}
+                </h4>
+                <p>Today Deposit bUSDT+stUSDT(25:75)</p>
+              </div>
+            </div>
+            <div className="back-icon">
+              <svg
+                width="64"
+                height="127"
+                viewBox="0 0 64 127"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g opacity="0.05">
+                  <path
+                    d="M70.1991 32.0409C63.3711 28.2675 56.1119 25.3926 48.9246 22.4098C44.7559 20.6849 40.7669 18.6724 37.2451 15.8694C30.3093 10.3351 31.639 1.3509 39.7607 -2.20684C42.0606 -3.21307 44.4684 -3.5365 46.9121 -3.68024C56.3275 -4.18336 65.2758 -2.4584 73.7928 1.63839C78.0333 3.68679 79.4349 3.03993 80.8723 -1.38029C82.3817 -6.05207 83.6395 -10.7957 85.041 -15.5034C85.9753 -18.6659 84.8254 -20.7502 81.8426 -22.0799C76.3802 -24.4876 70.7741 -26.2126 64.8805 -27.1469C57.19 -28.3329 57.19 -28.3688 57.1541 -36.0952C57.1181 -46.984 57.1181 -46.984 46.1934 -46.984C44.6122 -46.984 43.0309 -47.02 41.4497 -46.984C36.3467 -46.8403 35.4842 -45.9419 35.3405 -40.8029C35.2686 -38.503 35.3405 -36.203 35.3045 -33.8671C35.2686 -27.0391 35.2327 -27.1469 28.6922 -24.7751C12.88 -19.0252 3.1052 -8.24421 2.06304 9.00543C1.12868 24.2785 9.10664 34.5924 21.6486 42.1032C29.375 46.739 37.9279 49.4702 46.1215 53.0998C49.3199 54.5014 52.3745 56.1185 55.0338 58.3466C62.904 64.8512 61.4665 75.6681 52.1229 79.7649C47.1277 81.957 41.845 82.4961 36.4186 81.8133C28.0453 80.7711 20.0314 78.579 12.4847 74.6619C8.06447 72.3619 6.77075 72.9729 5.2614 77.7524C3.96768 81.8852 2.81771 86.0538 1.66773 90.2225C0.122451 95.8286 0.697435 97.1583 6.05201 99.7817C12.88 103.088 20.1752 104.777 27.6141 105.963C33.4358 106.897 33.6155 107.149 33.6874 113.186C33.7233 115.917 33.7233 118.684 33.7593 121.416C33.7952 124.866 35.4483 126.878 39.006 126.95C43.0309 127.022 47.0918 127.022 51.1167 126.914C54.4229 126.842 56.1119 125.045 56.1119 121.703C56.1119 117.966 56.2916 114.192 56.1478 110.455C55.9682 106.646 57.6213 104.705 61.2868 103.699C69.7319 101.399 76.9193 96.8708 82.4535 90.1147C97.8345 71.4276 91.9768 44.0797 70.1991 32.0409Z"
+                    fill="#9568FF"
+                  />
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div className="col-lg-2">
+          <div className="card card-wiget">
+            <div className="card-body">
+              <div className="card-wiget-info">
+                <h4 className="count-num">
+                  {Number(data.totalroiwithdraw ?? 0).toFixed(2)}
+                </h4>
+                <p>Total Withdraw ROI</p>
+              </div>
+            </div>
+            <div className="back-icon">
+              <svg
+                width="64"
+                height="127"
+                viewBox="0 0 64 127"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g opacity="0.05">
+                  <path
+                    d="M70.1991 32.0409C63.3711 28.2675 56.1119 25.3926 48.9246 22.4098C44.7559 20.6849 40.7669 18.6724 37.2451 15.8694C30.3093 10.3351 31.639 1.3509 39.7607 -2.20684C42.0606 -3.21307 44.4684 -3.5365 46.9121 -3.68024C56.3275 -4.18336 65.2758 -2.4584 73.7928 1.63839C78.0333 3.68679 79.4349 3.03993 80.8723 -1.38029C82.3817 -6.05207 83.6395 -10.7957 85.041 -15.5034C85.9753 -18.6659 84.8254 -20.7502 81.8426 -22.0799C76.3802 -24.4876 70.7741 -26.2126 64.8805 -27.1469C57.19 -28.3329 57.19 -28.3688 57.1541 -36.0952C57.1181 -46.984 57.1181 -46.984 46.1934 -46.984C44.6122 -46.984 43.0309 -47.02 41.4497 -46.984C36.3467 -46.8403 35.4842 -45.9419 35.3405 -40.8029C35.2686 -38.503 35.3405 -36.203 35.3045 -33.8671C35.2686 -27.0391 35.2327 -27.1469 28.6922 -24.7751C12.88 -19.0252 3.1052 -8.24421 2.06304 9.00543C1.12868 24.2785 9.10664 34.5924 21.6486 42.1032C29.375 46.739 37.9279 49.4702 46.1215 53.0998C49.3199 54.5014 52.3745 56.1185 55.0338 58.3466C62.904 64.8512 61.4665 75.6681 52.1229 79.7649C47.1277 81.957 41.845 82.4961 36.4186 81.8133C28.0453 80.7711 20.0314 78.579 12.4847 74.6619C8.06447 72.3619 6.77075 72.9729 5.2614 77.7524C3.96768 81.8852 2.81771 86.0538 1.66773 90.2225C0.122451 95.8286 0.697435 97.1583 6.05201 99.7817C12.88 103.088 20.1752 104.777 27.6141 105.963C33.4358 106.897 33.6155 107.149 33.6874 113.186C33.7233 115.917 33.7233 118.684 33.7593 121.416C33.7952 124.866 35.4483 126.878 39.006 126.95C43.0309 127.022 47.0918 127.022 51.1167 126.914C54.4229 126.842 56.1119 125.045 56.1119 121.703C56.1119 117.966 56.2916 114.192 56.1478 110.455C55.9682 106.646 57.6213 104.705 61.2868 103.699C69.7319 101.399 76.9193 96.8708 82.4535 90.1147C97.8345 71.4276 91.9768 44.0797 70.1991 32.0409Z"
+                    fill="#9568FF"
+                  />
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div className="col-lg-2">
+          <div className="card card-wiget">
+            <div className="card-body">
+              <div className="card-wiget-info">
+                <h4 className="count-num">
+                  {Number(data.roiToday ?? 0).toFixed(2)}
+                </h4>
+                <p>Today Withdraw ROI</p>
+              </div>
+            </div>
+            <div className="back-icon">
+              <svg
+                width="64"
+                height="127"
+                viewBox="0 0 64 127"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g opacity="0.05">
+                  <path
+                    d="M70.1991 32.0409C63.3711 28.2675 56.1119 25.3926 48.9246 22.4098C44.7559 20.6849 40.7669 18.6724 37.2451 15.8694C30.3093 10.3351 31.639 1.3509 39.7607 -2.20684C42.0606 -3.21307 44.4684 -3.5365 46.9121 -3.68024C56.3275 -4.18336 65.2758 -2.4584 73.7928 1.63839C78.0333 3.68679 79.4349 3.03993 80.8723 -1.38029C82.3817 -6.05207 83.6395 -10.7957 85.041 -15.5034C85.9753 -18.6659 84.8254 -20.7502 81.8426 -22.0799C76.3802 -24.4876 70.7741 -26.2126 64.8805 -27.1469C57.19 -28.3329 57.19 -28.3688 57.1541 -36.0952C57.1181 -46.984 57.1181 -46.984 46.1934 -46.984C44.6122 -46.984 43.0309 -47.02 41.4497 -46.984C36.3467 -46.8403 35.4842 -45.9419 35.3405 -40.8029C35.2686 -38.503 35.3405 -36.203 35.3045 -33.8671C35.2686 -27.0391 35.2327 -27.1469 28.6922 -24.7751C12.88 -19.0252 3.1052 -8.24421 2.06304 9.00543C1.12868 24.2785 9.10664 34.5924 21.6486 42.1032C29.375 46.739 37.9279 49.4702 46.1215 53.0998C49.3199 54.5014 52.3745 56.1185 55.0338 58.3466C62.904 64.8512 61.4665 75.6681 52.1229 79.7649C47.1277 81.957 41.845 82.4961 36.4186 81.8133C28.0453 80.7711 20.0314 78.579 12.4847 74.6619C8.06447 72.3619 6.77075 72.9729 5.2614 77.7524C3.96768 81.8852 2.81771 86.0538 1.66773 90.2225C0.122451 95.8286 0.697435 97.1583 6.05201 99.7817C12.88 103.088 20.1752 104.777 27.6141 105.963C33.4358 106.897 33.6155 107.149 33.6874 113.186C33.7233 115.917 33.7233 118.684 33.7593 121.416C33.7952 124.866 35.4483 126.878 39.006 126.95C43.0309 127.022 47.0918 127.022 51.1167 126.914C54.4229 126.842 56.1119 125.045 56.1119 121.703C56.1119 117.966 56.2916 114.192 56.1478 110.455C55.9682 106.646 57.6213 104.705 61.2868 103.699C69.7319 101.399 76.9193 96.8708 82.4535 90.1147C97.8345 71.4276 91.9768 44.0797 70.1991 32.0409Z"
+                    fill="#9568FF"
+                  />
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div className="col-lg-2">
+          <div className="card card-wiget">
+            <div className="card-body">
+              <div className="card-wiget-info">
+                <h4 className="count-num">
+                  {Number(data.totalreferal ?? 0).toFixed(2)}
+                </h4>
+                <p>Total Withdraw Referral </p>
+              </div>
+            </div>
+            <div className="back-icon">
+              <svg
+                width="64"
+                height="127"
+                viewBox="0 0 64 127"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g opacity="0.05">
+                  <path
+                    d="M70.1991 32.0409C63.3711 28.2675 56.1119 25.3926 48.9246 22.4098C44.7559 20.6849 40.7669 18.6724 37.2451 15.8694C30.3093 10.3351 31.639 1.3509 39.7607 -2.20684C42.0606 -3.21307 44.4684 -3.5365 46.9121 -3.68024C56.3275 -4.18336 65.2758 -2.4584 73.7928 1.63839C78.0333 3.68679 79.4349 3.03993 80.8723 -1.38029C82.3817 -6.05207 83.6395 -10.7957 85.041 -15.5034C85.9753 -18.6659 84.8254 -20.7502 81.8426 -22.0799C76.3802 -24.4876 70.7741 -26.2126 64.8805 -27.1469C57.19 -28.3329 57.19 -28.3688 57.1541 -36.0952C57.1181 -46.984 57.1181 -46.984 46.1934 -46.984C44.6122 -46.984 43.0309 -47.02 41.4497 -46.984C36.3467 -46.8403 35.4842 -45.9419 35.3405 -40.8029C35.2686 -38.503 35.3405 -36.203 35.3045 -33.8671C35.2686 -27.0391 35.2327 -27.1469 28.6922 -24.7751C12.88 -19.0252 3.1052 -8.24421 2.06304 9.00543C1.12868 24.2785 9.10664 34.5924 21.6486 42.1032C29.375 46.739 37.9279 49.4702 46.1215 53.0998C49.3199 54.5014 52.3745 56.1185 55.0338 58.3466C62.904 64.8512 61.4665 75.6681 52.1229 79.7649C47.1277 81.957 41.845 82.4961 36.4186 81.8133C28.0453 80.7711 20.0314 78.579 12.4847 74.6619C8.06447 72.3619 6.77075 72.9729 5.2614 77.7524C3.96768 81.8852 2.81771 86.0538 1.66773 90.2225C0.122451 95.8286 0.697435 97.1583 6.05201 99.7817C12.88 103.088 20.1752 104.777 27.6141 105.963C33.4358 106.897 33.6155 107.149 33.6874 113.186C33.7233 115.917 33.7233 118.684 33.7593 121.416C33.7952 124.866 35.4483 126.878 39.006 126.95C43.0309 127.022 47.0918 127.022 51.1167 126.914C54.4229 126.842 56.1119 125.045 56.1119 121.703C56.1119 117.966 56.2916 114.192 56.1478 110.455C55.9682 106.646 57.6213 104.705 61.2868 103.699C69.7319 101.399 76.9193 96.8708 82.4535 90.1147C97.8345 71.4276 91.9768 44.0797 70.1991 32.0409Z"
+                    fill="#9568FF"
+                  />
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div className="col-lg-2">
+          <div className="card card-wiget">
+            <div className="card-body">
+              <div className="card-wiget-info">
+                <h4 className="count-num">
+                  {Number(data.refrealtoday ?? 0).toFixed(2)}
+                </h4>
+                <p>Today Withdraw Referral </p>
               </div>
             </div>
             <div className="back-icon">

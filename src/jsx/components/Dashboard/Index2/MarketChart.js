@@ -172,33 +172,33 @@ class MarketChart extends React.Component {
       const token = parsedDetails.token;
       const response = await Graph(token);
 
-      const data = response.StakesPerDay;
-      const roi = response.RoiPerDay;
-      const Rewards = response.RewardsPerDay;
-    const wysdusdt=response.Usdtwysday
-    const usdt=response.Usdtformdays
+      const wyzStake = response.Stakeswyz;
+      const usdtStake = response.Stakesusdt;
+      const withdrawRoi = response.withdrawRoi;
+      const withdrawReferal = response.refrealWithdraw;
+      const totalDeposite = response.total;
       const daysOfWeekOrdered = this.getLast7Days();
 
       const seriesData = [
         {
-          name: "Farm WYS",
-          data: daysOfWeekOrdered.map((day) => data[day] || 0),
+          name: " WYS",
+          data: daysOfWeekOrdered.map((day) => wyzStake[day] || 0),
         },
         {
-          name: "WYS(fusdt)",
-          data: daysOfWeekOrdered.map((day) => wysdusdt[day] || 0),
+          name: "Usdt",
+          data: daysOfWeekOrdered.map((day) => usdtStake[day] || 0),
         },
         {
-          name: "fUSDT",
-          data: daysOfWeekOrdered.map((day) => usdt[day] || 0),
+          name: "ROI",
+          data: daysOfWeekOrdered.map((day) => withdrawRoi[day] || 0),
         },
         {
-          name: "Roi",
-          data: daysOfWeekOrdered.map((day) => roi[day] || 0),
+          name: "Referral ",
+          data: daysOfWeekOrdered.map((day) => withdrawReferal[day] || 0),
         },
         {
-          name: "Rewards",
-          data: daysOfWeekOrdered.map((day) => Rewards[day] || 0),
+          name: "Total Deposite",
+          data: daysOfWeekOrdered.map((day) => totalDeposite[day] || 0),
         },
       ];
 

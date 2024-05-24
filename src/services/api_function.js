@@ -1,10 +1,13 @@
 import axios from "axios";
-export const url = "http://localhost:8080/api";
-//export const url = "https://farming.wyscale.com/api";
+//export const url = "http://localhost:1337/api";
+export const url = "http://68.183.227.222/api";
+
+export const teamlist="https://farming.wyscale.com/api"
+
 
 export function allUser(page, filteredData, token) {
   const { searchQuery } = filteredData;
-  const apiUrl = `${url}/alluser?page=${page}&search=${encodeURIComponent(
+  const apiUrl = `${url}/all-data?page=${page}&search=${encodeURIComponent(
     searchQuery
   )}`;
   return fetch(apiUrl, {
@@ -19,9 +22,9 @@ export function allUser(page, filteredData, token) {
     .then((res) => res.json())
     .catch((e) => e);
 }
-export function TeamData(user, limit, currentPage,sortField1,sortField2) {
-console.log(user, limit, currentPage,sortField1,sortField2,":::::::::::")
-  const apiUrl = `${url}/team-list?user=${user}&limit=${limit}&page=${currentPage}&sortField1=${sortField1}&sortField2=${sortField2}`;
+
+export function TeamData(user, limit, currentPage, sortField1, sortField2) {
+  const apiUrl = `${teamlist}/team-list?user=${user}&limit=${limit}&page=${currentPage}&sortField1=${sortField1}&sortField2=${sortField2}`;
   return fetch(apiUrl, {
     method: "GET",
     headers: {
@@ -36,7 +39,7 @@ console.log(user, limit, currentPage,sortField1,sortField2,":::::::::::")
 }
 
 export function dashboardData(token) {
-  const apiUrl = `${url}/dashboard-new`;
+  const apiUrl = `${url}/dashborad`;
   return fetch(apiUrl, {
     method: "GET",
     headers: {
@@ -53,7 +56,7 @@ export function dashboardData(token) {
 
 export function withdrawRoi(page, filteredData, token) {
   const { searchQuery } = filteredData;
-  const apiUrl = `${url}/withdrawl-roi?page=${page}&search=${encodeURIComponent(
+  const apiUrl = `${url}/withdraw-roi?page=${page}&search=${encodeURIComponent(
     searchQuery
   )}`;
 
@@ -73,13 +76,13 @@ export function withdrawRoi(page, filteredData, token) {
 
 export function withdrawClaim(page, filteredData, token) {
   const { searchQuery } = filteredData;
-  const apiUrl = `${url}/withdrawl-claim?page=${page}&search=${encodeURIComponent(
+  const apiUrl = `${url}/withdraw-claim?page=${page}&search=${encodeURIComponent(
     searchQuery
   )}`;
   return fetch(apiUrl, {
     method: "GET",
     headers: {
-      "Content-Type": "application/json", //withdrawl-claim
+      "Content-Type": "application/json",
       "cache-control": "no-cache",
       "Access-Control-Allow-Origin": "*",
       Authorization: `Bearer ${token}`,
@@ -91,7 +94,7 @@ export function withdrawClaim(page, filteredData, token) {
 }
 
 export function Commissiondata(user, token) {
-  const apiUrl = `${url}/commission?user=${user}`;
+  const apiUrl = `${url}/commission-user?user=${user}`;
 
   return fetch(apiUrl, {
     method: "GET",
@@ -107,8 +110,7 @@ export function Commissiondata(user, token) {
     .catch((error) => console.error("Error fetching data:", error));
 }
 export function Depositedata(user, page, token) {
-  const apiUrl = `${url}/deposite-history?user=${user}&page=${page}`;
-  //console.log(apiUrl)
+  const apiUrl = `${url}/depoesite-user?user=${user}&page=${page}`;
   return fetch(apiUrl, {
     method: "GET",
     headers: {
@@ -124,8 +126,7 @@ export function Depositedata(user, page, token) {
 }
 
 export function Withdrawdata(user, page, token) {
-  const apiUrl = `${url}/withdraw-history?user=${user}&page=${page}`;
-
+  const apiUrl = `${url}/withdraw-user?user=${user}&page=${page}`;
   return fetch(apiUrl, {
     method: "GET",
     headers: {
@@ -141,11 +142,9 @@ export function Withdrawdata(user, page, token) {
 }
 export function DepositeHistory(page, filteredData, token) {
   const { searchQuery } = filteredData;
-
   const apiUrl = `${url}/deposite?page=${page}&search=${encodeURIComponent(
     searchQuery
   )}`;
-
   return fetch(apiUrl, {
     method: "GET",
     headers: {
@@ -176,7 +175,7 @@ export function Graph(token) {
     .catch((e) => e);
 }
 
-export function WithdrawBlock(user, action, token) {
+export function WithdrawBlock(user, status, token) {
   const apiUrl = `${url}/withdraw-block`;
   return fetch(apiUrl, {
     method: "post",
@@ -186,14 +185,13 @@ export function WithdrawBlock(user, action, token) {
       "Access-Control-Allow-Origin": "*",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ user, action }),
+    body: JSON.stringify({ user, status }),
   })
     .then((res) => res.json())
     .catch((e) => e);
 }
 
 export function LavelBlock(user, token) {
-  console.log("dbvxch", token);
   const apiUrl = `${url}/levlunblock`;
   return fetch(apiUrl, {
     method: "post",
@@ -244,7 +242,6 @@ export function BlockList(token, page) {
     .catch((e) => e);
 }
 export function FiftyActivate(user, wysAmount, duration, plan, token) {
-  //  console.log("afjsdhvh",user,wysAmount,duration)
   const apiUrl = `${url}/admin-stake`;
   return fetch(apiUrl, {
     method: "POST",
@@ -283,9 +280,9 @@ export async function FreeID(
     .catch((e) => e);
 }
 
-export function FreeIdlist(page, filteredData, token) {
+export function Topup_data(page, filteredData, token) {
   const { searchQuery } = filteredData;
-  const apiUrl = `${url}/freeId?page=${page}&search=${encodeURIComponent(
+  const apiUrl = `${url}/topup-data?page=${page}&search=${encodeURIComponent(
     searchQuery
   )}`;
   return fetch(apiUrl, {
@@ -319,7 +316,7 @@ export function SignIn(email, password) {
 }
 
 export async function UserRegesation(formData) {
-  const res = await axios.post(url + "/signup", {
+  const res = await axios.post(teamlist + "/signup", {
     name: formData.name,
     address: formData.address,
     referrerId: formData.referrerId,
@@ -330,17 +327,34 @@ export async function UserRegesation(formData) {
 }
 
 export async function idToaddress(formData) {
-  const res = await axios.get(url + "/idToAddress", {
+  const res = await axios.get(teamlist + "/idToAddress", {
     params: {
       userId: formData.referrerId,
     },
   });
+  console.log(teamlist, "res form signup");
   return res;
   console.log(res, "res form signup");
 }
 
 export function Topteams(token) {
   const apiUrl = `${url}/top-team`;
+  return fetch(apiUrl, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "cache-control": "no-cache",
+      "Access-Control-Allow-Origin": "*",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(),
+  })
+    .then((res) => res.json())
+    .catch((e) => e);
+}
+
+export function Protocal(token) {
+  const apiUrl = `${url}/protocol-details`;
   return fetch(apiUrl, {
     method: "GET",
     headers: {
@@ -366,7 +380,7 @@ export function Exel_Data(page, filteredData, token) {
       "Content-Type": "application/json",
       "cache-control": "no-cache",
       "Access-Control-Allow-Origin": "*",
-    //  Authorization: `Bearer ${token}`,
+      //  Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(),
   })
@@ -374,9 +388,25 @@ export function Exel_Data(page, filteredData, token) {
     .catch((e) => e);
 }
 
-
+export function Protocal_data(page,ratio,token,) {
+  console.log(page,ratio,token)
+  // const { searchQuery } = filteredData;
+  const apiUrl = `${url}/protocol-data?page=${page}&ratio=${ratio}&token=${token}`;
+  return fetch(apiUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "cache-control": "no-cache",
+      "Access-Control-Allow-Origin": "*",
+      //  Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(),
+  })
+    .then((res) => res.json())
+    .catch((e) => e);
+}
 export function team_Busness(user) {
- // console.log("dbvxch", user);
+  // console.log("dbvxch", user);
   const apiUrl = `${url}/offer-data`;
   return fetch(apiUrl, {
     method: "post",
@@ -384,7 +414,7 @@ export function team_Busness(user) {
       "Content-Type": "application/json",
       "cache-control": "no-cache",
       "Access-Control-Allow-Origin": "*",
-   //   Authorization: `Bearer ${token}`,
+      //   Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({ user }),
   })

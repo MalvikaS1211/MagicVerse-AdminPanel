@@ -12,26 +12,23 @@ const CommissionData = (props) => {
   const [userData, setUserData] = useState([]);
   const [apiTimestamp, setApiTimestamp] = useState(null);
   const isInitialRender = useRef(true);
-  const memoizedUser = useMemo(() => user, [user]);
+  const User = useMemo(() => user, [user]);
 
   useEffect(() => {
-    const userDetails = localStorage.getItem('userDetails');
+    const userDetails = localStorage.getItem("userDetails");
     const parsedDetails = JSON.parse(userDetails);
-    const token = parsedDetails.token
-      Commissiondata(memoizedUser,token)
-        .then((response) => {
-          //  console.log("API Response:", response);
-          setUserData(response.users);
-          // setApiTimestamp(response.timestamp);
-          // console.log(response.timestamp)
-        })
-        .catch((error) => {
-          console.error("Error fetching team data:", error);
-        });
+    const token = parsedDetails.token;
+    Commissiondata(User, token)
+      .then((response) => {
+        setUserData(response.users);
+      })
+      .catch((error) => {
+        console.error("Error fetching team data:", error);
+      });
     // } else {
     //   isInitialRender.current = false;
     // }
-  }, [memoizedUser]);
+  }, [User]);
 
   // console.log("UserData:", userData);
   const navigate = useNavigate();
@@ -49,7 +46,9 @@ const CommissionData = (props) => {
                 style={{ fontSize: "2rem" }}
                 onClick={() => navigate(-1)}
               ></i>
-              <Card.Title style={{ color: "white",margin:"auto" }}>Commission</Card.Title>
+              <Card.Title style={{ color: "white", margin: "auto" }}>
+                Commission
+              </Card.Title>
             </Card.Header>
             <Card.Body
               style={{ background: "black", border: "1px solid white" }}
@@ -65,46 +64,33 @@ const CommissionData = (props) => {
                 <thead>
                   <tr>
                     <th>
-                      <strong>Pool Level</strong>
+                      <strong>Rank Bonus</strong>
                     </th>
                     <th>
-                      <strong>Direct Bonus</strong>
+                      <strong>Recuring Bonus</strong>
                     </th>
                     <th>
                       <strong>Level Bonus</strong>
                     </th>
                     <th>
+                      <strong>Direct Bonuss</strong>
+                    </th>
+                    <th>
                       <strong>Pool Bonus</strong>
                     </th>
                     <th>
-                      <strong>Rank Bonus</strong>
+                      <strong>Total Withdraw</strong>
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    {/* <td>1</td> */}
-                    <td>{userData.poolLevel}</td>
-                    <td>
-                      {userData.directBonus > 0
-                        ? (userData.directBonus / 1e18).toFixed(2)
-                        : 0}
-                    </td>
-                    <td>
-                      {userData.levelBonus > 0
-                        ? (userData.levelBonus / 1e18).toFixed(2)
-                        : 0}
-                    </td>
-                    <td>
-                      {userData.poolBonus > 0
-                        ? (userData.poolBonus / 1e18).toFixed(2)
-                        : 0}
-                    </td>
-                    <td>
-                      {userData.rankBonus > 0
-                        ? (userData.rankBonus / 1e18).toFixed(2)
-                        : 0}
-                    </td>
+                    <td>{userData.rankbonus ?? 0}</td>
+                    <td>{userData.recurrIncome ?? 0}</td>
+                    <td>{userData.levelIncome ?? 0}</td>
+                    <td>{userData.referalIncome ?? 0}</td>
+                    <td>{userData.totalWithdraw ?? 0}</td>
+                    <td>{0}</td>
                   </tr>
                 </tbody>
               </Table>

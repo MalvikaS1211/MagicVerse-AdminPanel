@@ -23,6 +23,7 @@ const BlockUserList = () => {
         const parsedDetails = JSON.parse(userDetails);
         const token = parsedDetails.token
         const result = await BlockList(token,currentPage);
+        console.log(result)
         setApiData(result);
        // console.log(result)
         const total = result.totalCount;

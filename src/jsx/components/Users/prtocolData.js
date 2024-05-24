@@ -1,45 +1,44 @@
-import React, { Fragment, useEffect, useState, useMemo } from "react";
-import {
-  useTable,
-  useGlobalFilter,
-  useFilters,
-  usePagination,
-} from "react-table";
+import { Fragment, useEffect, useState } from "react";
+
 import { Row, Col, Card, Table } from "react-bootstrap";
-import { FreeIdlist, Topup_data } from "../../../services/api_function";
-import moment from "moment";
-const FreeIddata = () => {
-  const [apiData, setApiData] = useState([]);
+import { Link, useLocation ,useNavigate} from "react-router-dom";
+import { Protocal_data } from "../../../services/api_function";
+
+const ProtocalData = () => {
+  const location = useLocation();
+  const token = new URLSearchParams(location.search).get("token");
+  const ratio = new URLSearchParams(location.search).get("ratio");
+  const [apidata, setApidata] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [selectedFilter, setSelectedFilter] = useState("");
   const [search, setSearch] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [filteredData, setFilteredData] = useState([]);
   const pageSize = 100;
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const userDetails = localStorage.getItem("userDetails");
-        const parsedDetails = JSON.parse(userDetails);
-        const token = parsedDetails.token;
-        const result = await Topup_data(
-          currentPage,
-          { searchQuery: search },
-          token
-        );
-        setApiData(result);
-        setFilteredData(result.data);
-        const total = result.totalCount;
-        const pages = Math.ceil(total / pageSize);
-        setTotalPages(pages > 0 ? pages : 1);
-      } catch (error) {
-        console.error("Error fetching data:", error);
+      if (token && ratio) {
+        try {
+          const data = await Protocal_data(currentPage, ratio, token);
+          setApidata(data.protocol);
+          const pages = Math.ceil(data.totalUser / pageSize);
+          setTotalPages(pages > 0 ? pages : 1);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
       }
     };
 
     fetchData();
-  }, [currentPage, search]);
+  }, [currentPage]);
+
+  const formatTimestamp = (timestamp) => {
+    const date = new Date(timestamp);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    return `${day}-${month}-${year} ${hours}:${minutes}`;
+  };
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) =>
@@ -50,27 +49,12 @@ const FreeIddata = () => {
   const handlePreviousPage = () => {
     setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : prevPage));
   };
-  const handleSearch = async (e) => {
-    const query = e.target.value.trim().toLowerCase();
-    const sanitizedQuery = query.replace(/[\\|^$*+?.(){}[\]]/g, "");
-    setSearch(sanitizedQuery);
-    if (currentPage !== 1) {
-      setCurrentPage(1);
-    }
-  };
-  const formatTimestamp = (timestamp) => {
-    const date = new Date(timestamp);
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    return `${day}-${month}-${year} ${hours}:${minutes}`;
-  };
+
+  const navigate = useNavigate();
   return (
     <Fragment>
       <Row>
-        {/* <div
+        <div
           style={{
             display: "flex",
             justifyContent: "flex-end",
@@ -78,7 +62,7 @@ const FreeIddata = () => {
             marginBottom: "20px",
           }}
         >
-          <div className="input-group" style={{ maxWidth: "300px" }}>
+          {/* <div className="input-group" style={{ maxWidth: "300px" }}>
             <input
               type="search"
               id="form1"
@@ -86,29 +70,40 @@ const FreeIddata = () => {
               placeholder="Search here..."
               onChange={handleSearch}
             />
-          </div>
+          </div> */}
           <label class="form-label" for="form1"></label>
-        </div> */}
+        </div>
+
         <Col lg={12}>
           <Card>
             <Card.Header
               style={{ background: "black", border: "1px solid white" }}
             >
+                 <i
+                class="fas fa-circle-left "
+                style={{ fontSize: "2rem" }}
+                onClick={() => navigate(-1)}
+              ></i>
               <Card.Title style={{ color: "white", margin: "auto" }}>
-               TopUp List
+                Protocol User
               </Card.Title>
             </Card.Header>
             <Card.Body
-              style={{ background: "black", border: "1px solid white" }}
+              style={{
+                background: "black",
+                border: "1px solid white",
+                borderRadius: "3px",
+              }}
             >
               <Table
                 responsive
                 style={{
                   background: "black",
                   color: "white",
-                  borderBottom: "1px solid white",
+                  borderBottom: "0.5px solid white",
                 }}
               >
+                {/* <button onClick={() => exportToExcel(data, 'exported-data')}>Export to Excel</button> */}
                 <thead>
                   <tr>
                     <th>
@@ -118,104 +113,104 @@ const FreeIddata = () => {
                       <strong>Name</strong>
                     </th>
                     <th>
-                      {/* <thead>
-                      <input
-                          type="text"
-                          class="form-control"
-                          style={{ width: "70%" }}
-                          placeholder="Search here..."
-                         onChange={handleSearch}
-                        />
-                      </thead> */}
-                      <strong> User</strong>
+                      <strong>Phone</strong>
+                    </th>
+                    <th>
+                      <strong> UserID</strong>
                     </th>
                     <th>
                       {/* <thead>
-                      <input
+                        <input
                           type="text"
                           class="form-control"
                           // style={{ width: "70%" }}
                           placeholder="Search here..."
-                         // onChange={handleSearch}
+                          onChange={handleSearch}
                         />
                       </thead> */}
+                      <strong>User wallet</strong>
+                    </th>
+                    <th>
                       <strong>Amount</strong>
                     </th>
-                  
-                    {/* <th>
-                      <strong>Plan</strong>
-                    </th> */}
                     <th>
-                      {" "}
+                      <strong>referrerId</strong>
+                    </th>
+                    <th>
                       <strong>Transaction ID</strong>
                     </th>
                     <th>
-                      {" "}
                       <strong>Date&Time</strong>
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {Array.isArray(filteredData) && filteredData.length > 0 ? (
-                    filteredData.map((data, index) => (
-                      <tr key={index}>
-                        <td>{(currentPage - 1) * pageSize + index + 1}</td>
-                        <td>{data.name}</td>
-                        <td>{data.user}</td>
-                        <td>{data.amount}</td>
-                        {/* <td>
-                          {data.planId == 1 && "WYS"}
-                          {data.planId == 2 && "ARB"}
-                          {data.planId == 3 && "BNB"}
-                          {data.planId == 4 && "WYZ(50:50)"}
-                          {data.planId == 5 && "WYZ(70:30)"}
-                          {data.planId == 6 && "USDT"}
-                        </td> */}
-                        {/* <td className="text-center">{data.duration}</td> */}
-                        <td>
-                          <a
-                            href={`https://testnet.wyzthscan.org/tx/${data.txHash}`}
-                            className="text-white"
-                            target="_blank"
-                          >
-                            {data.txHash.slice(0, 5)}... {data.txHash.slice(-5)}
-                          </a>
-                        </td>
-                        <td>{formatTimestamp(data.createdAt)}</td>
-                      </tr>
-                    ))
-                  ) : (
+                  {apidata.map((user, index) => (
                     <tr>
-                      <td colSpan="7">No data found</td>
+                      <td>{(currentPage - 1) * pageSize + index + 1}</td>
+                      <td>{user.name}</td>
+                      <td>{user.phone}</td>
+                      <td>{user.userId}</td>
+                      <td>
+                        {" "}
+                        <span className="smaller-font">
+                          {user?.user?.slice(0, 4) +
+                            "..." +
+                            user?.user.slice(-12)}
+                        </span>
+                      </td>
+                      <td>{user.amount}</td>
+                      <td>{user.referrerId}</td>
+
+                      <td>
+                        <a
+                          href={`https://testnet.wyzthscan.org/tx/${user.txHash}`}
+                          className="text-white"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {user.txHash
+                            ? `${user.txHash.slice(0, 5)}...${user.txHash.slice(
+                                -5
+                              )}`
+                            : ""}
+                        </a>
+                      </td>
+                      <td>{formatTimestamp(user.createdAt)}</td>
+                      {/* <td>
+                        <div className="d-flex align-items-center table-action-icon">
+                          <Link
+                            to={`/commission-data?user=${encodeURIComponent(
+                              user.user
+                            )}`}
+                            className="btn btn-primary light shadow btn-xs sharp me-1"
+                          >
+                            <i className="fas fa-pencil-alt"></i>
+                          </Link>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="d-flex align-items-center table-action-icon">
+                          <Link
+                            to={`/team-list?user=${encodeURIComponent(
+                              user.user
+                            )}`}
+                            className="btn btn-primary light shadow btn-xs sharp me-1"
+                          >
+                            <i className="fas fa-pencil-alt"></i>
+                          </Link>
+                        </div>
+                      </td> */}
                     </tr>
-                  )}
+                  ))}
                 </tbody>
               </Table>
+
               <div className="d-flex justify-content-between">
                 <span>
-                  {/* Page{" "} */}
-                  <strong>{/* {currentPage} of {totalPages} */}</strong>
+                  <strong></strong>
                 </span>
-                {/* <span className="table-index">
-                      Go to page :{" "}
-                      <input
-                        type="number"
-                        className="ml-2"
-                        min="1"
-                        max={totalPages}
-                        value={inputPage}
-                        onChange={(e) => setInputPage(e.target.value)}
-                        style={{ width: "50px" }}
-                      />
-                      <button
-                        className="btn btn-primary ml-2"
-                        onClick={handleGoToPage}
-                      >
-                        Go
-                      </button>
-                    </span> */}
               </div>
-
               <div
                 className="text-center mb-3 col-lg-6"
                 style={{ margin: "auto" }}
@@ -273,7 +268,7 @@ const FreeIddata = () => {
                     {">>"}
                   </button>
 
-                  <span className="text-white">
+                  <span className="bg-black text-white">
                     Page {currentPage} of {totalPages}
                   </span>
                 </div>
@@ -286,4 +281,4 @@ const FreeIddata = () => {
   );
 };
 
-export default FreeIddata;
+export default ProtocalData;

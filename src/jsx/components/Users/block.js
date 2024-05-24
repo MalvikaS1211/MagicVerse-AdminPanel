@@ -47,7 +47,7 @@ const BlockData = () => {
 
   const handleBlock = () => {
     if (userInputBlock.trim() !== "") {
-      WithdrawBlock(userInputBlock, "block", token)
+      WithdrawBlock(userInputBlock, "1", token)
         .then((response) => {
           if (response.status == 200) {
             NotificationManager.success(response.message);
@@ -65,8 +65,7 @@ const BlockData = () => {
   };
   const handleUnblock = () => {
     if (userInputUnblock.trim() !== "") {
-      console.log("unblock",userInputUnblock.trim())
-      WithdrawBlock(userInputUnblock, "unblock", token)
+      WithdrawBlock(userInputUnblock, "0", token)
         .then((response) => {
           if (response.status == 200) {
             NotificationManager.success(response.message);
@@ -104,7 +103,6 @@ const BlockData = () => {
     e.preventDefault();
 
     const checksumAddress = web3.utils.toChecksumAddress(user);
-    console.log("cheksumaddd", checksumAddress);
     const apiregister = await axios.post(url + "/isUserExist", {
       address: checksumAddress,
     });
@@ -277,8 +275,6 @@ const BlockData = () => {
     setplan("");
   };
 
-  
-
   return (
     <Fragment>
       <div className="row">
@@ -344,7 +340,7 @@ const BlockData = () => {
             </div>
           </div>
         </div>
-        <div className="col-xl-6 col-lg-6">
+        {/* <div className="col-xl-6 col-lg-6">
           <div className="card">
             <div className="card-header">
               <h4 className="card-title center" style={{ margin: "auto" }}>
@@ -374,8 +370,8 @@ const BlockData = () => {
               </div>
             </div>
           </div>
-        </div>
-        <div className="col-xl-6 col-lg-6">
+        </div> */}
+        {/* <div className="col-xl-6 col-lg-6">
           <div className="card">
             <div className="card-header">
               <h4 className="card-title center" style={{ margin: "auto" }}>
@@ -445,8 +441,8 @@ const BlockData = () => {
               </div>
             </div>
           </div>
-        </div>
-        <div className="col-xl-6 col-lg-6">
+        </div> */}
+        {/* <div className="col-xl-6 col-lg-6">
           <div className="card">
             <div className="card-header">
               <h4 className="card-title center" style={{ margin: "auto" }}>
@@ -517,8 +513,8 @@ const BlockData = () => {
               </div>
             </div>
           </div>
-        </div>
-        <div className="col-xl-6 col-lg-6">
+        </div> */}
+        {/* <div className="col-xl-6 col-lg-6">
           <div className="card">
             <div className="card-header">
               <h4 className="card-title center" style={{ margin: "auto" }}>
@@ -620,7 +616,7 @@ const BlockData = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </Fragment>
   );

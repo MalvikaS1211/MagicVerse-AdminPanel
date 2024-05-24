@@ -17,13 +17,13 @@ const Deposit = () => {
   const [filteredData, setFilteredData] = useState([]);
 
   const pageSize = 100;
- 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userDetails = localStorage.getItem('userDetails');
+        const userDetails = localStorage.getItem("userDetails");
         const parsedDetails = JSON.parse(userDetails);
-        const token = parsedDetails.token
+        const token = parsedDetails.token;
         const response = await DepositeHistory(
           currentPage,
           { searchQuery: search },
@@ -32,9 +32,8 @@ const Deposit = () => {
         if (response && response.status === 200 && !response.error) {
           const { data, totalCount } = response;
           setApiData(data);
-          setFilteredData(data); // Assuming you want to initially show all data
-         // console.log("Data fetched:", data);
-          const pages = Math.ceil(totalCount / pageSize);
+          setFilteredData(data); 
+          const pages = Math.ceil(totalCount[0].totalCount / pageSize);
           setTotalPages(pages > 0 ? pages : 1);
         }
       } catch (error) {
@@ -121,19 +120,19 @@ const Deposit = () => {
                       <strong>NO</strong>
                     </th>
                     <th>
+                      <strong>Name</strong>
+                    </th>
+                    <th>
                       <strong>User</strong>
                     </th>
                     <th>
-                      <strong>WYS Amount</strong>
+                      <strong> Amount</strong>
                     </th>
                     <th>
-                      <strong>Other Amount</strong>
+                      <strong>Token</strong>
                     </th>
                     <th>
-                      <strong>Duration</strong>
-                    </th>
-                    <th>
-                      <strong>Pool</strong>
+                      <strong>Ratio</strong>
                     </th>
                     <th>
                       <strong>Transaction Id</strong>
@@ -149,21 +148,12 @@ const Deposit = () => {
                     filteredData.map((data, index) => (
                       <tr key={index}>
                         <td>{(currentPage - 1) * pageSize + index + 1}</td>
+                        <td>{data.Name}</td>
                         <td>{data.user}</td>
-                        <td>{(data.ttlAmt / 1e18).toFixed(2)}</td>
-                        <td>{(data.wysAmount / 1e18).toFixed(2)}</td>
-                        {/* <td>{(data.otherAmt / 1e18).toFixed(2)}</td>
-                        <td>{(data.ttlAmt / 1e18).toFixed(2)}</td> */}
-                        <td>{data.duration}</td>
-                        <td>
-                          {data.planId == 1 && "WYS"}
-                          {data.planId == 2 && "ARB"}
-                          {data.planId == 3 && "BNB"}
-                          {data.planId == 4 && "WYZ(50:50)"}
-                          {data.planId == 5  && "WYZ(70:30)"}
-                          {data.planId == 6  && "USDT"}
-                        </td>
-                    
+                        <td >{data.amount}</td>
+                        <td>{data.token}</td>
+                        <td>{data.ratio}</td>
+
                         <td>
                           <a
                             href={`https://wyzthscan.org/tx/${data.txHash}`}

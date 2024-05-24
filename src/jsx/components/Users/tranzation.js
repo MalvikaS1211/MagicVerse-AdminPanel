@@ -23,8 +23,8 @@ export const Transaction = () => {
         const parsedDetails = JSON.parse(userDetails);
         const token = parsedDetails.token
         const result = await allUser(currentPage,  { searchQuery: search },token);
-        setApiData(result.usersData );
-        setFilteredData(result.usersData);
+        setApiData(result.data );
+        setFilteredData(result.data);
         const total = result.totalUsers;
         const pages = Math.ceil(total / pageSize);
         setTotalPages(pages > 0 ? pages : 1);

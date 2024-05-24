@@ -16,7 +16,7 @@ export const WithdrawRoi = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [selectedFilter, setSelectedFilter] = useState("");
   const [search, setSearch] = useState("");
-  const [filteredData, setFilteredData] = useState([]);
+  const [filteredData, setFilteredData] = useState();
   const pageSize = 100;
   useEffect(() => {
     const fetchData = async () => {
@@ -28,11 +28,11 @@ export const WithdrawRoi = () => {
           token
         );
         if (response && response.status === 200 && !response.error) {
-          const { Data, totalCount } = response;
+          const { data } = response;
 
-          setFilteredData(Data);
+          setFilteredData(data);
 
-          const pages = Math.ceil(totalCount / pageSize);
+          const pages = Math.ceil(response.totalCount[0].totalCount / pageSize);
           setTotalPages(pages > 0 ? pages : 1);
         }
       } catch (error) {
@@ -56,15 +56,7 @@ export const WithdrawRoi = () => {
   const handleEditClick = (phoneNumber) => {
     console.log("Edit Clicked for phoneNumber:", phoneNumber);
   };
-  //   const handleGoToPage = () => {
-  //     const pageNumber = parseInt(inputPage);
-  //     if (pageNumber >= 1 && pageNumber <= totalPages) {
-  //       setCurrentPage(pageNumber);
-  //       setInputPage("");
-  //     } else {
-  //       console.error("Invalid page number");
-  //     }
-  //   };
+
   const formatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
     const day = String(date.getDate()).padStart(2, "0");
@@ -110,7 +102,7 @@ export const WithdrawRoi = () => {
               style={{ background: "black", border: "1px solid white" }}
             >
               <Card.Title style={{ color: "white", margin: "auto" }}>
-                Withdraw ROI
+                Withdraw
               </Card.Title>
             </Card.Header>
 
@@ -125,37 +117,26 @@ export const WithdrawRoi = () => {
                   borderBottom: "1px solid white",
                 }}
               >
-                <thead></thead>
-                <thead></thead>
                 <thead>
-                  <tr>
-                    {/* <th className="width50"></th> */}
+                <tr>
                     <th>
-                      <strong>NO.</strong>
+                      <strong>No</strong>
                     </th>
-
-                    {/* <th>
-                      <strong> UserID</strong>
-                    </th> */}
+                    <th>
+                      <strong>Name</strong>
+                    </th>
                     <th>
                       <strong>User</strong>
                     </th>
                     <th>
-                      <strong>PlanId</strong>
+                      <strong>Amount</strong>
                     </th>
                     <th>
-                      <strong>Duration</strong>
-                    </th>
-                    <th>
-                      <strong>ROI</strong>
-                    </th>
-                    <th>
-                      <strong>Transaction Id</strong>
+                      <strong>Type</strong>
                     </th>
                     <th>
                       <strong>Date&Time</strong>
                     </th>
-                    {/* <th>  <strong>Team</strong></th> */}
                   </tr>
                 </thead>
                 <tbody>
@@ -163,12 +144,12 @@ export const WithdrawRoi = () => {
                     filteredData.map((Data, index) => (
                       <tr key={index}>
                         <td>{(currentPage - 1) * pageSize + index + 1}</td>
+                        <td>{Data.Name}</td>
                         <td>{Data.user}</td>
+                        <td>{Data.withdrawAmount.toFixed(2)}</td>
+                        <td>{Data.wallet_type}</td>
 
-                        <td>{Data.planId}</td>
-                        <td>{Data.duration}</td>
-                        <td>{(Data.roi / 1e18).toFixed(2)}</td>
-                        <td>
+                        {/* <td>
                           <a
                             href={`https://wyzthscan.org/tx/${Data.txHash}`}
                             className="text-white"
@@ -176,7 +157,7 @@ export const WithdrawRoi = () => {
                           >
                             {Data.txHash.slice(0, 5)}... {Data.txHash.slice(-5)}
                           </a>
-                        </td>
+                        </td> */}
                         <td>{formatTimestamp(Data.createdAt)}</td>
                       </tr>
                     ))
@@ -189,27 +170,8 @@ export const WithdrawRoi = () => {
               </Table>
               <div className="d-flex justify-content-between">
                 <span>
-                  {/* Page{" "} */}
                   <strong>{/* {currentPage} of {totalPages} */}</strong>
                 </span>
-                {/* <span className="table-index">
-                      Go to page :{" "}
-                      <input
-                        type="number"
-                        className="ml-2"
-                        min="1"
-                        max={totalPages}
-                        value={inputPage}
-                        onChange={(e) => setInputPage(e.target.value)}
-                        style={{ width: "50px" }}
-                      />
-                      <button
-                        className="btn btn-primary ml-2"
-                        onClick={handleGoToPage}
-                      >
-                        Go
-                      </button>
-                    </span> */}
               </div>
               <div
                 className="text-center mb-3 col-lg-6"

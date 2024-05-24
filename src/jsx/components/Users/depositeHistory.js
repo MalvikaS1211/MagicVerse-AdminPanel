@@ -14,16 +14,16 @@ const DepositHisory = (props) => {
   const [userData, setUserData] = useState([]);
   const [apiTimestamp, setApiTimestamp] = useState(null);
   const isInitialRender = useRef(true);
-  const memoizedUser = useMemo(() => user, [user]);
+  const User = useMemo(() => user, [user]);
   const pageSize = 100;
   useEffect(() => {
     const userDetails = localStorage.getItem('userDetails');
     const parsedDetails = JSON.parse(userDetails);
     const token = parsedDetails.token
-      Depositedata(memoizedUser,currentPage,token)
+      Depositedata(User,currentPage,token)
         .then((response) => {
-          setUserData(response.depositeHistory);
-          const total = response.totalCount;
+          setUserData(response.data);
+          const total = response.totalUser;
           const pages = Math.ceil(total / pageSize);
           setTotalPages(pages > 0 ? pages : 1);
         })
@@ -31,7 +31,7 @@ const DepositHisory = (props) => {
           console.error("Error fetching team data:", error);
         });
   
-  }, [memoizedUser]);
+  }, [User,currentPage]);
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) =>
@@ -42,7 +42,20 @@ const DepositHisory = (props) => {
   const handlePreviousPage = () => {
     setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : prevPage));
   };
+
+  const formatTimestamp = (timestamp) => {
+    const date = new Date(timestamp);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    return `${day}-${month}-${year} ${hours}:${minutes}`;
+  };
+
   const navigate = useNavigate();
+
+
   return (
     <Fragment>
       <Row>
@@ -70,6 +83,7 @@ const DepositHisory = (props) => {
                 }}
               >
                 <thead>
+               
                   <tr>
                     <th>
                       <strong>NO</strong>
@@ -78,13 +92,13 @@ const DepositHisory = (props) => {
                       <strong>User</strong>
                     </th>
                     <th>
-                      <strong>WYS Amount</strong>
+                      <strong> Amount</strong>
                     </th>
                     <th>
-                      <strong>Other Amount</strong>
+                      <strong>Token</strong>
                     </th>
                     <th>
-                      <strong>Total Amount</strong>
+                      <strong>Ratio</strong>
                     </th>
                     <th>
                       <strong>Transaction Id</strong>
@@ -92,45 +106,38 @@ const DepositHisory = (props) => {
                     <th>
                       <strong>Date&Time</strong>
                     </th>
+                
                   </tr>
                 </thead>
                 <tbody>
                   {userData.map((deposit, index) => (
                     <tr key={index}>
                       <td>{index + 1}</td>
-                      <td>{deposit.user.user}</td>
-                      {/* <td>{deposit.user.wysAmount / 1e18}</td> */}
+                      <td>{deposit.user}</td>
+
                       <td>
-                        {deposit.user.wysAmount > 0
-                          ? (deposit.user.wysAmount / 1e18).toFixed(2)
-                          : 0}{" "}
+                         {deposit.amount}
                       </td>
                       <td>
-                        {deposit.user.otherAmt > 0
-                          ? (deposit.user.otherAmt / 1e18).toFixed(2)
-                          : 0}
+                       {deposit.token}
                       </td>
                       <td>
-                        {deposit.user.ttlAmt > 0
-                          ? (deposit.user.ttlAmt / 1e18).toFixed(2)
-                          : 0}
+                        {deposit.ratio}
                       </td>
+                  
                       {/* <td>{deposit.user.txHash.slice(0, 9)}...{deposit.user.txHash.slice(-5)}</td> */}
                       <td>
                         <a
-                          href={`https://wyzthscan.org/tx/${deposit.user.txHash}`}
+                          href={`https://testnet.wyzthscan.org/tx/${deposit.txHash}`}
                           className="text-white"
                           target="_blank"
                         >
-                          {deposit.user.txHash.slice(0, 9)}...{" "}
-                          {deposit.user.txHash.slice(-5)}
+                          {deposit.txHash.slice(0, 9)}...{" "}
+                          {deposit.txHash.slice(-5)}
                         </a>
                       </td>
                       <td>
-                        {new Date(deposit.user.timestamp * 1000).toLocaleString(
-                          "en-US",
-                          { hour12: false }
-                        )}
+                        {formatTimestamp(deposit.createdAt)}
                       </td>
                     </tr>
                   ))}

@@ -42,6 +42,8 @@ import Withdrawal from "./components/Users/withdrawHistroy";
 import Deposit from "./components/Users/deposite";
 import Fifty from "./components/Users/fifty";
 import ExelFormet from "./components/Users/exeldata";
+import Protocol from "./components/Users/protocol";
+import ProtocalData from "./components/Users/prtocolData";
 //Trading
 import Market from './components/Trading/Market';
 import IcoListing from './components/Trading/IcoListing';
@@ -162,7 +164,7 @@ const Markup = () => {
 
   const allroutes = [
     /// Dashboard
-    { url: "", component: <Home /> },
+    { url: "", component: <AllUser/> },
     { url: "dashboard", component: <Home /> },
     { url: "dashboard-dark", component: <DashboardDark /> },
     { url: "index-1", component: <Dashboard2 /> },
@@ -179,7 +181,7 @@ const Markup = () => {
     {url:"block",component:<BlockData/>},
     {url:"fifty-list",component:<Fifty/>},
     {url:"block-user",component:<BlockUserList/>},
-    {url:"freeid-list",component:<FreeIddata/>},
+    {url:"topup-list",component:<FreeIddata/>},
     {url:"user-registration",component:<UserRegester/>},
     {url:"top-team",component:<TopTeams/>},
 // History
@@ -188,7 +190,9 @@ const Markup = () => {
     {url:"withdrawRoi",component:<WithdrawRoi/>},
     {url:"withdrawClaim",component:<WithdrawClaim/>},
     {url:"deposit-data",component:<Deposit/>},
-    {url:"exel-formet",component:<ExelFormet/>}
+    {url:"exel-formet",component:<ExelFormet/>},
+    {url:"protocol",component:<Protocol/>},
+    {url:"protocol-data",component:<ProtocalData/>},
     //Trading
     // { url: "market", component: <Market /> },
     // { url: "ico-listing", component: <IcoListing /> },

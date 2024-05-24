@@ -14,23 +14,34 @@ const Withdrawal = (props) => {
   const [userData, setUserData] = useState([]);
   const [apiTimestamp, setApiTimestamp] = useState(null);
   const isInitialRender = useRef(true);
-  const memoizedUser = useMemo(() => user, [user]);
+  const User = useMemo(() => user, [user]);
   const pageSize = 100;
   useEffect(() => {
     const userDetails = localStorage.getItem('userDetails');
     const parsedDetails = JSON.parse(userDetails);
     const token = parsedDetails.token
-      Withdrawdata(memoizedUser,currentPage,token)
+      Withdrawdata(User,currentPage,token)
         .then((response) => {
           setUserData(response.data);
-          const total = response.totalCount;
+          const total = response.totalUser;
           const pages = Math.ceil(total / pageSize);
           setTotalPages(pages > 0 ? pages : 1);
         })
         .catch((error) => {
           console.error("Error fetching team data:", error);
         });
-  }, [memoizedUser]);
+  }, [User,currentPage]);
+
+
+  const formatTimestamp = (timestamp) => {
+    const date = new Date(timestamp);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    return `${day}-${month}-${year} ${hours}:${minutes}`;
+  };
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) =>
@@ -74,14 +85,14 @@ const Withdrawal = (props) => {
                       <strong>User</strong>
                     </th>
                     <th>
-                      <strong>ROI</strong>
-                    </th>
-                    <th>
                       <strong>Amount</strong>
                     </th>
                     <th>
-                      <strong>Transaction Id</strong>
+                      <strong>Type</strong>
                     </th>
+                    {/* <th>
+                      <strong>Transaction Id</strong>
+                    </th> */}
                     <th>
                       <strong>Date&Time</strong>
                     </th>
@@ -89,31 +100,28 @@ const Withdrawal = (props) => {
                 </thead>
                 <tbody>
                   {userData.map((data, index) => {
-                    // console.log("Data:123654", data); // Log each data object
                     return (
                       <tr key={index}>
                         <td>{index + 1}</td>
                         <td>{data.user}</td>
                         <td>
-                          {data.roi > 0 ? (data.roi / 1e18).toFixed(2) : 0}
+                        {data.withdrawAmount}
                         </td>
                         <td>
-                          {data.amount > 0
-                            ? (data.amount / 1e18).toFixed(2)
-                            : 0}
+                         {data.wallet_type}
                         </td>
                         {/* <td>{data.txHash.slice(0, 9)}...{data.txHash.slice(-5)}</td> */}
-                        <td>
+                        {/* <td>
                           <a
-                            href={`https://wyzthscan.org/tx/${data.txHash}`}
+                            href={`https://testnet.wyzthscan.org/tx/${data.txHash}`}
                             className="text-white"
                             target="_blank"
                           >
                             {data.txHash.slice(0, 9)}... {data.txHash.slice(-5)}
                           </a>
-                        </td>
+                        </td> */}
                         <td>
-                          {new Date(data.timestamp * 1000).toLocaleString()}
+                      {formatTimestamp(data.createdAt)}
                         </td>
                       </tr>
                     );

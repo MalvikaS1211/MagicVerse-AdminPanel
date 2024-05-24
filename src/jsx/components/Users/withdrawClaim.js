@@ -8,22 +8,20 @@ import {
 } from "react-table";
 import { Row, Col, Card, Table } from "react-bootstrap";
 import { withdrawClaim } from "../../../services/api_function";
-import { DownloadExcel } from "react-excel-export";
-import { CSVLink } from "react-csv";
+
 export const WithdrawClaim = () => {
   const [apiData, setApiData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [selectedFilter, setSelectedFilter] = useState("");
   const [search, setSearch] = useState("");
-  const [filteredData,  setFilteredData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const pageSize = 100;
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userDetails = localStorage.getItem('userDetails');
+        const userDetails = localStorage.getItem("userDetails");
         const parsedDetails = JSON.parse(userDetails);
-        const token = parsedDetails.token
+        const token = parsedDetails.token;
         const response = await withdrawClaim(
           currentPage,
           { searchQuery: search },
@@ -31,9 +29,7 @@ export const WithdrawClaim = () => {
         );
         if (response && response.status === 200 && !response.error) {
           const { Data, totalClount } = response;
-     //  console.log(response,":::::")
-          setFilteredData(Data); 
-        //  console.log("Data fetched:", data);
+          setFilteredData(Data);
           const pages = Math.ceil(totalClount / pageSize);
           setTotalPages(pages > 0 ? pages : 1);
         }
@@ -78,7 +74,7 @@ export const WithdrawClaim = () => {
   return (
     <Fragment>
       <Row>
-      <div
+        <div
           style={{
             display: "flex",
             justifyContent: "flex-end",
@@ -105,7 +101,7 @@ export const WithdrawClaim = () => {
               <Card.Title style={{ color: "white", margin: "auto" }}>
                 Withdraw Claim
               </Card.Title>
-        
+
               {/* <CSVLink data={apiData} className="btn btn-primary"></CSVLink> */}
             </Card.Header>
 
@@ -124,7 +120,6 @@ export const WithdrawClaim = () => {
                 <thead></thead>
                 <thead>
                   <tr>
-                 
                     <th>
                       <strong>NO.</strong>
                     </th>
@@ -151,8 +146,8 @@ export const WithdrawClaim = () => {
                       <tr key={index}>
                         <td>{(currentPage - 1) * pageSize + index + 1}</td>
                         <td>{Data.user}</td>
-                      
-                     {/* //   <td>{Data.planId}</td> */}
+
+                        {/* //   <td>{Data.planId}</td> */}
                         <td>{(Data.amount / 1e18).toFixed(2)}</td>
                         <td>
                           <a

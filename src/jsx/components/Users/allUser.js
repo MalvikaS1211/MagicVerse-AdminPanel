@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect, useState, useMemo, useRef } from "react";
 import { DownloadTableExcel } from "react-export-table-to-excel";
 import { DownloadExcel } from "react-excel-export";
+import { useNavigate } from "react-router-dom";
 import {
   useTable,
   useGlobalFilter,
@@ -24,6 +25,8 @@ export const AllUser = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const pageSize = 100;
+
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -35,11 +38,15 @@ export const AllUser = () => {
           { searchQuery: search },
           token
         );
-        setApiData(result.usersData);
-        setFilteredData(result.usersData);
+        setApiData(result.data);
+        setFilteredData(result.data);
         const total = result.totalUsers;
         const pages = Math.ceil(total / pageSize);
         setTotalPages(pages > 0 ? pages : 1);
+        if (result.status == 404) {
+          navigate("/login");
+          localStorage.removeItem("userDetails");
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -198,16 +205,16 @@ export const AllUser = () => {
                     <th>
                       <strong>referrerId</strong>
                     </th>
-                    {/* <th>
-                      <strong>Level</strong>
-                    </th> */}
-                    <th>
-                      <strong>WYS Farm</strong>
-                    </th>
-                    <th>
-                      <strong>Team Business</strong>
-                    </th>
 
+                    <th>
+                      <strong>Stake</strong>
+                    </th>
+                    <th>
+                      <strong>Topup Amount</strong>
+                    </th>
+                    <th>
+                      <strong>Total Income</strong>
+                    </th>
                     <th>
                       <strong>Transaction ID</strong>
                     </th>
@@ -215,7 +222,9 @@ export const AllUser = () => {
                       <strong>Date&Time</strong>
                     </th>
                     <th>
-                      {" "}
+                      <strong>Commission</strong>
+                    </th>
+                    <th>
                       <strong>Team</strong>
                     </th>
                   </tr>
@@ -236,23 +245,43 @@ export const AllUser = () => {
                         </span>
                       </td>
                       <td>{user.referrerId}</td>
-                      {/* <td>{user.rank}</td> */}
-                      <td>{(user.wysStaked / 1e18).toFixed(2)}</td>
-                      <td>
-                      
-                          { (user.teamBusiness / 1e18).toFixed(2)}
-                      </td>
 
+                      <td className="text-center">
+                        {user.stake_amount.toFixed(2)}
+                      </td>
+                      <td className="text-center">
+                        {user.topup_amount.toFixed(2)}
+                      </td>
+                      <td className="text-center">
+                        {user.total_Income.toFixed(2)}
+                      </td>
                       <td>
                         <a
-                          href={`https://wyzthscan.org/tx/${user.txHash}`}
+                          href={`https://wyzthscan.org/tx/${user.txhash}`}
                           className="text-white"
                           target="_blank"
+                          rel="noopener noreferrer"
                         >
-                          {user.txHash.slice(0, 5)}... {user.txHash.slice(-5)}
+                          {user.txhash
+                            ? `${user.txhash.slice(0, 5)}...${user.txhash.slice(
+                                -5
+                              )}`
+                            : ""}
                         </a>
                       </td>
                       <td>{formatTimestamp(user.createdAt)}</td>
+                      <td>
+                        <div className="d-flex align-items-center table-action-icon">
+                          <Link
+                            to={`/commission-data?user=${encodeURIComponent(
+                              user.user
+                            )}`}
+                            className="btn btn-primary light shadow btn-xs sharp me-1"
+                          >
+                            <i className="fas fa-pencil-alt"></i>
+                          </Link>
+                        </div>
+                      </td>
                       <td>
                         <div className="d-flex align-items-center table-action-icon">
                           <Link
@@ -275,24 +304,6 @@ export const AllUser = () => {
                   {/* Page{" "} */}
                   <strong>{/* {currentPage} of {totalPages} */}</strong>
                 </span>
-                {/* <span className="table-index">
-                        Go to page :{" "}
-                        <input
-                          type="number"
-                          className="ml-2"
-                          min="1"
-                          max={totalPages}
-                          value={inputPage}
-                          onChange={(e) => setInputPage(e.target.value)}
-                          style={{ width: "50px" }}
-                        />
-                        <button
-                          className="btn btn-primary ml-2"
-                          onClick={handleGoToPage}
-                        >
-                          Go
-                        </button>
-                      </span> */}
               </div>
               <div
                 className="text-center mb-3 col-lg-6"

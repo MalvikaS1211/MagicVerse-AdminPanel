@@ -32,7 +32,7 @@ export async function registration(user, referal) {
       gasprice,
       estimate
     );
-    console.log( "resultup:::");
+    console.log("resultup:::");
     const reslut = await contract.methods.registration(user, referal).send({
       from: address,
       value: 0,
