@@ -106,7 +106,7 @@ export const WithdrawRoi = () => {
               </Card.Title>
             </Card.Header>
 
-            <Card.Body
+          <Card.Body
               style={{ background: "black", border: "1px solid white" }}
             >
               <Table

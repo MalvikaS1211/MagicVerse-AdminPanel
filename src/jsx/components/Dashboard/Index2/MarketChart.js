@@ -182,24 +182,27 @@ class MarketChart extends React.Component {
       const seriesData = [
         {
           name: " WYS",
-          data: daysOfWeekOrdered.map((day) => wyzStake[day] || 0),
+          data: daysOfWeekOrdered.map((day) => (wyzStake[day] || 0).toFixed(2))
+
         },
         {
           name: "Usdt",
-          data: daysOfWeekOrdered.map((day) => usdtStake[day] || 0),
+          data: daysOfWeekOrdered.map((day) => (usdtStake[day] || 0).toFixed(2))
+
         },
         {
           name: "ROI",
-          data: daysOfWeekOrdered.map((day) => withdrawRoi[day] || 0),
+          data: daysOfWeekOrdered.map((day) => (withdrawRoi[day] || 0).toFixed(2))
+
         },
         {
           name: "Referral ",
-          data: daysOfWeekOrdered.map((day) => withdrawReferal[day] || 0),
+          data: daysOfWeekOrdered.map((day) => (withdrawReferal[day] || 0).toFixed(2))
         },
-        {
-          name: "Total Deposite",
-          data: daysOfWeekOrdered.map((day) => totalDeposite[day] || 0),
-        },
+         {
+           name: "Total Deposite",
+        data: daysOfWeekOrdered.map((day) => (totalDeposite[day] || 0).toFixed(2))
+         },
       ];
 
       this.setState((prevState) => ({
