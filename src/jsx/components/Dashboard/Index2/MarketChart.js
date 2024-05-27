@@ -196,10 +196,10 @@ class MarketChart extends React.Component {
           name: "Referral ",
           data: daysOfWeekOrdered.map((day) => withdrawReferal[day] || 0),
         },
-        {
-          name: "Total Deposite",
-          data: daysOfWeekOrdered.map((day) => totalDeposite[day] || 0),
-        },
+        // {
+        //   name: "Total Deposite",
+        //   data: daysOfWeekOrdered.map((day) => totalDeposite[day] || 0),
+        // },
       ];
 
       this.setState((prevState) => ({
