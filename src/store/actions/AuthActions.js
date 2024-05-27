@@ -95,7 +95,7 @@ export function loginAction(email, password, navigate) {
           saveTokenInLocalStorage(response);
          //   runLogoutTimer(dispatch, response.expiresIn, navigate);
           dispatch(loginConfirmedAction(response));
-          navigate("/allUsers");
+          navigate("/dashboard");
           NotificationManager.success(response.message);
         } else {
         NotificationManager.error(response.message)

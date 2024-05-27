@@ -150,7 +150,7 @@ const Deposit = () => {
                         <td>{(currentPage - 1) * pageSize + index + 1}</td>
                         <td>{data.Name}</td>
                         <td>{data.user}</td>
-                        <td >{data.amount}</td>
+                        <td >{Number(data.amount).toFixed(2)}</td>
                         <td>{data.token}</td>
                         <td>{data.ratio}</td>
 
