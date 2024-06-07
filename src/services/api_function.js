@@ -1,9 +1,8 @@
 import axios from "axios";
 //export const url = "http://localhost:1337/api";
-export const url = "http://68.183.227.222/api";
+export const url = "https://stake.wyscale.com/api";
 
-export const teamlist="https://farming.wyscale.com/api"
-
+export const teamlist = "https://farming.wyscale.com/api";
 
 export function allUser(page, filteredData, token) {
   const { searchQuery } = filteredData;
@@ -24,7 +23,7 @@ export function allUser(page, filteredData, token) {
 }
 
 export function TeamData(user, limit, currentPage, sortField1, sortField2) {
-  const apiUrl = `${teamlist}/team-list?user=${user}&limit=${limit}&page=${currentPage}&sortField1=${sortField1}&sortField2=${sortField2}`;
+  const apiUrl = `${url}/team-list?user=${user}&limit=${limit}&page=${currentPage}&sortField1=${sortField1}&sortField2=${sortField2}`;
   return fetch(apiUrl, {
     method: "GET",
     headers: {
@@ -73,12 +72,53 @@ export function withdrawRoi(page, filteredData, token) {
     .then((res) => res.json())
     .catch((e) => e);
 }
-
-export function withdrawClaim(page, filteredData, token) {
+export function Approve_Withdraw(page, filteredData, token) {
   const { searchQuery } = filteredData;
-  const apiUrl = `${url}/withdraw-claim?page=${page}&search=${encodeURIComponent(
+  const apiUrl = `${url}/approved-withdraw?page=${page}&search=${encodeURIComponent(
     searchQuery
   )}`;
+
+  return fetch(apiUrl, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "cache-control": "no-cache",
+      "Access-Control-Allow-Origin": "*",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(),
+  })
+    .then((res) => res.json())
+    .catch((e) => e);
+}
+
+export function Withdraw_Reject(page, filteredData, token) {
+  console.log(token, "token");
+  const { searchQuery } = filteredData;
+  const apiUrl = `${url}/reject-withdraw?page=${page}&search=${encodeURIComponent(
+    searchQuery
+  )}`;
+
+  return fetch(apiUrl, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "cache-control": "no-cache",
+      "Access-Control-Allow-Origin": "*",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(),
+  })
+    .then((res) => res.json())
+    .catch((e) => e);
+}
+
+export function withdrawClaim(page, filteredData, pageSize, token) {
+  console.log(pageSize, "vjhfsgbfh");
+  const { searchQuery, paymentMethod } = filteredData;
+  const apiUrl = `${url}/withdraw-referal?page=${page}&pageSize=${pageSize}&search=${encodeURIComponent(
+    searchQuery
+  )}&paymentMethod=${encodeURIComponent(paymentMethod)}`;
   return fetch(apiUrl, {
     method: "GET",
     headers: {
@@ -209,7 +249,7 @@ export function LavelBlock(user, token) {
 
 export function FiftyList(page, filteredData, token) {
   const { searchQuery } = filteredData;
-  const apiUrl = `${url}/fifty-list?page=${page}&search=${encodeURIComponent(
+  const apiUrl = `${url}/fifty-fifty?page=${page}&search=${encodeURIComponent(
     searchQuery
   )}`;
   return fetch(apiUrl, {
@@ -257,15 +297,8 @@ export function FiftyActivate(user, wysAmount, duration, plan, token) {
     .catch((e) => e);
 }
 
-export async function FreeID(
-  user,
-  wysAmount,
-  duration,
-  freeId = false,
-  plan,
-  token
-) {
-  const apiUrl = `${url}/admin-stake`;
+export async function FreeID(user, wysAmount, plan, token) {
+  const apiUrl = `${url}/manualregister`;
   return fetch(apiUrl, {
     method: "POST",
     headers: {
@@ -274,7 +307,11 @@ export async function FreeID(
       "Access-Control-Allow-Origin": "*",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ user, wysAmount, duration, freeid: freeId, plan }),
+    body: JSON.stringify({
+      walletAddress: user,
+      amount: wysAmount,
+      plan: plan,
+    }),
   })
     .then((res) => res.json())
     .catch((e) => e);
@@ -338,7 +375,7 @@ export async function idToaddress(formData) {
 }
 
 export function Topteams(token) {
-  const apiUrl = `${url}/top-team`;
+  const apiUrl = `${url}/top-twenty`;
   return fetch(apiUrl, {
     method: "GET",
     headers: {
@@ -388,8 +425,8 @@ export function Exel_Data(page, filteredData, token) {
     .catch((e) => e);
 }
 
-export function Protocal_data(page,ratio,token,) {
-  console.log(page,ratio,token)
+export function Protocal_data(page, ratio, token) {
+  console.log(page, ratio, token);
   // const { searchQuery } = filteredData;
   const apiUrl = `${url}/protocol-data?page=${page}&ratio=${ratio}&token=${token}`;
   return fetch(apiUrl, {
@@ -406,17 +443,17 @@ export function Protocal_data(page,ratio,token,) {
     .catch((e) => e);
 }
 export function team_Busness(user) {
-  // console.log("dbvxch", user);
-  const apiUrl = `${url}/offer-data`;
+  console.log("dbvxch", user);
+  const apiUrl = `${url}/team-data?user=${user}`;
   return fetch(apiUrl, {
-    method: "post",
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
       "cache-control": "no-cache",
       "Access-Control-Allow-Origin": "*",
       //   Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ user }),
+    body: JSON.stringify(),
   })
     .then((res) => res.json())
     .catch((e) => e);

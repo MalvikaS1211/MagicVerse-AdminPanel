@@ -37,6 +37,7 @@ const BalanceCardSlider = () => {
         const parsedDetails = JSON.parse(userDetails);
         const token = parsedDetails.token;
         const response = await dashboardData(token);
+      //  console.log(response,"response")
         setData(response);
         if (response.status == 404) {
           navigate("/login");
@@ -119,7 +120,7 @@ const BalanceCardSlider = () => {
             </div>
           </div>
         </div>
-        <div className="col-lg-2">
+        {/* <div className="col-lg-2">
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info">
@@ -128,9 +129,6 @@ const BalanceCardSlider = () => {
                   {data.activeUser ?? 0}
                 </h4>
                 <p>Active Users</p>
-                {/* <div>
-									<span className="text-success">+3.02%</span>
-								</div>  */}
               </div>
             </div>
             <div className="back-icon">
@@ -166,8 +164,8 @@ const BalanceCardSlider = () => {
               </svg>
             </div>
           </div>
-        </div>
-        <div className="col-lg-2">
+        </div> */}
+        {/* <div className="col-lg-2">
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info">
@@ -176,7 +174,6 @@ const BalanceCardSlider = () => {
                 </h4>
                 <p className="sm-chart">Inactive User</p>
               </div>
-              {/* <div id="TotaldipositChart"></div> */}
             </div>
             <div className="back-icon">
               <svg
@@ -211,16 +208,44 @@ const BalanceCardSlider = () => {
               </svg>
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div className="col-lg-2">
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info rewards">
-                <h4 className="count-num">
-                  {Number(data.totalwyz ?? 0).toFixed(2)}
+                <h4>
+                  WYZ={""}
+                  {Number(
+                    ((protocal.firstdata ?? 0) * 0.1) / 20 +
+                      ((protocal.seconddata ?? 0) * 0.2) / 20 +
+                      ((protocal.thirddata ?? 0) * 0.3) / 20 +
+                      ((protocal.fourthdata ?? 0) * 0.4) / 20 +
+                      ((protocal.fifthdata ?? 0) * 0.5) / 20
+                  ).toFixed(2)}
                 </h4>
-                <p>Total Deposit (WYS)</p>
+                <h4>
+                  stUSDT={""}
+                  {Number(
+                    (protocal.firstdata ?? 0) * 0.9 +
+                      (protocal.seconddata ?? 0) * 0.8 +
+                      (protocal.thirddata ?? 0) * 0.7 +
+                      (protocal.fourthdata ?? 0) * 0.6 +
+                      (protocal.fifthdata ?? 0) * 0.5
+                  ).toFixed(2)}
+                </h4>
+                <h4>
+                  Total={""}
+                  {Number(
+                    (protocal.firstdata ?? 0) +
+                      (protocal.seconddata ?? 0) +
+                      (protocal.thirddata ?? 0) +
+                      (protocal.fourthdata ?? 0) +
+                      (protocal.fifthdata ?? 0)
+                  ).toFixed(2)}
+                </h4>
+
+                <p>Total Deposit (WYZ)</p>
               </div>
             </div>
             <div className="back-icon">
@@ -257,8 +282,37 @@ const BalanceCardSlider = () => {
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info rewards">
-                <h4 className="count-num">
-                  {Number(data.usdttotal ?? 0).toFixed(2)}
+                <h4>
+                  WYZ={""}
+                  {Number(
+                    ((protocal.sixdata ?? 0) * 0.15) / 20 +
+                      ((protocal.sevendata ?? 0) * 0.2) / 20 +
+                      ((protocal.eightdata ?? 0) * 0.25) / 20
+                  ).toFixed(0)}
+                </h4>
+                <h4>
+                  sUSDT={""}
+                  {Number(
+                    (protocal.sixdata ?? 0) * 0.15 +
+                      (protocal.sevendata ?? 0) * 0.2 +
+                      (protocal.eightdata ?? 0) * 0.25
+                  ).toFixed(2)}
+                </h4>
+                <h4>
+                  stUSDT={""}
+                  {Number(
+                    (protocal.sixdata ?? 0) * 0.85 +
+                      (protocal.sevendata ?? 0) * 0.8 +
+                      (protocal.eightdata ?? 0) * 0.75
+                  ).toFixed(2)}
+                </h4>
+                <h4>
+                  Total={""}
+                  {Number(
+                    (protocal.sixdata ?? 0)+
+                    (protocal.sevendata ?? 0)+
+                    (protocal.eightdata ?? 0)
+                  ).toFixed(2)}
                 </h4>
                 <p>Total Deposit (USDT) </p>
               </div>
@@ -297,11 +351,37 @@ const BalanceCardSlider = () => {
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info rewards">
-                <h4 className="count-num">
-                  {" "}
-                  {Number(data.wyzToday ?? 0).toFixed(2)}
+                <h4>
+                  WYZ={" "}
+                  {Number(
+                    ((data.firstdata ?? 0) * 0.1) / 20 +
+                      ((data.seconddata ?? 0) * 0.2) / 20 +
+                      ((data.thirddata ?? 0) * 0.3) / 20 +
+                      ((data.fourthdata ?? 0) * 0.4) / 20 +
+                      ((data.fifthdata ?? 0) * 0.5) / 20
+                  ).toFixed(2)}
                 </h4>
-                <p> Today Deposit (WYS) </p>
+                <h4>
+                  stUSDT={""}
+                  {Number(
+                    (data.firstdata ?? 0) * 0.9 +
+                      (data.seconddata ?? 0) * 0.8 +
+                      (data.thirddata ?? 0) * 0.7 +
+                      (data.fourthdataa ?? 0) * 0.6 +
+                      (data.fifthdata ?? 0) * 0.5
+                  ).toFixed(2)}
+                </h4>
+                <h4>
+                  total={""}
+                  {Number(
+                    (data.firstdata ?? 0) +
+                      (data.seconddata ?? 0) +
+                      (data.thirddata ?? 0) +
+                      (data.fourthdataa ?? 0) +
+                      (data.fifthdata ?? 0)
+                  ).toFixed(2)}
+                </h4>
+                <p> Today Deposit (WYZ) </p>
               </div>
             </div>
             <div className="back-icon">
@@ -338,10 +418,39 @@ const BalanceCardSlider = () => {
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info rewards">
-                <h4 className="count-num">
-                  {Number(data.usdtTody ?? 0).toFixed(2)}
+                <h4>
+                  sUSDT={""}
+                  {Number(
+                    (data.sixdata ?? 0) * 0.15 +
+                      (data.sevendata ?? 0) * 0.2 +
+                      (data.eightdata ?? 0) * 0.25
+                  ).toFixed(2)}
                 </h4>
-
+                <h4>
+                  stUSDT={""}
+                  {Number(
+                    (data.sixdata ?? 0) * 0.85 +
+                      (data.sevendata ?? 0) * 0.8 +
+                      (data.eightdata ?? 0) * 0.75
+                  ).toFixed(2)}
+                </h4>
+                <h4>
+                  WYZ={""}
+                  {Number(
+                    ((data.sixdata ?? 0) * 0.15) / 20 +
+                      ((data.sevendata ?? 0) * 0.2) / 20 +
+                      ((data.eightdata ?? 0) * 0.25) / 20
+                  ).toFixed(2)}
+                </h4>
+                <h4>
+                  {" "}
+                  Total={""}
+                  {Number(
+                    (data.sixdata ?? 0) +
+                      (data.sevendata ?? 0) +
+                      (data.eightdata ?? 0)
+                  ).toFixed(2)}
+                </h4>
                 <p> Today Deposit USDT </p>
               </div>
             </div>
@@ -379,9 +488,14 @@ const BalanceCardSlider = () => {
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info rewards">
-                <h4 className="count-num">
+                <h4> Total={Number(protocal.firstdata ?? 0).toFixed(2)}</h4>
+                <h4>
+                  WYZ ={" "}
+                  {Number(((protocal.firstdata ?? 0) * 0.1) / 20).toFixed(2)}
+                </h4>
+                <h4>
                   {" "}
-                  {Number(protocal.firstdata ?? 0).toFixed(2)}
+                  stUSDT= {Number((protocal.firstdata ?? 0) * 0.9).toFixed(2)}
                 </h4>
                 <p> Total Deposit WYZ+stUSDT (10:90) </p>
               </div>
@@ -420,8 +534,14 @@ const BalanceCardSlider = () => {
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info rewards">
-                <h4 className="count-num">
-                  {Number(protocal.seconddata ?? 0).toFixed(2)}
+                <h4>Total={Number(protocal.seconddata ?? 0).toFixed(2)}</h4>
+                <h4>
+                  WYZ ={" "}
+                  {Number(((protocal.seconddata ?? 0) * 0.2) / 20).toFixed(2)}
+                </h4>
+                <h4>
+                  {" "}
+                  stUSDT= {Number((protocal.seconddata ?? 0) * 0.8).toFixed(2)}
                 </h4>
                 <p>Total Deposit WYZ+stUSDT (20:80) </p>
               </div>
@@ -460,8 +580,14 @@ const BalanceCardSlider = () => {
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info">
-                <h4 className="count-num">
-                  {Number(protocal.thirddata ?? 0).toFixed(2)}
+                <h4>Total= {Number(protocal.thirddata ?? 0).toFixed(2)}</h4>
+                <h4>
+                  WYZ={""}
+                  {Number(((protocal.thirddata ?? 0) * 0.3) / 20).toFixed(2)}
+                </h4>
+                <h4>
+                  stUSDT= {""}
+                  {Number((protocal.thirddata ?? 0) * 0.7).toFixed(2)}
                 </h4>
                 <p>Total Deposit WYZ+stUSDT (30:70)</p>
               </div>
@@ -488,8 +614,17 @@ const BalanceCardSlider = () => {
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info">
-                <h4 className="count-num">
+                <h4>
+                  Total={""}
                   {Number(protocal.fourthdata ?? 0).toFixed(2)}
+                </h4>
+                <h4>
+                  WYZ={""}
+                  {Number(((protocal.fourthdata ?? 0) * 0.4) / 20).toFixed(2)}
+                </h4>
+                <h4>
+                  stUSDT= {""}
+                  {Number((protocal.fourthdata ?? 0) * 0.6).toFixed(2)}
                 </h4>
                 <p>Total Deposit WYZ+stUSDT (40:60)</p>
               </div>
@@ -516,8 +651,16 @@ const BalanceCardSlider = () => {
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info">
-                <h4 className="count-num">
-                  {Number(protocal.fifthdata ?? 0).toFixed(2)}
+                <h4>
+                  Total= {""} {Number(protocal.fifthdata ?? 0).toFixed(2)}
+                </h4>
+                <h4>
+                  WYZ={""}
+                  {Number(((protocal.fifthdata ?? 0) * 0.5) / 20).toFixed(2)}
+                </h4>
+                <h4>
+                  stUSDT= {""}
+                  {Number((protocal.fifthdata ?? 0) * 0.5).toFixed(2)}
                 </h4>
                 <p>Total Deposit WYZ+stUSDT (50:50)</p>
               </div>
@@ -544,10 +687,25 @@ const BalanceCardSlider = () => {
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info">
-                <h4 className="count-num">
-                  {Number(protocal.sixdata ?? 0).toFixed(2)}
+                <h4>
+                  {""}
+                  sUSDT= {Number((protocal.sixdata ?? 0) * 0.15).toFixed(2)}
                 </h4>
-                <p>Total Deposit bUSDT+stUSDT(15:85)</p>
+                <h4>
+                  {""}
+                  stUSDT= {Number((protocal.sixdata ?? 0) * 0.85).toFixed(2)}
+                </h4>
+                <h4>
+                  {""}
+                  WYZ={" "}
+                  {Number(((protocal.sixdata ?? 0) * 0.15) / 20).toFixed(2)}
+                </h4>
+                <h4>
+                  {""}
+                  Total={" "}
+                  {Number((protocal.sixdata ?? 0)).toFixed(2)}
+                </h4>
+                <p style={{fontSize:"16px"}}>Total Deposit sUSDT+stUSDT(15:85)</p>
               </div>
             </div>
             <div className="back-icon">
@@ -572,10 +730,23 @@ const BalanceCardSlider = () => {
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info">
-                <h4 className="count-num">
-                  {Number(protocal.sevendata ?? 0).toFixed(2)}
+                <h4>
+                  {""}
+                  sUSDT= {Number((protocal.sevendata ?? 0) * 0.2).toFixed(2)}
                 </h4>
-                <p>Total Deposit bUSDT+stUSDT(20:80)</p>
+                <h4>
+                  {""}
+                  stUSDT= {Number((protocal.sevendata ?? 0) * 0.8).toFixed(2)}
+                </h4>
+                <h4>
+                  WYZ={" "}
+                  {Number(((protocal.sevendata ?? 0) * 0.2) / 20).toFixed(2)}
+                </h4>
+                <h4>
+                  Total={" "}
+                  {Number((protocal.sevendata ?? 0)).toFixed(2)}
+                </h4>
+                <p style={{fontSize:"16px"}}>Total Deposit sUSDT+stUSDT(20:80)</p>
               </div>
             </div>
             <div className="back-icon">
@@ -600,10 +771,26 @@ const BalanceCardSlider = () => {
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info">
-                <h4 className="count-num">
-                  {Number(protocal.eightdata ?? 0).toFixed(2)}
+                <h4>
+                  {""}
+                  sUSDT= {Number((protocal.eightdata ?? 0) * 0.25).toFixed(2)}
                 </h4>
-                <p>Total Deposit bUSDT+stUSDT(25:75)</p>
+                <h4>
+                  {""}
+                  stUSDT= {Number((protocal.eightdata ?? 0) * 0.75).toFixed(2)}
+                </h4>
+                <h4>
+               
+                  WYZ={" "}
+                  {Number(((protocal.eightdata ?? 0) * 0.25) / 20).toFixed(2)}
+                </h4>
+                <h4>
+               
+               Total={" "}
+               {Number(protocal.eightdata ?? 0).toFixed(2)}
+             </h4>
+
+                <p style={{fontSize:"16px"}}>Total Deposit sUSDT+stUSDT(25:75)</p>
               </div>
             </div>
             <div className="back-icon">
@@ -628,8 +815,13 @@ const BalanceCardSlider = () => {
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info">
-                <h4 className="count-num">
-                  {Number(data.firstdata ?? 0).toFixed(2)}
+                <h4> Total={Number(data.firstdata ?? 0).toFixed(2)}</h4>
+                <h4>
+                  WYZ = {Number(((data.firstdata ?? 0) * 0.1) / 20).toFixed(2)}
+                </h4>
+                <h4>
+                  {" "}
+                  stUSDT= {Number((data.firstdata ?? 0) * 0.9).toFixed(2)}
                 </h4>
                 <p>Today Deposit WYZ+stUSDT(10:90)</p>
               </div>
@@ -656,8 +848,13 @@ const BalanceCardSlider = () => {
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info">
-                <h4 className="count-num">
-                  {Number(data.seconddata ?? 0).toFixed(2)}
+                <h4>Total={Number(data.seconddata ?? 0).toFixed(2)}</h4>
+                <h4>
+                  WYZ = {Number(((data.seconddata ?? 0) * 0.2) / 20).toFixed(2)}
+                </h4>
+                <h4>
+                  {" "}
+                  stUSDT= {Number((data.seconddata ?? 0) * 0.8).toFixed(2)}
                 </h4>
                 <p>Today Deposit WYZ+stUSDT(20:80)</p>
               </div>
@@ -684,8 +881,14 @@ const BalanceCardSlider = () => {
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info">
-                <h4 className="count-num">
-                  {Number(data.thirddata ?? 0).toFixed(2)}
+                <h4>Total= {Number(data.thirddata ?? 0).toFixed(2)}</h4>
+                <h4>
+                  WYZ={""}
+                  {Number(((data.thirddata ?? 0) * 0.3) / 20).toFixed(2)}
+                </h4>
+                <h4>
+                  stUSDT= {""}
+                  {Number((data.thirddata ?? 0) * 0.7).toFixed(2)}
                 </h4>
                 <p>Today Deposit WYZ+stUSDT(30:70)</p>
               </div>
@@ -712,8 +915,17 @@ const BalanceCardSlider = () => {
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info">
-                <h4 className="count-num">
+                <h4>
+                  Total={""}
                   {Number(data.fourthdata ?? 0).toFixed(2)}
+                </h4>
+                <h4>
+                  WYZ={""}
+                  {Number(((data.fourthdata ?? 0) * 0.4) / 20).toFixed(2)}
+                </h4>
+                <h4>
+                  stUSDT= {""}
+                  {Number((data.fourthdataa ?? 0) * 0.6).toFixed(2)}
                 </h4>
                 <p>Today Deposit WYZ+stUSDT(40:60)</p>
               </div>
@@ -740,8 +952,16 @@ const BalanceCardSlider = () => {
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info">
-                <h4 className="count-num">
-                  {Number(data.fifthdata ?? 0).toFixed(2)}
+                <h4>
+                  Total= {""} {Number(data.fifthdata ?? 0).toFixed(2)}
+                </h4>
+                <h4>
+                  WYZ={""}
+                  {Number(((data.fifthdata ?? 0) * 0.5) / 20).toFixed(2)}
+                </h4>
+                <h4>
+                  stUSDT= {""}
+                  {Number((data.fifthdata ?? 0) * 0.5).toFixed(2)}
                 </h4>
                 <p>Today Deposit WYZ+stUSDT(50:50)</p>
               </div>
@@ -768,10 +988,23 @@ const BalanceCardSlider = () => {
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info">
-                <h4 className="count-num">
-                  {Number(data.sixdata ?? 0).toFixed(2)}
+                <h4>
+                  {""}
+                  sUSDT= {Number((data.sixdata ?? 0) * 0.15).toFixed(2)}
                 </h4>
-                <p>Today Deposit bUSDT+stUSDT(15:85)</p>
+                <h4>
+                  {""}
+                  stUSDT= {Number((data.sixdata ?? 0) * 0.85).toFixed(2)}
+                </h4>
+                <h4>
+                  {""}
+                  WYZ= {Number(((data.sixdata ?? 0) * 0.15) / 20).toFixed(2)}
+                </h4>
+                <h4>
+                  {""}
+                  Total= {Number((data.sixdata ?? 0) ).toFixed(2)}
+                </h4>
+                <p style={{fontSize:"16px"}}>Today Deposit sUSDT+stUSDT(15:85)</p>
               </div>
             </div>
             <div className="back-icon">
@@ -796,10 +1029,23 @@ const BalanceCardSlider = () => {
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info">
-                <h4 className="count-num">
-                  {Number(data.sevendata ?? 0).toFixed(2)}
+                <h4>
+                  {""}
+                  sUSDT= {Number((data.sevendata ?? 0) * 0.2).toFixed(2)}
                 </h4>
-                <p>Today Deposit bUSDT+stUSDT(20:80)</p>
+                <h4>
+                  {""}
+                  stUSDT= {Number((data.sevendata ?? 0) * 0.8).toFixed(2)}
+                </h4>
+                <h4>
+                  {""}
+                  WYZ= {Number(((data.sevendata ?? 0) * 0.2) / 20).toFixed(2)}
+                </h4>
+                <h4>
+                {""}
+                  Total= {Number((data.sevendata ?? 0)).toFixed(2)}
+                </h4>
+                <p  style={{fontSize:"16px"}}>Today Deposit sUSDT+stUSDT(20:80)</p>
               </div>
             </div>
             <div className="back-icon">
@@ -824,10 +1070,23 @@ const BalanceCardSlider = () => {
           <div className="card card-wiget">
             <div className="card-body">
               <div className="card-wiget-info">
-                <h4 className="count-num">
-                  {Number(data.eightdata ?? 0).toFixed(2) ?? 0 ?? 0}
+                <h4>
+                  {""}
+                  sUSDT= {Number((data.eightdata ?? 0) * 0.25).toFixed(2)}
                 </h4>
-                <p>Today Deposit bUSDT+stUSDT(25:75)</p>
+                <h4>
+                  {""}
+                  stUSDT= {Number((data.eightdata ?? 0) * 0.75).toFixed(2)}
+                </h4>
+                <h4>
+                  {""}
+                  WYZ= {Number(((data.eightdata ?? 0) * 0.25) / 20).toFixed(2)}
+                </h4>
+                <h4>
+                  {""}
+                  Total= {Number(data.eightdata ?? 0).toFixed(2)}
+                </h4>
+                <p  style={{fontSize:"16px"}}>Today Deposit sUSDT+stUSDT(25:75)</p>
               </div>
             </div>
             <div className="back-icon">
@@ -940,6 +1199,206 @@ const BalanceCardSlider = () => {
                   {Number(data.refrealtoday ?? 0).toFixed(2)}
                 </h4>
                 <p>Today Withdraw Referral </p>
+              </div>
+            </div>
+            <div className="back-icon">
+              <svg
+                width="64"
+                height="127"
+                viewBox="0 0 64 127"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g opacity="0.05">
+                  <path
+                    d="M70.1991 32.0409C63.3711 28.2675 56.1119 25.3926 48.9246 22.4098C44.7559 20.6849 40.7669 18.6724 37.2451 15.8694C30.3093 10.3351 31.639 1.3509 39.7607 -2.20684C42.0606 -3.21307 44.4684 -3.5365 46.9121 -3.68024C56.3275 -4.18336 65.2758 -2.4584 73.7928 1.63839C78.0333 3.68679 79.4349 3.03993 80.8723 -1.38029C82.3817 -6.05207 83.6395 -10.7957 85.041 -15.5034C85.9753 -18.6659 84.8254 -20.7502 81.8426 -22.0799C76.3802 -24.4876 70.7741 -26.2126 64.8805 -27.1469C57.19 -28.3329 57.19 -28.3688 57.1541 -36.0952C57.1181 -46.984 57.1181 -46.984 46.1934 -46.984C44.6122 -46.984 43.0309 -47.02 41.4497 -46.984C36.3467 -46.8403 35.4842 -45.9419 35.3405 -40.8029C35.2686 -38.503 35.3405 -36.203 35.3045 -33.8671C35.2686 -27.0391 35.2327 -27.1469 28.6922 -24.7751C12.88 -19.0252 3.1052 -8.24421 2.06304 9.00543C1.12868 24.2785 9.10664 34.5924 21.6486 42.1032C29.375 46.739 37.9279 49.4702 46.1215 53.0998C49.3199 54.5014 52.3745 56.1185 55.0338 58.3466C62.904 64.8512 61.4665 75.6681 52.1229 79.7649C47.1277 81.957 41.845 82.4961 36.4186 81.8133C28.0453 80.7711 20.0314 78.579 12.4847 74.6619C8.06447 72.3619 6.77075 72.9729 5.2614 77.7524C3.96768 81.8852 2.81771 86.0538 1.66773 90.2225C0.122451 95.8286 0.697435 97.1583 6.05201 99.7817C12.88 103.088 20.1752 104.777 27.6141 105.963C33.4358 106.897 33.6155 107.149 33.6874 113.186C33.7233 115.917 33.7233 118.684 33.7593 121.416C33.7952 124.866 35.4483 126.878 39.006 126.95C43.0309 127.022 47.0918 127.022 51.1167 126.914C54.4229 126.842 56.1119 125.045 56.1119 121.703C56.1119 117.966 56.2916 114.192 56.1478 110.455C55.9682 106.646 57.6213 104.705 61.2868 103.699C69.7319 101.399 76.9193 96.8708 82.4535 90.1147C97.8345 71.4276 91.9768 44.0797 70.1991 32.0409Z"
+                    fill="#9568FF"
+                  />
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div className="col-lg-2">
+          <div className="card card-wiget">
+            <div className="card-body">
+              <div className="card-wiget-info">
+                <h4 className="count-num">
+                  {Number((data.approveWithdrawtotal ?? 0)* 0.95).toFixed(2)}
+                </h4>
+                <p>Total Withdraw </p>
+              </div>
+            </div>
+            <div className="back-icon">
+              <svg
+                width="64"
+                height="127"
+                viewBox="0 0 64 127"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g opacity="0.05">
+                  <path
+                    d="M70.1991 32.0409C63.3711 28.2675 56.1119 25.3926 48.9246 22.4098C44.7559 20.6849 40.7669 18.6724 37.2451 15.8694C30.3093 10.3351 31.639 1.3509 39.7607 -2.20684C42.0606 -3.21307 44.4684 -3.5365 46.9121 -3.68024C56.3275 -4.18336 65.2758 -2.4584 73.7928 1.63839C78.0333 3.68679 79.4349 3.03993 80.8723 -1.38029C82.3817 -6.05207 83.6395 -10.7957 85.041 -15.5034C85.9753 -18.6659 84.8254 -20.7502 81.8426 -22.0799C76.3802 -24.4876 70.7741 -26.2126 64.8805 -27.1469C57.19 -28.3329 57.19 -28.3688 57.1541 -36.0952C57.1181 -46.984 57.1181 -46.984 46.1934 -46.984C44.6122 -46.984 43.0309 -47.02 41.4497 -46.984C36.3467 -46.8403 35.4842 -45.9419 35.3405 -40.8029C35.2686 -38.503 35.3405 -36.203 35.3045 -33.8671C35.2686 -27.0391 35.2327 -27.1469 28.6922 -24.7751C12.88 -19.0252 3.1052 -8.24421 2.06304 9.00543C1.12868 24.2785 9.10664 34.5924 21.6486 42.1032C29.375 46.739 37.9279 49.4702 46.1215 53.0998C49.3199 54.5014 52.3745 56.1185 55.0338 58.3466C62.904 64.8512 61.4665 75.6681 52.1229 79.7649C47.1277 81.957 41.845 82.4961 36.4186 81.8133C28.0453 80.7711 20.0314 78.579 12.4847 74.6619C8.06447 72.3619 6.77075 72.9729 5.2614 77.7524C3.96768 81.8852 2.81771 86.0538 1.66773 90.2225C0.122451 95.8286 0.697435 97.1583 6.05201 99.7817C12.88 103.088 20.1752 104.777 27.6141 105.963C33.4358 106.897 33.6155 107.149 33.6874 113.186C33.7233 115.917 33.7233 118.684 33.7593 121.416C33.7952 124.866 35.4483 126.878 39.006 126.95C43.0309 127.022 47.0918 127.022 51.1167 126.914C54.4229 126.842 56.1119 125.045 56.1119 121.703C56.1119 117.966 56.2916 114.192 56.1478 110.455C55.9682 106.646 57.6213 104.705 61.2868 103.699C69.7319 101.399 76.9193 96.8708 82.4535 90.1147C97.8345 71.4276 91.9768 44.0797 70.1991 32.0409Z"
+                    fill="#9568FF"
+                  />
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div className="col-lg-2">
+          <div className="card card-wiget">
+            <div className="card-body">
+              <div className="card-wiget-info">
+                <h4 className="count-num">
+                {(Number(data.pendingWithdrawls ?? 0) * 0.95).toFixed(2)}
+
+                </h4>
+                <p>Total Pending Withdraw </p>
+              </div>
+            </div>
+            <div className="back-icon">
+              <svg
+                width="64"
+                height="127"
+                viewBox="0 0 64 127"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g opacity="0.05">
+                  <path
+                    d="M70.1991 32.0409C63.3711 28.2675 56.1119 25.3926 48.9246 22.4098C44.7559 20.6849 40.7669 18.6724 37.2451 15.8694C30.3093 10.3351 31.639 1.3509 39.7607 -2.20684C42.0606 -3.21307 44.4684 -3.5365 46.9121 -3.68024C56.3275 -4.18336 65.2758 -2.4584 73.7928 1.63839C78.0333 3.68679 79.4349 3.03993 80.8723 -1.38029C82.3817 -6.05207 83.6395 -10.7957 85.041 -15.5034C85.9753 -18.6659 84.8254 -20.7502 81.8426 -22.0799C76.3802 -24.4876 70.7741 -26.2126 64.8805 -27.1469C57.19 -28.3329 57.19 -28.3688 57.1541 -36.0952C57.1181 -46.984 57.1181 -46.984 46.1934 -46.984C44.6122 -46.984 43.0309 -47.02 41.4497 -46.984C36.3467 -46.8403 35.4842 -45.9419 35.3405 -40.8029C35.2686 -38.503 35.3405 -36.203 35.3045 -33.8671C35.2686 -27.0391 35.2327 -27.1469 28.6922 -24.7751C12.88 -19.0252 3.1052 -8.24421 2.06304 9.00543C1.12868 24.2785 9.10664 34.5924 21.6486 42.1032C29.375 46.739 37.9279 49.4702 46.1215 53.0998C49.3199 54.5014 52.3745 56.1185 55.0338 58.3466C62.904 64.8512 61.4665 75.6681 52.1229 79.7649C47.1277 81.957 41.845 82.4961 36.4186 81.8133C28.0453 80.7711 20.0314 78.579 12.4847 74.6619C8.06447 72.3619 6.77075 72.9729 5.2614 77.7524C3.96768 81.8852 2.81771 86.0538 1.66773 90.2225C0.122451 95.8286 0.697435 97.1583 6.05201 99.7817C12.88 103.088 20.1752 104.777 27.6141 105.963C33.4358 106.897 33.6155 107.149 33.6874 113.186C33.7233 115.917 33.7233 118.684 33.7593 121.416C33.7952 124.866 35.4483 126.878 39.006 126.95C43.0309 127.022 47.0918 127.022 51.1167 126.914C54.4229 126.842 56.1119 125.045 56.1119 121.703C56.1119 117.966 56.2916 114.192 56.1478 110.455C55.9682 106.646 57.6213 104.705 61.2868 103.699C69.7319 101.399 76.9193 96.8708 82.4535 90.1147C97.8345 71.4276 91.9768 44.0797 70.1991 32.0409Z"
+                    fill="#9568FF"
+                  />
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div className="col-lg-2">
+          <div className="card card-wiget">
+            <div className="card-body">
+              <div className="card-wiget-info">
+                <h4 className="count-num">
+                {(Number(data.approvetodaywith ?? 0) * 0.95).toFixed(2)}
+                </h4>
+                <p>Today Approve Withdraw </p>
+              </div>
+            </div>
+            <div className="back-icon">
+              <svg
+                width="64"
+                height="127"
+                viewBox="0 0 64 127"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g opacity="0.05">
+                  <path
+                    d="M70.1991 32.0409C63.3711 28.2675 56.1119 25.3926 48.9246 22.4098C44.7559 20.6849 40.7669 18.6724 37.2451 15.8694C30.3093 10.3351 31.639 1.3509 39.7607 -2.20684C42.0606 -3.21307 44.4684 -3.5365 46.9121 -3.68024C56.3275 -4.18336 65.2758 -2.4584 73.7928 1.63839C78.0333 3.68679 79.4349 3.03993 80.8723 -1.38029C82.3817 -6.05207 83.6395 -10.7957 85.041 -15.5034C85.9753 -18.6659 84.8254 -20.7502 81.8426 -22.0799C76.3802 -24.4876 70.7741 -26.2126 64.8805 -27.1469C57.19 -28.3329 57.19 -28.3688 57.1541 -36.0952C57.1181 -46.984 57.1181 -46.984 46.1934 -46.984C44.6122 -46.984 43.0309 -47.02 41.4497 -46.984C36.3467 -46.8403 35.4842 -45.9419 35.3405 -40.8029C35.2686 -38.503 35.3405 -36.203 35.3045 -33.8671C35.2686 -27.0391 35.2327 -27.1469 28.6922 -24.7751C12.88 -19.0252 3.1052 -8.24421 2.06304 9.00543C1.12868 24.2785 9.10664 34.5924 21.6486 42.1032C29.375 46.739 37.9279 49.4702 46.1215 53.0998C49.3199 54.5014 52.3745 56.1185 55.0338 58.3466C62.904 64.8512 61.4665 75.6681 52.1229 79.7649C47.1277 81.957 41.845 82.4961 36.4186 81.8133C28.0453 80.7711 20.0314 78.579 12.4847 74.6619C8.06447 72.3619 6.77075 72.9729 5.2614 77.7524C3.96768 81.8852 2.81771 86.0538 1.66773 90.2225C0.122451 95.8286 0.697435 97.1583 6.05201 99.7817C12.88 103.088 20.1752 104.777 27.6141 105.963C33.4358 106.897 33.6155 107.149 33.6874 113.186C33.7233 115.917 33.7233 118.684 33.7593 121.416C33.7952 124.866 35.4483 126.878 39.006 126.95C43.0309 127.022 47.0918 127.022 51.1167 126.914C54.4229 126.842 56.1119 125.045 56.1119 121.703C56.1119 117.966 56.2916 114.192 56.1478 110.455C55.9682 106.646 57.6213 104.705 61.2868 103.699C69.7319 101.399 76.9193 96.8708 82.4535 90.1147C97.8345 71.4276 91.9768 44.0797 70.1991 32.0409Z"
+                    fill="#9568FF"
+                  />
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div className="col-lg-2">
+          <div className="card card-wiget">
+            <div className="card-body">
+              <div className="card-wiget-info">
+                <h4 className="count-num">
+                {Number(data.reejectWithdrawtotal ?? 0) .toFixed(2)}
+                </h4>
+                <p>Total Reject Withdraw </p>
+              </div>
+            </div>
+            <div className="back-icon">
+              <svg
+                width="64"
+                height="127"
+                viewBox="0 0 64 127"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g opacity="0.05">
+                  <path
+                    d="M70.1991 32.0409C63.3711 28.2675 56.1119 25.3926 48.9246 22.4098C44.7559 20.6849 40.7669 18.6724 37.2451 15.8694C30.3093 10.3351 31.639 1.3509 39.7607 -2.20684C42.0606 -3.21307 44.4684 -3.5365 46.9121 -3.68024C56.3275 -4.18336 65.2758 -2.4584 73.7928 1.63839C78.0333 3.68679 79.4349 3.03993 80.8723 -1.38029C82.3817 -6.05207 83.6395 -10.7957 85.041 -15.5034C85.9753 -18.6659 84.8254 -20.7502 81.8426 -22.0799C76.3802 -24.4876 70.7741 -26.2126 64.8805 -27.1469C57.19 -28.3329 57.19 -28.3688 57.1541 -36.0952C57.1181 -46.984 57.1181 -46.984 46.1934 -46.984C44.6122 -46.984 43.0309 -47.02 41.4497 -46.984C36.3467 -46.8403 35.4842 -45.9419 35.3405 -40.8029C35.2686 -38.503 35.3405 -36.203 35.3045 -33.8671C35.2686 -27.0391 35.2327 -27.1469 28.6922 -24.7751C12.88 -19.0252 3.1052 -8.24421 2.06304 9.00543C1.12868 24.2785 9.10664 34.5924 21.6486 42.1032C29.375 46.739 37.9279 49.4702 46.1215 53.0998C49.3199 54.5014 52.3745 56.1185 55.0338 58.3466C62.904 64.8512 61.4665 75.6681 52.1229 79.7649C47.1277 81.957 41.845 82.4961 36.4186 81.8133C28.0453 80.7711 20.0314 78.579 12.4847 74.6619C8.06447 72.3619 6.77075 72.9729 5.2614 77.7524C3.96768 81.8852 2.81771 86.0538 1.66773 90.2225C0.122451 95.8286 0.697435 97.1583 6.05201 99.7817C12.88 103.088 20.1752 104.777 27.6141 105.963C33.4358 106.897 33.6155 107.149 33.6874 113.186C33.7233 115.917 33.7233 118.684 33.7593 121.416C33.7952 124.866 35.4483 126.878 39.006 126.95C43.0309 127.022 47.0918 127.022 51.1167 126.914C54.4229 126.842 56.1119 125.045 56.1119 121.703C56.1119 117.966 56.2916 114.192 56.1478 110.455C55.9682 106.646 57.6213 104.705 61.2868 103.699C69.7319 101.399 76.9193 96.8708 82.4535 90.1147C97.8345 71.4276 91.9768 44.0797 70.1991 32.0409Z"
+                    fill="#9568FF"
+                  />
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div className="col-lg-2">
+          <div className="card card-wiget">
+            <div className="card-body">
+              <div className="card-wiget-info">
+                <h4 className="count-num">
+                {(Number(data.approveWithdrawtotal ?? 0) * 0.05).toFixed(2)}
+
+                </h4>
+                <p>Fess 5%  </p>
+              </div>
+            </div>
+            <div className="back-icon">
+              <svg
+                width="64"
+                height="127"
+                viewBox="0 0 64 127"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g opacity="0.05">
+                  <path
+                    d="M70.1991 32.0409C63.3711 28.2675 56.1119 25.3926 48.9246 22.4098C44.7559 20.6849 40.7669 18.6724 37.2451 15.8694C30.3093 10.3351 31.639 1.3509 39.7607 -2.20684C42.0606 -3.21307 44.4684 -3.5365 46.9121 -3.68024C56.3275 -4.18336 65.2758 -2.4584 73.7928 1.63839C78.0333 3.68679 79.4349 3.03993 80.8723 -1.38029C82.3817 -6.05207 83.6395 -10.7957 85.041 -15.5034C85.9753 -18.6659 84.8254 -20.7502 81.8426 -22.0799C76.3802 -24.4876 70.7741 -26.2126 64.8805 -27.1469C57.19 -28.3329 57.19 -28.3688 57.1541 -36.0952C57.1181 -46.984 57.1181 -46.984 46.1934 -46.984C44.6122 -46.984 43.0309 -47.02 41.4497 -46.984C36.3467 -46.8403 35.4842 -45.9419 35.3405 -40.8029C35.2686 -38.503 35.3405 -36.203 35.3045 -33.8671C35.2686 -27.0391 35.2327 -27.1469 28.6922 -24.7751C12.88 -19.0252 3.1052 -8.24421 2.06304 9.00543C1.12868 24.2785 9.10664 34.5924 21.6486 42.1032C29.375 46.739 37.9279 49.4702 46.1215 53.0998C49.3199 54.5014 52.3745 56.1185 55.0338 58.3466C62.904 64.8512 61.4665 75.6681 52.1229 79.7649C47.1277 81.957 41.845 82.4961 36.4186 81.8133C28.0453 80.7711 20.0314 78.579 12.4847 74.6619C8.06447 72.3619 6.77075 72.9729 5.2614 77.7524C3.96768 81.8852 2.81771 86.0538 1.66773 90.2225C0.122451 95.8286 0.697435 97.1583 6.05201 99.7817C12.88 103.088 20.1752 104.777 27.6141 105.963C33.4358 106.897 33.6155 107.149 33.6874 113.186C33.7233 115.917 33.7233 118.684 33.7593 121.416C33.7952 124.866 35.4483 126.878 39.006 126.95C43.0309 127.022 47.0918 127.022 51.1167 126.914C54.4229 126.842 56.1119 125.045 56.1119 121.703C56.1119 117.966 56.2916 114.192 56.1478 110.455C55.9682 106.646 57.6213 104.705 61.2868 103.699C69.7319 101.399 76.9193 96.8708 82.4535 90.1147C97.8345 71.4276 91.9768 44.0797 70.1991 32.0409Z"
+                    fill="#9568FF"
+                  />
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div className="col-lg-2">
+          <div className="card card-wiget">
+            <div className="card-body">
+              <div className="card-wiget-info">
+                <h4 className="count-num">
+                {(Number(data.alltopup ?? 0) ).toFixed(2)}
+
+                </h4>
+                <p>Total TopUp  </p>
+              </div>
+            </div>
+            <div className="back-icon">
+              <svg
+                width="64"
+                height="127"
+                viewBox="0 0 64 127"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g opacity="0.05">
+                  <path
+                    d="M70.1991 32.0409C63.3711 28.2675 56.1119 25.3926 48.9246 22.4098C44.7559 20.6849 40.7669 18.6724 37.2451 15.8694C30.3093 10.3351 31.639 1.3509 39.7607 -2.20684C42.0606 -3.21307 44.4684 -3.5365 46.9121 -3.68024C56.3275 -4.18336 65.2758 -2.4584 73.7928 1.63839C78.0333 3.68679 79.4349 3.03993 80.8723 -1.38029C82.3817 -6.05207 83.6395 -10.7957 85.041 -15.5034C85.9753 -18.6659 84.8254 -20.7502 81.8426 -22.0799C76.3802 -24.4876 70.7741 -26.2126 64.8805 -27.1469C57.19 -28.3329 57.19 -28.3688 57.1541 -36.0952C57.1181 -46.984 57.1181 -46.984 46.1934 -46.984C44.6122 -46.984 43.0309 -47.02 41.4497 -46.984C36.3467 -46.8403 35.4842 -45.9419 35.3405 -40.8029C35.2686 -38.503 35.3405 -36.203 35.3045 -33.8671C35.2686 -27.0391 35.2327 -27.1469 28.6922 -24.7751C12.88 -19.0252 3.1052 -8.24421 2.06304 9.00543C1.12868 24.2785 9.10664 34.5924 21.6486 42.1032C29.375 46.739 37.9279 49.4702 46.1215 53.0998C49.3199 54.5014 52.3745 56.1185 55.0338 58.3466C62.904 64.8512 61.4665 75.6681 52.1229 79.7649C47.1277 81.957 41.845 82.4961 36.4186 81.8133C28.0453 80.7711 20.0314 78.579 12.4847 74.6619C8.06447 72.3619 6.77075 72.9729 5.2614 77.7524C3.96768 81.8852 2.81771 86.0538 1.66773 90.2225C0.122451 95.8286 0.697435 97.1583 6.05201 99.7817C12.88 103.088 20.1752 104.777 27.6141 105.963C33.4358 106.897 33.6155 107.149 33.6874 113.186C33.7233 115.917 33.7233 118.684 33.7593 121.416C33.7952 124.866 35.4483 126.878 39.006 126.95C43.0309 127.022 47.0918 127.022 51.1167 126.914C54.4229 126.842 56.1119 125.045 56.1119 121.703C56.1119 117.966 56.2916 114.192 56.1478 110.455C55.9682 106.646 57.6213 104.705 61.2868 103.699C69.7319 101.399 76.9193 96.8708 82.4535 90.1147C97.8345 71.4276 91.9768 44.0797 70.1991 32.0409Z"
+                    fill="#9568FF"
+                  />
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div className="col-lg-2">
+          <div className="card card-wiget">
+            <div className="card-body">
+              <div className="card-wiget-info">
+                <h4 className="count-num">
+                {(Number(data.topupday ?? 0)).toFixed(2)}
+
+                </h4>
+                <p>Today Topup  </p>
               </div>
             </div>
             <div className="back-icon">

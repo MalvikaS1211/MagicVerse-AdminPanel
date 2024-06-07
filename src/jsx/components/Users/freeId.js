@@ -162,7 +162,7 @@ const FreeIddata = () => {
                         <td>{(currentPage - 1) * pageSize + index + 1}</td>
                         <td>{data.name}</td>
                         <td>{data.user}</td>
-                        <td>{data.amount}</td>
+                        <td>{(data.amount).toFixed(2)}</td>
                         {/* <td>
                           {data.planId == 1 && "WYS"}
                           {data.planId == 2 && "ARB"}
@@ -174,7 +174,7 @@ const FreeIddata = () => {
                         {/* <td className="text-center">{data.duration}</td> */}
                         <td>
                           <a
-                            href={`https://testnet.wyzthscan.org/tx/${data.txHash}`}
+                            href={`https://wyzthscan.org/tx/${data.txHash}`}
                             className="text-white"
                             target="_blank"
                           >

@@ -55,6 +55,13 @@ export const MenuList = [
     iconStyle: <i className="material-icons text-white">account_circle</i>,
     to: "allUsers",
   },
+  {
+    title: " Stking User",
+    //classsChange: 'mm-collapse',
+    // iconStyle: Widget,
+    iconStyle: <i className="material-icons text-white">account_circle</i>,
+    to: "staking-user",
+  },
 
   // {
   //     title:'Announcements',
@@ -102,13 +109,27 @@ export const MenuList = [
     iconStyle: <i className="material-icons">account_circle</i>,
     to: "withdrawRoi",
   },
-  // {
-  //     title:'Withdraw Claim ',
-  //     //classsChange: 'mm-collapse',
-  //     //iconStyle: Widget,
-  //     iconStyle: <i className="material-icons">account_circle</i>,
-  //     to: 'withdrawClaim',
-  // },
+  {
+      title:'Withdraw Referral ',
+      //classsChange: 'mm-collapse',
+      //iconStyle: Widget,
+      iconStyle: <i className="material-icons">account_circle</i>,
+      to: 'withdrawClaim',
+  },
+  {
+    title:'Withdraw Approve ',
+    //classsChange: 'mm-collapse',
+    //iconStyle: Widget,
+    iconStyle: <i className="material-icons">account_circle</i>,
+    to: 'withdraw-approve',
+},
+{
+  title:'Withdraw Reject ',
+  //classsChange: 'mm-collapse',
+  //iconStyle: Widget,
+  iconStyle: <i className="material-icons">account_circle</i>,
+  to: 'reject-withdraw',
+},
   {
     title: "Deposit ",
     //classsChange: 'mm-collapse',
@@ -123,13 +144,13 @@ export const MenuList = [
     iconStyle: <i className="material-icons">account_circle</i>,
     to: 'topup-list',
 },
-  // {
-  //     title:'Fifty List ',
-  //     //classsChange: 'mm-collapse',
-  //     //iconStyle: Widget,
-  //     iconStyle: <i className="material-icons">account_circle</i>,
-  //     to: 'fifty-list',
-  // },
+  {
+      title:'Fifty List ',
+      //classsChange: 'mm-collapse',
+      //iconStyle: Widget,
+      iconStyle: <i className="material-icons">account_circle</i>,
+      to: 'fifty-list',
+  },
   {
     title: "Admin Change ",
     //classsChange: 'mm-collapse',
@@ -145,13 +166,13 @@ export const MenuList = [
     iconStyle: <i className="material-icons">account_circle</i>,
     to: "block-user",
   },
-  // {
-  //     title:'Top Teams ',
-  //     //classsChange: 'mm-collapse',
-  //     //iconStyle: Widget,
-  //     iconStyle: <i className="material-icons">account_circle</i>,
-  //     to: 'top-team',
-  // },
+  {
+      title:'Top Teams ',
+      //classsChange: 'mm-collapse',
+      //iconStyle: Widget,
+      iconStyle: <i className="material-icons">account_circle</i>,
+      to: 'top-team',
+  },
   // {
   //     title:"Excel Formet",
   //     //classsChange: 'mm-collapse',

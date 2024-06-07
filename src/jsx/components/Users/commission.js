@@ -1,11 +1,16 @@
-import React, { Fragment, useEffect, useState,useMemo } from "react";
-import { useTable, useGlobalFilter, useFilters, usePagination } from 'react-table';
+import React, { Fragment, useEffect, useState, useMemo } from "react";
+import {
+  useTable,
+  useGlobalFilter,
+  useFilters,
+  usePagination,
+} from "react-table";
 import { Row, Col, Card, Table } from "react-bootstrap";
 // import { useTable, usePagination } from "react-table";
 import { allUser } from "../../../services/api_function";
 import { Link } from "react-router-dom";
-import {COLUMNS} from "../../components/table/FilteringTable/Columns"
-import MOCK_DATA  from "../../components/table/FilteringTable/MOCK_DATA_2.json"
+import { COLUMNS } from "../../components/table/FilteringTable/Columns";
+import MOCK_DATA from "../../components/table/FilteringTable/MOCK_DATA_2.json";
 //import './table.css';
 
 export const Commission = () => {
@@ -18,11 +23,15 @@ export const Commission = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userDetails = localStorage.getItem('userDetails');
+        const userDetails = localStorage.getItem("userDetails");
         const parsedDetails = JSON.parse(userDetails);
-        const token = parsedDetails.token
-        const result = await allUser(currentPage,  { searchQuery: search },token);
-        setApiData(result.usersData );
+        const token = parsedDetails.token;
+        const result = await allUser(
+          currentPage,
+          { searchQuery: search },
+          token
+        );
+        setApiData(result.usersData);
         const total = result.totalUsers;
         const pages = Math.ceil(total / pageSize);
         setTotalPages(pages > 0 ? pages : 1);
@@ -32,7 +41,7 @@ export const Commission = () => {
     };
 
     fetchData();
-  }, [currentPage,search]);
+  }, [currentPage, search]);
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) =>
@@ -45,18 +54,18 @@ export const Commission = () => {
   };
 
   const handleEditClick = (phoneNumber) => {
-  //  console.log("Edit Clicked for phoneNumber:", phoneNumber);
+    //  console.log("Edit Clicked for phoneNumber:", phoneNumber);
   };
-//   const handleGoToPage = () => {
-//     const pageNumber = parseInt(inputPage);
-//     if (pageNumber >= 1 && pageNumber <= totalPages) {
-//       setCurrentPage(pageNumber);
-//       setInputPage("");
-//     } else {
-//       console.error("Invalid page number");
-//     }
-//   };
-const formatTimestamp = (timestamp) => {
+  //   const handleGoToPage = () => {
+  //     const pageNumber = parseInt(inputPage);
+  //     if (pageNumber >= 1 && pageNumber <= totalPages) {
+  //       setCurrentPage(pageNumber);
+  //       setInputPage("");
+  //     } else {
+  //       console.error("Invalid page number");
+  //     }
+  //   };
+  const formatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
     const day = String(date.getDate()).padStart(2, "0");
     const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -65,51 +74,56 @@ const formatTimestamp = (timestamp) => {
     const minutes = String(date.getMinutes()).padStart(2, "0");
     return `${day}-${month}-${year} ${hours}:${minutes}`;
   };
-  const columns = useMemo( () => COLUMNS, [] )
-	const data = useMemo( () => MOCK_DATA, [] )
-	const tableInstance = useTable({
-		columns,
-		data,	
-		initialState : {pageIndex : 0}
-	}, useFilters, useGlobalFilter, usePagination)
-	
-	const { 
-		getTableProps, 
-		getTableBodyProps, 
-		headerGroups, 
-		prepareRow,
-		state,
-		page,
-		gotoPage,
-		pageCount,
-		pageOptions,
-		nextPage,
-		previousPage,
-		canNextPage,
-		canPreviousPage,
-		setGlobalFilter,
-	} = tableInstance
-	const {globalFilter, pageIndex} = state
+  const columns = useMemo(() => COLUMNS, []);
+  const data = useMemo(() => MOCK_DATA, []);
+  const tableInstance = useTable(
+    {
+      columns,
+      data,
+      initialState: { pageIndex: 0 },
+    },
+    useFilters,
+    useGlobalFilter,
+    usePagination
+  );
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    prepareRow,
+    state,
+    page,
+    gotoPage,
+    pageCount,
+    pageOptions,
+    nextPage,
+    previousPage,
+    canNextPage,
+    canPreviousPage,
+    setGlobalFilter,
+  } = tableInstance;
+  const { globalFilter, pageIndex } = state;
   const handleSearch = async (e) => {
     const query = e.target.value.trim().toLowerCase();
-    const sanitizedQuery = query.replace(/[\\|^$*+?.(){}[\]]/g, '');
+    const sanitizedQuery = query.replace(/[\\|^$*+?.(){}[\]]/g, "");
     setSearch(sanitizedQuery);
     if (currentPage !== 1) {
       setCurrentPage(1);
     }
-  }
+  };
   const handlesearch = async (e) => {
     const query = e.target.value.toLowerCase();
-    const sanitizedQuery = query.replace(/[\\|^$*+?.(){}[\]]/g, '');
+    const sanitizedQuery = query.replace(/[\\|^$*+?.(){}[\]]/g, "");
     setSearch(sanitizedQuery);
     if (currentPage !== 1) {
       setCurrentPage(1);
     }
-  }
+  };
   return (
     <Fragment>
       <Row>
-      <div
+        <div
           style={{
             display: "flex",
             justifyContent: "flex-end",
@@ -130,27 +144,40 @@ const formatTimestamp = (timestamp) => {
         </div>
         <Col lg={12}>
           <Card>
-          <Card.Header style={{background:"black", border: '1px solid white'}}>
-                  <Card.Title style={{color:"white",margin:"auto"}}>Commission</Card.Title>
-                </Card.Header>
-                <Card.Body  style={{background:"black", border: '1px solid white'}} >
-                  <Table responsive style={{ background: 'black', color: 'white' , borderBottom: '1px solid white' }}>
-              <thead>
+            <Card.Header
+              style={{ background: "black", border: "1px solid white" }}
+            >
+              <Card.Title style={{ color: "white", margin: "auto" }}>
+                Commission
+              </Card.Title>
+            </Card.Header>
+            <Card.Body
+              style={{ background: "black", border: "1px solid white" }}
+            >
+              <Table
+                responsive
+                style={{
+                  background: "black",
+                  color: "white",
+                  borderBottom: "1px solid white",
+                }}
+              >
+                <thead>
                   <tr>
                     <th>
                       <strong>NO.</strong>
                     </th>
-                     <th>
+                    <th>
                       <strong>Name</strong>
                     </th>
-                    
+
                     <th>
                       <strong> UserID</strong>
                     </th>
-                    
+
                     <th>
                       <strong>User</strong>
-                      </th>
+                    </th>
                     {/* <th>
                       <strong>User</strong>
                     </th> */}
@@ -166,7 +193,10 @@ const formatTimestamp = (timestamp) => {
                     <th>
                       <strong>Date</strong>
                     </th>
-                    <th>  <strong>Commission </strong></th>
+                    <th>
+                      {" "}
+                      <strong>Commission </strong>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -175,7 +205,10 @@ const formatTimestamp = (timestamp) => {
                       <td>{(currentPage - 1) * pageSize + index + 1}</td>
                       <td>{user.name}</td>
                       <td>{user.userId}</td>
-                      <td>   <span className="smaller-font">{user.user}</span></td>
+                      <td>
+                        {" "}
+                        <span className="smaller-font">{user.user}</span>
+                      </td>
                       <td>{user.referrerId}</td>
                       {/* <td>{user.rank}</td> */}
                       {/* <td>{user.teamBusiness}</td> */}
@@ -224,12 +257,16 @@ const formatTimestamp = (timestamp) => {
                 className="text-center mb-3 col-lg-6"
                 style={{ margin: "auto" }}
               >
-          <div className="filter-pagination  mt-3 bg-black"  >
+                <div className="filter-pagination  mt-3 bg-black">
                   <button
                     className="previous-button"
                     onClick={handlePreviousPage}
                     disabled={currentPage === 1}
-                    style={{background:" linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",color:"black"}}
+                    style={{
+                      background:
+                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
+                      color: "black",
+                    }}
                   >
                     {"<<"}
                   </button>
@@ -238,8 +275,11 @@ const formatTimestamp = (timestamp) => {
                     className="previous-button"
                     onClick={handlePreviousPage}
                     disabled={currentPage === 1}
-                    style={{background:" linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",color:"black"}}
-
+                    style={{
+                      background:
+                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
+                      color: "black",
+                    }}
                   >
                     Previous
                   </button>
@@ -248,7 +288,11 @@ const formatTimestamp = (timestamp) => {
                     className="next-button"
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}
-                    style={{background:" linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",color:"black"}}
+                    style={{
+                      background:
+                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
+                      color: "black",
+                    }}
                   >
                     Next
                   </button>
@@ -257,7 +301,11 @@ const formatTimestamp = (timestamp) => {
                     className="next-button"
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}
-                    style={{background:" linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",color:"black"}}
+                    style={{
+                      background:
+                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
+                      color: "black",
+                    }}
                   >
                     {">>"}
                   </button>

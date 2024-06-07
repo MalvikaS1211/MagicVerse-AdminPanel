@@ -159,7 +159,7 @@ const ProtocalData = () => {
                             user?.user.slice(-12)}
                         </span>
                       </td>
-                      <td>{user.amount}</td>
+                      <td>{user?.amount.toFixed(2)}</td>
                       <td>{user.referrerId}</td>
 
                       <td>

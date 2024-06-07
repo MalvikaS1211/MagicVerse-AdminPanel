@@ -93,7 +93,6 @@ export function loginAction(email, password, navigate) {
       .then((response) => {
         if (response.status == 200) {
           saveTokenInLocalStorage(response);
-         //   runLogoutTimer(dispatch, response.expiresIn, navigate);
           dispatch(loginConfirmedAction(response));
           navigate("/dashboard");
           NotificationManager.success(response.message);

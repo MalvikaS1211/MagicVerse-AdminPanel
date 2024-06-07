@@ -74,7 +74,13 @@ const Protocol = () => {
                       <strong>Tenure</strong>
                     </th>
                     <th>
-                      <strong>Amount</strong>
+                      <strong>WYZ</strong>
+                    </th>
+                    <th>
+                      <strong>USDT</strong>
+                    </th>
+                    <th>
+                      <strong>Total</strong>
                     </th>
                     <th>
                       <strong>Action</strong>
@@ -86,9 +92,12 @@ const Protocol = () => {
                     <td> WYZ + stUSDT</td>
                     <td> 10:90</td>
                     <td>12 Month</td>
-                    <td>{api.firstdata ?? 0}</td>
+                    <td>{((api?.firstdata * 0.1) / 20).toFixed(2)}</td>
+                    <td>{((api?.firstdata * 0.9)).toFixed(2)}</td>
+                    <td>{api.firstdata ? api.firstdata.toFixed(2) : "0.00"}</td>
+
                     <td>
-                    <Link
+                      <Link
                         to="/protocol-data?token=WYZ-stUSDT&ratio=10"
                         style={{ textDecoration: "none", color: "inherit" }}
                       >
@@ -103,9 +112,13 @@ const Protocol = () => {
                     <td> WYZ + stUSDT</td>
                     <td> 20:80</td>
                     <td>24 Month</td>
-                    <td>{api.seconddata ?? 0}</td>
+                    <td>{((api?.seconddata * 0.2) / 20).toFixed(2)}</td>
+                    <td>{(api?.seconddata * 0.8).toFixed(2)}</td>
                     <td>
-                    <Link
+                      {api.seconddata ? api.seconddata.toFixed(2) : "0.00"}
+                    </td>
+                    <td>
+                      <Link
                         to="/protocol-data?token=WYZ-stUSDT&ratio=20"
                         style={{ textDecoration: "none", color: "inherit" }}
                       >
@@ -120,9 +133,20 @@ const Protocol = () => {
                     <td> WYZ + stUSDT</td>
                     <td> 30:70</td>
                     <td>36 Month</td>
-                    <td>{api.thirddata ?? 0}</td>
                     <td>
-                    <Link
+                      {api?.thirddata
+                        ? ((api.thirddata * 0.3) / 20).toFixed(2)
+                        : "0.00"}
+                    </td>
+                    <td>
+                      {api?.thirddata
+                        ? (api.thirddata * 0.7).toFixed(2)
+                        : "0.00"}
+                    </td>
+                    <td>{api.thirddata ? api.thirddata.toFixed(2) : "0.00"}</td>
+
+                    <td>
+                      <Link
                         to="/protocol-data?token=WYZ-stUSDT&ratio=30"
                         style={{ textDecoration: "none", color: "inherit" }}
                       >
@@ -137,7 +161,19 @@ const Protocol = () => {
                     <td> WYZ + stUSDT</td>
                     <td> 40:60</td>
                     <td>48 Month</td>
-                    <td>{api.fourthdata ?? 0}</td>
+                    <td>
+                      {api?.fourthdata
+                        ? ((api.fourthdata * 0.4) / 20).toFixed(2)
+                        : "0.00"}
+                    </td>
+                    <td>
+                      {api?.fourthdata
+                        ? (api.fourthdata * 0.6).toFixed(2)
+                        : "0.00"}
+                    </td>
+                    <td>
+                      {api.fourthdata ? api.fourthdata.toFixed(2) : "0.00"}
+                    </td>
                     <td>
                       <Link
                         to="/protocol-data?token=WYZ-stUSDT&ratio=40"
@@ -154,9 +190,20 @@ const Protocol = () => {
                     <td> WYZ + stUSDT</td>
                     <td> 50:50</td>
                     <td>60 Month</td>
-                    <td>{api.fifthdata ?? 0}</td>
                     <td>
-                    <Link
+                      {api?.fifthdata
+                        ? ((api.fifthdata * 0.5) / 20).toFixed(2)
+                        : "0.00"}
+                    </td>
+                    <td>
+                      {api?.fifthdata
+                        ? (api.fifthdata * 0.5).toFixed(2)
+                        : "0.00"}
+                    </td>
+                    <td>{api.fifthdata ? api.fifthdata.toFixed(2) : "0.00"}</td>
+
+                    <td>
+                      <Link
                         to="/protocol-data?token=WYZ-stUSDT&ratio=50"
                         style={{ textDecoration: "none", color: "inherit" }}
                       >
@@ -168,13 +215,20 @@ const Protocol = () => {
                     </td>
                   </tr>
                   <tr>
-                    <td> bUSDT+stUSDT</td>
+                    <td> sUSDT+stUSDT</td>
                     <td> 15:85</td>
                     <td>18 Month</td>
-                    <td>{api.sixdata ?? 0}</td>
                     <td>
-                    <Link
-                        to="/protocol-data?token=bUSDT-stUSDT&ratio=15"
+                      {api?.sixdata ? (api.sixdata * 0.15).toFixed(2) : "0.00"}
+                    </td>
+                    <td>
+                      {api?.sixdata ? (api.sixdata * 0.85).toFixed(2) : "0.00"}
+                    </td>
+                    <td>{api.sixdata ? api.sixdata.toFixed(2) : "0.00"}</td>
+
+                    <td>
+                      <Link
+                        to="/protocol-data?token=sUSDT-stUSDT&ratio=15"
                         style={{ textDecoration: "none", color: "inherit" }}
                       >
                         <i
@@ -185,13 +239,25 @@ const Protocol = () => {
                     </td>
                   </tr>
                   <tr>
-                    <td> bUSDT+stUSDT</td>
+                    <td> sUSDT+stUSDT</td>
                     <td> 20:80</td>
                     <td>24 Month</td>
-                    <td>{api.sevendata ?? 0}</td>
                     <td>
-                    <Link
-                        to="/protocol-data?token=bUSDT-stUSDT&ratio=20"
+                      {api?.sevendata
+                        ? (api?.sevendata * 0.2).toFixed(2)
+                        : "0.00"}
+                    </td>
+                    <td>
+                      {api?.sevendata
+                        ? (api?.sevendata * 0.8).toFixed(2)
+                        : "0.00"}
+                    </td>
+
+                    <td>{api?.sevendata ? api?.sevendata.toFixed(2) : "0.00"}</td>
+
+                    <td>
+                      <Link
+                        to="/protocol-data?token=sUSDT-stUSDT&ratio=20"
                         style={{ textDecoration: "none", color: "inherit" }}
                       >
                         <i
@@ -202,13 +268,25 @@ const Protocol = () => {
                     </td>
                   </tr>
                   <tr>
-                    <td> bUSDT+stUSDT</td>
+                    <td> sUSDT+stUSDT</td>
                     <td>25:75</td>
                     <td>30 Month</td>
-                    <td>{api.eightdata ?? 0}</td>
                     <td>
-                    <Link
-                        to="/protocol-data?token=bUSDT-stUSDT&ratio=25"
+                      {api?.eighthdata
+                        ? (api.eighthdata * 0.25).toFixed(2)
+                        : "0.00"}
+                    </td>
+                    <td>
+                      {api?.eighthdata
+                        ? (api.eighthdata * 0.75).toFixed(2)
+                        : "0.00"}
+                    </td>
+
+                    <td>{api.eightdata ? api.eightdata.toFixed(2) : "0.00"}</td>
+
+                    <td>
+                      <Link
+                        to="/protocol-data?token=sUSDT-stUSDT&ratio=25"
                         style={{ textDecoration: "none", color: "inherit" }}
                       >
                         <i

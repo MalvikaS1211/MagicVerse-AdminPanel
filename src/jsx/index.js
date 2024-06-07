@@ -24,6 +24,7 @@ import Dashboard5 from "./components/Dashboard/Dashboard5";
 
 // Users
 import AllUser from "./components/Users/allUser";
+import StakingUser from "./components/Users/stakingUser";
 import TeamDetails from "./components/Users/team";
 import Announcement from "./components/Users/announcement";
 import WithdrawClaim from "./components/Users/withdrawClaim";
@@ -44,6 +45,8 @@ import Fifty from "./components/Users/fifty";
 import ExelFormet from "./components/Users/exeldata";
 import Protocol from "./components/Users/protocol";
 import ProtocalData from "./components/Users/prtocolData";
+import RejectWithdraw from "./components/Users/rejectWithdraw";
+import ApproveWithdraw  from "./components/Users/approveWithdraw";
 //Trading
 import Market from './components/Trading/Market';
 import IcoListing from './components/Trading/IcoListing';
@@ -173,6 +176,7 @@ const Markup = () => {
     { url: "index-5", component: <Dashboard5 /> },
     // Users
     { url: 'allUsers', auth: true, component: <AllUser/>},
+    {url:"staking-user",component:<StakingUser/>},
     {url:'team-list',component:<TeamDetails/>},
     {url:'announcement', component:<Announcement/>},
     {url:"commission",component:<Commission/>},
@@ -193,6 +197,8 @@ const Markup = () => {
     {url:"exel-formet",component:<ExelFormet/>},
     {url:"protocol",component:<Protocol/>},
     {url:"protocol-data",component:<ProtocalData/>},
+    {url:"withdraw-approve",component:<ApproveWithdraw/>},
+    {url:"reject-withdraw",component:<RejectWithdraw/>},
     //Trading
     // { url: "market", component: <Market /> },
     // { url: "ico-listing", component: <IcoListing /> },

@@ -172,23 +172,32 @@ class MarketChart extends React.Component {
       const token = parsedDetails.token;
       const response = await Graph(token);
 
-      const wyzStake = response.Stakeswyz;
-      const usdtStake = response.Stakesusdt;
-      const withdrawRoi = response.withdrawRoi;
-      const withdrawReferal = response.refrealWithdraw;
-      const totalDeposite = response.total;
+      const wyzStake = response?.Stakeswyz;
+      const usdtStake = response?.Stakestusdt;
+      const usdStake=response?.Stakeusdt
+      const withdrawRoi = response?.withdrawRoi;
+      const withdrawReferal = response?.refrealWithdraw;
+      const topup=response?.Topusdata
       const daysOfWeekOrdered = this.getLast7Days();
 
       const seriesData = [
         {
-          name: " WYS",
+          name: " WYZ",
           data: daysOfWeekOrdered.map((day) => (wyzStake[day] || 0).toFixed(2))
 
         },
         {
-          name: "Usdt",
+          name: "stUsdt",
           data: daysOfWeekOrdered.map((day) => (usdtStake[day] || 0).toFixed(2))
 
+        },
+        {
+          name: "sUSDT",
+          data: daysOfWeekOrdered.map((day) => (usdStake[day] || 0).toFixed(2))
+        },
+        {
+          name: "topup",
+          data: daysOfWeekOrdered.map((day) => (topup[day] || 0).toFixed(2))
         },
         {
           name: "ROI",
@@ -199,10 +208,7 @@ class MarketChart extends React.Component {
           name: "Referral ",
           data: daysOfWeekOrdered.map((day) => (withdrawReferal[day] || 0).toFixed(2))
         },
-        {
-          name: "Total Deposite",
-          data: daysOfWeekOrdered.map((day) => totalDeposite[day] || 0),
-        },
+        
       ];
 
       this.setState((prevState) => ({

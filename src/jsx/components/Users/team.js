@@ -5,6 +5,7 @@ import { Row, Col, Card, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { TeamData as fetchTeamData } from "../../../services/api_function";
 import { FastField } from "formik";
+import Calendar from "react-calendar";
 
 const TeamDetails = (props) => {
   const location = useLocation();
@@ -21,8 +22,6 @@ const TeamDetails = (props) => {
   const [level, setLevel] = useState(false);
   const pageSize = 100;
   const limit = 100;
-  // const [sortField1,setSortFiel1]=useState("level");
-  // const [sortField2,setSortFiel2]=useState(null);
 
   const fetchdata = (sortField1, sortField2) => {
     fetchTeamData(memoizedUser, limit, currentPage, sortField1, sortField2)
@@ -168,7 +167,10 @@ const TeamDetails = (props) => {
                       <strong>Leval</strong>
                     </th>
                     <th>
-                      <strong>WYS Farm</strong>
+                      <strong> Staking amount</strong>
+                    </th>
+                    <th>
+                      <strong> Topup</strong>
                     </th>
                     <th>
                       <strong>Transaction ID</strong>
@@ -186,9 +188,9 @@ const TeamDetails = (props) => {
                   {userData?.map((user, index) => (
                     <tr>
                       <td>{(currentPage - 1) * pageSize + index + 1}</td>
-                      <td>{user.name}</td>
-                      <td>{user.phone}</td>
-                      <td>{user.userId}</td>
+                      <td>{user?.name}</td>
+                      <td>{user?.phone}</td>
+                      <td>{user?.userId}</td>
                       <td>
                         {" "}
                         <span className="smaller-font">
@@ -197,12 +199,15 @@ const TeamDetails = (props) => {
                             user?.user.slice(-12)}
                         </span>
                       </td>
-                      <td>{user.referrerId}</td>
-                      <td>{user.level}</td>
-                      <td>
-                        {user.wysStaked > 0
-                          ? (user.wysStaked / 1e18).toFixed(2)
+                      <td>{user?.referrerId}</td>
+                      <td className="text-center">{user?.level}</td>
+                      <td className="text-center">
+                        {user.stakeamount > 0
+                          ? (user?.stakeamount).toFixed(2)
                           : 0}
+                      </td>
+                      <td className="text-center">
+                        {user.topup > 0 ? (user?.topup).toFixed(2) : 0}
                       </td>
                       <td>
                         <a
@@ -213,7 +218,9 @@ const TeamDetails = (props) => {
                           {user.txHash.slice(0, 5)}... {user.txHash.slice(-5)}
                         </a>
                       </td>
-                      <td>{(user.teamBusiness / 1e18).toFixed(2)}</td>
+                      <td className="text-center">
+                        {Number(user?.teamBusiness ?? 0).toFixed(2)}
+                      </td>
 
                       <td>
                         {new Date(user.timestamp * 1000).toLocaleString()}

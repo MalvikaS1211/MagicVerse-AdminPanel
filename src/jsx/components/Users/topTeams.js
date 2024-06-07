@@ -16,9 +16,9 @@ const TopTeams = () => {
         const parsedDetails = JSON.parse(userDetails);
         const token = parsedDetails.token;
         const result = await Topteams(token);
-        setUserData(result.topUsers);
+        setUserData(result.data);
 
-        //  setFilteredData(result.usersData)
+      
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -26,10 +26,20 @@ const TopTeams = () => {
 
     fetchData();
   }, []);
+
+  const formatTimestamp = (timestamp) => {
+    const date = new Date(timestamp);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    return `${day}-${month}-${year} ${hours}:${minutes}`;
+  };
   return (
     <Fragment>
       <Row>
-        <Col lg={10}>
+        <Col lg={12}>
           <Card>
             <Card.Header
               style={{ background: "black", border: "1px solid white" }}
@@ -55,6 +65,9 @@ const TopTeams = () => {
                       <strong>NO.</strong>
                     </th>
                     <th>
+                      <strong>Name</strong>
+                    </th>
+                    <th>
                       <strong> UserID</strong>
                     </th>
                     <th>
@@ -63,35 +76,27 @@ const TopTeams = () => {
                     <th>
                       <strong>referrerId</strong>
                     </th>
-                    {/* <th>
-                          <strong>WYS Farm</strong>
-                        </th> */}
+                    <th>
+                      <strong>Stake Amount</strong>
+                    </th>
                     <th>
                       <strong>Team Business</strong>
                     </th>
                     <th>
                       <strong>Date&Time</strong>
                     </th>
-                    {/* <th>  <strong>Team</strong></th> */}
                   </tr>
                 </thead>
                 <tbody>
                   {userData?.map((user, index) => (
                     <tr>
                       <td>{index + 1}</td>
-                      {/* <td>{user.name}</td> */}
-                      <td>{user.userId}</td>
-                      <td>{user.user}</td>
-                      <td>{user.referrerId}</td>
-                      {/* <td>
-                        {" "}
-                        <span className="smaller-font">
-                          {user?.user?.slice(0, 4) +
-                            "..." +
-                            user?.user.slice(-12)}
-                        </span>
-                      </td> */}
-                      <td>{(user.teamBusiness / 1e18).toFixed(2)}</td>
+                      <td>{user?.name}</td>
+                      <td>{user?.userId}</td>
+                      <td>{user?.user}</td>
+                      <td>{user?.referrerId}</td>
+                      <td>{Number(user?.topup_amount).toFixed(2)}</td>
+                      <td>{Number(user?.teamBussines ).toFixed(2)}</td>
                       {/* <td>{user.referrerId}</td>
                       <td>{user.level}</td> */}
                       {/* <td>{(user.teamBusiness>0?(user.teamBusiness/1e18).toFixed(2):0)}</td> */}
@@ -106,7 +111,7 @@ const TopTeams = () => {
                       </td> */}
                       {/* <td>{(user.teamBusiness>0?(user.teamBusiness/1e18).toFixed(2):0)}</td> */}
                       <td>
-                        {new Date(user.timestamp * 1000).toLocaleString()}
+                        {formatTimestamp(user.createdAt )}
                       </td>
                       <td></td>
                     </tr>

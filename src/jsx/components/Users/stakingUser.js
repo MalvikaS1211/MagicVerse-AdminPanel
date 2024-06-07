@@ -16,7 +16,7 @@ import { Link } from "react-router-dom";
 import { COLUMNS } from "../../components/table/FilteringTable/Columns";
 import MOCK_DATA from "../../components/table/FilteringTable/MOCK_DATA_2.json";
 
-export const AllUser = () => {
+export const StakingUser = () => {
   const [apiData, setApiData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -181,29 +181,14 @@ export const AllUser = () => {
                       <strong>Name</strong>
                     </th>
                     <th>
-                      <strong>Phone</strong>
-                    </th>
-                    <th>
                       <strong> UserID</strong>
                     </th>
                     <th>
                       <strong>User wallet</strong>
                     </th>
                     <th>
-                      <strong>referrerId</strong>
-                    </th>
-
-                   
-                    <th>
                       <strong>Ratio</strong>
                     </th>
-                    <th>
-                      <strong>WYZ</strong>
-                    </th>
-                    <th>
-                      <strong>stUSDT</strong>
-                    </th>
-                   
                     <th>
                       <strong>Stake</strong>
                     </th>
@@ -213,15 +198,11 @@ export const AllUser = () => {
                     <th>
                       <strong>Team Business</strong>
                     </th>
+                   
                     <th>
                       <strong>Date&Time</strong>
                     </th>
-                    <th>
-                      <strong>Commission</strong>
-                    </th>
-                    <th>
-                      <strong>Team</strong>
-                    </th>
+
                   </tr>
                 </thead>
                 <tbody>
@@ -229,7 +210,7 @@ export const AllUser = () => {
                     <tr>
                       <td>{(currentPage - 1) * pageSize + index + 1}</td>
                       <td>{user.name}</td>
-                      <td>{user.phone}</td>
+                
                       <td>{user.userId}</td>
                       <td>
                         {" "}
@@ -239,7 +220,7 @@ export const AllUser = () => {
                             user?.user.slice(-12)}
                         </span>
                       </td>
-                      <td>{user?.referrerId}</td>
+                   
 
                       {/* <td className="text-center">
                         {user?.stake_amount.toFixed(2)}
@@ -251,6 +232,16 @@ export const AllUser = () => {
                         {user?.additional_data?.ratio}
                       </td>
                       <td>
+                        {(user?.stakeamount?.totalAmount ?? 0).toFixed(2)}
+                      </td>
+                      <td>
+                        {(user?.topup2_data?.totalAmount ?? 0).toFixed(2)}
+                      </td>
+                      <td >
+                        {Number(user?.staketeambusiness ?? 0).toFixed(2)}
+                      </td>
+                      <td>{formatTimestamp(user.createdAt)}</td>
+                      {/* <td>
                         {user?.additional_data?.ratio == "10"
                           ? (
                               (user?.additional_data?.amount * 0.1) /
@@ -295,8 +286,8 @@ export const AllUser = () => {
                               20
                             ).toFixed(2)
                           : "0.00"}
-                      </td>
-                      <td>
+                      </td> */}
+                      {/* <td>
                         {" "}
                         {user?.additional_data?.ratio == "10"
                           ? (user?.additional_data?.amount * 0.9).toFixed(2)
@@ -318,7 +309,7 @@ export const AllUser = () => {
                             user?.additional_data?.token == "sUSDT-stUSDT"
                           ? (user?.additional_data?.amount * 0.75).toFixed(2)
                           : "0.00"}
-                      </td>
+                      </td> */}
                       {/* <td>
                         {user?.additional_data?.ratio == "15" &&
                         user?.additional_data?.token == "sUSDT-stUSDT"
@@ -331,11 +322,15 @@ export const AllUser = () => {
                           ? (user?.additional_data?.amount * 0.25).toFixed(2)
                           : "0.00"}
                       </td> */}
-                      <td>{(user?.stakeamount?.totalAmount ?? 0).toFixed(2)}</td>
-                      <td>{(user?.topup2_data?.totalAmount ?? 0).toFixed(2)}</td>
-                      <td className="text-center">
+                      {/* <td>
+                        {(user?.stakeamount?.totalAmount ?? 0).toFixed(2)}
+                      </td> */}
+                      {/* <td>
+                        {(user?.topup2_data?.totalAmount ?? 0).toFixed(2)}
+                      </td> */}
+                      {/* <td className="text-center">
                         {Number(user?.staketeambusiness ?? 0).toFixed(2)}
-                      </td>
+                      </td> */}
                       {/* <td>
                         <a
                           href={`https://wyzthscan.org/tx/${user.txhash}`}
@@ -350,8 +345,8 @@ export const AllUser = () => {
                             : ""}
                         </a>
                       </td> */}
-                      <td>{formatTimestamp(user.createdAt)}</td>
-                      <td>
+                      {/* <td>{formatTimestamp(user.createdAt)}</td> */}
+                      {/* <td>
                         <div className="text-center ">
                           <Link
                             to={`/commission-data?user=${encodeURIComponent(
@@ -362,8 +357,8 @@ export const AllUser = () => {
                             <i className="fas fa-pencil-alt"></i>
                           </Link>
                         </div>
-                      </td>
-                      <td>
+                      </td> */}
+                      {/* <td>
                         <div className="d-flex align-items-center table-action-icon">
                           <Link
                             to={`/team-list?user=${encodeURIComponent(
@@ -374,7 +369,7 @@ export const AllUser = () => {
                             <i className="fas fa-pencil-alt"></i>
                           </Link>
                         </div>
-                      </td>
+                      </td> */}
                     </tr>
                   ))}
                 </tbody>
@@ -456,4 +451,4 @@ export const AllUser = () => {
   );
 };
 
-export default AllUser;
+export default StakingUser;

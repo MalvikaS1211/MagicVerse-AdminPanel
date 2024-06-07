@@ -7,7 +7,11 @@ import {
   url,
   team_Busness,
 } from "../../../services/api_function";
-
+import { format } from "date-fns";
+import moment from "moment";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+import { FaCalendarAlt } from "react-icons/fa";
 // import { web3 } from "./web3/web3Helper";
 import { NotificationManager } from "react-notifications";
 import { checkUser, token_abi, token_address } from "../../config/config";
@@ -26,7 +30,7 @@ const BlockData = () => {
   const [userInputBlock, setUserInputBlock] = useState("");
   const [userInputUnblock, setUserInputUnblock] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-
+  const [dateRange, setDateRange] = useState([new Date(), new Date()]);
   const [showData, setShowData] = useState(false);
   const [userlebal, setuserlebal] = useState("");
   const [user, setUser] = useState("");
@@ -40,7 +44,8 @@ const BlockData = () => {
   const [user1, setUser1] = useState("");
   const [wysAmount1, setWysAmount1] = useState("");
   const [duration1, setDuration1] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+
   const userDetails = localStorage.getItem("userDetails");
   const parsedDetails = JSON.parse(userDetails);
   const token = parsedDetails.token;
@@ -132,53 +137,48 @@ const BlockData = () => {
   const handleFree = async (e) => {
     e.preventDefault();
     const checksumAddress = web3.utils.toChecksumAddress(user1);
-    console.log("check-sum", checksumAddress);
-    const apiregister = await axios.post(url + "/isUserExist", {
-      address: checksumAddress,
-    });
-    console.log(apiregister?.data.exist, "::::::::::::::::");
-    if (apiregister?.data?.exist == true) {
-      console.log("from contract in ", user1);
-      const reg = await isRegisteredInContract(user1);
-      console.log(reg, "from contract step 2");
-      if (reg) {
-        console.log(reg, "step 2");
-        if (
-          checksumAddress.trim() !== "" &&
-          wysAmount1.trim() !== "" &&
-          duration1.trim() !== "" &&
-          plan1
-        ) {
-          FreeID(checksumAddress, wysAmount1, duration1, true, plan1, token)
-            .then((response) => {
-              if (response.status === 200) {
-                NotificationManager.success(response.message);
-                clearFormData();
-              } else {
-                NotificationManager.error(response.message);
-              }
-            })
-            .catch((error) => {
-              console.error("Error:", error);
-            });
-        } else {
-          setErrorMessage("User, WYS Amount, or Duration is empty!");
-        }
-      } else {
-        // toast.error("Please register User");
-        NotificationManager.error("Please Register First");
-      }
+    // console.log("check-sum", checksumAddress);
+    // const apiregister = await axios.post(url + "/isUserExist", {
+    //   address: checksumAddress,
+    // });
+    // console.log(apiregister?.data.exist, "::::::::::::::::");
+    // if (apiregister?.data?.exist == true) {
+    // console.log("from contract in ", user1);
+    // const reg = await isRegisteredInContract(user1);
+    // console.log(reg, "from contract step 2");
+    // if (reg) {
+    //   console.log(reg, "step 2");
+    if (checksumAddress.trim() !== "" && wysAmount1.trim() !== "" && plan1) {
+      FreeID(checksumAddress, wysAmount1, plan1, token)
+        .then((response) => {
+          if (response) {
+            NotificationManager.success(response.message);
+            clearFormData();
+          } else {
+            NotificationManager.error(response.message);
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
     } else {
-      NotificationManager.error("Please Signup first");
+      setErrorMessage("User, WYS Amount, or Duration is empty!");
     }
+    //   } else {
+    //     // toast.error("Please register User");
+    //     NotificationManager.error("Please Register First");
+    //   }
+    // } else {
+    //   NotificationManager.error("Please Signup first");
+    // }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    //  console.log({ user: userInput }, ":::::::");
+    console.log({ user: userInput }, ":::::::");
     team_Busness(userInput.trim())
       .then((response) => {
-        //  console.log("Success:", response);
+        console.log("Success:", response);
         setapiData(response);
 
         setShowData(true);
@@ -187,7 +187,7 @@ const BlockData = () => {
         console.error("Error:", error);
       });
   };
-  console.log();
+
   const [pAmount, setPAmount] = useState(0);
 
   const percentageAmount = (percentage1) => {
@@ -273,6 +273,47 @@ const BlockData = () => {
     setWysAmount("");
     setDuration("");
     setplan("");
+  };
+
+  const handleCalendarIconClick = () => {
+    setIsCalendarOpen(true);
+  };
+
+  const handleCalendarChange = (date) => {
+    setDateRange(date);
+    setIsCalendarOpen(false);
+  };
+
+  const calendarPopupStyles = {
+    position: "absolute",
+    zIndex: 1000,
+    backgroundColor: "white",
+    border: "1px solid #ccc",
+    padding: "10px",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+  };
+
+  const handleSubmitdata = async (e) => {
+    e.preventDefault();
+    const [startDate, endDate] = dateRange.map((date) =>
+      moment(date).utc().format("YYYY-MM-DDTHH:mm:ss.SSS[+00:00]")
+    );
+    const response = await fetch(url + "/team-data", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        user: userInput,
+        startDate,
+        endDate,
+      }),
+    });
+
+    const data = await response.json();
+    setapiData(data);
+    setShowData(true);
   };
 
   return (
@@ -442,11 +483,11 @@ const BlockData = () => {
             </div>
           </div>
         </div> */}
-        {/* <div className="col-xl-6 col-lg-6">
+        <div className="col-xl-6 col-lg-6">
           <div className="card">
             <div className="card-header">
               <h4 className="card-title center" style={{ margin: "auto" }}>
-                Free ID
+                50-50
               </h4>
             </div>
             <div className="card-body ">
@@ -466,7 +507,7 @@ const BlockData = () => {
                       <input
                         type="text"
                         className="form-control input-default"
-                        placeholder="WYS Amount"
+                        placeholder=" Amount"
                         value={wysAmount1}
                         onChange={(e) => setWysAmount1(e.target.value)}
                       />
@@ -475,29 +516,18 @@ const BlockData = () => {
                       <select
                         class="form-select"
                         aria-label="Default select example"
-                        value={duration1}
-                        onChange={(e) => setDuration1(e.target.value)}
-                      >
-                        <option selected>Duration</option>
-                        <option value="12">12 Month</option>
-                        <option value="24">24 Month</option>
-                        <option value="36">36 Month</option>
-                      </select>
-                    </div>
-                    <div class="col-6">
-                      <select
-                        class="form-select"
-                        aria-label="Default select example"
                         value={plan1}
                         onChange={(e) => setPlan1(e.target.value)}
                       >
-                         <option selected>Plan</option>
-                        <option value="1">WYS</option>
-                        <option value="6">USDT</option>
-                        <option value="4">WYZ(50:50)</option>
-                        <option value="5">WYZ(70:30)</option>
-                        <option value="2">WYS:ARB</option>
-                        <option value="3">WYS:BNB</option>
+                        <option selected>Plan</option>
+                        <option value="1">WYZ+stUSDT(10:90)</option>
+                        <option value="2">WYZ+stUSDT(20:80)</option>
+                        <option value="3">WYZ+stUSDT(30:70)</option>
+                        <option value="4">WYZ+stUSDT(40:60)</option>
+                        <option value="5">WYZ+stUSDT(50:50)</option>
+                        <option value="6">sUSDT+stUSDT(15:85)</option>
+                        <option value="7">sUSDT+stUSDT(20:80)</option>
+                        <option value="8">sUSDT+stUSDT(25:75)</option>
                       </select>
                     </div>
                     <div></div>
@@ -513,19 +543,19 @@ const BlockData = () => {
               </div>
             </div>
           </div>
-        </div> */}
-        {/* <div className="col-xl-6 col-lg-6">
+        </div>
+        <div className="col-xl-6 col-lg-6">
           <div className="card">
             <div className="card-header">
               <h4 className="card-title center" style={{ margin: "auto" }}>
                 Offer
               </h4>
             </div>
-            <div className="card-body ">
+            <div className="card-body">
               <div className="basic-form">
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmitdata}>
                   <div className="form-group mb-3"></div>
-                  <div class="row">
+                  <div className="row">
                     <div className="form-group mb-3 col-lg-6">
                       <input
                         type="text"
@@ -535,8 +565,24 @@ const BlockData = () => {
                         onChange={(e) => setUserInput(e.target.value)}
                       />
                     </div>
-                    <div class="col-6">
-                      <button type="submit" class="btn btn-success">
+                    <div className="form-group mb-3 col-lg-6">
+                      <FaCalendarAlt
+                        size={30}
+                        onClick={handleCalendarIconClick}
+                        style={{ cursor: "pointer" }}
+                      />
+                    </div>
+                    {isCalendarOpen && (
+                      <div className="Sample__container">
+                        <Calendar
+                          onChange={handleCalendarChange}
+                          value={dateRange}
+                          selectRange={true}
+                        />
+                      </div>
+                    )}
+                    <div className="col-6">
+                      <button type="submit" className="btn btn-success">
                         Fetch
                       </button>
                     </div>
@@ -546,7 +592,7 @@ const BlockData = () => {
                           <select
                             className="form-select"
                             aria-label="Default select example"
-                            // value={plan}
+                            value={percentage}
                             onChange={(e) => {
                               setPercentage(e.target.value);
                               percentageAmount(e.target.value);
@@ -567,48 +613,39 @@ const BlockData = () => {
                         <div className="form-group mb-3 col-lg-6">
                           <div>
                             <h2 style={styletext}>
-                              Monthly:{" "}
-                              {(apiData.monthlyTeamBusiness / 1e18).toFixed(2)}
+                              Team Business:{" "}
+                              {Number(apiData?.totalAmount).toFixed(2)}
                             </h2>
                           </div>
                         </div>
                         <div className="form-group mb-3 col-lg-6 mt-2">
                           <div>
                             <h2 style={styletext}>
-                              Free Id :{(apiData.freeid / 1e18).toFixed(2)}
+                              WYZ: {Number(apiData?.toalwyz ?? 0).toFixed(2)}
                             </h2>
                           </div>
                         </div>
                         <div className="form-group mb-3 col-lg-6 mt-2">
                           <div>
                             <h2 style={styletext}>
-                              Paid WYS:{(apiData.result / 1e18).toFixed(2)}
+                              stUSDT:{" "}
+                              {Number(apiData?.toalstusdt ?? 0).toFixed(2)}
                             </h2>
                           </div>
                         </div>
-                        <div className="form-group mb-3 col-lg-6">
+                        {/* <div className="form-group mb-3 col-lg-6 mt-2">
                           <div>
-                            <h2 style={styletext}>userId:{apiData.userId}</h2>
+                            <h2 style={styletext}>
+                              sUSDT:{" "}
+                              {Number(apiData?.totalusdt ?? 0).toFixed(2)}
+                            </h2>
+                          </div>
+                        </div> */}
+                        <div className="form-group mb-3 col-lg-6 mt-2">
+                          <div>
+                            <h2 style={styletext}>UserId: {apiData?.data}</h2>
                           </div>
                         </div>
-                        <div>
-                          <h2 style={styletext}>
-                            offer amount:{pAmount.toFixed(2)}
-                          </h2>
-                        </div>
-                      </>
-                    )}
-
-                    {showData && apiData.result >= 0 && (
-                      <>
-                        <button
-                          type="button"
-                          className="btn btn-success"
-                          disabled={isSubmitting}
-                          onClick={handleSubmitButton}
-                        >
-                          Submit
-                        </button>
                       </>
                     )}
                   </div>
@@ -616,7 +653,7 @@ const BlockData = () => {
               </div>
             </div>
           </div>
-        </div> */}
+        </div>
       </div>
     </Fragment>
   );

@@ -1,45 +1,39 @@
-import React, { Fragment, useState, useEffect, useMemo, useRef } from "react";
-import { DownloadExcel } from "react-excel-export";
-import { useLocation } from "react-router-dom";
-import { useTable, useSortBy } from "react-table";
+import React, { Fragment, useEffect, useState, useMemo } from "react";
+import {
+  useTable,
+  useGlobalFilter,
+  useFilters,
+  usePagination,
+} from "react-table";
+import Web3 from "web3";
 import { Row, Col, Card, Table } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { DepositeHistory } from "../../../services/api_function";
-import reactSelect from "react-select";
-import { numberToBytes } from "viem";
+import { Approve_Withdraw, url } from "../../../services/api_function";
 
-const Deposit = () => {
-  const [apiData, setApiData] = useState([]);
+export const ApproveWithdraw = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [selectedFilter, setSelectedFilter] = useState("");
   const [search, setSearch] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
-
   const pageSize = 100;
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const userDetails = localStorage.getItem("userDetails");
         const parsedDetails = JSON.parse(userDetails);
         const token = parsedDetails.token;
-        const response = await DepositeHistory(
+        const response = await Approve_Withdraw(
           currentPage,
           { searchQuery: search },
           token
         );
         const { data, totalCount } = response;
-        setApiData(data);
         setFilteredData(data);
-        const pages = Math.ceil(totalCount[0].totalCount / pageSize);
+        const pages = Math.ceil(totalCount / pageSize);
         setTotalPages(pages > 0 ? pages : 1);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
     fetchData();
   }, [currentPage, search]);
 
@@ -52,14 +46,11 @@ const Deposit = () => {
   const handlePreviousPage = () => {
     setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : prevPage));
   };
-  const handleSearch = async (e) => {
-    const query = e.target.value.trim().toLowerCase();
-    const sanitizedQuery = query.replace(/[\\|^$*+?.(){}[\]]/g, "");
-    setSearch(sanitizedQuery);
-    if (currentPage !== 1) {
-      setCurrentPage(1);
-    }
+
+  const handleEditClick = (phoneNumber) => {
+    console.log("Edit Clicked for phoneNumber:", phoneNumber);
   };
+
   const formatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
     const day = String(date.getDate()).padStart(2, "0");
@@ -68,6 +59,14 @@ const Deposit = () => {
     const hours = String(date.getHours()).padStart(2, "0");
     const minutes = String(date.getMinutes()).padStart(2, "0");
     return `${day}-${month}-${year} ${hours}:${minutes}`;
+  };
+  const handleSearch = async (e) => {
+    const query = e.target.value.trim().toLowerCase();
+    const sanitizedQuery = query.replace(/[\\|^$*+?.(){}[\]]/g, "");
+    setSearch(sanitizedQuery);
+    if (currentPage !== 1) {
+      setCurrentPage(1);
+    }
   };
 
   return (
@@ -92,14 +91,16 @@ const Deposit = () => {
           </div>
           <label class="form-label" for="form1"></label>
         </div>
+
         <Col lg={12}>
           <Card>
             <Card.Header
               style={{ background: "black", border: "1px solid white" }}
             >
               <Card.Title style={{ color: "white", margin: "auto" }}>
-                Deposit Hisory
+                Approved Withdraw
               </Card.Title>
+              {/* <button type="button" class="btn btn-success">Approve</button> */}
             </Card.Header>
 
             <Card.Body
@@ -116,7 +117,7 @@ const Deposit = () => {
                 <thead>
                   <tr>
                     <th>
-                      <strong>NO</strong>
+                      <strong>No</strong>
                     </th>
                     <th>
                       <strong>Name</strong>
@@ -124,103 +125,57 @@ const Deposit = () => {
                     <th>
                       <strong>User</strong>
                     </th>
-
                     <th>
-                      <strong> WYZ</strong>
+                      <strong>Amount</strong>
                     </th>
                     <th>
-                      <strong> stUSDT</strong>
+                      <strong>Fess(5%)</strong>
                     </th>
                     <th>
-                      <strong> sUSDT</strong>
+                      <strong>Total</strong>
                     </th>
                     <th>
-                      <strong> Total</strong>
+                      <strong>Type</strong>
                     </th>
                     <th>
-                      <strong>Token</strong>
+                      <strong>Method</strong>
                     </th>
                     <th>
-                      <strong>Ratio</strong>
-                    </th>
-                    <th>
-                      <strong>Transaction Id</strong>
+                      <strong>Transaction ID</strong>
                     </th>
                     <th>
                       <strong>Date&Time</strong>
                     </th>
                   </tr>
                 </thead>
-
                 <tbody>
                   {filteredData && filteredData.length > 0 ? (
-                    filteredData.map((data, index) => (
+                    filteredData.map((Data, index) => (
                       <tr key={index}>
                         <td>{(currentPage - 1) * pageSize + index + 1}</td>
-                        <td>{data.Name}</td>
-                        <td>{data.user}</td>
-
-                        <td>
-                          {data.ratio == "10"
-                            ? ((data.amount * 0.1) / 20).toFixed(2)
-                            : data.ratio == "20"
-                            ? ((data.amount * 0.2) / 20).toFixed(2)
-                            : data.ratio == "30"
-                            ? ((data.amount * 0.3) / 20).toFixed(2)
-                            : data.ratio == "40"
-                            ? ((data.amount * 0.4) / 20).toFixed(2)
-                            : data.ratio == "50"
-                            ? ((data.amount * 0.5) / 20).toFixed(2)
-                            : data.ratio == "15" && data.token == "sUSDT-stUSDT"
-                            ? ((data.amount * 0.15) / 20).toFixed(2)
-                            : data.ratio == "20" && data.token == "sUSDT-stUSDT"
-                            ? ((data.amount * 0.2) / 20).toFixed(2)
-                            : data.ratio == "25" && data.token == "sUSDT-stUSDT"
-                            ? ((data.amount * 0.25) / 20).toFixed(2)
-                            : "0.00"}
-                        </td>
-                        <td>
-                          {" "}
-                          {data.ratio == "10"
-                            ? (data.amount * 0.9).toFixed(2)
-                            : data.ratio == "20"
-                            ? (data.amount * 0.8).toFixed(2)
-                            : data.ratio == "30"
-                            ? (data.amount * 0.7).toFixed(2)
-                            : data.ratio == "40"
-                            ? (data.amount * 0.6).toFixed(2)
-                            : data.ratio == "50"
-                            ? (data.amount * 0.5).toFixed(2)
-                            : data.ratio == "15" && data.token == "sUSDT-stUSDT"
-                            ? (data.amount * 0.85).toFixed(2)
-                            : data.ratio == "20" && data.token == "sUSDT-stUSDT"
-                            ? (data.amount * 0.8).toFixed(2)
-                            : data.ratio == "25" && data.token == "sUSDT-stUSDT"
-                            ? (data.amount * 0.75).toFixed(2)
-                            : "0.00"}
-                        </td>
-                        <td>
-                          {data.ratio == "15" && data.token == "sUSDT-stUSDT"
-                            ? (data.amount * 0.15).toFixed(2)
-                            : data.ratio == "20" && data.token == "sUSDT-stUSDT"
-                            ? (data.amount * 0.2).toFixed(2)
-                            : data.ratio == "25" && data.token == "sUSDT-stUSDT"
-                            ? (data.amount * 0.25).toFixed(2)
-                            : "0.00"}
-                        </td>
-                        <td>{Number(data.amount).toFixed(2)}</td>
-                        <td>{data.token}</td>
-                        <td>{data.ratio}</td>
+                        <td>{Data?.Name}</td>
+                        <td>{Data?.user}</td>
+                        <td>{(Data?.withdrawAmount * 0.95).toFixed(2)}</td>
+                        <td>{(Data?.withdrawAmount * 0.05).toFixed(2)}</td>
+                        <td>{(Data?.withdrawAmount).toFixed(2)}</td>
+                        <td>{Data?.wallet_type}</td>
+                        <td>{Data?.payment_method}</td>
                         <td>
                           <a
-                            href={`https://wyzthscan.org/tx/${data.txHash}`}
+                            href={`https://bscscan.com/tx/${Data.trxnHash}`}
                             className="text-white"
                             target="_blank"
+                            rel="noopener noreferrer"
                           >
-                            {data.txHash.slice(0, 5)}... {data.txHash.slice(-5)}
+                            {Data.trxnHash
+                              ? `${Data.trxnHash.slice(
+                                  0,
+                                  7
+                                )}...${Data.trxnHash.slice(-5)}`
+                              : ""}
                           </a>
                         </td>
-                        <td>{formatTimestamp(data.createdAt)}</td>
+                        <td>{formatTimestamp(Data.timestamp ?? Data.createdAt)}</td>
                       </tr>
                     ))
                   ) : (
@@ -230,6 +185,11 @@ const Deposit = () => {
                   )}
                 </tbody>
               </Table>
+              <div className="d-flex justify-content-between">
+                <span>
+                  <strong>{/* {currentPage} of {totalPages} */}</strong>
+                </span>
+              </div>
               <div
                 className="text-center mb-3 col-lg-6"
                 style={{ margin: "auto" }}
@@ -300,4 +260,4 @@ const Deposit = () => {
   );
 };
 
-export default Deposit;
+export default ApproveWithdraw;

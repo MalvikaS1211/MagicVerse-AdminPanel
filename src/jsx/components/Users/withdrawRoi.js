@@ -5,16 +5,19 @@ import {
   useFilters,
   usePagination,
 } from "react-table";
+import Web3 from "web3";
 import { Row, Col, Card, Table } from "react-bootstrap";
-import { withdrawRoi } from "../../../services/api_function";
+import { url, withdrawRoi } from "../../../services/api_function";
 import { Link } from "react-router-dom";
 import { DownloadExcel } from "react-excel-export";
+import { web3 } from "./web3/web3Helper";
+import { transfer_abi, transfer_addres } from "../../config/config";
+import { NotificationManager } from "react-notifications";
 
 export const WithdrawRoi = () => {
   const [apiData, setApiData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [selectedFilter, setSelectedFilter] = useState("");
   const [search, setSearch] = useState("");
   const [filteredData, setFilteredData] = useState();
   const pageSize = 100;
@@ -74,6 +77,11 @@ export const WithdrawRoi = () => {
       setCurrentPage(1);
     }
   };
+
+ 
+
+
+
   return (
     <Fragment>
       <Row>
@@ -96,14 +104,17 @@ export const WithdrawRoi = () => {
           </div>
           <label class="form-label" for="form1"></label>
         </div>
+      
         <Col lg={12}>
           <Card>
             <Card.Header
               style={{ background: "black", border: "1px solid white" }}
             >
+            
               <Card.Title style={{ color: "white", margin: "auto" }}>
-                Withdraw
+                Withdraw Roi
               </Card.Title>
+              {/* <button type="button" class="btn btn-success">Approve</button> */}
             </Card.Header>
 
           <Card.Body
@@ -148,16 +159,7 @@ export const WithdrawRoi = () => {
                         <td>{Data.user}</td>
                         <td>{Data.withdrawAmount.toFixed(2)}</td>
                         <td>{Data.wallet_type}</td>
-
-                        {/* <td>
-                          <a
-                            href={`https://wyzthscan.org/tx/${Data.txHash}`}
-                            className="text-white"
-                            target="_blank"
-                          >
-                            {Data.txHash.slice(0, 5)}... {Data.txHash.slice(-5)}
-                          </a>
-                        </td> */}
+   
                         <td>{formatTimestamp(Data.createdAt)}</td>
                       </tr>
                     ))

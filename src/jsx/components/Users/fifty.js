@@ -16,22 +16,24 @@ const Fifty = () => {
   const [search, setSearch] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+
   const pageSize = 100;
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const userDetails = localStorage.getItem("userDetails");
         const parsedDetails = JSON.parse(userDetails);
         const token = parsedDetails.token;
-
-        const result = await FiftyList(
+        const response = await FiftyList(
           currentPage,
           { searchQuery: search },
           token
         );
-        setApiData(result);
-        const total = result.totalCount;
-        const pages = Math.ceil(total / pageSize);
+        const { data, totalCount } = response;
+        setApiData(data);
+        setFilteredData(data);
+        const pages = Math.ceil(totalCount[0].totalCount / pageSize);
         setTotalPages(pages > 0 ? pages : 1);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -67,6 +69,7 @@ const Fifty = () => {
     const minutes = String(date.getMinutes()).padStart(2, "0");
     return `${day}-${month}-${year} ${hours}:${minutes}`;
   };
+
   return (
     <Fragment>
       <Row>
@@ -95,9 +98,10 @@ const Fifty = () => {
               style={{ background: "black", border: "1px solid white" }}
             >
               <Card.Title style={{ color: "white", margin: "auto" }}>
-                50 50 List
+             50-50
               </Card.Title>
             </Card.Header>
+
             <Card.Body
               style={{ background: "black", border: "1px solid white" }}
             >
@@ -112,129 +116,120 @@ const Fifty = () => {
                 <thead>
                   <tr>
                     <th>
-                      <strong>NO.</strong>
+                      <strong>NO</strong>
                     </th>
-                    {/* <th>
+                    <th>
                       <strong>Name</strong>
                     </th>
                     <th>
-                      <strong>Phone</strong>
-                    </th> */}
+                      <strong>User</strong>
+                    </th>
+
                     <th>
-                      {/* <thead>
-                      <input
-                          type="text"
-                          class="form-control"
-                          style={{ width: "70%" }}
-                          placeholder="Search here..."
-                         onChange={handleSearch}
-                        />
-                      </thead> */}
-                      <strong> User</strong>
+                      <strong> WYZ</strong>
                     </th>
                     <th>
-                      {/* <thead>
-                      <input
-                          type="text"
-                          class="form-control"
-                          // style={{ width: "70%" }}
-                          placeholder="Search here..."
-                         // onChange={handleSearch}
-                        />
-                      </thead> */}
-                      <strong>wysAmount</strong>
+                      <strong> stUSDT</strong>
                     </th>
                     <th>
-                      <strong>Total Amount</strong>
+                      <strong> sUSDT</strong>
                     </th>
                     <th>
-                      <strong>Plan</strong>
-                    </th>
-                   
-                    <th>
-                      {" "}
-                      <strong>Duration</strong>
+                      <strong> Total</strong>
                     </th>
                     <th>
-                      {" "}
-                      <strong>Transaction ID</strong>
+                      <strong>Token</strong>
                     </th>
                     <th>
-                      {" "}
+                      <strong>Ratio</strong>
+                    </th>
+                    <th>
+                      <strong>Transaction Id</strong>
+                    </th>
+                    <th>
                       <strong>Date&Time</strong>
                     </th>
                   </tr>
                 </thead>
+
                 <tbody>
-                  {apiData && apiData.data ? (
-                    apiData.data.map((user, index) => {
-                      // console.log("User data:", user);
-                      return (
-                        <tr key={index}>
-                          <td>{index + 1}</td>
-                          <td>
-                            <span className="smaller-font">{user.user}</span>
-                          </td>
-                          <td>{(user.wysAmount / 1e18).toFixed(2)}</td>
-                         
-                          <td>{(user.ttlAmt / 1e18).toFixed(2)}</td>
-                           <td>
-                          {user.planId == 1 && "WYS"}
-                          {user.planId == 2 && "ARB"}
-                          {user.planId == 3 && "BNB"}
-                          {user.planId == 4 && "WYZ(50:50)"}
-                          {user.planId == 5  && "WYZ(70:30)"}
-                          {user.planId == 6  && "USDT"}
+                  {filteredData && filteredData.length > 0 ? (
+                    filteredData.map((data, index) => (
+                      <tr key={index}>
+                        <td>{(currentPage - 1) * pageSize + index + 1}</td>
+                        <td>{data.Name}</td>
+                        <td>{data.user}</td>
+
+                        <td>
+                          {data.ratio == "10"
+                            ? ((data.amount * 0.1) / 20).toFixed(2)
+                            : data.ratio == "20"
+                            ? ((data.amount * 0.2) / 20).toFixed(2)
+                            : data.ratio == "30"
+                            ? ((data.amount * 0.3) / 20).toFixed(2)
+                            : data.ratio == "40"
+                            ? ((data.amount * 0.4) / 20).toFixed(2)
+                            : data.ratio == "50"
+                            ? ((data.amount * 0.5) / 20).toFixed(2)
+                            : data.ratio == "15" && data.token == "sUSDT-stUSDT"
+                            ? ((data.amount * 0.15) / 20).toFixed(2)
+                            : data.ratio == "20" && data.token == "sUSDT-stUSDT"
+                            ? ((data.amount * 0.2) / 20).toFixed(2)
+                            : data.ratio == "25" && data.token == "sUSDT-stUSDT"
+                            ? ((data.amount * 0.25) / 20).toFixed(2)
+                            : "0.00"}
                         </td>
-                          <td>{user.duration}</td>
-                          <td>
-                            <a
-                              href={`https://wyzthscan.org/tx/${user.txHash}`}
-                              className="text-white"
-                              target="_blank"
-                            >
-                              {user.txHash.slice(0, 5)}...{" "}
-                              {user.txHash.slice(-5)}
-                            </a>
-                          </td>
-                          <td>
-                          <td>{formatTimestamp(user.createdAt)}</td>
-                          </td>
-                        </tr>
-                      );
-                    })
+                        <td>
+                          {" "}
+                          {data.ratio == "10"
+                            ? (data.amount * 0.9).toFixed(2)
+                            : data.ratio == "20"
+                            ? (data.amount * 0.8).toFixed(2)
+                            : data.ratio == "30"
+                            ? (data.amount * 0.7).toFixed(2)
+                            : data.ratio == "40"
+                            ? (data.amount * 0.6).toFixed(2)
+                            : data.ratio == "50"
+                            ? (data.amount * 0.5).toFixed(2)
+                            : data.ratio == "15" && data.token == "sUSDT-stUSDT"
+                            ? (data.amount * 0.85).toFixed(2)
+                            : data.ratio == "20" && data.token == "sUSDT-stUSDT"
+                            ? (data.amount * 0.8).toFixed(2)
+                            : data.ratio == "25" && data.token == "sUSDT-stUSDT"
+                            ? (data.amount * 0.75).toFixed(2)
+                            : "0.00"}
+                        </td>
+                        <td>
+                          {data.ratio == "15" && data.token == "sUSDT-stUSDT"
+                            ? (data.amount * 0.15).toFixed(2)
+                            : data.ratio == "20" && data.token == "sUSDT-stUSDT"
+                            ? (data.amount * 0.2).toFixed(2)
+                            : data.ratio == "25" && data.token == "sUSDT-stUSDT"
+                            ? (data.amount * 0.25).toFixed(2)
+                            : "0.00"}
+                        </td>
+                        <td>{Number(data.amount).toFixed(2)}</td>
+                        <td>{data.token}</td>
+                        <td>{data.ratio}</td>
+                        <td>
+                          <a
+                            href={`https://wyzthscan.org/tx/${data.txHash}`}
+                            className="text-white"
+                            target="_blank"
+                          >
+                            {data.txHash.slice(0, 5)}... {data.txHash.slice(-5)}
+                          </a>
+                        </td>
+                        <td>{formatTimestamp(data.createdAt)}</td>
+                      </tr>
+                    ))
                   ) : (
                     <tr>
-                      <td colSpan="5">No data available</td>
+                      <td colSpan="7">No data found</td>
                     </tr>
                   )}
                 </tbody>
               </Table>
-              <div className="d-flex justify-content-between">
-                <span>
-                  {/* Page{" "} */}
-                  <strong>{/* {currentPage} of {totalPages} */}</strong>
-                </span>
-                {/* <span className="table-index">
-                      Go to page :{" "}
-                      <input
-                        type="number"
-                        className="ml-2"
-                        min="1"
-                        max={totalPages}
-                        value={inputPage}
-                        onChange={(e) => setInputPage(e.target.value)}
-                        style={{ width: "50px" }}
-                      />
-                      <button
-                        className="btn btn-primary ml-2"
-                        onClick={handleGoToPage}
-                      >
-                        Go
-                      </button>
-                    </span> */}
-              </div>
-
               <div
                 className="text-center mb-3 col-lg-6"
                 style={{ margin: "auto" }}

@@ -20,14 +20,11 @@ const CommissionData = (props) => {
     const token = parsedDetails.token;
     Commissiondata(User, token)
       .then((response) => {
-        setUserData(response.users);
+        setUserData(response.data);
       })
       .catch((error) => {
         console.error("Error fetching team data:", error);
       });
-    // } else {
-    //   isInitialRender.current = false;
-    // }
   }, [User]);
 
   // console.log("UserData:", userData);
@@ -81,16 +78,28 @@ const CommissionData = (props) => {
                     <th>
                       <strong>Total Withdraw</strong>
                     </th>
+                    <th>
+                      <strong>TopUp Amount</strong>
+                    </th>
+                    <th>
+                      <strong>Total Income</strong>
+                    </th>
+                    <th>
+                      <strong>Team Business</strong>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>{userData.rankbonus ?? 0}</td>
-                    <td>{userData.recurrIncome ?? 0}</td>
-                    <td>{userData.levelIncome ?? 0}</td>
-                    <td>{userData.referalIncome ?? 0}</td>
-                    <td>{userData.totalWithdraw ?? 0}</td>
-                    <td>{0}</td>
+                    <td>{(userData?.users?.rankbonus ?? 0).toFixed(2)}</td>
+                    <td>{(userData?.users?.recurrIncome ?? 0).toFixed(2)}</td>
+                    <td>{(userData?.users?.levelIncome ?? 0).toFixed(2)}</td>
+                    <td>{(userData?.users?.referalIncome ?? 0).toFixed(2)}</td>
+                    <td>0.00</td> {/* This is already a fixed number */}
+                    <td>{(userData?.users?.totalWithdraw ?? 0).toFixed(2)}</td>
+                    <td>{(userData?.users?.topup_amount ?? 0).toFixed(2)}</td>
+                    <td>{(userData?.users?.totalIncome ?? 0).toFixed(2)}</td>
+                    <td>{(userData?.teamBussines ?? 0).toFixed(2)}</td>
                   </tr>
                 </tbody>
               </Table>
