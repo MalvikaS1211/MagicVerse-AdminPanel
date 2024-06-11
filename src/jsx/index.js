@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
 /// React router dom
-import {  Routes, Route, Outlet  } from "react-router-dom";
+import { Routes, Route, Outlet } from "react-router-dom";
 
 /// Css
 import "./index.css";
@@ -46,28 +46,28 @@ import ExelFormet from "./components/Users/exeldata";
 import Protocol from "./components/Users/protocol";
 import ProtocalData from "./components/Users/prtocolData";
 import RejectWithdraw from "./components/Users/rejectWithdraw";
-import ApproveWithdraw  from "./components/Users/approveWithdraw";
+import ApproveWithdraw from "./components/Users/approveWithdraw";
 //Trading
-import Market from './components/Trading/Market';
-import IcoListing from './components/Trading/IcoListing';
-import P2P from './components/Trading/P2P';
-import Future from './components/Trading/Future';
-import IntradayTrading from './components/Trading/IntradayTrading';
+import Market from "./components/Trading/Market";
+import IcoListing from "./components/Trading/IcoListing";
+import P2P from "./components/Trading/P2P";
+import Future from "./components/Trading/Future";
+import IntradayTrading from "./components/Trading/IntradayTrading";
 
 //Crypto
-import MarketWatch from './components/Crypto/MarketWatch';
-import IcoListingFilter from './components/Crypto/IcoListingFilter';
-import Banking from './components/Crypto/Banking';
-import Exchange from './components/Crypto/Exchange';
-import CoinDetails from './components/Crypto/CoinDetails';
+import MarketWatch from "./components/Crypto/MarketWatch";
+import IcoListingFilter from "./components/Crypto/IcoListingFilter";
+import Banking from "./components/Crypto/Banking";
+import Exchange from "./components/Crypto/Exchange";
+import CoinDetails from "./components/Crypto/CoinDetails";
 
-//Report 
-import History from './components/Report/History';
-import Order from './components/Report/Order';
-import Reports from './components/Report/Reports';
-import User from './components/Report/User';
-import Contact from './components/Report/Contact';
-import Activity from './components/Report/Activity';
+//Report
+import History from "./components/Report/History";
+import Order from "./components/Report/Order";
+import Reports from "./components/Report/Reports";
+import User from "./components/Report/User";
+import Contact from "./components/Report/Contact";
+import Activity from "./components/Report/Activity";
 
 /////Demo
 import Theme1 from "./components/Dashboard/Demo/Theme1";
@@ -78,7 +78,6 @@ import Theme5 from "./components/Dashboard/Demo/Theme5";
 import Theme6 from "./components/Dashboard/Demo/Theme6";
 import Theme7 from "./components/Dashboard/Demo/Theme7";
 import Theme8 from "./components/Dashboard/Demo/Theme8";
-
 
 /// App
 import AppProfile from "./components/AppsMenu/AppProfile/AppProfile";
@@ -160,14 +159,12 @@ import Error404 from "./pages/Error404";
 import Error500 from "./pages/Error500";
 import Error503 from "./pages/Error503";
 import { ThemeContext } from "../context/ThemeContext";
-
-
+import Login from "./pages/Login";
 
 const Markup = () => {
-
   const allroutes = [
     /// Dashboard
-    { url: "", component: <AllUser/> },
+    { url: "", component: <Login /> },
     { url: "dashboard", component: <Home /> },
     { url: "dashboard-dark", component: <DashboardDark /> },
     { url: "index-1", component: <Dashboard2 /> },
@@ -175,30 +172,30 @@ const Markup = () => {
     { url: "index-4", component: <Dashboard4 /> },
     { url: "index-5", component: <Dashboard5 /> },
     // Users
-    { url: 'allUsers', auth: true, component: <AllUser/>},
-    {url:"staking-user",component:<StakingUser/>},
-    {url:'team-list',component:<TeamDetails/>},
-    {url:'announcement', component:<Announcement/>},
-    {url:"commission",component:<Commission/>},
-    {url:"commission-data",component:<CommissionData/>},
-    {url:"transaction",component:<Transaction/>},
-    {url:"block",component:<BlockData/>},
-    {url:"fifty-list",component:<Fifty/>},
-    {url:"block-user",component:<BlockUserList/>},
-    {url:"topup-list",component:<FreeIddata/>},
-    {url:"user-registration",component:<UserRegester/>},
-    {url:"top-team",component:<TopTeams/>},
-// History
-    {url:"deposit",component:<DepositHisory/>},
-    {url:"withdrawal", component:<Withdrawal/>},
-    {url:"withdrawRoi",component:<WithdrawRoi/>},
-    {url:"withdrawClaim",component:<WithdrawClaim/>},
-    {url:"deposit-data",component:<Deposit/>},
-    {url:"exel-formet",component:<ExelFormet/>},
-    {url:"protocol",component:<Protocol/>},
-    {url:"protocol-data",component:<ProtocalData/>},
-    {url:"withdraw-approve",component:<ApproveWithdraw/>},
-    {url:"reject-withdraw",component:<RejectWithdraw/>},
+    { url: "allUsers", auth: true, component: <AllUser /> },
+    { url: "staking-user", component: <StakingUser /> },
+    { url: "team-list", component: <TeamDetails /> },
+    { url: "announcement", component: <Announcement /> },
+    { url: "commission", component: <Commission /> },
+    { url: "commission-data", component: <CommissionData /> },
+    { url: "transaction", component: <Transaction /> },
+    { url: "block", component: <BlockData /> },
+    { url: "fifty-list", component: <Fifty /> },
+    { url: "block-user", component: <BlockUserList /> },
+    { url: "topup-list", component: <FreeIddata /> },
+    { url: "user-registration", component: <UserRegester /> },
+    { url: "top-team", component: <TopTeams /> },
+    // History
+    { url: "deposit", component: <DepositHisory /> },
+    { url: "withdrawal", component: <Withdrawal /> },
+    { url: "withdrawRoi", component: <WithdrawRoi /> },
+    { url: "withdrawClaim", component: <WithdrawClaim /> },
+    { url: "deposit-data", component: <Deposit /> },
+    { url: "exel-formet", component: <ExelFormet /> },
+    { url: "protocol", component: <Protocol /> },
+    { url: "protocol-data", component: <ProtocalData /> },
+    { url: "withdraw-approve", component: <ApproveWithdraw /> },
+    { url: "reject-withdraw", component: <RejectWithdraw /> },
     //Trading
     // { url: "market", component: <Market /> },
     // { url: "ico-listing", component: <IcoListing /> },
@@ -206,7 +203,6 @@ const Markup = () => {
     // { url: "future", component: <Future /> },
     // { url: "intraday-trading", component: <IntradayTrading /> },
 
-    
     //Crypto
     // {url:"crypto", component: <MarketWatch/>},
     // {url:"ico-listing-filter", component: <IcoListingFilter/>},
@@ -214,15 +210,14 @@ const Markup = () => {
     // {url:"exchange", component: <Exchange/>},
     // {url:"coin-details", component: <CoinDetails/>},
 
-
-    //Report 
+    //Report
     // {url :"history", component: <History />},
     // {url :"orders", component: <Order />},
     // {url :"reports", component: <Reports />},
     // {url :"user", component: <User />},
     // {url :"contact", component: <Contact />},
     // {url :"activity", component: <Activity />},
-	/////Demo
+    /////Demo
     // { url: "sidebar-primary", component: <Theme1 /> },
     // { url: "horizontal-sidebar", component: <Theme2 /> },
     // { url: "nav-header", component: <Theme3 /> },
@@ -231,8 +226,8 @@ const Markup = () => {
     // { url: "primary-theme", component: <Theme6/> },
     // { url: "nav-theme", component: <Theme7/> },
     // { url: "sidebar-mini", component: <Theme8 /> },
-	
-	/// Apps
+
+    /// Apps
     // { url: "app-profile", component: <AppProfile /> },
     // { url: "edit-profile", component: <EditProfile /> },
     // { url: "email-compose", component: <Compose /> },
@@ -241,7 +236,7 @@ const Markup = () => {
     // { url: "app-calender", component: <Calendar /> },
     // { url: "post-details", component: <PostDetails /> },
 
-  /// Shop
+    /// Shop
     // { url: "ecom-product-grid", component: <ProductGrid /> },
     // { url: "ecom-product-list", component: <ProductList /> },
     // { url: "ecom-product-detail", component: <ProductDetail /> },
@@ -249,13 +244,13 @@ const Markup = () => {
     // { url: "ecom-checkout", component: <Checkout /> },
     // { url: "ecom-invoice", component: <Invoice /> },
     // { url: "ecom-customers", component: <Customers /> },
-//
+    //
     ///// Chart
     // { url: "chart-sparkline", component: <SparklineChart /> },
-    // { url: "chart-chartjs", component: <ChartJs /> },    
+    // { url: "chart-chartjs", component: <ChartJs /> },
     // { url: "chart-apexchart", component: <ApexChart /> },
     // { url: "chart-rechart", component: <RechartJs /> },
-//
+    //
     ///// Bootstrap
     // { url: "ui-alert", component: <UiAlert /> },
     // { url: "ui-badge", component: <UiBadge /> },
@@ -273,7 +268,7 @@ const Markup = () => {
     // { url: "ui-pagination", component: <UiPagination /> },
     // { url: "ui-typography", component: <UiTypography /> },
     // { url: "ui-grid", component: <UiGrid /> },
-	//
+    //
     ///// Plugin
     // { url: "uc-select2", component: <Select2 /> },
     // { url: "uc-noui-slider", component: <MainNouiSlider /> },
@@ -281,10 +276,10 @@ const Markup = () => {
     // { url: "uc-toastr", component: <Toastr /> },
     // { url: "map-jqvmap", component: <JqvMap /> },
     // { url: "uc-lightgallery", component: <Lightgallery /> },
-//
-	/////Redux
-	//{ url: "todo", component: Todo },	
-	//
+    //
+    /////Redux
+    //{ url: "todo", component: Todo },
+    //
     ///// Widget
     // { url: "widget-basic", component: <Widget /> },
 
@@ -294,12 +289,12 @@ const Markup = () => {
     // { url: "form-ckeditor", component: <CkEditor /> },
     // { url: "form-pickers", component: <Pickers /> },
     // { url: "form-validation", component: <FormValidation /> },
-//
+    //
     ///// table
-	  // { url: 'table-filtering', component: <FilteringTable /> },
+    // { url: 'table-filtering', component: <FilteringTable /> },
     // { url: 'table-sorting', component: <SortingTable /> },
     // { url: "table-bootstrap-basic", component: <BootstrapTable /> },
-//
+    //
     ///// pages
     //{ url: "page-register", component: Registration },
     //{ url: "page-lock-screen", component: <LockScreen /> },
@@ -320,47 +315,50 @@ const Markup = () => {
 
   return (
     <>
-        <Routes>
-            <Route path='page-lock-screen' element= {<LockScreen />} />
-            <Route path='page-error-400' element={<Error400/>} />
-            <Route path='page-error-403' element={<Error403/>} />
-            <Route path='page-error-404' element={<Error404/>} />
-            <Route path='page-error-500' element={<Error500/>} />
-            <Route path='page-error-503' element={<Error503/>} />
-            {/* <Route path='/dashboard' element={<Home />} /> */}
-            
-            <Route  element={<MainLayout />} > 
-                {allroutes.map((data, i) => (
-                  <Route
-                    key={i}
-                    exact
-                    path={`${data.url}`}
-                    element={data.component}
-                  />
-                ))}
-            </Route>
-        </Routes>
-        <ScrollToTop />
-        
+      <Routes>
+        <Route path="page-lock-screen" element={<LockScreen />} />
+        <Route path="page-error-400" element={<Error400 />} />
+        <Route path="page-error-403" element={<Error403 />} />
+        <Route path="page-error-404" element={<Error404 />} />
+        <Route path="page-error-500" element={<Error500 />} />
+        <Route path="page-error-503" element={<Error503 />} />
+        {/* <Route path='/dashboard' element={<Home />} /> */}
+
+        <Route element={<MainLayout />}>
+          {allroutes.map((data, i) => (
+            <Route
+              key={i}
+              exact
+              path={`${data.url}`}
+              element={data.component}
+            />
+          ))}
+        </Route>
+      </Routes>
+      <ScrollToTop />
     </>
   );
 };
 
-
-function MainLayout(){
+function MainLayout() {
   const { menuToggle } = useContext(ThemeContext);
   return (
-    <div id="main-wrapper" className={`show ${ menuToggle ? "menu-toggle" : ""}`}>  
+    <div
+      id="main-wrapper"
+      className={`show ${menuToggle ? "menu-toggle" : ""}`}
+    >
       <Nav />
-      <div className="content-body" style={{ minHeight: window.screen.height - 45,background:"black" }}>
-          <div className="container-fluid">
-            <Outlet />                
-          </div>
+      <div
+        className="content-body"
+        style={{ minHeight: window.screen.height - 45, background: "black" }}
+      >
+        <div className="container-fluid">
+          <Outlet />
+        </div>
       </div>
       <Footer />
     </div>
-  )
-
-};
+  );
+}
 
 export default Markup;
