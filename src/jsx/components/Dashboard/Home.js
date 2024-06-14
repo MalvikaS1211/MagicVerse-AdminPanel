@@ -1,74 +1,80 @@
-import React,{useContext, useEffect, useReducer,  useState} from 'react';
-import {Link} from 'react-router-dom';
+import React, { useContext, useEffect, useReducer, useState } from "react";
+import { Link } from "react-router-dom";
 //import {NavLink} from 'react-router-dom';
 import loadable from "@loadable/component";
 import pMinDelay from "p-min-delay";
-import {Dropdown, Nav, Tab} from 'react-bootstrap';
-
+// import {Dropdown, Nav, Tab} from 'react-bootstrap';
 //Import Components
+// import Dropdown from "./Dropdown";
 import { ThemeContext } from "../../../context/ThemeContext";
-import BalanceCardSlider from './Dashboard/BalanceCardSlider';
+import BalanceCardSlider from "./Dashboard/BalanceCardSlider";
 //import MorrisDonught from './Dashboard/MorrisDonught';
-import OrderForm from './Dashboard/OrderForm';
+import OrderForm from "./Dashboard/OrderForm";
 //import ServerStatusBar from './Dashboard/ServerStatusBar';
-import {LtcIcon, BtcIcon, XtzIcon, EthIcon} from './SvgIcon';
-
+import { LtcIcon, BtcIcon, XtzIcon, EthIcon } from "./SvgIcon";
+// import Dropdown from "react-bootstrap/Dropdown";
 //images
-import coin from './../../../images/coin.png';
-import metaverse from './../../../images/metaverse.png';
-
+import coin from "./../../../images/coin.png";
+import metaverse from "./../../../images/metaverse.png";
+import { Dropdown } from "react-bootstrap";
 
 const DashboardComboChart = loadable(() =>
-	pMinDelay(import("./Dashboard/DashboardComboChart"), 1000)
+  pMinDelay(import("./Dashboard/DashboardComboChart"), 1000)
 );
 const AssetsChart = loadable(() =>
-	pMinDelay(import("./Dashboard/AssetsChart"), 1000)
+  pMinDelay(import("./Dashboard/AssetsChart"), 1000)
 );
 
 const ServerStatusBar = loadable(() =>
-	pMinDelay(import("./Dashboard/ServerStatusBar"), 1000)
+  pMinDelay(import("./Dashboard/ServerStatusBar"), 1000)
 );
-
 
 const pickerData = [
-	{fillcolor: 'var(--primary)', datatitle:'XTZ(40%)', price:'763'},
-	{fillcolor: '#2A353A', datatitle:'BTC(20%)', price:'321'},
-	{fillcolor: '#C0E192', datatitle:'BNB(10%)', price:'69'},
-	{fillcolor: '#E085E4', datatitle:'ETH(10%)', price:'154'},
+  { fillcolor: "var(--primary)", datatitle: "XTZ(40%)", price: "763" },
+  { fillcolor: "#2A353A", datatitle: "BTC(20%)", price: "321" },
+  { fillcolor: "#C0E192", datatitle: "BNB(10%)", price: "69" },
+  { fillcolor: "#E085E4", datatitle: "ETH(10%)", price: "154" },
 ];
-
 
 const marketBlog = [
-	{icon: LtcIcon, classBg: 'bg-success', Name:'LTC', },
-	{icon: BtcIcon, classBg: 'bg-warning', Name:'BTC', },
-	{icon: XtzIcon, classBg: 'bg-primary', Name:'XTZ', },
-	{icon: EthIcon, classBg: 'bg-pink', Name:'ETH', },
-	{icon: XtzIcon, classBg: 'bg-primary', Name:'XTZ', },
+  { icon: LtcIcon, classBg: "bg-success", Name: "LTC" },
+  { icon: BtcIcon, classBg: "bg-warning", Name: "BTC" },
+  { icon: XtzIcon, classBg: "bg-primary", Name: "XTZ" },
+  { icon: EthIcon, classBg: "bg-pink", Name: "ETH" },
+  { icon: XtzIcon, classBg: "bg-primary", Name: "XTZ" },
 ];
 
-const listData = [
-	{}, {}, {},
-	{}, {}, {},
-	{}, {},{},
-	{},{},
-];
+const listData = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
 
 const Home = () => {
-	//console.log("Rendiering HOme")
-	const { changeBackground } = useContext(ThemeContext);	
-	useEffect(() => {
-		changeBackground({ value: "light", label: "Light" });
-	}, []);
-	const MarketChart = loadable(() =>
-	pMinDelay(import("./Index2/MarketChart"), 1000)
-);
-	return(
-		<>
-			<div className="row">
-				<div className="col-xl-12">
-					<div className="row">
-						<div className="col-xl-12">
-							{/* <div className="card bubles">
+  //console.log("Rendiering HOme")
+  const { changeBackground } = useContext(ThemeContext);
+  useEffect(() => {
+    changeBackground({ value: "light", label: "Light" });
+  }, []);
+  const MarketChart = loadable(() =>
+    pMinDelay(import("./Index2/MarketChart"), 1000)
+  );
+  return (
+    <>
+      <div className="d-flex justify-content-end mb-5">
+        <Dropdown>
+          <Dropdown.Toggle variant="dark" id="dropdown-basic">
+            All Record
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu variant="dark">
+            <Dropdown.Item>Today</Dropdown.Item>
+            <Dropdown.Item>Yesterday</Dropdown.Item>
+            {/* <Dropdown.Item href="#/action-3">Something else</Dropdown.Item> */}
+          </Dropdown.Menu>
+        </Dropdown>
+      </div>
+      <div className="row">
+        <div className="col-xl-12">
+          <div className="row">
+            <div className="col-xl-12">
+              {/* <div className="card bubles">
 								<div className="card-body">
 									<div className="buy-coin  bubles-down">
 										<div>
@@ -82,11 +88,12 @@ const Home = () => {
 									</div>
 								</div>
 							</div> */}
-						</div>
-						<div className="col-xl-12">
-							<BalanceCardSlider />
-						</div>
-						{/* <div className="col-xl-12">
+            </div>
+            <div className="col-xl-12">
+              {/* this comment by me */}
+              <BalanceCardSlider />
+            </div>
+            {/* <div className="col-xl-12">
 							<div className="card">
 								<div className="card-header border-0 align-items-start flex-wrap pb-0">
 									<div>
@@ -126,11 +133,11 @@ const Home = () => {
 								</div>
 								<div className="card-body">
 									 {/* <div id="tradingview_e8053" className="tranding-chart"></div> */}
-									 {/* <DashboardComboChart /> */}
-								{/* </div> */}
-							{/* </div> */}
-						{/* </div> */}
-						{/* <div className="col-xl-5 assets-al col-lg-12">
+            {/* <DashboardComboChart /> */}
+            {/* </div> */}
+            {/* </div> */}
+            {/* </div> */}
+            {/* <div className="col-xl-5 assets-al col-lg-12">
 							<div className="card">
 								<div className="card-header border-0 pb-0">
 									<h2 className="heading">Assets Allocation</h2>
@@ -175,7 +182,7 @@ const Home = () => {
 								</div>
 							</div>	
 						</div> */}
-						{/* <div className="col-xl-4 market-previews col-sm-6">
+            {/* <div className="col-xl-4 market-previews col-sm-6">
 							<div className="card">
 								<div className="card-header border-0 pb-0">
 									<div>
@@ -204,7 +211,7 @@ const Home = () => {
 								</div>
 							</div>
 						</div> */}
-						{/* <div className="col-xl-3 col-sm-6">
+            {/* <div className="col-xl-3 col-sm-6">
 							<div className="card bg-secondary email-susb">
 								<div className="card-body text-center">
 									<div className="">
@@ -219,9 +226,9 @@ const Home = () => {
 
 							</div>
 						</div> */}
-					</div>
-				</div>
-				{/* <div className="col-xl-4">
+          </div>
+        </div>
+        {/* <div className="col-xl-4">
 					<div className="row">
 						<div className="col-xl-12 col-sm-6">
 							<div className="card h-auto">
@@ -379,54 +386,59 @@ const Home = () => {
 								</div>
 							</div>
 						</div> */}
-					{/* </div>	 */}
-				{/* </div> */}
-				<div className="row">
-				<div className="col-xl-12">
-					<div className="row main-card">
-						<div className="col-xxl-9 col-lg-12">
-							{/* <Index2Slider /> */}
-							<div className="row">
-								<div className="col-xl-12 wow fadeInUp" data-wow-delay="1.5s">
-									<div className="card market_chart">
-										<div className="card-header border-0 align-items-start flex-wrap pb-0">
-											<div>
-												<h2 className="heading">Week Chart</h2>
-												<div className="market-data">
-													{/* <div className="income data">
+        {/* </div>	 */}
+        {/* </div> */}
+        <div className="row">
+          <div className="col-xl-12">
+            <div className="row main-card">
+              <div className="col-xxl-9 col-lg-12">
+                {/* <Index2Slider /> */}
+                <div className="row">
+                  <div className="col-xl-12 wow fadeInUp" data-wow-delay="1.5s">
+                    <div className="card market_chart">
+                      <div className="card-header border-0 align-items-start flex-wrap pb-0">
+                        <div>
+                          <h2 className="heading">Week Chart</h2>
+                          <div className="market-data">
+                            {/* <div className="income data">
 														<span>This Week</span>
 														<h4>$29.999.00</h4>
 													</div> */}
-													{/* <div className="price data">
+                            {/* <div className="price data">
 														<span>Price</span>
 														<h4>480 <sub>- 0,5%</sub></h4>
 													</div> */}
-													{/* <div className="rate data">
+                            {/* <div className="rate data">
 														<span>Rate</span>
 														<h4>-0.0662%/hr</h4>
 													</div> */}
-													{/* <div className="volume data">
+                            {/* <div className="volume data">
 														<span>volume</span>
 														<h4>175k</h4>
 													</div> */}
-
-												</div>		
-											</div>
-										</div>
-										<div className="card-body custome-tooltip pt-0">
-											<div id="activity1"></div>
-											<MarketChart />
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						
-					</div>
-				</div>
-			</div>	
-			</div>		
-		</>
-	)
-}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="card-body custome-tooltip pt-0">
+                        <div id="activity1"></div>
+                        {/* <MarketChart /> */}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+// const Home=()=>{
+// 	return (
+// 		<>
+// 			<h1>tjid</h1>
+// 		</>
+// 	)
+// }
 export default Home;

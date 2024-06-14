@@ -2,21 +2,13 @@ import React, { Fragment, useEffect, useState, useMemo, useRef } from "react";
 import { DownloadTableExcel } from "react-export-table-to-excel";
 import { DownloadExcel } from "react-excel-export";
 import { useNavigate } from "react-router-dom";
-import {
-  useTable,
-  useGlobalFilter,
-  useFilters,
-  usePagination,
-} from "react-table";
 import * as XLSX from "xlsx";
 
 import { Row, Col, Card, Table } from "react-bootstrap";
 import { allUser } from "../../../services/api_function";
-import { Link } from "react-router-dom";
-import { COLUMNS } from "../../components/table/FilteringTable/Columns";
-import MOCK_DATA from "../../components/table/FilteringTable/MOCK_DATA_2.json";
+import { COLUMNS } from "../table/FilteringTable/Columns";
 
-export const StakingUser = () => {
+export const Deposit = () => {
   const [apiData, setApiData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -24,7 +16,7 @@ export const StakingUser = () => {
   const [search, setSearch] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
-  const [recordStatus, setRecordStatus] = useState("Loading...");
+  const [recordStatus,setRecordStatus] = useState("Loading...")
   const pageSize = 100;
 
   const navigate = useNavigate();
@@ -34,21 +26,20 @@ export const StakingUser = () => {
         const userDetails = localStorage.getItem("userDetails");
         const parsedDetails = JSON.parse(userDetails);
         const token = parsedDetails.token;
-        const table = "stake";
+        const table = "deposit";
         const result = await allUser(
           table,
           currentPage,
           { searchQuery: search },
           token
         );
+        console.log(result);
         setApiData(result.data);
         setFilteredData(result.data);
-        // const total = result.totalUsers;
-        // const pages = Math.ceil(total / pageSize);
-        setTotalPages(result.totalPages);
-        if (!result.data[0]) {
-          setRecordStatus("No Record");
+        if(!result.data[0]){
+          setRecordStatus("No Record")
         }
+        setTotalPages(result.totalPages);
         if (result.status == 404) {
           navigate("/login");
           localStorage.removeItem("userDetails");
@@ -82,35 +73,6 @@ export const StakingUser = () => {
   };
   const columns = useMemo(() => COLUMNS, []);
   const data = useMemo(() => apiData, [apiData]);
-
-  // const tableInstance = useTable(
-  //   {
-  //     columns,
-  //     data,
-  //     initialState: { pageIndex: 0 },
-  //   },
-  //   useFilters,
-  //   useGlobalFilter,
-  //   usePagination
-  // );
-
-  // const {
-  //   getTableProps,
-  //   getTableBodyProps,
-  //   headerGroups,
-  //   prepareRow,
-  //   state,
-  //   page,
-  //   gotoPage,
-  //   pageCount,
-  //   pageOptions,
-  //   nextPage,
-  //   previousPage,
-  //   canNextPage,
-  //   canPreviousPage,
-  //   setGlobalFilter,
-  // } = tableInstance;
-  // const { globalFilter, pageIndex } = state;
 
   const handleSearch = async (e) => {
     const query = e.target.value.trim().toLowerCase();
@@ -159,7 +121,7 @@ export const StakingUser = () => {
               style={{ background: "black", border: "1px solid white" }}
             >
               <Card.Title style={{ color: "white", margin: "auto" }}>
-                Staking User
+                Deposite History
               </Card.Title>
             </Card.Header>
             <Card.Body
@@ -184,16 +146,13 @@ export const StakingUser = () => {
                       <strong>NO.</strong>
                     </th>
                     <th>
-                      <strong>Staking Amount</strong>
+                      <strong>User</strong>
                     </th>
                     <th>
-                      <strong> Total Claim</strong>
+                      <strong> Symbol</strong>
                     </th>
-                    {/* <th>
-                      <strong>Claim History</strong>
-                    </th> */}
                     <th>
-                      <strong>Expiry Date</strong>
+                      <strong>Amount</strong>
                     </th>
                     <th>
                       <strong>Date & Time</strong>
@@ -204,19 +163,16 @@ export const StakingUser = () => {
                   {!apiData[0] ? (
                     <tr>
                       <td className="text-light text-center" colSpan="7">
-                       {recordStatus}
+                        {recordStatus}
                       </td>
                     </tr>
                   ) : (
                     apiData.map((data, index) => (
                       <tr>
                         <th>{index + 1}</th>
-                        <th>{data.stakeAmount.toFixed(2)}</th>
-                        <th>{data.claimAmount.toFixed(2)}</th>
-                        {/* <th>{data.claimAmount.toFixed(2)}</th> */}
-                        <th>
-                          {new Date(data.endTimestamp * 1000).toLocaleString()}
-                        </th>
+                        <th>{data.name}</th>
+                        <th>{data.symbol}</th>
+                        <th>{data.amount.toFixed(2)}</th>
                         <th>{new Date(data.createdAt).toLocaleString()}</th>
                       </tr>
                     ))
@@ -300,4 +256,4 @@ export const StakingUser = () => {
   );
 };
 
-export default StakingUser;
+export default Deposit;

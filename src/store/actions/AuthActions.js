@@ -94,6 +94,7 @@ export function loginAction(email, password, navigate) {
         if (response.status == 200) {
           saveTokenInLocalStorage(response);
           dispatch(loginConfirmedAction(response));
+          console.log(response)
           navigate("/dashboard");
           NotificationManager.success(response.message);
         } else {

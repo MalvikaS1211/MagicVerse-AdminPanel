@@ -1,42 +1,36 @@
 import React, { Fragment, useEffect, useState, useMemo } from "react";
-import {
-  useTable,
-  useGlobalFilter,
-  useFilters,
-  usePagination,
-} from "react-table";
-import Web3 from "web3";
 import { Row, Col, Card, Table } from "react-bootstrap";
-import { url, withdrawRoi } from "../../../services/api_function";
-import { Link } from "react-router-dom";
-import { DownloadExcel } from "react-excel-export";
-import { web3 } from "./web3/web3Helper";
-import { transfer_abi, transfer_addres } from "../../config/config";
-import { NotificationManager } from "react-notifications";
+import { allUser, url, withdrawRoi } from "../../../services/api_function";
+import { Link, Navigate } from "react-router-dom";
 
-export const WithdrawRoi = () => {
+export const Withdraw = () => {
   const [apiData, setApiData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [search, setSearch] = useState("");
   const [filteredData, setFilteredData] = useState();
+  const [recordStatus, setRecordStatus] = useState("Loading...");
   const pageSize = 100;
   useEffect(() => {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await withdrawRoi(
+        const table = "withdraw-history"
+        const result = await allUser(
+          table,
           currentPage,
           { searchQuery: search },
           token
         );
-        if (response && response.status === 200 && !response.error) {
-          const { data } = response;
-
-          setFilteredData(data);
-
-          const pages = Math.ceil(response.totalCount[0].totalCount / pageSize);
-          setTotalPages(pages > 0 ? pages : 1);
+        setApiData(result.data);
+        setFilteredData(result.data);
+        setTotalPages(result.totalPages);
+        if (!result.data[0]) {
+          setRecordStatus("No Record");
+        }
+        if (result.status == 404) {
+          Navigate("/login");
+          localStorage.removeItem("userDetails");
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -104,20 +98,19 @@ export const WithdrawRoi = () => {
           </div>
           <label class="form-label" for="form1"></label>
         </div>
-      
+
         <Col lg={12}>
           <Card>
             <Card.Header
               style={{ background: "black", border: "1px solid white" }}
             >
-            
               <Card.Title style={{ color: "white", margin: "auto" }}>
-                Withdraw Roi
+                Withdraw History
               </Card.Title>
               {/* <button type="button" class="btn btn-success">Approve</button> */}
             </Card.Header>
 
-          <Card.Body
+            <Card.Body
               style={{ background: "black", border: "1px solid white" }}
             >
               <Table
@@ -129,7 +122,7 @@ export const WithdrawRoi = () => {
                 }}
               >
                 <thead>
-                <tr>
+                  <tr>
                     <th>
                       <strong>No</strong>
                     </th>
@@ -137,36 +130,47 @@ export const WithdrawRoi = () => {
                       <strong>Name</strong>
                     </th>
                     <th>
-                      <strong>User</strong>
+                      <strong>Symbol</strong>
                     </th>
                     <th>
                       <strong>Amount</strong>
                     </th>
                     <th>
-                      <strong>Type</strong>
+                      <strong>Reciever</strong>
                     </th>
                     <th>
-                      <strong>Date&Time</strong>
+                      <strong>Hash</strong>
+                    </th>
+                    <th>
+                      <strong>Date & Time</strong>
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {Array.isArray(filteredData) && filteredData.length > 0 ? (
-                    filteredData.map((Data, index) => (
-                      <tr key={index}>
-                        <td>{(currentPage - 1) * pageSize + index + 1}</td>
-                        <td>{Data.Name}</td>
-                        <td>{Data.user}</td>
-                        <td>{Data.withdrawAmount.toFixed(2)}</td>
-                        <td>{Data.wallet_type}</td>
-   
-                        <td>{formatTimestamp(Data.createdAt)}</td>
+                  {!apiData[0] ? (
+                    <tr>
+                      <td className="text-light text-center" colSpan="7">
+                        {recordStatus}
+                      </td>
+                    </tr>
+                  ) : (
+                    apiData.map((data, index) => (
+                      <tr>
+                        <td>{index + 1}</td>
+                        <td>{data.name}</td>
+                        <td>{data.symbol}</td>
+                        <td>{data.amount}</td>
+                        <td>
+                          {data.reciever.slice(0, 5) +
+                            "...." +
+                            data.reciever.slice(-5)}
+                        </td>
+                        <td>
+                          {data.hash.slice(0, 5) + "...." + data.hash.slice(-5)}
+                        </td>
+                        <td>{new Date(data.createdAt).toLocaleString()}</td>
                       </tr>
                     ))
-                  ) : (
-                    <tr>
-                      <td colSpan="7">No data found</td>
-                    </tr>
                   )}
                 </tbody>
               </Table>
@@ -180,19 +184,6 @@ export const WithdrawRoi = () => {
                 style={{ margin: "auto" }}
               >
                 <div className="filter-pagination  mt-3 bg-black">
-                  <button
-                    className="previous-button"
-                    onClick={handlePreviousPage}
-                    disabled={currentPage === 1}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
-                  >
-                    {"<<"}
-                  </button>
-
                   <button
                     className="previous-button"
                     onClick={handlePreviousPage}
@@ -219,19 +210,6 @@ export const WithdrawRoi = () => {
                     Next
                   </button>
 
-                  <button
-                    className="next-button"
-                    onClick={handleNextPage}
-                    disabled={currentPage === totalPages}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
-                  >
-                    {">>"}
-                  </button>
-
                   <span className="text-white">
                     Page {currentPage} of {totalPages}
                   </span>
@@ -245,4 +223,4 @@ export const WithdrawRoi = () => {
   );
 };
 
-export default WithdrawRoi;
+export default Withdraw;

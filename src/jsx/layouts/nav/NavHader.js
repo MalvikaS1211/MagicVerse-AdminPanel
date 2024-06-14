@@ -33,7 +33,7 @@ const NavHader = () => {
 		{/* <img src={logo1}  className="logo-abbr" alt=""/> 
 		<img src={logoColor} className="logo-color" alt="" />
 		<img src={logoColorText} className="brand-title color-title" alt="" /> */}
-    <img src={image} className="brand-title" alt=""/>
+    <img src="inrx-logo.png"className="brand-title" alt="" height="50"/>
       </Link>
 
       <div

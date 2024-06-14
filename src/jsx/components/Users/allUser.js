@@ -24,6 +24,7 @@ export const AllUser = () => {
   const [search, setSearch] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+  const [recordStatus, setRecordStatus] = useState("Loading...");
   const pageSize = 100;
 
   const navigate = useNavigate();
@@ -33,16 +34,22 @@ export const AllUser = () => {
         const userDetails = localStorage.getItem("userDetails");
         const parsedDetails = JSON.parse(userDetails);
         const token = parsedDetails.token;
+        const table ="user"
         const result = await allUser(
+          table,
           currentPage,
           { searchQuery: search },
           token
         );
+        // console.log(result)
         setApiData(result.data);
         setFilteredData(result.data);
-        const total = result.totalUsers;
-        const pages = Math.ceil(total / pageSize);
-        setTotalPages(pages > 0 ? pages : 1);
+        // const total = result.totalUsers;
+        // const pages = Math.ceil(total / pageSize);
+        setTotalPages(result.totalPages);
+        if (!result.data[0]) {
+          setRecordStatus("No Record");
+        }
         if (result.status == 404) {
           navigate("/login");
           localStorage.removeItem("userDetails");
@@ -76,35 +83,6 @@ export const AllUser = () => {
   };
   const columns = useMemo(() => COLUMNS, []);
   const data = useMemo(() => apiData, [apiData]);
-
-  const tableInstance = useTable(
-    {
-      columns,
-      data,
-      initialState: { pageIndex: 0 },
-    },
-    useFilters,
-    useGlobalFilter,
-    usePagination
-  );
-
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    prepareRow,
-    state,
-    page,
-    gotoPage,
-    pageCount,
-    pageOptions,
-    nextPage,
-    previousPage,
-    canNextPage,
-    canPreviousPage,
-    setGlobalFilter,
-  } = tableInstance;
-  const { globalFilter, pageIndex } = state;
 
   const handleSearch = async (e) => {
     const query = e.target.value.trim().toLowerCase();
@@ -181,202 +159,41 @@ export const AllUser = () => {
                       <strong>Name</strong>
                     </th>
                     <th>
+                      <strong>UserName</strong>
+                    </th>
+                    <th>
                       <strong>Phone</strong>
                     </th>
                     <th>
-                      <strong> UserID</strong>
+                      <strong> DOB</strong>
                     </th>
                     <th>
-                      <strong>User wallet</strong>
-                    </th>
-                    <th>
-                      <strong>referrerId</strong>
-                    </th>
-
-                   
-                    <th>
-                      <strong>Ratio</strong>
-                    </th>
-                    <th>
-                      <strong>WYZ</strong>
-                    </th>
-                    <th>
-                      <strong>stUSDT</strong>
-                    </th>
-                   
-                    <th>
-                      <strong>Stake</strong>
-                    </th>
-                    <th>
-                      <strong>Topup</strong>
-                    </th>
-                    <th>
-                      <strong>Team Business</strong>
-                    </th>
-                    <th>
-                      <strong>Date&Time</strong>
-                    </th>
-                    <th>
-                      <strong>Commission</strong>
-                    </th>
-                    <th>
-                      <strong>Team</strong>
+                      <strong> Date & Time</strong>
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredData.map((user, index) => (
+                  {!apiData[0] ? (
                     <tr>
-                      <td>{(currentPage - 1) * pageSize + index + 1}</td>
-                      <td>{user.name}</td>
-                      <td>{user.phone}</td>
-                      <td>{user.userId}</td>
-                      <td>
-                        {" "}
-                        <span className="smaller-font">
-                          {user?.user?.slice(0, 4) +
-                            "..." +
-                            user?.user.slice(-12)}
-                        </span>
-                      </td>
-                      <td>{user?.referrerId}</td>
-
-                      {/* <td className="text-center">
-                        {user?.stake_amount.toFixed(2)}
-                      </td> */}
-                      {/* <td className="text-center">
-                        {user?.additional_data?.token ?? "-"}
-                      </td> */}
-                      <td className="text-center">
-                        {user?.additional_data?.ratio}
-                      </td>
-                      <td>
-                        {user?.additional_data?.ratio == "10"
-                          ? (
-                              (user?.additional_data?.amount * 0.1) /
-                              20
-                            ).toFixed(2)
-                          : user?.additional_data?.ratio == "20"
-                          ? (
-                              (user?.additional_data?.amount * 0.2) /
-                              20
-                            ).toFixed(2)
-                          : user?.additional_data?.ratio == "30"
-                          ? (
-                              (user?.additional_data?.amount * 0.3) /
-                              20
-                            ).toFixed(2)
-                          : user?.additional_data?.ratio == "40"
-                          ? (
-                              (user?.additional_data?.amount * 0.4) /
-                              20
-                            ).toFixed(2)
-                          : user?.additional_data?.ratio == "50"
-                          ? (
-                              (user?.additional_data?.amount * 0.5) /
-                              20
-                            ).toFixed(2)
-                          : user?.additional_data?.ratio == "15" &&
-                            user?.additional_data?.token == "sUSDT-stUSDT"
-                          ? (
-                              (user?.additional_data?.amount * 0.15) /
-                              20
-                            ).toFixed(2)
-                          : user?.additional_data?.ratio == "20" &&
-                            user?.additional_data?.token == "sUSDT-stUSDT"
-                          ? (
-                              (user?.additional_data?.amount * 0.2) /
-                              20
-                            ).toFixed(2)
-                          : user?.additional_data?.ratio == "25" &&
-                            user?.additional_data?.token == "sUSDT-stUSDT"
-                          ? (
-                              (user?.additional_data?.amount * 0.25) /
-                              20
-                            ).toFixed(2)
-                          : "0.00"}
-                      </td>
-                      <td>
-                        {" "}
-                        {user?.additional_data?.ratio == "10"
-                          ? (user?.additional_data?.amount * 0.9).toFixed(2)
-                          : user?.additional_data?.ratio == "20"
-                          ? (user?.additional_data?.amount * 0.8).toFixed(2)
-                          : user?.additional_data?.ratio == "30"
-                          ? (user?.additional_data?.amount * 0.7).toFixed(2)
-                          : user?.additional_data?.ratio == "40"
-                          ? (user?.additional_data?.amount * 0.6).toFixed(2)
-                          : user?.additional_data?.ratio == "50"
-                          ? (user?.additional_data?.amount * 0.5).toFixed(2)
-                          : user?.additional_data?.ratio == "15" &&
-                            user?.additional_data?.token == "sUSDT-stUSDT"
-                          ? (user?.additional_data?.amount * 0.85).toFixed(2)
-                          : user?.additional_data?.ratio == "20" &&
-                            user?.additional_data?.token == "sUSDT-stUSDT"
-                          ? (user?.additional_data?.amount * 0.8).toFixed(2)
-                          : user?.additional_data?.ratio == "25" &&
-                            user?.additional_data?.token == "sUSDT-stUSDT"
-                          ? (user?.additional_data?.amount * 0.75).toFixed(2)
-                          : "0.00"}
-                      </td>
-                      {/* <td>
-                        {user?.additional_data?.ratio == "15" &&
-                        user?.additional_data?.token == "sUSDT-stUSDT"
-                          ? (user?.additional_data?.amount * 0.15).toFixed(2)
-                          : user?.additional_data?.ratio == "20" &&
-                            user?.additional_data?.token == "sUSDT-stUSDT"
-                          ? (user?.additional_data?.amount * 0.2).toFixed(2)
-                          : user?.additional_data?.ratio == "25" &&
-                            user?.additional_data?.token == "sUSDT-stUSDT"
-                          ? (user?.additional_data?.amount * 0.25).toFixed(2)
-                          : "0.00"}
-                      </td> */}
-                      <td>{(user?.stakeamount?.totalAmount ?? 0).toFixed(2)}</td>
-                      <td>{(user?.topup2_data?.totalAmount ?? 0).toFixed(2)}</td>
-                      <td className="text-center">
-                        {Number(user?.staketeambusiness ?? 0).toFixed(2)}
-                      </td>
-                      {/* <td>
-                        <a
-                          href={`https://wyzthscan.org/tx/${user.txhash}`}
-                          className="text-white"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {user.txhash
-                            ? `${user.txhash.slice(0, 5)}...${user.txhash.slice(
-                                -5
-                              )}`
-                            : ""}
-                        </a>
-                      </td> */}
-                      <td>{formatTimestamp(user.createdAt)}</td>
-                      <td>
-                        <div className="text-center ">
-                          <Link
-                            to={`/commission-data?user=${encodeURIComponent(
-                              user.user
-                            )}`}
-                            className="btn btn-primary light shadow btn-xs sharp me-1"
-                          >
-                            <i className="fas fa-pencil-alt"></i>
-                          </Link>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="d-flex align-items-center table-action-icon">
-                          <Link
-                            to={`/team-list?user=${encodeURIComponent(
-                              user.user
-                            )}`}
-                            className="btn btn-primary light shadow btn-xs sharp me-1"
-                          >
-                            <i className="fas fa-pencil-alt"></i>
-                          </Link>
-                        </div>
+                      <td className="text-light text-center" colSpan="7">
+                        {recordStatus}
                       </td>
                     </tr>
-                  ))}
+                  ) : (
+                    apiData.map((data, index) => (
+                      <tr>
+                        <td>{index + 1}</td>
+                        <td>{data.name}</td>
+                        <td>{data.username}</td>
+                        <td>{data.mobile}</td>
+                        <td>{data.dob}</td>
+                        <td>
+                          {new Date(data.createdAt).toLocaleString()}
+                          {/* {new Date(data.createdAt).toLocaleTimeString()} */}
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </Table>
 
@@ -391,7 +208,7 @@ export const AllUser = () => {
                 style={{ margin: "auto" }}
               >
                 <div className="filter-pagination  mt-3 bg-black">
-                  <button
+                  {/* <button
                     className="previous-button"
                     onClick={handlePreviousPage}
                     disabled={currentPage === 1}
@@ -402,7 +219,7 @@ export const AllUser = () => {
                     }}
                   >
                     {"<<"}
-                  </button>
+                  </button> */}
 
                   <button
                     className="previous-button"
@@ -430,7 +247,7 @@ export const AllUser = () => {
                     Next
                   </button>
 
-                  <button
+                  {/* <button
                     className="next-button"
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}
@@ -441,7 +258,7 @@ export const AllUser = () => {
                     }}
                   >
                     {">>"}
-                  </button>
+                  </button> */}
 
                   <span className="bg-black text-white">
                     Page {currentPage} of {totalPages}

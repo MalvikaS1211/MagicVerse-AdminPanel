@@ -15,7 +15,7 @@ function Login (props) {
 	const navigate = useNavigate();
     const [email, setEmail] = useState('demo@example.com');
     let errorsObj = { email: '', password: '' };
-    const [errors, setErrors] = useState(errorsObj);
+    const [errors, setErrors] = useState({ email: "", password: "" });
     const [password, setPassword] = useState('123456');
     const dispatch = useDispatch();
 
@@ -38,7 +38,6 @@ function Login (props) {
 		
 		dispatch(loadingToggleAction(true));
 		dispatch(loginAction(email, password, navigate));
-		//console.log("fdgfh")
     }
 
 	
@@ -54,7 +53,7 @@ function Login (props) {
 										<div className="card-body">
 											<div className="logo-header">
 												<Link to={"#"} className="logo">
-													<img src={image} alt="" className="width-230 mCS_img_loaded" />
+													<img src="inrx-logo.png" alt="" className="width-230 mCS_img_loaded" />
 													</Link>
 											</div>											
 											<div className="nav nav-tabs border-bottom-0" >														

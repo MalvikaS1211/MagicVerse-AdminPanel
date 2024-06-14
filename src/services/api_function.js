@@ -1,14 +1,46 @@
 import axios from "axios";
-//export const url = "http://localhost:1337/api";
-export const url = "https://stake.wyscale.com/api";
+export const url = "http://localhost:2222";
+// export const url = "https://stake.wyscale.com/api";
 
 export const teamlist = "https://farming.wyscale.com/api";
 
-export function allUser(page, filteredData, token) {
+export function allUser(table, page, filteredData, token) {
   const { searchQuery } = filteredData;
-  const apiUrl = `${url}/all-data?page=${page}&search=${encodeURIComponent(
-    searchQuery
-  )}`;
+  let apiUrl = "";
+  if (table === "user") {
+    apiUrl = `${url}/admin/api/user-data?page=${page}&search=${encodeURIComponent(
+      searchQuery
+    )}`;
+  } else if (table === "stake") {
+    apiUrl = `${url}/admin/api/stake?page=${page}&search=${encodeURIComponent(
+      searchQuery
+    )}`;
+  } else if (table === "claimhistory") {
+    apiUrl = `${url}/admin/api/claim?page=${page}&search=${encodeURIComponent(
+      searchQuery
+    )}`;
+  } else if (table === "deposit") {
+    apiUrl = `${url}/admin/api/deposit?page=${page}&search=${encodeURIComponent(
+      searchQuery
+    )}`;
+  } else if (table === "withdraw-history") {
+    apiUrl = `${url}/admin/api/withdraw?page=${page}&search=${encodeURIComponent(
+      searchQuery
+    )}`;
+  } else if (table === "asset") {
+    apiUrl = `${url}/admin/api/asset?page=${page}&search=${encodeURIComponent(
+      searchQuery
+    )}`;
+  } else if (table === "swap") {
+    apiUrl = `${url}/admin/api/swap?page=${page}&search=${encodeURIComponent(
+      searchQuery
+    )}`;
+  } else if (table === "currency") {
+    apiUrl = `${url}/admin/api/currency?page=${page}&search=${encodeURIComponent(
+      searchQuery
+    )}`;
+  }
+
   return fetch(apiUrl, {
     method: "GET",
     headers: {
@@ -38,7 +70,7 @@ export function TeamData(user, limit, currentPage, sortField1, sortField2) {
 }
 
 export function dashboardData(token) {
-  const apiUrl = `${url}/dashborad`;
+  const apiUrl = `${url}/admin/api/dashboard`;
   return fetch(apiUrl, {
     method: "GET",
     headers: {
@@ -338,7 +370,7 @@ export function Topup_data(page, filteredData, token) {
 
 export function SignIn(email, password) {
   // console.log("afjsdhvh", email, password);
-  const apiUrl = `${url}/admin-login`;
+  const apiUrl = `${url}/admin/api/login`;
   return fetch(apiUrl, {
     method: "post",
     headers: {

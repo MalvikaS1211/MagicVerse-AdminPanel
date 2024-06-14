@@ -40,7 +40,7 @@ import TopTeams from "./components/Users/topTeams";
 import Transaction from "./components/Users/tranzation";
 import DepositHisory from "./components/Users/depositeHistory";
 import Withdrawal from "./components/Users/withdrawHistroy";
-import Deposit from "./components/Users/deposite";
+// import Deposit from "./components/Users/deposite";
 import Fifty from "./components/Users/fifty";
 import ExelFormet from "./components/Users/exeldata";
 import Protocol from "./components/Users/protocol";
@@ -160,11 +160,16 @@ import Error500 from "./pages/Error500";
 import Error503 from "./pages/Error503";
 import { ThemeContext } from "../context/ThemeContext";
 import Login from "./pages/Login";
+import ClaimHistory from "./components/Users/claimHistory";
+import Deposit from "./components/Users/deposit";
+import Swap from "./components/Users/swap";
+import Asset from "./components/Users/asset";
+import Currency from "./components/Users/currency";
 
 const Markup = () => {
   const allroutes = [
     /// Dashboard
-    { url: "", component: <Login /> },
+    { url: "", component: <Home /> },
     { url: "dashboard", component: <Home /> },
     { url: "dashboard-dark", component: <DashboardDark /> },
     { url: "index-1", component: <Dashboard2 /> },
@@ -174,6 +179,11 @@ const Markup = () => {
     // Users
     { url: "allUsers", auth: true, component: <AllUser /> },
     { url: "staking-user", component: <StakingUser /> },
+    { url: "claim-history", component: <ClaimHistory /> },
+    { url: "deposite", component: <Deposit /> },
+    { url: "asset", component: <Asset /> },
+    { url: "currency", component: <Currency /> },
+    { url: "swap", component: <Swap /> },
     { url: "team-list", component: <TeamDetails /> },
     { url: "announcement", component: <Announcement /> },
     { url: "commission", component: <Commission /> },
@@ -186,9 +196,9 @@ const Markup = () => {
     { url: "user-registration", component: <UserRegester /> },
     { url: "top-team", component: <TopTeams /> },
     // History
-    { url: "deposit", component: <DepositHisory /> },
+    // { url: "deposit", component: <DepositHisory /> },
     { url: "withdrawal", component: <Withdrawal /> },
-    { url: "withdrawRoi", component: <WithdrawRoi /> },
+    { url: "withdraw", component: <WithdrawRoi /> },
     { url: "withdrawClaim", component: <WithdrawClaim /> },
     { url: "deposit-data", component: <Deposit /> },
     { url: "exel-formet", component: <ExelFormet /> },
