@@ -34266,3 +34266,16 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
       color: #fff; }
 
 /*# sourceMappingURL=style.css.map */
+
+.MuiInputBase-root.MuiOutlinedInput-root {
+  color: white !important;
+  border-color: white !important;
+}
+.MuiFormLabel-root.MuiInputLabel-root {
+  color: white !important;
+  border-color: white !important;
+}
+
+.css-1d3z3hw-MuiOutlinedInput-notchedOutline{
+  border-color:white;
+}

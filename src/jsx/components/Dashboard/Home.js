@@ -1,22 +1,14 @@
 import React, { useContext, useEffect, useReducer, useState } from "react";
-import { Link } from "react-router-dom";
-//import {NavLink} from 'react-router-dom';
 import loadable from "@loadable/component";
 import pMinDelay from "p-min-delay";
-// import {Dropdown, Nav, Tab} from 'react-bootstrap';
-//Import Components
-// import Dropdown from "./Dropdown";
 import { ThemeContext } from "../../../context/ThemeContext";
 import BalanceCardSlider from "./Dashboard/BalanceCardSlider";
-//import MorrisDonught from './Dashboard/MorrisDonught';
-import OrderForm from "./Dashboard/OrderForm";
-//import ServerStatusBar from './Dashboard/ServerStatusBar';
 import { LtcIcon, BtcIcon, XtzIcon, EthIcon } from "./SvgIcon";
 // import Dropdown from "react-bootstrap/Dropdown";
 //images
 import coin from "./../../../images/coin.png";
 import metaverse from "./../../../images/metaverse.png";
-import { Dropdown } from "react-bootstrap";
+
 
 const DashboardComboChart = loadable(() =>
   pMinDelay(import("./Dashboard/DashboardComboChart"), 1000)
@@ -44,58 +36,36 @@ const marketBlog = [
   { icon: XtzIcon, classBg: "bg-primary", Name: "XTZ" },
 ];
 
-const listData = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
-
+// const listData = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
+const axios = require("axios")
 const Home = () => {
-  //console.log("Rendiering HOme")
+ 
+
   const { changeBackground } = useContext(ThemeContext);
+
   useEffect(() => {
     changeBackground({ value: "light", label: "Light" });
   }, []);
+
+  const dateFilter=()=>{
+
+  }
+
   const MarketChart = loadable(() =>
     pMinDelay(import("./Index2/MarketChart"), 1000)
   );
   return (
     <>
-      <div className="d-flex justify-content-end mb-5">
-        <Dropdown>
-          <Dropdown.Toggle variant="dark" id="dropdown-basic">
-            All Record
-          </Dropdown.Toggle>
-
-          <Dropdown.Menu variant="dark">
-            <Dropdown.Item>Today</Dropdown.Item>
-            <Dropdown.Item>Yesterday</Dropdown.Item>
-            {/* <Dropdown.Item href="#/action-3">Something else</Dropdown.Item> */}
-          </Dropdown.Menu>
-        </Dropdown>
-      </div>
       <div className="row">
         <div className="col-xl-12">
           <div className="row">
             <div className="col-xl-12">
-              {/* <div className="card bubles">
-								<div className="card-body">
-									<div className="buy-coin  bubles-down">
-										<div>
-											<h2>Buy & Sell 100+ Coins Instantly</h2>
-											<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been.</p>
-											<Link to={"/exchange"} className="btn btn-primary">Buy Coin</Link>
-										</div>
-										<div className="coin-img">
-											<img src={coin} className="img-fluid" alt="" />
-										</div>
-									</div>
-								</div>
-							</div> */}
-            </div>
-            <div className="col-xl-12">
               {/* this comment by me */}
               <BalanceCardSlider />
             </div>
-            {/* <div className="col-xl-12">
-							<div className="card">
-								<div className="card-header border-0 align-items-start flex-wrap pb-0">
+             {/* <div className="col-xl-12">
+							<div className="card"> */}
+								{/* <div className="card-header border-0 align-items-start flex-wrap pb-0">
 									<div>
 										<h2 className="heading">Market Chart</h2>
 										<div className="market-data">
@@ -130,14 +100,14 @@ const Home = () => {
 											<Dropdown.Item className="dropdown-item" href="javascript:void(0);">Option 3</Dropdown.Item>
 										</Dropdown.Menu>
 									</Dropdown>
-								</div>
-								<div className="card-body">
+								</div> */}
+								{/* <div className="card-body"> */}
 									 {/* <div id="tradingview_e8053" className="tranding-chart"></div> */}
             {/* <DashboardComboChart /> */}
             {/* </div> */}
             {/* </div> */}
             {/* </div> */}
-            {/* <div className="col-xl-5 assets-al col-lg-12">
+             {/* <div className="col-xl-5 assets-al col-lg-12">
 							<div className="card">
 								<div className="card-header border-0 pb-0">
 									<h2 className="heading">Assets Allocation</h2>
@@ -181,8 +151,8 @@ const Home = () => {
 									</div>
 								</div>
 							</div>	
-						</div> */}
-            {/* <div className="col-xl-4 market-previews col-sm-6">
+						</div>  */}
+             {/* <div className="col-xl-4 market-previews col-sm-6">
 							<div className="card">
 								<div className="card-header border-0 pb-0">
 									<div>
@@ -210,8 +180,8 @@ const Home = () => {
 									
 								</div>
 							</div>
-						</div> */}
-            {/* <div className="col-xl-3 col-sm-6">
+						</div>  */}
+             {/* <div className="col-xl-3 col-sm-6">
 							<div className="card bg-secondary email-susb">
 								<div className="card-body text-center">
 									<div className="">
@@ -225,12 +195,12 @@ const Home = () => {
 								</div>
 
 							</div>
-						</div> */}
+						</div>  */}
           </div>
         </div>
-        {/* <div className="col-xl-4">
-					<div className="row">
-						<div className="col-xl-12 col-sm-6">
+         {/* <div className="col-xl-4">
+					<div className="row"> */}
+						{/* <div className="col-xl-12 col-sm-6">
 							<div className="card h-auto">
 								<div className="card-body px-0 pt-1">
 									<Tab.Container defaultActiveKey="Navbuy">
@@ -362,7 +332,7 @@ const Home = () => {
 								</div>
 							</div>		
 						</div>
-						{/* <div className="col-xl-12 col-sm-6 server-chart">
+						<div className="col-xl-12 col-sm-6 server-chart">
 							<div className="card">
 								<div className="card-header border-0 pb-0">
 									<h2 className="heading mb-0">Server Status</h2>
@@ -385,14 +355,13 @@ const Home = () => {
 									</div>
 								</div>
 							</div>
-						</div> */}
+						</div>  */}
         {/* </div>	 */}
         {/* </div> */}
-        <div className="row">
+        {/* <div className="row">
           <div className="col-xl-12">
             <div className="row main-card">
               <div className="col-xxl-9 col-lg-12">
-                {/* <Index2Slider /> */}
                 <div className="row">
                   <div className="col-xl-12 wow fadeInUp" data-wow-delay="1.5s">
                     <div className="card market_chart">
@@ -400,28 +369,27 @@ const Home = () => {
                         <div>
                           <h2 className="heading">Week Chart</h2>
                           <div className="market-data">
-                            {/* <div className="income data">
+                            <div className="income data">
 														<span>This Week</span>
 														<h4>$29.999.00</h4>
-													</div> */}
-                            {/* <div className="price data">
+													</div>
+                            <div className="price data">
 														<span>Price</span>
 														<h4>480 <sub>- 0,5%</sub></h4>
-													</div> */}
-                            {/* <div className="rate data">
+													</div>
+                            <div className="rate data">
 														<span>Rate</span>
 														<h4>-0.0662%/hr</h4>
-													</div> */}
-                            {/* <div className="volume data">
+													</div>
+                            <div className="volume data">
 														<span>volume</span>
 														<h4>175k</h4>
-													</div> */}
+													</div>
                           </div>
                         </div>
                       </div>
                       <div className="card-body custome-tooltip pt-0">
                         <div id="activity1"></div>
-                        {/* <MarketChart /> */}
                       </div>
                     </div>
                   </div>
@@ -429,7 +397,7 @@ const Home = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );

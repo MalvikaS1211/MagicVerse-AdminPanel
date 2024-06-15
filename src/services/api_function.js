@@ -69,8 +69,8 @@ export function TeamData(user, limit, currentPage, sortField1, sortField2) {
     .catch((error) => console.error("Error fetching data:", error));
 }
 
-export function dashboardData(token) {
-  const apiUrl = `${url}/admin/api/dashboard`;
+export function dashboardData(token, date) {
+  const apiUrl = `${url}/admin/api/dashboard?date=${date}`;
   return fetch(apiUrl, {
     method: "GET",
     headers: {
