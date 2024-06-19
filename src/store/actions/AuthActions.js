@@ -91,7 +91,7 @@ export function loginAction(email, password, navigate) {
   return (dispatch) => {
     SignIn(email, password)
       .then((response) => {
-        if (response.status == 200) {
+        if (response.status === 200) {
           saveTokenInLocalStorage(response);
           dispatch(loginConfirmedAction(response));
           console.log(response)

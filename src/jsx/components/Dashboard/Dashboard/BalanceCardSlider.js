@@ -1,17 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Swiper, SwiperSlide } from "swiper/react";
-//import { Autoplay } from "swiper";
 import { dashboardData, Protocal } from "../../../../services/api_function";
 import "swiper/css";
 import { Dropdown } from "react-bootstrap";
-import TotalBalanceArea from "./TotalBalanceArea";
-import ProfitLossArea from "./ProfitLossArea";
-import TotaldipositChart from "./TotaldipositChart";
-import ReactDatePicker from "react-datepicker";
 import { Box, FormGroup } from "@mui/material";
-// import DatePicker from "react-bootstrap-date-picker";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -21,6 +13,7 @@ const BalanceCardSlider = () => {
   const [protocal, setProtocal] = useState(null);
   const navigate = useNavigate();
   const [filterRecord, setFilterRecord] = useState("All Record");
+  const [day,setDay] = useState("All Record")
 
   const [value, setValue] = useState(new Date().toISOString());
   const [formattedValue, setFormattedValue] = useState("");
@@ -68,6 +61,11 @@ const BalanceCardSlider = () => {
     protocolData();
     return () => {};
   }, [navigate, filterRecord]);
+
+  function handleDay(day){
+    setDay(day)
+    setFilterRecord(day)
+  }
   // if (!data) {
   //   return <div>Loading...</div>;
   // }
@@ -108,31 +106,32 @@ const BalanceCardSlider = () => {
         }}
       > */}
       <div className="d-flex justify-content-end mb-5">
-        <Dropdown>
-          <Dropdown.Toggle variant="dark" id="dropdown-basic">
-            {filterRecord}
+        <Dropdown className="me-3">
+          <Dropdown.Toggle id="dropdown-basic" style={{backgroundColor:"black",borderColor:"white"}}>
+            {day}
           </Dropdown.Toggle>
 
-          <Dropdown.Menu variant="dark">
-            <Dropdown.Item onClick={() => setFilterRecord("All Record")}>
+          <Dropdown.Menu style={{backgroundColor:"black",borderColor:"white",color:"white"}}>
+            <Dropdown.Item onClick={() => handleDay("All Record")}>
               All Record
             </Dropdown.Item>
-            <Dropdown.Item onClick={() => setFilterRecord("Today")}>
+            <Dropdown.Item onClick={() => handleDay("Today")}>
               Today
             </Dropdown.Item>
-            <Dropdown.Item onClick={() => setFilterRecord("Yesterday")}>
+            <Dropdown.Item onClick={() => handleDay("Yesterday")}>
               Yesterday
             </Dropdown.Item>
             {/* <Dropdown.Item href="#/action-3">Something else</Dropdown.Item> */}
           </Dropdown.Menu>
         </Dropdown>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <Box sx={{ color: "white" }}>
+          <Box >
             <DatePicker
-              label="Basic date picker"
+              label="Calender"
               InputLabelProps={{
                 sx: { color: "white", }, // Set color for the label
               }}
+              onChange={(date)=>setFilterRecord(date?.$d.toString())}
             />
           </Box>
         </LocalizationProvider>

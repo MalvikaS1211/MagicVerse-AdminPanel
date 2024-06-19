@@ -34269,13 +34269,27 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 
 .MuiInputBase-root.MuiOutlinedInput-root {
   color: white !important;
-  border-color: white !important;
 }
 .MuiFormLabel-root.MuiInputLabel-root {
   color: white !important;
-  border-color: white !important;
 }
 
 .css-1d3z3hw-MuiOutlinedInput-notchedOutline{
-  border-color:white;
+  border-color: white !important;
+}
+.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline{
+  border-color: white !important;
+}
+
+.css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root{
+  background-color: white !important;
+}
+
+label[data-shrink=false]+.MuiInputBase-formControl .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input{
+  /* padding: 16.5px 0px; */
+  padding: 12.5px 0px;
+}
+
+ .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input {
+
 }
