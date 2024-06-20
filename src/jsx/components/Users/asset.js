@@ -184,7 +184,7 @@ export const Asset = () => {
                         <th>{data.blockchain}</th>
                         <th>{data.contract}</th>
                         <th>
-                          <img src={data.icon} height="50" width="50" />
+                          <img src={data.icon} height="30" width="30" />
                         </th>
                         <th>{data.decimal}</th>
                         <th>{data.type}</th>

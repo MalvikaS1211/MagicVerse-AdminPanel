@@ -112,7 +112,7 @@ export const Deposit = () => {
               onChange={handleSearch}
             />
           </div>
-          <label class="form-label" for="form1"></label>
+          <label className="form-label" for="form1"></label>
         </div>
 
         <Col lg={12}>
@@ -168,7 +168,7 @@ export const Deposit = () => {
                     </tr>
                   ) : (
                     apiData.map((data, index) => (
-                      <tr>
+                      <tr key={index}>
                         <th>{index + 1}</th>
                         <th>{data.name}</th>
                         <th>{data.symbol}</th>

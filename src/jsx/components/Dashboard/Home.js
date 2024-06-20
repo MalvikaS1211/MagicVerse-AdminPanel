@@ -36,7 +36,6 @@ const marketBlog = [
   { icon: XtzIcon, classBg: "bg-primary", Name: "XTZ" },
 ];
 
-// const listData = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
 const axios = require("axios")
 const Home = () => {
  

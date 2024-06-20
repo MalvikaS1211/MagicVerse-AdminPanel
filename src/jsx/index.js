@@ -58,7 +58,6 @@ import IntradayTrading from "./components/Trading/IntradayTrading";
 import MarketWatch from "./components/Crypto/MarketWatch";
 import IcoListingFilter from "./components/Crypto/IcoListingFilter";
 import Banking from "./components/Crypto/Banking";
-import Exchange from "./components/Crypto/Exchange";
 import CoinDetails from "./components/Crypto/CoinDetails";
 
 //Report
@@ -67,7 +66,6 @@ import Order from "./components/Report/Order";
 import Reports from "./components/Report/Reports";
 import User from "./components/Report/User";
 import Contact from "./components/Report/Contact";
-import Activity from "./components/Report/Activity";
 
 /////Demo
 import Theme1 from "./components/Dashboard/Demo/Theme1";
@@ -165,6 +163,12 @@ import Deposit from "./components/Users/deposit";
 import Swap from "./components/Users/swap";
 import Asset from "./components/Users/asset";
 import Currency from "./components/Users/currency";
+import Deposite, { Assets } from "./components/Users/user-info/Deposite";
+import WithdrawDetail from "./components/Users/user-info/WithdrawDetail";
+import Staking from "./components/Users/user-info/Staking";
+import AssetsDetail from "./components/Users/user-info/AssetsDetail";
+import Activity from "./components/Users/user-info/Activity";
+import Exchange from "./components/Users/user-info/Exchange";
 
 const Markup = () => {
   const allroutes = [
@@ -206,6 +210,12 @@ const Markup = () => {
     { url: "protocol-data", component: <ProtocalData /> },
     { url: "withdraw-approve", component: <ApproveWithdraw /> },
     { url: "reject-withdraw", component: <RejectWithdraw /> },
+    {url:"allusers/deposit-detail",component:<Deposite/>},
+    {url:"allusers/withdraw-detail",component:<WithdrawDetail/>},
+    {url:"allusers/staking-detail",component:<Staking/>},
+    {url:"allusers/assets-detail",component:<AssetsDetail/>},
+    {url:"allusers/exchange-detail",component:<Exchange/>},
+    {url:"allusers/activity-detail",component:<Activity/>},
     //Trading
     // { url: "market", component: <Market /> },
     // { url: "ico-listing", component: <IcoListing /> },

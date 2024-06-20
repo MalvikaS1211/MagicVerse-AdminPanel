@@ -43,6 +43,7 @@ export const StakingUser = () => {
         );
         setApiData(result.data);
         setFilteredData(result.data);
+        console.log(result.data)
         // const total = result.totalUsers;
         // const pages = Math.ceil(total / pageSize);
         setTotalPages(result.totalPages);
@@ -184,19 +185,19 @@ export const StakingUser = () => {
                       <strong>NO.</strong>
                     </th>
                     <th>
+                      <strong>User</strong>
+                    </th>
+                    <th>
                       <strong>Staking Amount</strong>
                     </th>
                     <th>
-                      <strong> Total Claim</strong>
-                    </th>
-                    {/* <th>
-                      <strong>Claim History</strong>
-                    </th> */}
-                    <th>
-                      <strong>Expiry Date</strong>
+                      <strong>Total Amount</strong>
                     </th>
                     <th>
-                      <strong>Date & Time</strong>
+                      <strong>Claim Amount</strong>
+                    </th>
+                    <th>
+                      <strong>Remaining Amount</strong>
                     </th>
                   </tr>
                 </thead>
@@ -211,13 +212,16 @@ export const StakingUser = () => {
                     apiData.map((data, index) => (
                       <tr>
                         <th>{index + 1}</th>
-                        <th>{data.stakeAmount.toFixed(2)}</th>
+                        <th>{data.name}</th>
+                        <th>{data.stakeAmount.toFixed(2)}  ({data.symbol})</th>
+                        <th>{data.totalAmount.toFixed(2)}</th>
                         <th>{data.claimAmount.toFixed(2)}</th>
+                        <th>{data.availableAmount.toFixed(2)}</th>
                         {/* <th>{data.claimAmount.toFixed(2)}</th> */}
-                        <th>
+                        {/* <th>
                           {new Date(data.endTimestamp * 1000).toLocaleString()}
                         </th>
-                        <th>{new Date(data.createdAt).toLocaleString()}</th>
+                        <th>{new Date(data.createdAt).toLocaleString()}</th> */}
                       </tr>
                     ))
                   )}

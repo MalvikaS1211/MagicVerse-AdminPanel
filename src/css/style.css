@@ -34267,7 +34267,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 
 /*# sourceMappingURL=style.css.map */
 
-.MuiInputBase-root.MuiOutlinedInput-root {
+/* .MuiInputBase-root.MuiOutlinedInput-root {
   color: white !important;
 }
 .MuiFormLabel-root.MuiInputLabel-root {
@@ -34286,10 +34286,32 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 }
 
 label[data-shrink=false]+.MuiInputBase-formControl .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input{
-  /* padding: 16.5px 0px; */
   padding: 12.5px 0px;
+} */
+.css-igs3ac{
+  border-color: white !important;
+}
+.css-slyssw{
+  background-color: white !important;
+}
+.css-1ald77x{
+  color: white !important;
 }
 
- .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input {
+.css-1uvydh2{
+  padding: 16.5px 0px 8.5px 13px !important;
+}
+.css-slyssw:hover {
+  background-color: white !important;
+}
 
+.css-1ald77x{
+  color: white !important;
+}
+
+.css-1uvydh2{
+  color:white !important;
+}
+.css-p0rm37{
+  color: white !important;
 }

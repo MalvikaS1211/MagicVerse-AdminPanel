@@ -178,9 +178,9 @@ export const ClaimHistory = () => {
                     <th>
                       <strong>User</strong>
                     </th>
-                    <th>
+                    {/* <th>
                       <strong> Symbol</strong>
-                    </th>
+                    </th> */}
                     <th>
                       <strong>Amount</strong>
                     </th>
@@ -201,7 +201,7 @@ export const ClaimHistory = () => {
                       <tr>
                         <th>{index + 1}</th>
                         <th>{data.name}</th>
-                        <th>{data.symbol}</th>
+                        {/* <th>{data.symbol}</th> */}
                         <th>{data.amount.toFixed(2)}</th>
                         <th>{new Date(data.createdAt).toLocaleString()}</th>
                       </tr>

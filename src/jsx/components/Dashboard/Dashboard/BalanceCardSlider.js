@@ -128,9 +128,7 @@ const BalanceCardSlider = () => {
           <Box >
             <DatePicker
               label="Calender"
-              InputLabelProps={{
-                sx: { color: "white", }, // Set color for the label
-              }}
+              sx={{borderColor:"white",color:"white"}}
               onChange={(date)=>setFilterRecord(date?.$d.toString())}
             />
           </Box>

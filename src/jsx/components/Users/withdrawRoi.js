@@ -22,10 +22,10 @@ export const Withdraw = () => {
           { searchQuery: search },
           token
         );
-        setApiData(result.data);
-        setFilteredData(result.data);
-        setTotalPages(result.totalPages);
-        if (!result.data[0]) {
+        setApiData(result?.data);
+        setFilteredData(result?.data);
+        setTotalPages(result?.totalPages);
+        if (!result?.data[0]) {
           setRecordStatus("No Record");
         }
         if (result.status == 404) {
@@ -150,23 +150,23 @@ export const Withdraw = () => {
                   {!apiData[0] ? (
                     <tr>
                       <td className="text-light text-center" colSpan="7">
-                        {recordStatus}
+                        {recordStatus && recordStatus}
                       </td>
                     </tr>
                   ) : (
-                    apiData.map((data, index) => (
+                    apiData?.map((data, index) => (
                       <tr>
                         <td>{index + 1}</td>
-                        <td>{data.name}</td>
-                        <td>{data.symbol}</td>
-                        <td>{data.amount}</td>
+                        <td>{data?.name}</td>
+                        <td>{data?.symbol}</td>
+                        <td>{data?.amount}</td>
                         <td>
-                          {data.reciever.slice(0, 5) +
+                          {data?.reciever.slice(0, 5) +
                             "...." +
-                            data.reciever.slice(-5)}
+                            data?.reciever.slice(-5)}
                         </td>
                         <td>
-                          {data.hash.slice(0, 5) + "...." + data.hash.slice(-5)}
+                          {data?.hash.slice(0, 5) + "...." + data?.hash.slice(-5)}
                         </td>
                         <td>{new Date(data.createdAt).toLocaleString()}</td>
                       </tr>

@@ -9,68 +9,26 @@ export const MenuList = [
     classsChange: "mm-collapse",
     iconStyle: <i className="material-icons">grid_view</i>,
     to: "dashboard",
-    // content: [
-    //     {
-    //         title: 'Dashboard Light',
-    //         to: 'dashboard',
-    //     },
-    //     {
-    //         title: 'Dashboard Dark',
-    //         to: 'dashboard-dark',
-    //     },
-    //     {
-    //         title: 'Dashboard-2',
-    //         to: 'index-1',
-    //     },
-    //     {
-    //         title: 'Dashboard-3',
-    //         to: 'index-3',
-    //     },
-    //     {
-    //         title: 'Dashboard-4',
-    //         to: 'index-4',
-    //     },
-    // 	{
-    //         title: 'Dashboard-5',
-    //         to: 'index-5',
-    //     },
-    // ],
   },
-  // {
-  //   title: "User Registration",
-  //   classsChange: "mm-collapse",
-  //   iconStyle: <i className="material-icons">grid_view</i>,
-  //   to: "user-registration",
-  // },
-
-  // Users
-  //    {
-
-  //     title: 'USERS',
-  //     // classsChange: 'mm-collapse',
-  //     iconStyle: <i className="material-icons">grid_view</i>,
-  //    },
   {
-    title: " User Profiles",
+    title: " User",
     //classsChange: 'mm-collapse',
     // iconStyle: Widget,
     iconStyle: <i className="material-icons text-white">account_circle</i>,
     to: "allUsers",
   },
   {
-    title: " Staking User",
+    title: " Staking",
     //classsChange: 'mm-collapse',
     // iconStyle: Widget,
     iconStyle: <i className="material-icons text-white">account_circle</i>,
     to: "staking-user",
   },
-  {
-    title: "Claim History",
-    //classsChange: 'mm-collapse',
-    // iconStyle: Widget,
-    iconStyle: <i className="material-icons text-white">account_circle</i>,
-    to: "claim-history",
-  },
+  // {
+  //   title: "Claim History",
+  //   iconStyle: <i className="material-icons text-white">account_circle</i>,
+  //   to: "claim-history",
+  // },
 
 
   // {
@@ -115,11 +73,21 @@ export const MenuList = [
     iconStyle: <i className="material-icons">account_circle</i>,
     to: "withdraw",
   },
+  // {
+  //   title: "Pending Withdraw ",
+  //   iconStyle: <i className="material-icons">account_circle</i>,
+  //   to: "withdraw",
+  // },
   {
     title: "Asset ",
     iconStyle: <i className="material-icons">account_circle</i>,
     to: "asset",
   },
+  // {
+  //   title: "User Asset ",
+  //   iconStyle: <i className="material-icons">account_circle</i>,
+  //   to: "asset",
+  // },
   {
     title: "Currency ",
     iconStyle: <i className="material-icons">account_circle</i>,

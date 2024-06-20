@@ -34,7 +34,7 @@ export const AllUser = () => {
         const userDetails = localStorage.getItem("userDetails");
         const parsedDetails = JSON.parse(userDetails);
         const token = parsedDetails.token;
-        const table ="user"
+        const table = "user";
         const result = await allUser(
           table,
           currentPage,
@@ -168,7 +168,10 @@ export const AllUser = () => {
                       <strong> DOB</strong>
                     </th>
                     <th>
-                      <strong> Date & Time</strong>
+                      <strong> Wallet Balance</strong>
+                    </th>
+                    <th>
+                      <strong> Action</strong>
                     </th>
                   </tr>
                 </thead>
@@ -186,10 +189,27 @@ export const AllUser = () => {
                         <td>{data.name}</td>
                         <td>{data.username}</td>
                         <td>{data.mobile}</td>
-                        <td>{data.dob}</td>
+                        <td>{new Date(data.dob).toLocaleDateString()}</td>
+                        <td></td>
                         <td>
-                          {new Date(data.createdAt).toLocaleString()}
-                          {/* {new Date(data.createdAt).toLocaleTimeString()} */}
+                          <Link className="btn btn-dark btn-sm me-1" to={`deposit-detail?id=${data._id}`}>
+                            Deposit
+                          </Link>
+                          <Link className="btn btn-dark btn-sm me-1" to={`withdraw-detail?id=${data._id}`}>
+                            Withdraw
+                          </Link>
+                          <Link className="btn btn-dark btn-sm me-1" to={`staking-detail?id=${data._id}`}>
+                            Staking
+                          </Link>
+                          <Link className="btn btn-dark btn-sm me-1" to={`assets-detail?id=${data._id}`}>
+                            Assets
+                          </Link>
+                          <Link className="btn btn-dark btn-sm me-1" to={`exchange-detail?id=${data._id}`}>
+                            Exchange
+                          </Link>
+                          <Link className="btn btn-dark btn-sm me-1" to={`activity-detail?id=${data._id}`}>
+                            Activity
+                          </Link>
                         </td>
                       </tr>
                     ))

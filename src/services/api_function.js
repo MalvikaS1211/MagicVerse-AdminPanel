@@ -1,6 +1,6 @@
 import axios from "axios";
+// export const url = "http://64.227.149.24:2222";
 export const url = "http://localhost:2222";
-// export const url = "https://stake.wyscale.com/api";
 
 export const teamlist = "https://farming.wyscale.com/api";
 
@@ -68,6 +68,38 @@ export function TeamData(user, limit, currentPage, sortField1, sortField2) {
     .then((res) => res.json())
     .catch((error) => console.error("Error fetching data:", error));
 }
+
+export const SingleUserDetail = async (table, id, page) => {
+  try {
+    let apiUrl = "";
+    if (table === "deposite") {
+      apiUrl = `${url}/admin/api/deposite-detail?page=${page}&id=${encodeURIComponent(
+        id
+      )}`;
+    } 
+    else if (table === "withdraw") {
+      apiUrl = `${url}/admin/api/withdraw-detail?page=${page}&id=${encodeURIComponent(
+        id
+      )}`;
+    } else if (table === "stake") {
+      apiUrl = `${url}/admin/api/stake-detail?page=${page}&id=${encodeURIComponent(
+        id
+      )}`
+    } else if (table === "asset") {
+      apiUrl = `${url}/admin/api/asset-detail?page=${page}&id=${encodeURIComponent(
+        id
+      )}`
+    } else if (table === "exchange") {
+      apiUrl = `${url}/admin/api/exchange-detail?page=${page}&id=${encodeURIComponent(
+        id
+      )}`
+    }
+    const { data } = await axios.get(apiUrl);
+    return data;
+  } catch (error) {
+    console.log("Error in UserDepositeDetails()", error.message);
+  }
+};
 
 export function dashboardData(token, date) {
   const apiUrl = `${url}/admin/api/dashboard?date=${date}`;
