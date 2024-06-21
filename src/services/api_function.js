@@ -101,6 +101,29 @@ export const SingleUserDetail = async (table, id, page) => {
   }
 };
 
+export const SingleUserActivity= async (id,collection,page)=>{
+  try {
+    const apiUrl= `${url}/admin/api/activity-detail?page=${page}&collection=${collection}&id=${encodeURIComponent(
+        id
+      )}`;
+      const response = await axios.get(apiUrl)
+      console.log(response)
+      // return data;
+  } catch (error) {
+    console.log("error in SingleUserActivity()",error.message);
+    
+  }
+}
+
+
+
+
+
+
+
+
+
+
 export function dashboardData(token, date) {
   const apiUrl = `${url}/admin/api/dashboard?date=${date}`;
   return fetch(apiUrl, {

@@ -2,6 +2,11 @@ import React, { Fragment, useEffect, useState, useMemo, useRef } from "react";
 import { DownloadTableExcel } from "react-export-table-to-excel";
 import { DownloadExcel } from "react-excel-export";
 import { useNavigate } from "react-router-dom";
+import { RiLuggageDepositFill } from "react-icons/ri";
+import { RiMoneyDollarCircleFill } from "react-icons/ri";
+import { RxActivityLog } from "react-icons/rx";
+import { GrStakeholder } from "react-icons/gr";
+import { MdWebAsset } from "react-icons/md";
 import {
   useTable,
   useGlobalFilter,
@@ -15,6 +20,24 @@ import { allUser } from "../../../services/api_function";
 import { Link } from "react-router-dom";
 import { COLUMNS } from "../../components/table/FilteringTable/Columns";
 import MOCK_DATA from "../../components/table/FilteringTable/MOCK_DATA_2.json";
+import { FaExchangeAlt } from "react-icons/fa";
+// import Tooltip from "@mui/material/Tooltip";
+import { styled } from "@mui/material/styles";
+import Button from "@mui/material/Button";
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
+
+const HtmlTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: "white",
+    color: "rgba(0, 0, 0, 0.87)",
+    // maxWidth: 220,
+    // fontSize: theme.typography.pxToRem(12),
+    // border: "1px solid #dadde9",
+  },
+}));
 
 export const AllUser = () => {
   const [apiData, setApiData] = useState([]);
@@ -25,6 +48,7 @@ export const AllUser = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [recordStatus, setRecordStatus] = useState("Loading...");
+  const [config, setcofig] = useState([]);
   const pageSize = 100;
 
   const navigate = useNavigate();
@@ -41,11 +65,10 @@ export const AllUser = () => {
           { searchQuery: search },
           token
         );
-        // console.log(result)
+        // console.log(result);
         setApiData(result.data);
+        setcofig(result?.config);
         setFilteredData(result.data);
-        // const total = result.totalUsers;
-        // const pages = Math.ceil(total / pageSize);
         setTotalPages(result.totalPages);
         if (!result.data[0]) {
           setRecordStatus("No Record");
@@ -102,6 +125,7 @@ export const AllUser = () => {
     XLSX.writeFile(wb, `${fileName}.xlsx`);
   };
   const tableRef = useRef(null);
+
   return (
     <Fragment>
       <Row>
@@ -183,36 +207,128 @@ export const AllUser = () => {
                       </td>
                     </tr>
                   ) : (
-                    apiData.map((data, index) => (
-                      <tr>
-                        <td>{index + 1}</td>
-                        <td>{data.name}</td>
-                        <td>{data.username}</td>
-                        <td>{data.mobile}</td>
-                        <td>{new Date(data.dob).toLocaleDateString()}</td>
-                        <td></td>
-                        <td>
-                          <Link className="btn btn-dark btn-sm me-1" to={`deposit-detail?id=${data._id}`}>
-                            Deposit
-                          </Link>
-                          <Link className="btn btn-dark btn-sm me-1" to={`withdraw-detail?id=${data._id}`}>
-                            Withdraw
-                          </Link>
-                          <Link className="btn btn-dark btn-sm me-1" to={`staking-detail?id=${data._id}`}>
-                            Staking
-                          </Link>
-                          <Link className="btn btn-dark btn-sm me-1" to={`assets-detail?id=${data._id}`}>
-                            Assets
-                          </Link>
-                          <Link className="btn btn-dark btn-sm me-1" to={`exchange-detail?id=${data._id}`}>
-                            Exchange
-                          </Link>
-                          <Link className="btn btn-dark btn-sm me-1" to={`activity-detail?id=${data._id}`}>
-                            Activity
-                          </Link>
-                        </td>
-                      </tr>
-                    ))
+                    apiData.map((data, index) => {
+                      const total = data?.currency?.reduce((pre, it) => {
+                        const price = config.find(
+                          (itm) => itm.symbol == it.symbol
+                        );
+                        const fp = price ? price.price : 1;
+                        const tt = pre + it.available * fp;
+                        return tt;
+                      }, 0);
+
+                      return (
+                        <tr>
+                          <td>{index + 1}</td>
+                          <td>{data.name}</td>
+                          <td>{data.username}</td>
+                          <td>{data.mobile}</td>
+                          <td>{new Date(data.dob).toLocaleDateString()}</td>
+                          <td>{total?.toFixed(3)}</td>
+                          <td>
+                            <Link
+                              
+                              to={`deposit-detail?id=${data._id}`}
+                            >
+                              <HtmlTooltip
+                                title={
+                                  <React.Fragment placement="top">
+                                    <Typography color="inherit">
+                                      Deposite
+                                    </Typography>
+                                  </React.Fragment>
+                                }
+                              >
+                                <Button className="text-white fs-2" arrow><RiLuggageDepositFill /></Button>
+                              </HtmlTooltip>
+                            </Link>
+                            <Link
+                              
+                              to={`withdraw-detail?id=${data._id}`}
+                            >
+                             <HtmlTooltip
+                                title={
+                                  <React.Fragment>
+                                    <Typography color="inherit">
+                                      Withdraw
+                                    </Typography>
+                                  </React.Fragment>
+                                }
+                              >
+                                <Button className="text-white fs-2" arrow><RiMoneyDollarCircleFill /></Button>
+                              </HtmlTooltip>
+                            </Link>
+                            <Link
+                              className=" me-1"
+                              to={`staking-detail?id=${data._id}`}
+                            >
+                              <HtmlTooltip
+                                title={
+                                  <React.Fragment placement="top">
+                                    <Typography color="inherit">
+                                      Stake
+                                    </Typography>
+                                  </React.Fragment>
+                                }
+                              >
+                                <Button className="text-white fs-2" arrow><GrStakeholder /></Button>
+                              </HtmlTooltip>
+                            </Link>
+                            <Link
+                              
+                              to={`assets-detail?id=${data._id}`}
+                            >
+                              <HtmlTooltip
+                                title={
+                                  <React.Fragment placement="top">
+                                    <Typography color="inherit">
+                                      Asset
+                                    </Typography>
+                                  </React.Fragment>
+                                }
+                              >
+                                <Button className="text-white fs-2" arrow><MdWebAsset /></Button>
+                              </HtmlTooltip>
+                            </Link>
+                            <Link
+                              className="text-white me-3 fs-3"
+                              to={`exchange-detail?id=${data._id}`}
+                            >
+                              {/* <Tooltip title="Add" placement="top">
+                              <FaExchangeAlt>Exchange</FaExchangeAlt>
+                              </Tooltip> */}
+                              <HtmlTooltip
+                                title={
+                                  <React.Fragment placement="top">
+                                    <Typography color="inherit">
+                                      Exchange
+                                    </Typography>
+                                  </React.Fragment>
+                                }
+                              >
+                                <Button className="text-white fs-2" arrow><FaExchangeAlt/></Button>
+                              </HtmlTooltip>
+                            </Link>
+                            <Link
+                              
+                              to={`activity-detail?id=${data._id}`}
+                            >
+                              <HtmlTooltip
+                                title={
+                                  <React.Fragment placement="top">
+                                    <Typography color="inherit">
+                                      Activity
+                                    </Typography>
+                                  </React.Fragment>
+                                }
+                              >
+                                <Button className="text-white fs-2" arrow><RxActivityLog /></Button>
+                              </HtmlTooltip>
+                            </Link>
+                          </td>
+                        </tr>
+                      );
+                    })
                   )}
                 </tbody>
               </Table>
@@ -228,19 +344,6 @@ export const AllUser = () => {
                 style={{ margin: "auto" }}
               >
                 <div className="filter-pagination  mt-3 bg-black">
-                  {/* <button
-                    className="previous-button"
-                    onClick={handlePreviousPage}
-                    disabled={currentPage === 1}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
-                  >
-                    {"<<"}
-                  </button> */}
-
                   <button
                     className="previous-button"
                     onClick={handlePreviousPage}

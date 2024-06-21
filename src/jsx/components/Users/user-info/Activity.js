@@ -1,10 +1,11 @@
 import React, { Fragment, useEffect, useState, useMemo, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { Row, Col, Card, Table } from "react-bootstrap";
-import { allUser } from "../../../../services/api_function";
+import { SingleUserActivity, allUser } from "../../../../services/api_function";
 import { Link } from "react-router-dom";
 import { COLUMNS } from "../../table/FilteringTable/Columns";
+import { Dropdown } from "react-bootstrap";
 
 export const Activity = () => {
   const [apiData, setApiData] = useState([]);
@@ -15,21 +16,26 @@ export const Activity = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [recordStatus, setRecordStatus] = useState("Loading...");
+  const [activity,setActivity]=useState("Deposite")
   const pageSize = 100;
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const id = searchParams.get('id');
+  console.log(id,"kkkk")
   useEffect(() => {
     const fetchData = async () => {
       try {
         const userDetails = localStorage.getItem("userDetails");
         const parsedDetails = JSON.parse(userDetails);
         const token = parsedDetails.token;
-        const table = "user";
-        const result = await allUser(
-          table,
+        const table = "activity";
+        // const collection  = activity
+        const result = await SingleUserActivity(
+          id,
+          activity,
           currentPage,
-          { searchQuery: search },
-          token
         );
         setApiData(result.data);
         setFilteredData(result.data);
@@ -47,7 +53,7 @@ export const Activity = () => {
     };
 
     fetchData();
-  }, [currentPage, search]);
+  }, [currentPage, activity]);
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) =>
@@ -58,18 +64,9 @@ export const Activity = () => {
   const handlePreviousPage = () => {
     setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : prevPage));
   };
-
-//   const formatTimestamp = (timestamp) => {
-//     const date = new Date(timestamp);
-//     const day = String(date.getDate()).padStart(2, "0");
-//     const month = String(date.getMonth() + 1).padStart(2, "0");
-//     const year = date.getFullYear();
-//     const hours = String(date.getHours()).padStart(2, "0");
-//     const minutes = String(date.getMinutes()).padStart(2, "0");
-//     return `${day}-${month}-${year} ${hours}:${minutes}`;
-//   };
   const columns = useMemo(() => COLUMNS, []);
   const data = useMemo(() => apiData, [apiData]);
+
 
   const handleSearch = async (e) => {
     const query = e.target.value.trim().toLowerCase();
@@ -79,15 +76,10 @@ export const Activity = () => {
       setCurrentPage(1);
     }
   };
-//   const exportToExcel = (data, fileName) => {
-//     const wb = XLSX.utils.book_new();
 
-//     const ws = XLSX.utils.json_to_sheet(data);
+  const handleDay=()=>{
 
-//     XLSX.utils.book_append_sheet(wb, ws, "Data");
-
-//     XLSX.writeFile(wb, `${fileName}.xlsx`);
-//   };
+  }
   const tableRef = useRef(null);
   return (
     <Fragment>
@@ -120,7 +112,50 @@ export const Activity = () => {
               <Card.Title style={{ color: "white", margin: "auto" }}>
                 User Activity
               </Card.Title>
-                <Link className="btn btn-dark btn-sm" to="/allusers">Back</Link>
+              <Dropdown className="me-3">
+                <Dropdown.Toggle
+                  id="dropdown-basic"
+                  style={{ backgroundColor: "black", borderColor: "white" }}
+                >
+                  {activity}
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu
+                  style={{
+                    backgroundColor: "black",
+                    borderColor: "white",
+                    color: "white",
+                  }}
+                >
+                  <Dropdown.Item onClick={() => setActivity("deposite")}>
+                    Deposite
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={() => setActivity("claim")}>
+                    Claim
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={() => setActivity("currency")}>
+                    Currency
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={() => setActivity("login")}>
+                    Login
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={() => setActivity("stake")}>
+                    Stake
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={() => setActivity("swap")}>
+                    Swap
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={() => setActivity("wallet")}>
+                    Wallet
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={() => setActivity("withdraw")}>
+                    Withdraw
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+              <Link className="btn btn-dark btn-sm" to="/allusers">
+                Back
+              </Link>
             </Card.Header>
             <Card.Body
               style={{
@@ -137,7 +172,6 @@ export const Activity = () => {
                   borderBottom: "0.5px solid white",
                 }}
               >
-                {/* <button onClick={() => exportToExcel(data, 'exported-data')}>Export to Excel</button> */}
                 <thead>
                   <tr>
                     <th>
@@ -151,9 +185,7 @@ export const Activity = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody>
-
-                </tbody>
+                <tbody></tbody>
               </Table>
 
               <div className="d-flex justify-content-between">
@@ -167,7 +199,6 @@ export const Activity = () => {
                 style={{ margin: "auto" }}
               >
                 <div className="filter-pagination  mt-3 bg-black">
-
                   <button
                     className="previous-button"
                     onClick={handlePreviousPage}

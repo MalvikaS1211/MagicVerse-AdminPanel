@@ -191,7 +191,7 @@ export const Staking = () => {
                     <td>{new Date(data.startTimestamp*1000).toLocaleString()}</td>
                     <td>{new Date(data.endTimestamp*1000).toLocaleString()}</td>
                     <td>{data.stakePrice}</td>
-                    <td>{(data.isStakeCompleted)?"Success":"Failed"}</td>
+                    <td style={{color:(data?.isStakeCompleted)?"green":"red"}}>{(data.isStakeCompleted)?"Success":"Failed"}</td>
                     {/* <td>{new Date(data.createdAt).toLocaleString()}</td> */}
                   </tr>
                   )))}
