@@ -224,7 +224,7 @@ export const AllUser = () => {
                           <td>{data.username}</td>
                           <td>{data.mobile}</td>
                           <td>{new Date(data.dob).toLocaleDateString()}</td>
-                          <td>{total?.toFixed(3)}</td>
+                          <td>{total?.toFixed(3)}(INR)</td>
                           <td>
                             <Link
                               

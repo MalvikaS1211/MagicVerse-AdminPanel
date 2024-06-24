@@ -16,14 +16,13 @@ export const Activity = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [recordStatus, setRecordStatus] = useState("Loading...");
-  const [activity,setActivity]=useState("Deposite")
+  const [activity,setActivity]=useState("Deposit")
   const pageSize = 100;
 
   const navigate = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const id = searchParams.get('id');
-  console.log(id,"kkkk")
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -32,18 +31,19 @@ export const Activity = () => {
         const token = parsedDetails.token;
         const table = "activity";
         // const collection  = activity
-        const result = await SingleUserActivity(
+        const res = await SingleUserActivity(
           id,
           activity,
           currentPage,
         );
-        setApiData(result.data);
-        setFilteredData(result.data);
-        setTotalPages(result.totalPages);
-        if (!result.data[0]) {
+        // console.log(res.data[0],"activity")
+        setApiData(res.data[0].date);
+        setFilteredData(res.data[0].date);
+        setTotalPages(res.totalPages);
+        if (!res.data[0].date[0]) {
           setRecordStatus("No Record");
         }
-        if (result.status == 404) {
+        if (res.status == 404) {
           navigate("/login");
           localStorage.removeItem("userDetails");
         }
@@ -84,7 +84,7 @@ export const Activity = () => {
   return (
     <Fragment>
       <Row>
-        <div
+        {/* <div
           style={{
             display: "flex",
             justifyContent: "flex-end",
@@ -102,7 +102,7 @@ export const Activity = () => {
             />
           </div>
           <label class="form-label" for="form1"></label>
-        </div>
+        </div> */}
 
         <Col lg={12}>
           <Card>
@@ -127,28 +127,28 @@ export const Activity = () => {
                     color: "white",
                   }}
                 >
-                  <Dropdown.Item onClick={() => setActivity("deposite")}>
+                  <Dropdown.Item onClick={() => setActivity("Deposit")}>
                     Deposite
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={() => setActivity("claim")}>
+                  <Dropdown.Item onClick={() => setActivity("Claim")}>
                     Claim
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={() => setActivity("currency")}>
+                  <Dropdown.Item onClick={() => setActivity("Currency")}>
                     Currency
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={() => setActivity("login")}>
+                  <Dropdown.Item onClick={() => setActivity("Login")}>
                     Login
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={() => setActivity("stake")}>
+                  <Dropdown.Item onClick={() => setActivity("Stake")}>
                     Stake
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={() => setActivity("swap")}>
+                  <Dropdown.Item onClick={() => setActivity("Swap")}>
                     Swap
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={() => setActivity("wallet")}>
+                  <Dropdown.Item onClick={() => setActivity("Wallet")}>
                     Wallet
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={() => setActivity("withdraw")}>
+                  <Dropdown.Item onClick={() => setActivity("Withdraw")}>
                     Withdraw
                   </Dropdown.Item>
                 </Dropdown.Menu>
@@ -185,7 +185,19 @@ export const Activity = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+                  { !apiData[0]?(
+                    <tr><td colSpan="3" className="text-center">{recordStatus}</td></tr>
+                  ) : (apiData?.map((data,index)=>{
+                    return(
+                      <tr>
+                        <td>{index+1}</td>
+                        <td>{activity}</td>
+                        <td>{new Date(data).toLocaleString()}</td>
+                      </tr>
+                    )
+                  }))}
+                </tbody>
               </Table>
 
               <div className="d-flex justify-content-between">

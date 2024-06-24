@@ -103,12 +103,14 @@ export const SingleUserDetail = async (table, id, page) => {
 
 export const SingleUserActivity= async (id,collection,page)=>{
   try {
-    const apiUrl= `${url}/admin/api/activity-detail?page=${page}&collection=${collection}&id=${encodeURIComponent(
+    let table = collection.toLowerCase()
+    // console.log(id,table,page)
+    // console.log(typeof collection)
+    const apiUrl= `${url}/admin/api/activity-detail?page=${page}&collection=${table}&id=${encodeURIComponent(
         id
       )}`;
-      const response = await axios.get(apiUrl)
-      console.log(response)
-      // return data;
+      const {data} = await axios.get(apiUrl)
+      return data;
   } catch (error) {
     console.log("error in SingleUserActivity()",error.message);
     

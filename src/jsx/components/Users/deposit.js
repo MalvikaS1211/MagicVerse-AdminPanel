@@ -148,11 +148,14 @@ export const Deposit = () => {
                     <th>
                       <strong>User</strong>
                     </th>
-                    <th>
+                    {/* <th>
                       <strong> Symbol</strong>
-                    </th>
+                    </th> */}
                     <th>
                       <strong>Amount</strong>
+                    </th>
+                    <th>
+                      <strong>Status</strong>
                     </th>
                     <th>
                       <strong>Date & Time</strong>
@@ -169,11 +172,12 @@ export const Deposit = () => {
                   ) : (
                     apiData.map((data, index) => (
                       <tr key={index}>
-                        <th>{index + 1}</th>
-                        <th>{data.name}</th>
-                        <th>{data.symbol}</th>
-                        <th>{data.amount.toFixed(2)}</th>
-                        <th>{new Date(data.createdAt).toLocaleString()}</th>
+                        <td>{index + 1}</td>
+                        <td>{data.name}</td>
+                        {/* <td>{data.symbol}</td> */}
+                        <td>{data.amount.toFixed(2)} ({data.symbol})</td>
+                        <td style={{color:data?.success?"green":"red"}}>{data?.success?"Success":"Failed"}</td>
+                        <td>{new Date(data.createdAt).toLocaleString()}</td>
                       </tr>
                     ))
                   )}

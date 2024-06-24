@@ -53,7 +53,7 @@ function Login (props) {
 										<div className="card-body">
 											<div className="logo-header">
 												<Link to={"#"} className="logo">
-													<img src="inrx-logo.png" alt="" className="width-230 mCS_img_loaded" />
+													<img src="inrxlogo1.jpeg" alt="" className="width-230 mCS_img_loaded" />
 													</Link>
 											</div>											
 											<div className="nav nav-tabs border-bottom-0" >														

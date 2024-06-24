@@ -142,6 +142,9 @@ export const Withdraw = () => {
                       <strong>Hash</strong>
                     </th>
                     <th>
+                      <strong>Status</strong>
+                    </th>
+                    <th>
                       <strong>Date & Time</strong>
                     </th>
                   </tr>
@@ -161,13 +164,14 @@ export const Withdraw = () => {
                         <td>{data?.symbol}</td>
                         <td>{data?.amount}</td>
                         <td>
-                          {data?.reciever.slice(0, 5) +
+                          {!data?.reciever?("Self"):(data?.reciever.slice(0, 5) +
                             "...." +
-                            data?.reciever.slice(-5)}
+                            data?.reciever.slice(-5))}
                         </td>
                         <td>
                           {data?.hash.slice(0, 5) + "...." + data?.hash.slice(-5)}
                         </td>
+                        <td style={{color:(data?.success)?"green":"red"}}>{(data?.success)?"Success":"Failed"}</td>
                         <td>{new Date(data.createdAt).toLocaleString()}</td>
                       </tr>
                     ))
