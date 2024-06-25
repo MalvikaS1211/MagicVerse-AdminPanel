@@ -66,11 +66,11 @@ export const AllUser = () => {
           token
         );
         // console.log(result);
-        setApiData(result.data);
+        setApiData(result?.data);
         setcofig(result?.config);
-        setFilteredData(result.data);
+        setFilteredData(result?.data);
         setTotalPages(result.totalPages);
-        if (!result.data[0]) {
+        if (!result?.data[0]) {
           setRecordStatus("No Record");
         }
         if (result.status == 404) {

@@ -1,6 +1,7 @@
 import axios from "axios";
-// export const url = "http://64.227.149.24:2222";
-export const url = "http://localhost:2222";
+export const url = "https://backoffice.inrx.io/api";
+
+// export const url = "http://localhost:2222";
 
 export const teamlist = "https://farming.wyscale.com/api";
 
@@ -8,35 +9,35 @@ export function allUser(table, page, filteredData, token) {
   const { searchQuery } = filteredData;
   let apiUrl = "";
   if (table === "user") {
-    apiUrl = `${url}/admin/api/user-data?page=${page}&search=${encodeURIComponent(
+    apiUrl = `${url}/admin/user-data?page=${page}&search=${encodeURIComponent(
       searchQuery
     )}`;
   } else if (table === "stake") {
-    apiUrl = `${url}/admin/api/stake?page=${page}&search=${encodeURIComponent(
+    apiUrl = `${url}/admin/stake?page=${page}&search=${encodeURIComponent(
       searchQuery
     )}`;
   } else if (table === "claimhistory") {
-    apiUrl = `${url}/admin/api/claim?page=${page}&search=${encodeURIComponent(
+    apiUrl = `${url}/admin/claim?page=${page}&search=${encodeURIComponent(
       searchQuery
     )}`;
   } else if (table === "deposit") {
-    apiUrl = `${url}/admin/api/deposit?page=${page}&search=${encodeURIComponent(
+    apiUrl = `${url}/admin/deposit?page=${page}&search=${encodeURIComponent(
       searchQuery
     )}`;
   } else if (table === "withdraw-history") {
-    apiUrl = `${url}/admin/api/withdraw?page=${page}&search=${encodeURIComponent(
+    apiUrl = `${url}/admin/withdraw?page=${page}&search=${encodeURIComponent(
       searchQuery
     )}`;
   } else if (table === "asset") {
-    apiUrl = `${url}/admin/api/asset?page=${page}&search=${encodeURIComponent(
+    apiUrl = `${url}/admin/asset?page=${page}&search=${encodeURIComponent(
       searchQuery
     )}`;
   } else if (table === "swap") {
-    apiUrl = `${url}/admin/api/swap?page=${page}&search=${encodeURIComponent(
+    apiUrl = `${url}/admin/swap?page=${page}&search=${encodeURIComponent(
       searchQuery
     )}`;
   } else if (table === "currency") {
-    apiUrl = `${url}/admin/api/currency?page=${page}&search=${encodeURIComponent(
+    apiUrl = `${url}/admin/currency?page=${page}&search=${encodeURIComponent(
       searchQuery
     )}`;
   }
@@ -73,24 +74,24 @@ export const SingleUserDetail = async (table, id, page) => {
   try {
     let apiUrl = "";
     if (table === "deposite") {
-      apiUrl = `${url}/admin/api/deposite-detail?page=${page}&id=${encodeURIComponent(
+      apiUrl = `${url}/admin/deposite-detail?page=${page}&id=${encodeURIComponent(
         id
       )}`;
     } 
     else if (table === "withdraw") {
-      apiUrl = `${url}/admin/api/withdraw-detail?page=${page}&id=${encodeURIComponent(
+      apiUrl = `${url}/admin/withdraw-detail?page=${page}&id=${encodeURIComponent(
         id
       )}`;
     } else if (table === "stake") {
-      apiUrl = `${url}/admin/api/stake-detail?page=${page}&id=${encodeURIComponent(
+      apiUrl = `${url}/admin/stake-detail?page=${page}&id=${encodeURIComponent(
         id
       )}`
     } else if (table === "asset") {
-      apiUrl = `${url}/admin/api/asset-detail?page=${page}&id=${encodeURIComponent(
+      apiUrl = `${url}/admin/asset-detail?page=${page}&id=${encodeURIComponent(
         id
       )}`
     } else if (table === "exchange") {
-      apiUrl = `${url}/admin/api/exchange-detail?page=${page}&id=${encodeURIComponent(
+      apiUrl = `${url}/admin/exchange-detail?page=${page}&id=${encodeURIComponent(
         id
       )}`
     }
@@ -106,7 +107,7 @@ export const SingleUserActivity= async (id,collection,page)=>{
     let table = collection.toLowerCase()
     // console.log(id,table,page)
     // console.log(typeof collection)
-    const apiUrl= `${url}/admin/api/activity-detail?page=${page}&collection=${table}&id=${encodeURIComponent(
+    const apiUrl= `${url}/admin/activity-detail?page=${page}&collection=${table}&id=${encodeURIComponent(
         id
       )}`;
       const {data} = await axios.get(apiUrl)
@@ -123,11 +124,8 @@ export const SingleUserActivity= async (id,collection,page)=>{
 
 
 
-
-
-
 export function dashboardData(token, date) {
-  const apiUrl = `${url}/admin/api/dashboard?date=${date}`;
+  const apiUrl = `${url}/admin/dashboard?date=${date}`;
   return fetch(apiUrl, {
     method: "GET",
     headers: {
@@ -427,7 +425,7 @@ export function Topup_data(page, filteredData, token) {
 
 export function SignIn(email, password) {
   // console.log("afjsdhvh", email, password);
-  const apiUrl = `${url}/admin/api/login`;
+  const apiUrl = `${url}/admin/login`;
   return fetch(apiUrl, {
     method: "post",
     headers: {
