@@ -17,6 +17,7 @@ export const Currency = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [recordStatus, setRecordStatus] = useState("Loading...");
+  const [config,setConfig] = useState([])
   const pageSize = 100;
 
   const navigate = useNavigate();
@@ -35,6 +36,7 @@ export const Currency = () => {
         );
         // console.log(result.totalPages);
         setApiData(result.data);
+        setConfig(result.config)
         setFilteredData(result.data);
         // const total = result.totalCount;
         // const pages = Math.ceil(total / pageSize);
@@ -159,15 +161,15 @@ export const Currency = () => {
                     <th>
                       <strong>Available</strong>
                     </th>
-                    <th>
+                    {/* <th>
                       <strong>Symbol</strong>
-                    </th>
-                    <th>
+                    </th> */}
+                    {/* <th>
                       <strong>Icon</strong>
                     </th>
                     <th>
                       <strong>Date & Time</strong>
-                    </th>
+                    </th> */}
                   </tr>
                 </thead>
                 <tbody>
@@ -178,20 +180,30 @@ export const Currency = () => {
                       </td>
                     </tr>
                   ) : (
-                    apiData.map((data, index) => (
+                    apiData.map((data, index) => {
+                      let total = data?.currency?.reduce((pre,it)=>{
+                           const price =  config?.find(itm=>itm.symbol==it.symbol)
+                           const fp = price ? price.price : 1;
+                           return {
+                             balance : pre.balance+it.balance*fp,
+                            withdraw : pre.withdraw+it.withdraw*fp,
+                            available : pre.available+it.available*fp,
+                           }
+                      })
+                      return (
                       <tr>
                         <th>{index + 1}</th>
                         <th>{data.name}</th>
-                        <th>{data.balance}</th>
-                        <th>{data.withdraw}</th>
-                        <th>{data.available.toFixed(2)}</th>
-                        <th>{data.symbol}</th>
-                        <th>
+                        <th>{total.balance.toFixed(2)} (INR)</th>
+                        <th>{total.withdraw.toFixed(2)} (INR)</th>
+                        <th>{total.available.toFixed(2)} (INR)</th>
+                        {/* <th>{data.symbol}</th> */}
+                        {/* <th>
                           <img src={data.icon} height="30" width="30" />
                         </th>
-                        <th>{new Date(data.createdAt).toLocaleString()}</th>
+                        <th>{new Date(data.createdAt).toLocaleString()}</th> */}
                       </tr>
-                    ))
+                    )})
                   )}
                 </tbody>
               </Table>
