@@ -1,7 +1,7 @@
 import axios from "axios";
-// export const url = "https://backoffice.inrx.io/api";
+export const url = "https://backoffice.inrx.io/api";
 
-export const url = "http://localhost:2222";
+// export const url = "http://localhost:2222";
 
 export const teamlist = "https://farming.wyscale.com/api";
 
