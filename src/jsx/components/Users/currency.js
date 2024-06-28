@@ -36,8 +36,8 @@ export const Currency = () => {
         );
         // console.log(result.totalPages);
         setApiData(result.data);
-        setConfig(result.config)
         setFilteredData(result.data);
+        setConfig(result.config);
         // const total = result.totalCount;
         // const pages = Math.ceil(total / pageSize);
         setTotalPages(result.totalPages);
@@ -153,23 +153,20 @@ export const Currency = () => {
                       <strong>User</strong>
                     </th>
                     <th>
-                      <strong>Balance</strong>
+                      <strong>INR</strong>
                     </th>
                     <th>
-                      <strong>Withdraw</strong>
+                      <strong>INRX</strong>
                     </th>
                     <th>
-                      <strong>Available</strong>
-                    </th>
-                    {/* <th>
-                      <strong>Symbol</strong>
-                    </th> */}
-                    {/* <th>
-                      <strong>Icon</strong>
+                      <strong>USDT</strong>
                     </th>
                     <th>
-                      <strong>Date & Time</strong>
-                    </th> */}
+                      <strong>USDC</strong>
+                    </th>
+                    <th>
+                      <strong>Total</strong>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -180,30 +177,27 @@ export const Currency = () => {
                       </td>
                     </tr>
                   ) : (
-                    apiData.map((data, index) => {
-                      let total = data?.currency?.reduce((pre,it)=>{
-                           const price =  config?.find(itm=>itm.symbol==it.symbol)
-                           const fp = price ? price.price : 1;
-                           return {
-                             balance : pre.balance+it.balance*fp,
-                            withdraw : pre.withdraw+it.withdraw*fp,
-                            available : pre.available+it.available*fp,
-                           }
-                      })
+                    apiData?.map((data, index) => {
+                      const total = data?.currency?.reduce((pre,it)=>{
+                        const fn = config?.find(t=>t.symbol===it.symbol)
+                        const price = fn?fn.price:1;
+                        const tt = pre + it.available*price 
+                        return tt
+                      },0)
                       return (
-                      <tr>
+                        <tr>
                         <th>{index + 1}</th>
                         <th>{data.name}</th>
-                        <th>{total.balance.toFixed(2)} (INR)</th>
-                        <th>{total.withdraw.toFixed(2)} (INR)</th>
-                        <th>{total.available.toFixed(2)} (INR)</th>
-                        {/* <th>{data.symbol}</th> */}
-                        {/* <th>
-                          <img src={data.icon} height="30" width="30" />
+                        <th>{data.currency?.find(it=>it.symbol?.toLowerCase() === 'inr')?.available.toFixed(2)}</th>
+                        <th>{data.currency?.find(it=>it.symbol?.toLowerCase() === 'inrx')?.available.toFixed(2)}</th>
+                        <th>{data.currency?.find(it=>it.symbol?.toLowerCase() === 'usdt')?.available.toFixed(2)}</th>
+                        <th>{data.currency?.find(it=>it.symbol?.toLowerCase() === 'usdc')?.available.toFixed(2)}</th>
+                        <th>
+                          {total.toFixed(2)}
                         </th>
-                        <th>{new Date(data.createdAt).toLocaleString()}</th> */}
                       </tr>
-                    )})
+                      )
+                    })
                   )}
                 </tbody>
               </Table>
