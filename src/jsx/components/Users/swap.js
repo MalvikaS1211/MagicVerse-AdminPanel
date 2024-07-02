@@ -182,8 +182,8 @@ export const Swap = () => {
                         <th>{data.name}</th>
                         <th>{data.payToken}</th>
                         <th>{data.getToken}</th>
-                        <th>{data.payAmount}</th>
-                        <th>{data.getAmount}</th>
+                        <th>{data?.payAmount?.toFixed(2)}</th>
+                        <th>{data?.getAmount?.toFixed(2)}</th>
                         <th>{new Date(data.createdAt).toLocaleString()}</th>
                       </tr>
                     ))

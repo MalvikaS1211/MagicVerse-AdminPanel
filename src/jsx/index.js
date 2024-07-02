@@ -169,6 +169,12 @@ import Staking from "./components/Users/user-info/Staking";
 import AssetsDetail from "./components/Users/user-info/AssetsDetail";
 import Activity from "./components/Users/user-info/Activity";
 import Exchange from "./components/Users/user-info/Exchange";
+import PriceSetting from "./components/Users/settings/priceSetting";
+import AddressWithdraw from "./components/Users/settings/addressWithdraw";
+import DepositMinimum from "./components/Users/settings/depositMinimum";
+import WithdrawMinimum from "./components/Users/settings/withdrawMinimum";
+import { Toaster } from "react-hot-toast";
+import LoginActivity from "./components/Users/loginActivity";
 
 const Markup = () => {
   const allroutes = [
@@ -188,6 +194,7 @@ const Markup = () => {
     { url: "asset", component: <Asset /> },
     { url: "currency", component: <Currency /> },
     { url: "swap", component: <Swap /> },
+    { url: "login-activity", component: <LoginActivity /> },
     { url: "team-list", component: <TeamDetails /> },
     { url: "announcement", component: <Announcement /> },
     { url: "commission", component: <Commission /> },
@@ -210,12 +217,18 @@ const Markup = () => {
     { url: "protocol-data", component: <ProtocalData /> },
     { url: "withdraw-approve", component: <ApproveWithdraw /> },
     { url: "reject-withdraw", component: <RejectWithdraw /> },
-    {url:"allusers/deposit-detail",component:<Deposite/>},
-    {url:"allusers/withdraw-detail",component:<WithdrawDetail/>},
-    {url:"allusers/staking-detail",component:<Staking/>},
-    {url:"allusers/assets-detail",component:<AssetsDetail/>},
-    {url:"allusers/exchange-detail",component:<Exchange/>},
-    {url:"allusers/activity-detail",component:<Activity/>},
+    { url: "allusers/deposit-detail", component: <Deposite /> },
+    { url: "allusers/withdraw-detail", component: <WithdrawDetail /> },
+    { url: "allusers/staking-detail", component: <Staking /> },
+    { url: "allusers/assets-detail", component: <AssetsDetail /> },
+    { url: "allusers/exchange-detail", component: <Exchange /> },
+    { url: "allusers/activity-detail", component: <Activity /> },
+
+    // Dashboard Setting
+    { url: "price-setting", component: <PriceSetting /> },
+    { url: "address-setting", component: <AddressWithdraw /> },
+    { url: "deposit-setting", component: <DepositMinimum /> },
+    { url: "withdraw-setting", component: <WithdrawMinimum /> },
     //Trading
     // { url: "market", component: <Market /> },
     // { url: "ico-listing", component: <IcoListing /> },
@@ -335,6 +348,7 @@ const Markup = () => {
 
   return (
     <>
+      <Toaster position="top-center" />
       <Routes>
         <Route path="page-lock-screen" element={<LockScreen />} />
         <Route path="page-error-400" element={<Error400 />} />

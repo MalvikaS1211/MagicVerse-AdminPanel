@@ -210,7 +210,7 @@ export const AllUser = () => {
                     apiData.map((data, index) => {
                       const total = data?.currency?.reduce((pre, it) => {
                         const price = config.find(
-                          (itm) => itm.symbol == it.symbol
+                          (itm) => itm.symbol.toLowerCase() == it.symbol.toLowerCase()
                         );
                         const fp = price ? price.price : 1;
                         const tt = pre + it.available * fp;

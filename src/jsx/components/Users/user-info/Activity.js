@@ -37,10 +37,10 @@ export const Activity = () => {
           currentPage,
         );
         // console.log(res.data[0],"activity")
-        setApiData(res.data[0].date);
-        setFilteredData(res.data[0].date);
-        setTotalPages(res.totalPages);
-        if (!res.data[0].date[0]) {
+        setApiData(res?.data);
+        setFilteredData(res?.data);
+        setTotalPages(res?.totalPages);
+        if (!res?.data[0]?.date[0]) {
           setRecordStatus("No Record");
         }
         if (res.status == 404) {
@@ -193,7 +193,7 @@ export const Activity = () => {
                       <tr>
                         <td>{index+1}</td>
                         <td>{activity}</td>
-                        <td>{new Date(data).toLocaleString()}</td>
+                        <td>{new Date(data.date).toLocaleString()}</td>
                       </tr>
                     )
                   }))}

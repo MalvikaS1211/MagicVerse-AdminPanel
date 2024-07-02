@@ -8,7 +8,7 @@ import { Row, Col, Card, Table } from "react-bootstrap";
 import { allUser } from "../../../services/api_function";
 import { COLUMNS } from "../table/FilteringTable/Columns";
 
-export const Currency = () => {
+export const LoginActivity = () => {
   const [apiData, setApiData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -17,7 +17,7 @@ export const Currency = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [recordStatus, setRecordStatus] = useState("Loading...");
-  const [config, setConfig] = useState([]);
+
   const pageSize = 100;
 
   const navigate = useNavigate();
@@ -27,17 +27,16 @@ export const Currency = () => {
         const userDetails = localStorage.getItem("userDetails");
         const parsedDetails = JSON.parse(userDetails);
         const token = parsedDetails.token;
-        const table = "currency";
+        const table = "swap";
         const result = await allUser(
           table,
           currentPage,
           { searchQuery: search },
           token
         );
-        // console.log(result.totalPages);
-        setApiData(result?.data);
-        setFilteredData(result?.data);
-        setConfig(result?.config);
+        console.log(result);
+        setApiData(result.data);
+        setFilteredData(result.data);
         // const total = result.totalCount;
         // const pages = Math.ceil(total / pageSize);
         setTotalPages(result.totalPages);
@@ -49,8 +48,7 @@ export const Currency = () => {
           localStorage.removeItem("userDetails");
         }
       } catch (error) {
-        
-        console.error("Error fetching data:", error.message);
+        console.error("Error fetching data:", error);
       }
     };
 
@@ -126,7 +124,7 @@ export const Currency = () => {
               style={{ background: "black", border: "1px solid white" }}
             >
               <Card.Title style={{ color: "white", margin: "auto" }}>
-                Currency
+                Swap
               </Card.Title>
             </Card.Header>
             <Card.Body
@@ -151,115 +149,45 @@ export const Currency = () => {
                       <strong>NO.</strong>
                     </th>
                     <th>
-                      <strong>User</strong>
+                      <strong>Name</strong>
                     </th>
                     <th>
-                      <strong>INR</strong>
+                      <strong>IP</strong>
                     </th>
                     <th>
-                      <strong>INRX</strong>
+                      <strong>Browser Name</strong>
                     </th>
                     <th>
-                      <strong>USDT</strong>
+                      <strong>Os</strong>
                     </th>
                     <th>
-                      <strong>USDC</strong>
+                      <strong>Status</strong>
                     </th>
                     <th>
-                      <strong>Total</strong>
+                      <strong>Action</strong>
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {!apiData[0] ? (
+                  {/* {!apiData[0] ? (
                     <tr>
                       <td className="text-light text-center" colSpan="7">
                         {recordStatus}
                       </td>
                     </tr>
                   ) : (
-                    apiData?.map((data, index) => {
-                      const total = data?.currency?.reduce((pre, it) => {
-                        const fn = config?.find((t) => t.symbol.toLowerCase() === it.symbol.toLowerCase());
-                        const price = fn ? fn.price : 1;
-                        const tt = pre + it.available * price;
-                        return tt;
-                      }, 0);
-                      return (
-                        <tr>
-                          <th>{index + 1}</th>
-                          <th>{data.name}</th>
-                          <th>
-                            {data.currency
-                              ?.find((it) => it.symbol?.toLowerCase() === "inr")
-                              ?.available?.toFixed(2)}
-                            <img
-                              src={`${
-                                data.currency?.find(
-                                  (it) => it.symbol?.toLowerCase() === "inr"
-                                )?.icon
-                              }`}
-                              height="20"
-                              width="20"
-                              className="ms-2"
-                            />
-                          </th>
-                          <th>
-                            {data.currency
-                              ?.find(
-                                (it) => it.symbol?.toLowerCase() === "inrx"
-                              )
-                              ?.available?.toFixed(2)}
-                            <img
-                              src={`${
-                                data.currency?.find(
-                                  (it) => it.symbol?.toLowerCase() === "inrx"
-                                )?.icon
-                              }`}
-                              height="20"
-                              width="20"
-                              className="ms-2"
-                            />
-                          </th>
-                          <th>
-                            {data.currency
-                              ?.find(
-                                (it) => it.symbol?.toLowerCase() === "usdt"
-                              )
-                              ?.available?.toFixed(2)}
-                            <img
-                              src={`${
-                                data.currency?.find(
-                                  (it) => it.symbol?.toLowerCase() === "usdt"
-                                )?.icon
-                              }`}
-                              height="20"
-                              width="20"
-                              className="ms-2"
-                            />
-                          </th>
-                          <th>
-                            {data.currency
-                              ?.find(
-                                (it) => it.symbol?.toLowerCase() === "usdc"
-                              )
-                              ?.available?.toFixed(2)}
-                            <img
-                              src={`${
-                                data.currency?.find(
-                                  (it) => it.symbol?.toLowerCase() === "usdc"
-                                )?.icon
-                              }`}
-                              height="20"
-                              width="20"
-                              className="ms-2"
-                            />
-                          </th>
-                          <th>{total?.toFixed(2)} (INR)</th>
-                        </tr>
-                      );
-                    })
-                  )}
+                    apiData.map((data, index) => (
+                      <tr>
+                        <th>{index + 1}</th>
+                        <th>{data.name}</th>
+                        <th>{data.payToken}</th>
+                        <th>{data.getToken}</th>
+                        <th>{data?.payAmount?.toFixed(2)}</th>
+                        <th>{data?.getAmount?.toFixed(2)}</th>
+                        <th>{new Date(data.createdAt).toLocaleString()}</th>
+                      </tr>
+                    ))
+                  )} */}
                 </tbody>
               </Table>
 
@@ -339,4 +267,4 @@ export const Currency = () => {
   );
 };
 
-export default Currency;
+export default LoginActivity;

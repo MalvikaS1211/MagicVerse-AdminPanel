@@ -1,7 +1,7 @@
 import axios from "axios";
 // export const url = "https://backoffice.inrx.io/api";
 
-export const url = "http://localhost:2222";
+export const url = "http://localhost:2222/api";
 
 export const teamlist = "https://farming.wyscale.com/api";
 
@@ -105,8 +105,6 @@ export const SingleUserDetail = async (table, id, page) => {
 export const SingleUserActivity= async (id,collection,page)=>{
   try {
     let table = collection.toLowerCase()
-    // console.log(id,table,page)
-    // console.log(typeof collection)
     const apiUrl= `${url}/admin/activity-detail?page=${page}&collection=${table}&id=${encodeURIComponent(
         id
       )}`;
@@ -115,6 +113,21 @@ export const SingleUserActivity= async (id,collection,page)=>{
   } catch (error) {
     console.log("error in SingleUserActivity()",error.message);
     
+  }
+}
+
+export const AdminSettings = async(formData,apiSubUrl,token)=>{
+  try {
+      const res= await axios.post(`${url}/admin/${apiSubUrl}`,formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        } 
+      )
+      return res;
+  } catch (error) {
+    console.log("Erro in AdminSettings",error.message)
   }
 }
 

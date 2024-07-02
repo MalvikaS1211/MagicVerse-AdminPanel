@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { Logout } from "../../../store/actions/AuthActions";
+import { IoSettingsSharp } from "react-icons/io5";
 //import { LOGOUT_ACTION } from "../../../store/actions/AuthActions"
 export const MenuList = [
   //Dashboard
@@ -11,7 +12,7 @@ export const MenuList = [
     to: "dashboard",
   },
   {
-    title: " User",
+    title: "User",
     //classsChange: 'mm-collapse',
     // iconStyle: Widget,
     iconStyle: <i className="material-icons text-white">account_circle</i>,
@@ -98,14 +99,18 @@ export const MenuList = [
     iconStyle: <i className="material-icons">account_circle</i>,
     to: "swap",
   },
-
-  // {
-  //   title: "Withdraw Referral ",
-  //   //classsChange: 'mm-collapse',
-  //   //iconStyle: Widget,
-  //   iconStyle: <i className="material-icons">account_circle</i>,
-  //   to: "withdrawClaim",
-  // },
+  {
+    title: "Login Activity",
+    iconStyle: <i className="material-icons">account_circle</i>,
+    to: "login-activity",
+  },
+  {
+    title: "Mint",
+    //classsChange: 'mm-collapse',
+    //iconStyle: Widget,
+    iconStyle: <i className="material-icons">account_circle</i>,
+    to: "#",
+  },
   // {
   //   title: "Withdraw Approve ",
   //   //classsChange: 'mm-collapse',
@@ -177,33 +182,29 @@ export const MenuList = [
   //   iconStyle: <i className="material-icons">account_circle</i>,
   //   to: "protocol",
   // },
-  // {
-  //     title: 'Trading',
-  //     classsChange: 'mm-collapse',
-  //     iconStyle: <i className="material-icons">trending_up</i>,
-  //     content: [
-  //         {
-  //             title: 'Market',
-  //             to: 'market',
-  //         },
-  //         {
-  //             title: 'ICO Listing',
-  //             to: 'ico-listing',
-  //         },
-  //         {
-  //             title: 'P2P',
-  //             to: 'p2p',
-  //         },
-  //         {
-  //             title: 'Future',
-  //             to: 'future',
-  //         },
-  // 		{
-  //             title: 'Intraday Trading',
-  //             to: 'intraday-trading',
-  //         },
-  //     ]
-  // },
+  {
+      title: 'Settings',
+      classsChange: 'mm-collapse',
+      iconStyle: <IoSettingsSharp className="material-icons" style={{maxWidth: '25px', maxHeight: '20px'}}/>,
+      content: [
+          {
+              title: 'Price',
+              to: 'price-setting',
+          },
+          {
+              title: 'Address Withdraw',
+              to: 'address-setting',
+          },
+          {
+              title: 'Deposit Minimum',
+              to: 'deposit-setting',
+          },
+          {
+              title: 'Withdraw Minimun',
+              to: 'withdraw-setting',
+          },
+      ]
+  },
   //	Crypto
   // {
   //     title: 'Crypto',

@@ -14,7 +14,9 @@ export const Withdraw = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const userDetails = localStorage.getItem("userDetails");
+        const parsedDetails = JSON.parse(userDetails);
+        const token = parsedDetails.token;
         const table = "withdraw-history"
         const result = await allUser(
           table,
@@ -164,9 +166,10 @@ export const Withdraw = () => {
                         <td>{data?.symbol}</td>
                         <td>{data?.amount}</td>
                         <td>
-                          {!data?.reciever?("Self"):(data?.reciever.slice(0, 5) +
+                          {!data?.reciever?("Self"):(<a href={`https://testnet.bscscan.com/address/${data?.reciever}`} target="_blanck" className="text-white">{data?.reciever.slice(0, 5) +
                             "...." +
-                            data?.reciever.slice(-5))}
+                            data?.reciever.slice(-5)}</a>)}
+                            
                         </td>
                         <td>
                           {data?.hash.slice(0, 5) + "...." + data?.hash.slice(-5)}
