@@ -36,7 +36,7 @@ export const Activity = () => {
           activity,
           currentPage,
         );
-        // console.log(res.data[0],"activity")
+        console.log(res,"activity")
         setApiData(res?.data);
         setFilteredData(res?.data);
         setTotalPages(res?.totalPages);

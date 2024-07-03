@@ -1,7 +1,7 @@
 import axios from "axios";
-// export const url = "https://backoffice.inrx.io/api";
+export const url = "https://backoffice.inrx.io/api";
 
-export const url = "http://localhost:2222/api";
+// export const url = "http://localhost:2222/api";
 
 export const teamlist = "https://farming.wyscale.com/api";
 
@@ -115,6 +115,34 @@ export const SingleUserActivity= async (id,collection,page)=>{
     
   }
 }
+
+export const getAllLoginUser = async(page,search,token)=>{
+  const {searchQuery}=search
+  try {
+    const res = await axios.get(`${url}/admin/login-activity?page=${page}&search=${searchQuery}`,{
+      headers:{
+         Authorization: `Bearer ${token}`
+      }
+    })
+    return res;
+  } catch (error) {
+    console.log("Error in getAllLoginUser()",error.message)
+  }
+}
+
+export const LogoutuserByAdmin=async(userId,sessionId,login,token)=>{
+  try {
+    const res = await axios.get(`${url}/admin/logout-user/${userId}/${sessionId}/${login}`,{
+      headers:{
+         Authorization: `Bearer ${token}`
+      }
+    })
+    return res;
+  } catch (error) {
+    console.log("Error in getAllLoginUser()",error.message)
+  }
+}
+
 
 export const AdminSettings = async(formData,apiSubUrl,token)=>{
   try {

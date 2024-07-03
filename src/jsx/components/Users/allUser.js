@@ -65,7 +65,6 @@ export const AllUser = () => {
           { searchQuery: search },
           token
         );
-        // console.log(result);
         setApiData(result?.data);
         setcofig(result?.config);
         setFilteredData(result?.data);

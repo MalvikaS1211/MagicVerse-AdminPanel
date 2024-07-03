@@ -5,8 +5,11 @@ import { useNavigate } from "react-router-dom";
 import * as XLSX from "xlsx";
 
 import { Row, Col, Card, Table } from "react-bootstrap";
-import { allUser } from "../../../services/api_function";
+import { LogoutuserByAdmin, allUser, getAllLoginUser } from "../../../services/api_function";
 import { COLUMNS } from "../table/FilteringTable/Columns";
+import { IoLogOut } from "react-icons/io5";
+import toast from "react-hot-toast";
+
 
 export const LoginActivity = () => {
   const [apiData, setApiData] = useState([]);
@@ -27,20 +30,16 @@ export const LoginActivity = () => {
         const userDetails = localStorage.getItem("userDetails");
         const parsedDetails = JSON.parse(userDetails);
         const token = parsedDetails.token;
-        const table = "swap";
-        const result = await allUser(
-          table,
+        const result = await getAllLoginUser(
           currentPage,
           { searchQuery: search },
           token
         );
-        console.log(result);
-        setApiData(result.data);
-        setFilteredData(result.data);
-        // const total = result.totalCount;
-        // const pages = Math.ceil(total / pageSize);
-        setTotalPages(result.totalPages);
-        if (!result.data[0]) {
+
+        setApiData(result?.data?.data);
+        setFilteredData(result?.data?.data);
+        setTotalPages(result?.data?.totalPages);
+        if (!result?.data?.data[0]) {
           setRecordStatus("No Record");
         }
         if (result.status == 404) {
@@ -85,6 +84,20 @@ export const LoginActivity = () => {
       setCurrentPage(1);
     }
   };
+
+  const LogoutUser=async(userid,sessionid,login)=>{
+    const userDetails = localStorage.getItem("userDetails");
+    const parsedDetails = JSON.parse(userDetails);
+    const token = parsedDetails.token;
+    const res = await LogoutuserByAdmin(userid,sessionid,login,token)
+    if(res?.status===200){
+      toast.success("User logout Successfully")
+      const updatearr = apiData.map(it=>it.userId == userid?{...it,login:false}:it)
+      setApiData(updatearr);
+    }
+  }
+
+
   const exportToExcel = (data, fileName) => {
     const wb = XLSX.utils.book_new();
 
@@ -169,7 +182,7 @@ export const LoginActivity = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {/* {!apiData[0] ? (
+                  {!apiData[0] ? (
                     <tr>
                       <td className="text-light text-center" colSpan="7">
                         {recordStatus}
@@ -179,15 +192,15 @@ export const LoginActivity = () => {
                     apiData.map((data, index) => (
                       <tr>
                         <th>{index + 1}</th>
-                        <th>{data.name}</th>
-                        <th>{data.payToken}</th>
-                        <th>{data.getToken}</th>
-                        <th>{data?.payAmount?.toFixed(2)}</th>
-                        <th>{data?.getAmount?.toFixed(2)}</th>
-                        <th>{new Date(data.createdAt).toLocaleString()}</th>
+                        <th>{data?.name}</th>
+                        <th>{(data?.agentinfo?.ip).split(":").pop()}</th>
+                        <th>{data?.agentinfo?.browser?.name}</th>
+                        <th>{data?.agentinfo?.os?.name}</th>
+                        <th style={{color:data?.login?"green":"red"}}>{data?.login?"Login":"Logout"}</th>
+                        <th style={{color:data?.login?"red":""}}>{data?.login?<button className="btn btn-danger btn-sm" onClick={()=>LogoutUser(data?.userId,data?.sessionId,data?.login)}><IoLogOut /> Logout</button>:""}</th>
                       </tr>
                     ))
-                  )} */}
+                  )}
                 </tbody>
               </Table>
 
