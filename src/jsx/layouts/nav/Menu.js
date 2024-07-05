@@ -109,7 +109,7 @@ export const MenuList = [
     //classsChange: 'mm-collapse',
     //iconStyle: Widget,
     iconStyle: <i className="material-icons">account_circle</i>,
-    to: "#",
+    to: "mint",
   },
   // {
   //   title: "Withdraw Approve ",

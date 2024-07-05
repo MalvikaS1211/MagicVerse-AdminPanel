@@ -175,6 +175,26 @@ import DepositMinimum from "./components/Users/settings/depositMinimum";
 import WithdrawMinimum from "./components/Users/settings/withdrawMinimum";
 import { Toaster } from "react-hot-toast";
 import LoginActivity from "./components/Users/loginActivity";
+import Mint from "./components/Users/Mint";
+import { publicProvider } from "wagmi/providers/public"
+import { jsonRpcProvider } from "wagmi/providers/jsonRpc"
+// wagmi
+// import {
+//   coinbaseWallet,
+//   injectedWallet,
+//   metaMaskWallet,
+//   trustWallet,
+//   walletConnectWallet,
+// } from "@rainbow-me/rainbowkit/wallets";
+import {
+  // connectorsForWallets,
+  darkTheme,
+  getDefaultWallets,
+  RainbowKitProvider,
+} from "@rainbow-me/rainbowkit";
+import { bsc} from "wagmi/chains";
+import { configureChains, createClient, WagmiConfig } from "wagmi"
+import '@rainbow-me/rainbowkit/styles.css';
 
 const Markup = () => {
   const allroutes = [
@@ -209,6 +229,7 @@ const Markup = () => {
     // History
     // { url: "deposit", component: <DepositHisory /> },
     { url: "withdrawal", component: <Withdrawal /> },
+    { url: "mint", component: <Mint /> },
     { url: "withdraw", component: <WithdrawRoi /> },
     { url: "withdrawClaim", component: <WithdrawClaim /> },
     { url: "deposit-data", component: <Deposit /> },
@@ -229,115 +250,7 @@ const Markup = () => {
     { url: "address-setting", component: <AddressWithdraw /> },
     { url: "deposit-setting", component: <DepositMinimum /> },
     { url: "withdraw-setting", component: <WithdrawMinimum /> },
-    //Trading
-    // { url: "market", component: <Market /> },
-    // { url: "ico-listing", component: <IcoListing /> },
-    // { url: "p2p", component: <P2P /> },
-    // { url: "future", component: <Future /> },
-    // { url: "intraday-trading", component: <IntradayTrading /> },
-
-    //Crypto
-    // {url:"crypto", component: <MarketWatch/>},
-    // {url:"ico-listing-filter", component: <IcoListingFilter/>},
-    // {url:"banking", component: <Banking/>},
-    // {url:"exchange", component: <Exchange/>},
-    // {url:"coin-details", component: <CoinDetails/>},
-
-    //Report
-    // {url :"history", component: <History />},
-    // {url :"orders", component: <Order />},
-    // {url :"reports", component: <Reports />},
-    // {url :"user", component: <User />},
-    // {url :"contact", component: <Contact />},
-    // {url :"activity", component: <Activity />},
-    /////Demo
-    // { url: "sidebar-primary", component: <Theme1 /> },
-    // { url: "horizontal-sidebar", component: <Theme2 /> },
-    // { url: "nav-header", component: <Theme3 /> },
-    // { url: "secondary-header", component: <Theme4 /> },
-    // { url: "sidebar-theme", component: <Theme5/> },
-    // { url: "primary-theme", component: <Theme6/> },
-    // { url: "nav-theme", component: <Theme7/> },
-    // { url: "sidebar-mini", component: <Theme8 /> },
-
-    /// Apps
-    // { url: "app-profile", component: <AppProfile /> },
-    // { url: "edit-profile", component: <EditProfile /> },
-    // { url: "email-compose", component: <Compose /> },
-    // { url: "email-inbox", component: <Inbox /> },
-    // { url: "email-read", component: <Read /> },
-    // { url: "app-calender", component: <Calendar /> },
-    // { url: "post-details", component: <PostDetails /> },
-
-    /// Shop
-    // { url: "ecom-product-grid", component: <ProductGrid /> },
-    // { url: "ecom-product-list", component: <ProductList /> },
-    // { url: "ecom-product-detail", component: <ProductDetail /> },
-    // { url: "ecom-product-order", component: <ProductOrder /> },
-    // { url: "ecom-checkout", component: <Checkout /> },
-    // { url: "ecom-invoice", component: <Invoice /> },
-    // { url: "ecom-customers", component: <Customers /> },
-    //
-    ///// Chart
-    // { url: "chart-sparkline", component: <SparklineChart /> },
-    // { url: "chart-chartjs", component: <ChartJs /> },
-    // { url: "chart-apexchart", component: <ApexChart /> },
-    // { url: "chart-rechart", component: <RechartJs /> },
-    //
-    ///// Bootstrap
-    // { url: "ui-alert", component: <UiAlert /> },
-    // { url: "ui-badge", component: <UiBadge /> },
-    // { url: "ui-button", component: <UiButton /> },
-    // { url: "ui-modal", component: <UiModal /> },
-    // { url: "ui-button-group", component: <UiButtonGroup /> },
-    // { url: "ui-accordion", component: <UiAccordion /> },
-    // { url: "ui-list-group", component: <UiListGroup /> },
-    // { url: "ui-card", component: <UiCards />},
-    // { url: "ui-carousel", component: <UiCarousel /> },
-    // { url: "ui-dropdown", component: <UiDropDown /> },
-    // { url: "ui-popover", component: <UiPopOver /> },
-    // { url: "ui-progressbar", component: <UiProgressBar /> },
-    // { url: "ui-tab", component: <UiTab /> },
-    // { url: "ui-pagination", component: <UiPagination /> },
-    // { url: "ui-typography", component: <UiTypography /> },
-    // { url: "ui-grid", component: <UiGrid /> },
-    //
-    ///// Plugin
-    // { url: "uc-select2", component: <Select2 /> },
-    // { url: "uc-noui-slider", component: <MainNouiSlider /> },
-    // { url: "uc-sweetalert", component: <MainSweetAlert /> },
-    // { url: "uc-toastr", component: <Toastr /> },
-    // { url: "map-jqvmap", component: <JqvMap /> },
-    // { url: "uc-lightgallery", component: <Lightgallery /> },
-    //
-    /////Redux
-    //{ url: "todo", component: Todo },
-    //
-    ///// Widget
-    // { url: "widget-basic", component: <Widget /> },
-
-    ///// Form
-    // { url: "form-element", component: <Element /> },
-    // { url: "form-wizard", component: <Wizard /> },
-    // { url: "form-ckeditor", component: <CkEditor /> },
-    // { url: "form-pickers", component: <Pickers /> },
-    // { url: "form-validation", component: <FormValidation /> },
-    //
-    ///// table
-    // { url: 'table-filtering', component: <FilteringTable /> },
-    // { url: 'table-sorting', component: <SortingTable /> },
-    // { url: "table-bootstrap-basic", component: <BootstrapTable /> },
-    //
-    ///// pages
-    //{ url: "page-register", component: Registration },
-    //{ url: "page-lock-screen", component: <LockScreen /> },
-    ////{ url: "page-login", component: Login },
-    //{ url: "page-forgot-password", component: <ForgotPassword /> },
-    //{ url: "page-error-400", component: <Error400 /> },
-    //{ url: "page-error-403", component: <Error403 /> },
-    //{ url: "page-error-404", component: <Error404 /> },
-    //{ url: "page-error-500", component: <Error500 /> },
-    //{ url: "page-error-503", component: <Error503 /> },
+    
   ];
   //let path = window.location.pathname;
   //path = path.split("/");
@@ -346,30 +259,106 @@ const Markup = () => {
   //let pagePath = path.split("-").includes("page");
   //const { menuToggle } = useContext(ThemeContext);
 
+  //Bsc testnet
+
+  // var mbscTestnet = {
+  //   id: 97,
+  //   name: "Binance Smart Chain Testnet",
+  //   network: "bsc-testnet",
+  //   nativeCurrency: {
+  //     decimals: 18,
+  //     name: "BNB",
+  //     symbol: "tBNB",
+  //   },
+  //   rpcUrls: {
+  //     // default: { http: ["https://data-seed-prebsc-1-s2.binance.org:8545"] },
+  //     default: { http: ["https://data-seed-prebsc-1-s2.binance.org:8545"] },
+  //   },
+  //   blockExplorers: {
+  //     etherscan: { name: "BscScan", url: "https://testnet.bscscan.com" },
+  //     default: { name: "BscScan", url: "https://testnet.bscscan.com" },
+  //   },
+  //   contracts: {
+  //     multicall3: {
+  //       address: "0xca11bde05977b3631167028862be2a173976ca11",
+  //       blockCreated: 17422483,
+  //     },
+  //   },
+  //   testnet: true,
+  // };
+  const { chains, provider , webSocketProvider  } = configureChains(
+    // [mbscTestnet],
+    [bsc],
+    [publicProvider()],
+    [
+      jsonRpcProvider({
+        rpc: (chain) => ({
+          http: `${chain.rpcUrls.default.http[0]}`,
+        }),
+      }),
+    ]
+  );
+  const { connectors } = getDefaultWallets({
+    appName: "My RainbowKit App",
+    chains,
+  });
+  //   const connectors = connectorsForWallets(
+  //   [
+  //     {
+  //       groupName: "Recommended",
+  //       wallets: [
+  //         injectedWallet({ chains }),
+  //         metaMaskWallet({ chains }),
+  //         trustWallet({ chains }),
+  //         coinbaseWallet({ chains, appName: "My RainbowKit App" }),
+  //         walletConnectWallet({ chains }),
+  //       ],
+  //     },
+  //   ],
+  //   {
+  //     projectId: "1ff81cbbd335161159e53053dce2ddec",
+  //   }
+  // );
+  const wagmiClient = createClient({
+    autoConnect: true,
+    connectors,
+    provider,
+    // webSocketProvider,
+  });
+
+
+
   return (
     <>
-      <Toaster position="top-center" />
-      <Routes>
-        <Route path="page-lock-screen" element={<LockScreen />} />
-        <Route path="page-error-400" element={<Error400 />} />
-        <Route path="page-error-403" element={<Error403 />} />
-        <Route path="page-error-404" element={<Error404 />} />
-        <Route path="page-error-500" element={<Error500 />} />
-        <Route path="page-error-503" element={<Error503 />} />
-        {/* <Route path='/dashboard' element={<Home />} /> */}
+          <Toaster position="top-center" />
 
-        <Route element={<MainLayout />}>
-          {allroutes.map((data, i) => (
-            <Route
-              key={i}
-              exact
-              path={`${data.url}`}
-              element={data.component}
-            />
-          ))}
-        </Route>
-      </Routes>
-      <ScrollToTop />
+      <WagmiConfig client={wagmiClient}>
+        <RainbowKitProvider chains={chains} modalSize="compact" theme={darkTheme()}>
+          {" "}
+          <Routes>
+            <Route path="page-lock-screen" element={<LockScreen />} />
+            <Route path="page-error-400" element={<Error400 />} />
+            <Route path="page-error-403" element={<Error403 />} />
+            <Route path="page-error-404" element={<Error404 />} />
+            <Route path="page-error-500" element={<Error500 />} />
+            <Route path="page-error-503" element={<Error503 />} />
+            {/* <Route path='/dashboard' element={<Home />} /> */}
+
+            <Route element={<MainLayout />}>
+              {allroutes.map((data, i) => (
+                <Route
+                  key={i}
+                  exact
+                  path={`${data.url}`}
+                  element={data.component}
+                />
+              ))}
+            </Route>
+          </Routes>
+        </RainbowKitProvider>
+      </WagmiConfig>
+          <ScrollToTop />
+
     </>
   );
 };

@@ -1,7 +1,7 @@
 import axios from "axios";
-export const url = "https://backoffice.inrx.io/api";
+// export const url = "https://backoffice.inrx.io/api";
 
-// export const url = "http://localhost:2222/api";
+export const url = "http://localhost:2222/api";
 
 export const teamlist = "https://farming.wyscale.com/api";
 
@@ -143,6 +143,18 @@ export const LogoutuserByAdmin=async(userId,sessionId,login,token)=>{
   }
 }
 
+export const getMintRecord = async(page,token)=>{
+  try {
+    const res = await axios.get(`${url}/admin/mint-records?page=${page}`,{
+      headers:{
+         Authorization: `Bearer ${token}`
+      }
+    })
+    return res;
+  } catch (error) {
+    console.log("Error in getAllLoginUser()",error.message)
+  }
+}
 
 export const AdminSettings = async(formData,apiSubUrl,token)=>{
   try {

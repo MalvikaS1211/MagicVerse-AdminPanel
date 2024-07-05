@@ -36,7 +36,7 @@ export const Activity = () => {
           activity,
           currentPage,
         );
-        console.log(res,"activity")
+        console.log(res.data,"activity")
         setApiData(res?.data);
         setFilteredData(res?.data);
         setTotalPages(res?.totalPages);
@@ -193,7 +193,7 @@ export const Activity = () => {
                       <tr>
                         <td>{index+1}</td>
                         <td>{activity}</td>
-                        <td>{new Date(data.date).toLocaleString()}</td>
+                        <td>{new Date(data.createdAt).toLocaleString()}</td>
                       </tr>
                     )
                   }))}

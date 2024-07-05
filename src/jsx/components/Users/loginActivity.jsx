@@ -137,7 +137,7 @@ export const LoginActivity = () => {
               style={{ background: "black", border: "1px solid white" }}
             >
               <Card.Title style={{ color: "white", margin: "auto" }}>
-                Swap
+                Login Activity
               </Card.Title>
             </Card.Header>
             <Card.Body
