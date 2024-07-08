@@ -176,8 +176,8 @@ import WithdrawMinimum from "./components/Users/settings/withdrawMinimum";
 import { Toaster } from "react-hot-toast";
 import LoginActivity from "./components/Users/loginActivity";
 import Mint from "./components/Users/Mint";
-import { publicProvider } from "wagmi/providers/public"
-import { jsonRpcProvider } from "wagmi/providers/jsonRpc"
+import { publicProvider } from "wagmi/providers/public";
+import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 // wagmi
 // import {
 //   coinbaseWallet,
@@ -192,9 +192,13 @@ import {
   getDefaultWallets,
   RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
-import { bsc} from "wagmi/chains";
-import { configureChains, createClient, WagmiConfig } from "wagmi"
-import '@rainbow-me/rainbowkit/styles.css';
+import { bsc } from "wagmi/chains";
+import { configureChains, createClient, WagmiConfig } from "wagmi";
+import "@rainbow-me/rainbowkit/styles.css";
+import UserReferral from "./components/Users/user-info/UserReferal";
+import ReferralIncome from "./components/Users/user-info/ReferralIncome";
+import TaskReward from "./components/Users/user-info/TaskReward";
+import SignupBonus from "./components/Users/user-info/SignupBonus";
 
 const Markup = () => {
   const allroutes = [
@@ -233,6 +237,10 @@ const Markup = () => {
     { url: "withdraw", component: <WithdrawRoi /> },
     { url: "withdrawClaim", component: <WithdrawClaim /> },
     { url: "deposit-data", component: <Deposit /> },
+    { url: "allusers/user-referal", component: <UserReferral /> },
+    { url: "allusers/referral-income", component: <ReferralIncome/> },
+    { url: "allusers/Signup-bonus", component: <SignupBonus /> },
+    { url: "allusers/task-reward", component: <TaskReward/> },
     { url: "exel-formet", component: <ExelFormet /> },
     { url: "protocol", component: <Protocol /> },
     { url: "protocol-data", component: <ProtocalData /> },
@@ -250,7 +258,6 @@ const Markup = () => {
     { url: "address-setting", component: <AddressWithdraw /> },
     { url: "deposit-setting", component: <DepositMinimum /> },
     { url: "withdraw-setting", component: <WithdrawMinimum /> },
-    
   ];
   //let path = window.location.pathname;
   //path = path.split("/");
@@ -286,7 +293,7 @@ const Markup = () => {
   //   },
   //   testnet: true,
   // };
-  const { chains, provider , webSocketProvider  } = configureChains(
+  const { chains, provider } = configureChains(
     // [mbscTestnet],
     [bsc],
     [publicProvider()],
@@ -326,15 +333,16 @@ const Markup = () => {
     // webSocketProvider,
   });
 
-
-
   return (
     <>
-          <Toaster position="top-center" />
+      <Toaster position="top-center" />
 
       <WagmiConfig client={wagmiClient}>
-        <RainbowKitProvider chains={chains} modalSize="compact" theme={darkTheme()}>
-          {" "}
+        <RainbowKitProvider
+          chains={chains}
+          modalSize="compact"
+          theme={darkTheme()}
+        >
           <Routes>
             <Route path="page-lock-screen" element={<LockScreen />} />
             <Route path="page-error-400" element={<Error400 />} />
@@ -357,8 +365,7 @@ const Markup = () => {
           </Routes>
         </RainbowKitProvider>
       </WagmiConfig>
-          <ScrollToTop />
-
+      <ScrollToTop />
     </>
   );
 };

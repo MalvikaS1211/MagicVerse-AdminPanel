@@ -22,6 +22,7 @@ export const Mint = () => {
   });
 
   useEffect(() => {
+    console.log(currentPage);
     const userDetails = localStorage.getItem("userDetails");
     const parsedDetails = JSON.parse(userDetails);
     const token = parsedDetails.token;
@@ -46,18 +47,26 @@ export const Mint = () => {
 
   const mint = async (e) => {
     e.preventDefault();
-  const res= await registration(formData.address, formData.price, address, web3);
-  console.log(res)
-  if(res){
-    toast.success("Mint Successfully..!")
-    setFormData({
-      address: "",
-      price: "",
-    });
-  }else{
-    toast.error("Mint failed..!")
-  }
-
+    try {
+      const res = await registration(
+        formData.address,
+        formData.price,
+        address,
+        web3
+      );
+      console.log(res);
+      if (res) {
+        toast.success("Mint Successfully..!");
+        setFormData({
+          address: "",
+          price: "",
+        });
+      } else {
+        toast.error("Mint failed..!");
+      }
+    } catch (error) {
+      console.log("Error in mint function()", error.message);
+    }
   };
   return (
     <Fragment>
@@ -160,13 +169,15 @@ export const Mint = () => {
                 </thead>
                 <tbody>
                   {!apiData[0] ? (
-                    <td colSpan="3" className="text-center">{apiStatus}</td>
+                    <td colSpan="3" className="text-center">
+                      {apiStatus}
+                    </td>
                   ) : (
-                    apiData?.map((item,index) => (
+                    apiData?.map((item, index) => (
                       <tr className="text-center text-white" key={index}>
-                        <th scope="col">{index+1}</th>
+                        <th scope="col">{index + 1}</th>
                         <th scope="col">{item?.toAddress}</th>
-                        <th scope="col">{(item?.value/1e18).toFixed(2)}</th>
+                        <th scope="col">{(item?.value / 1e18).toFixed(2)}</th>
                       </tr>
                     ))
                   )}
@@ -180,7 +191,7 @@ export const Mint = () => {
                       " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
                     color: "black",
                   }}
-                  onClick={() => currentPage((pre) => pre - 1)}
+                  onClick={() => setCurrentPage((pre) => pre - 1)}
                   disabled={currentPage == 1 ? 1 : 0}
                 >
                   Previous
@@ -192,7 +203,7 @@ export const Mint = () => {
                       " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
                     color: "black",
                   }}
-                  onClick={() => currentPage((pre) => pre + 1)}
+                  onClick={() => setCurrentPage((pre) => pre + 1)}
                   disabled={currentPage === totalPages ? 1 : 0}
                 >
                   Next

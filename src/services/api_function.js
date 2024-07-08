@@ -1,4 +1,5 @@
 import axios from "axios";
+import toast from "react-hot-toast";
 // export const url = "https://backoffice.inrx.io/api";
 
 export const url = "http://localhost:2222/api";
@@ -172,7 +173,15 @@ export const AdminSettings = async(formData,apiSubUrl,token)=>{
 }
 
 
-
+export const getReferralAmount = async(sec,id,page)=>{
+    try {
+      const {data} = await axios.get(`${url}/admin/${sec}?id=${id}&page=${page}`)
+      return data;
+    } catch (error) {
+      console.log("Error in getReferralAmount()",error.message)
+      toast.error(error.message)
+    }
+}
 
 
 

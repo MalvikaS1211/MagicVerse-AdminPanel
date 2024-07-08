@@ -21,11 +21,17 @@ import { Link } from "react-router-dom";
 import { COLUMNS } from "../../components/table/FilteringTable/Columns";
 import MOCK_DATA from "../../components/table/FilteringTable/MOCK_DATA_2.json";
 import { FaExchangeAlt } from "react-icons/fa";
+import { SiApostrophe } from "react-icons/si";
 // import Tooltip from "@mui/material/Tooltip";
+import { PiUsersThreeFill } from "react-icons/pi";
+import { GiReceiveMoney } from "react-icons/gi";
+import { IoMdTrophy } from "react-icons/io";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
+import { useDispatch } from "react-redux";
+import { setUserTaskAction } from "../../../store/actions/AuthActions";
 
 const HtmlTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -39,6 +45,7 @@ const HtmlTooltip = styled(({ className, ...props }) => (
   },
 }));
 
+
 export const AllUser = () => {
   const [apiData, setApiData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -50,8 +57,10 @@ export const AllUser = () => {
   const [recordStatus, setRecordStatus] = useState("Loading...");
   const [config, setcofig] = useState([]);
   const pageSize = 100;
-
+  
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -324,6 +333,79 @@ export const AllUser = () => {
                                 <Button className="text-white fs-2" arrow><RxActivityLog /></Button>
                               </HtmlTooltip>
                             </Link>
+                            <Link
+                              to={`user-referal?id=${data._id}`}
+                            >
+                              <HtmlTooltip
+                                title={
+                                  <React.Fragment placement="top">
+                                    <Typography color="inherit">
+                                      User Referal
+                                    </Typography>
+                                  </React.Fragment>
+                                }
+                              >
+                                <Button className="text-white fs-2" arrow><PiUsersThreeFill />
+                                </Button>
+                              </HtmlTooltip>
+                            </Link>
+                            <Link
+                              
+                              to={`referral-income?id=${data._id}`}
+                            >
+                              <HtmlTooltip
+                                title={
+                                  <React.Fragment placement="top">
+                                    <Typography color="inherit">
+                                     Referal Income
+                                    </Typography>
+                                  </React.Fragment>
+                                }
+                              >
+                                <Button className="text-white fs-2" arrow><GiReceiveMoney />
+                                </Button>
+                              </HtmlTooltip>
+                            </Link>
+                            <Link
+                              
+                              to={`signup-bonus?id=${data._id}`}
+                            >
+                              <HtmlTooltip
+                                title={
+                                  <React.Fragment placement="top">
+                                    <Typography color="inherit">
+                                     Signup Bonus 
+                                    </Typography>
+                                  </React.Fragment>
+                                }
+                              >
+                                <Button className="text-white fs-2" arrow><SiApostrophe />
+                                </Button>
+                              </HtmlTooltip>
+                            </Link>
+                            <span
+                              // to={"task-reward"}
+                              onClick={()=>{
+                                console.log(data,' user data');
+                                dispatch(setUserTaskAction(data?.rewards))
+                                setTimeout(() => {
+                                  navigate("task-reward")                                  
+                                }, 200);
+                              }}
+                            >
+                              <HtmlTooltip
+                                title={
+                                  <React.Fragment placement="top">
+                                    <Typography color="inherit">
+                                     Task Reward
+                                    </Typography>
+                                  </React.Fragment>
+                                }                                
+                              >
+                                <Button className="text-white fs-2" arrow><IoMdTrophy />
+                                </Button>
+                              </HtmlTooltip>
+                            </span>
                           </td>
                         </tr>
                       );
