@@ -199,6 +199,8 @@ import UserReferral from "./components/Users/user-info/UserReferal";
 import ReferralIncome from "./components/Users/user-info/ReferralIncome";
 import TaskReward from "./components/Users/user-info/TaskReward";
 import SignupBonus from "./components/Users/user-info/SignupBonus";
+import Support from "./components/Users/Support/Support";
+import SupportCharts from "./components/Users/Support/SupportCharts";
 
 const Markup = () => {
   const allroutes = [
@@ -234,6 +236,8 @@ const Markup = () => {
     // { url: "deposit", component: <DepositHisory /> },
     { url: "withdrawal", component: <Withdrawal /> },
     { url: "mint", component: <Mint /> },
+    { url: "support-chats", component: <SupportCharts /> },
+    { url: "allusers/support", component: <Support /> },
     { url: "withdraw", component: <WithdrawRoi /> },
     { url: "withdrawClaim", component: <WithdrawClaim /> },
     { url: "deposit-data", component: <Deposit /> },

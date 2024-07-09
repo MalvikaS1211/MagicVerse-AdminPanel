@@ -1,6 +1,7 @@
 import axios from "axios";
 import toast from "react-hot-toast";
 // export const url = "https://backoffice.inrx.io/api";
+export const url2 = "https://backoffice.inrx.io/api";
 
 export const url = "http://localhost:2222/api";
 
@@ -183,8 +184,56 @@ export const getReferralAmount = async(sec,id,page)=>{
     }
 }
 
+export function raisedTicketList(mobile, tokenId) {
+  return fetch(url + "/auth/tickets-list", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "allow-access-control-origin": "*",
+    },
+    body: JSON.stringify({
+      mobile: mobile,
+      tokenId: tokenId,
+      page: 1,
+      limit: 10,
+    }),
+  })
+    .then((res) => res.json())
+    .catch((e) => {
+      console.log(e, "Error in raisedTicketList()::apis.tsx");
+    });
+}
 
+export function replyTicket(
+  ticketId,
+  replymessage,
+  replyfile,
+  closed,
+  jwt,
+  subject
+) {
+  const formData = new FormData();
+  if(replyfile){
+  formData.append("reply", replyfile, replyfile.name);
+  }
+  // formData.append("mobile", mobile);
+  // formData.append("tokenId", sessionId);
+  formData.append("closed", closed);
+  formData.append("message", replymessage);
+  formData.append("subject", subject);
+  formData.append("ticketId", ticketId);
 
+  return axios
+    .post(url + "/auth/reply-tickets", formData, {
+      headers: {
+        Authorization: `Bearer ${jwt}`
+      }
+    } )
+    .then((res) => res)
+    .catch((e) => {
+      console.log(e);
+    });
+}
 
 export function dashboardData(token, date) {
   const apiUrl = `${url}/admin/dashboard?date=${date}`;

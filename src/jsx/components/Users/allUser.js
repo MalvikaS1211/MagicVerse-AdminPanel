@@ -15,6 +15,7 @@ import {
 } from "react-table";
 import * as XLSX from "xlsx";
 
+import { FaMessage } from "react-icons/fa6";
 import { Row, Col, Card, Table } from "react-bootstrap";
 import { allUser } from "../../../services/api_function";
 import { Link } from "react-router-dom";
@@ -403,6 +404,29 @@ export const AllUser = () => {
                                 }                                
                               >
                                 <Button className="text-white fs-2" arrow><IoMdTrophy />
+                                </Button>
+                              </HtmlTooltip>
+                            </span>
+                            <span
+                              // to={"task-reward"}
+                              onClick={()=>{
+                                console.log(data,' user data');
+                                dispatch(setUserTaskAction(data))
+                                setTimeout(() => {
+                                  navigate("support")                                  
+                                }, 200);
+                              }}
+                            >
+                              <HtmlTooltip
+                                title={
+                                  <React.Fragment placement="top">
+                                    <Typography color="inherit">
+                                     Support Chat
+                                    </Typography>
+                                  </React.Fragment>
+                                }                                
+                              >
+                                <Button className="text-white fs-2" arrow><FaMessage />
                                 </Button>
                               </HtmlTooltip>
                             </span>

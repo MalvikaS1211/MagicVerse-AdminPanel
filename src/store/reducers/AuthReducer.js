@@ -4,6 +4,7 @@ import {
     LOGIN_FAILED_ACTION,
     LOGOUT_ACTION,
     SET_USER_TASK,
+    SET_USER_DETAIL,
     SIGNUP_CONFIRMED_ACTION,
     SIGNUP_FAILED_ACTION,
 } from '../actions/AuthActions';
@@ -43,6 +44,15 @@ export function AuthReducer(state = initialState, action) {
     }
 
     if (action.type === SET_USER_TASK) {
+        return {
+            ...state,
+            userTask: action.payload,
+            errorMessage: '',
+           // successMessage: 'Login Successfully Completed',
+            showLoading: false,
+        };
+    }
+    if (action.type === SET_USER_DETAIL) {
         return {
             ...state,
             userTask: action.payload,
