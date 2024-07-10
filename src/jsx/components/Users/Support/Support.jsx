@@ -101,6 +101,7 @@ const Support = () => {
                       className="accordion accordion-flush"
                       id={"accordionFlushExample" + i}
                       style={{ backgroundColor: "#0D0D0D" }}
+                      onClick={()=>setReplyMessage("")}
                     >
                       <div className="accordion-item mb-2 rounded">
                         <h2 className="accordion-header">
@@ -461,7 +462,11 @@ const Support = () => {
                                       setReplyMessage(msg);
                                     }}
                                   />
-                                  <input type="checkbox" name="suppot-close" className="ms-5" onChange={(e)=>setClosed(e.target.checked)}/> <span className="text-white mt-3 ms-1">{"Ticket Close"}</span>
+                                  <input type="checkbox" name="suppot-close" className="ms-5" onChange={(e)=>{
+                                    setClosed(e.target.checked) 
+                                    e.stopPropagation()
+                                    }}/> 
+                                    <span className="text-white mt-3 ms-1">{"Ticket Close"}</span>
                                   </div>
                                   <div className=" text-black px-2">
                                     {500 - replymessage?.length}/500

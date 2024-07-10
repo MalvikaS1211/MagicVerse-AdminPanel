@@ -6,6 +6,7 @@ import { formatTime, getAmPm } from "./actionHandler";
 import { FaExchangeAlt } from "react-icons/fa";
 import { IoRefresh } from "react-icons/io5";
 import {
+  getAllChatsList,
   raisedTicketList,
   replyTicket,
   url2,
@@ -14,7 +15,7 @@ import { HiOutlineChatBubbleLeftRight } from "react-icons/hi2";
 import socket from "../../../../socket";
 
 const SupportCharts = () => {
-//   const user = useSelector((state) => state.auth.userTask);
+  //   const user = useSelector((state) => state.auth.userTask);
   const user = useSelector((state) => state.auth.userTask);
   const [replymessage, setReplyMessage] = useState("");
   const [replyfile, setReplyFile] = useState("");
@@ -23,12 +24,12 @@ const SupportCharts = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [closed, setClosed] = useState(false);
 
-  function sendReply(ticketId,subject) {
+  function sendReply(ticketId, subject) {
     setLoading(true);
     const userDetails = localStorage.getItem("userDetails");
     const parsedDetails = JSON.parse(userDetails);
     const token = parsedDetails.token;
-    replyTicket(ticketId, replymessage, replyfile, closed,token,subject)
+    replyTicket(ticketId, replymessage, replyfile, closed, token, subject)
       .then((resp) => {
         setLoading(false);
         const res = resp?.data;
@@ -36,7 +37,7 @@ const SupportCharts = () => {
         setReplyFile("");
         setReplyMessage("");
         if (res?.status == 200) {
-          socket.emit("message",user?.tokenId);
+          socket.emit("message", user?.tokenId);
           toast.success(res?.message);
         } else {
           toast.error(res?.message);
@@ -50,10 +51,14 @@ const SupportCharts = () => {
 
   function getList() {
     try {
+      const userDetails = localStorage.getItem("userDetails");
+      const parsedDetails = JSON.parse(userDetails);
+      const token = parsedDetails.token;
       setRefreshing(true);
-      raisedTicketList(user?.mobile, user?.tokenId)
+      getAllChatsList(token)
         .then((res) => {
           setRefreshing(false);
+          console.log(res,"supportcharts")
           if (res?.status == 200) {
             setlist(res?.data);
           }
@@ -71,12 +76,12 @@ const SupportCharts = () => {
   useEffect(() => {
     getList();
   }, [user]);
-  
+
   useEffect(() => {
     console.log("is socket connected", socket.connected);
     if (socket.connected) {
-      socket.on("update-chat", (msg) => {        
-          getList();
+      socket.on("update-chat", (msg) => {
+        getList();
       });
     }
     return () => {
@@ -102,6 +107,7 @@ const SupportCharts = () => {
                       className="accordion accordion-flush"
                       id={"accordionFlushExample" + i}
                       style={{ backgroundColor: "#0D0D0D" }}
+                      onClick={()=>setReplyMessage("")}
                     >
                       <div className="accordion-item mb-2 rounded">
                         <h2 className="accordion-header">
@@ -117,10 +123,26 @@ const SupportCharts = () => {
                               <div className="d-flex gap-4">
                                 <div className="col mob-font ">
                                   <div className="d-flex align-items-center gap-3">
-                                    <div className="text-success">
+                                    <div className="text-success d-flex">
+                                      <img
+                                        src={
+                                          item?.user_picture
+                                            ? `data:image/jpeg;base64,${item?.user_picture}`
+                                            : `images/user.svg`
+                                        }
+                                        alt="user"
+                                        style={{
+                                          height: "45px",
+                                          width: "45px",
+                                          borderRadius: "50%",
+                                          objectFit: "cover",
+                                        }}
+                                      />
+                                      <span className="ms-3">{item?.userName}</span>
                                       <img
                                         src="https://auth.inrx.io/images/message.svg"
                                         alt="message"
+                                        className="ms-3"
                                       />
                                     </div>
                                     <div className="">
@@ -185,11 +207,14 @@ const SupportCharts = () => {
                               <div className="row">
                                 <div className="col-lg-12 col-sm-12 mb-2">
                                   <div>
-                                    <h6 className="py-2" style={{color:"#6C757D"}}>
+                                    <h6
+                                      className="py-2"
+                                      style={{ color: "#6C757D" }}
+                                    >
                                       Your Chats
                                     </h6>
 
-                                    {item?.messages?.map((it, i) => {
+                                    {item?.message?.map((it, i) => {
                                       if (it.type == "user1") {
                                         return (
                                           <div
@@ -256,7 +281,10 @@ const SupportCharts = () => {
                                                 >
                                                   <div
                                                     className="py-2"
-                                                    style={{ flex: 0.7 ,color:"#6C757D"}}
+                                                    style={{
+                                                      flex: 0.7,
+                                                      color: "#6C757D",
+                                                    }}
                                                   >
                                                     {it.message}
                                                   </div>
@@ -283,7 +311,9 @@ const SupportCharts = () => {
                                                     justifyContent: "flex-end",
                                                   }}
                                                 >
-                                                  <span style={{color:"#6C757D"}}>
+                                                  <span
+                                                    style={{ color: "#6C757D" }}
+                                                  >
                                                     {new Date(
                                                       it.createdAt
                                                     ).toLocaleDateString() +
@@ -376,7 +406,10 @@ const SupportCharts = () => {
                                                   }}
                                                 >
                                                   <div
-                                                    style={{ flex: 0.7,color:"#6C757D"}}
+                                                    style={{
+                                                      flex: 0.7,
+                                                      color: "#6C757D",
+                                                    }}
                                                   >
                                                     {it.message}
                                                   </div>
@@ -408,7 +441,10 @@ const SupportCharts = () => {
                                                     justifyContent: "flex-end",
                                                   }}
                                                 >
-                                                  <span className="" style={{color:"#6C757D"}}>
+                                                  <span
+                                                    className=""
+                                                    style={{ color: "#6C757D" }}
+                                                  >
                                                     {formatTime(
                                                       new Date(
                                                         it.createdAt
@@ -439,7 +475,10 @@ const SupportCharts = () => {
                               </div>
                             </div>
                           </div>
-                          <div className="col-lg-12 col-sm-12 mb-2 px-2" style={{backgroundColor:"#6C757D"}}>
+                          <div
+                            className="col-lg-12 col-sm-12 mb-2 px-2"
+                            style={{ backgroundColor: "#6C757D" }}
+                          >
                             {item?.status == "pending" ? (
                               <div className="d-flex justify-content-between align-items-center pt-2">
                                 <div
@@ -447,22 +486,36 @@ const SupportCharts = () => {
                                   style={{ flex: 2 }}
                                 >
                                   <div className="support-inputs2">
-                                  <input
-                                    type="text"
-                                    placeholder="Write your message..."
-                                    className="form-control p-1  rounded-pill text-center"
-                                    id="exampleInputPassword1"
-                                    style={{ width: "50%",backgroundColor:"black" }}
-                                    value={replymessage}
-                                    onChange={(e) => {
-                                      let msg = e.target.value;
-                                      if (e?.target?.value?.length > 500) {
-                                        msg = msg.slice(0, 500);
-                                      }
-                                      setReplyMessage(msg);
-                                    }}
-                                  />
-                                  <input type="checkbox" name="suppot-close" className="ms-5" onChange={(e)=>setClosed(e.target.checked)}/> <span className="text-white mt-3 ms-1">{"Support Close"}</span>
+                                    <input
+                                      type="text"
+                                      placeholder="Write your message..."
+                                      className="form-control p-1  rounded-pill text-center"
+                                      id="exampleInputPassword1"
+                                      style={{
+                                        width: "50%",
+                                        backgroundColor: "black",
+                                      }}
+                                      value={replymessage}
+                                      onChange={(e) => {
+                                        let msg = e.target.value;
+                                        if (e?.target?.value?.length > 500) {
+                                          msg = msg.slice(0, 500);
+                                        }
+                                        setReplyMessage(msg);
+                                      }}
+                                    />
+                                    <input
+                                      type="checkbox"
+                                      name="suppot-close"
+                                      className="ms-5"
+                                      onChange={(e) =>{
+                                        setClosed(e.target.checked)
+                                        e.stopPropagation();
+                                      }}
+                                    />{" "}
+                                    <span className="text-white mt-3 ms-1">
+                                      {"Support Close"}
+                                    </span>
                                   </div>
                                   <div className=" text-black px-2">
                                     {500 - replymessage?.length}/500
@@ -497,7 +550,12 @@ const SupportCharts = () => {
                                     />
                                     <div
                                       className="coin_style3"
-                                      onClick={() => sendReply(item?.ticketId,item?.query_subject)}
+                                      onClick={() =>
+                                        sendReply(
+                                          item?.ticketId,
+                                          item?.query_subject
+                                        )
+                                      }
                                     >
                                       {loading ? (
                                         <div
@@ -508,7 +566,7 @@ const SupportCharts = () => {
                                         <i className="fa-solid fa-arrow-up "></i>
                                       )}
                                     </div>
-                                    <IoRefresh
+                                    {/* <IoRefresh
                                       size={22}
                                       onClick={() => {
                                         if (!refreshing) {
@@ -518,8 +576,11 @@ const SupportCharts = () => {
                                       className={
                                         refreshing ? "chat-refresh-round" : ""
                                       }
-                                      style={{ cursor: "pointer",color:'white' }}
-                                    />
+                                      style={{
+                                        cursor: "pointer",
+                                        color: "white",
+                                      }}
+                                    /> */}
                                   </div>
                                 </div>
                               </div>

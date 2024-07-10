@@ -184,6 +184,8 @@ export const getReferralAmount = async(sec,id,page)=>{
     }
 }
 
+// chats funtion
+
 export function raisedTicketList(mobile, tokenId) {
   return fetch(url + "/auth/tickets-list", {
     method: "POST",
@@ -235,6 +237,20 @@ export function replyTicket(
     });
 }
 
+export const getAllChatsList = async(jwtToken)=>{
+  try {
+    const res = await axios.get(`${url}/admin/support-chats`,{
+      headers:{
+        Authorization:`Bearer ${jwtToken}`
+      }
+    })
+    return res;
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+// End chats functions
 export function dashboardData(token, date) {
   const apiUrl = `${url}/admin/dashboard?date=${date}`;
   return fetch(apiUrl, {
