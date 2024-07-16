@@ -201,6 +201,7 @@ import TaskReward from "./components/Users/user-info/TaskReward";
 import SignupBonus from "./components/Users/user-info/SignupBonus";
 import Support from "./components/Users/Support/Support";
 import SupportCharts from "./components/Users/Support/SupportCharts";
+import Kyc from "./components/Users/kyc/Kyc";
 
 const Markup = () => {
   const allroutes = [
@@ -262,6 +263,11 @@ const Markup = () => {
     { url: "address-setting", component: <AddressWithdraw /> },
     { url: "deposit-setting", component: <DepositMinimum /> },
     { url: "withdraw-setting", component: <WithdrawMinimum /> },
+
+    // key
+    { url: "pending-kyc", component: <Kyc/> },
+    { url: "approved-kyc", component: <Kyc/> },
+    { url: "rejected-kyc", component: <Kyc/> },
   ];
   //let path = window.location.pathname;
   //path = path.split("/");

@@ -58,7 +58,6 @@ const SupportCharts = () => {
       getAllChatsList(token)
         .then((res) => {
           setRefreshing(false);
-          console.log(res,"supportcharts")
           if (res?.status == 200) {
             setlist(res?.data);
           }

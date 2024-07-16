@@ -106,15 +106,11 @@ export const MenuList = [
   },
   {
     title: "Mint",
-    //classsChange: 'mm-collapse',
-    //iconStyle: Widget,
     iconStyle: <i className="material-icons">account_circle</i>,
     to: "mint",
   },
   {
     title: "Support",
-    //classsChange: 'mm-collapse',
-    //iconStyle: Widget,
     iconStyle: <i className="material-icons">account_circle</i>,
     to: "support-chats",
   },
@@ -189,6 +185,25 @@ export const MenuList = [
   //   iconStyle: <i className="material-icons">account_circle</i>,
   //   to: "protocol",
   // },
+  {
+    title: 'Kyc',
+    classsChange: 'mm-collapse',
+    iconStyle: <i className="material-icons">account_circle</i>,
+    content: [
+        {
+            title: 'Pending Kyc',
+            to: 'pending-kyc',
+        },
+        {
+            title: 'Approved Kyc',
+            to: 'approved-kyc',
+        },
+        {
+            title: 'Rejected Kyc',
+            to: 'rejected-kyc',
+        },
+    ]
+},
   {
       title: 'Settings',
       classsChange: 'mm-collapse',

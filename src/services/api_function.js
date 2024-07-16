@@ -1,9 +1,9 @@
 import axios from "axios";
 import toast from "react-hot-toast";
-// export const url = "https://backoffice.inrx.io/api";
+export const url = "https://backoffice.inrx.io/api";
 export const url2 = "https://backoffice.inrx.io/api";
 
-export const url = "http://localhost:2222/api";
+// export const url = "http://localhost:2222/api";
 
 export const teamlist = "https://farming.wyscale.com/api";
 
@@ -251,6 +251,35 @@ export const getAllChatsList = async(jwtToken)=>{
 }
 
 // End chats functions
+
+//kyc functions
+
+  export const getAllUserKyc = async(token,kycStatusParam,search)=>{
+    try {
+      const res = await axios.get(`${url}/admin/kyc-status?status=${kycStatusParam}&search=${search}`,{
+        headers:{
+           Authorization: `Bearer ${token}`
+        }
+      })
+      return res;
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  export const updateKycStatus = async(id,status,token)=>{
+    try{
+      const res = await axios.get(`${url}/admin/update-kyc?id=${id}&status=${status}`,{
+        headers:{
+          Authorization: `Bearer ${token}`
+        }
+      })
+      return res;
+    }catch(error){
+      console.log(error)
+    }
+  }
+// End kyc functions 
 export function dashboardData(token, date) {
   const apiUrl = `${url}/admin/dashboard?date=${date}`;
   return fetch(apiUrl, {
