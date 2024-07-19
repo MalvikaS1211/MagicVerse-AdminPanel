@@ -19,7 +19,7 @@ export const LOADING_TOGGLE_ACTION = "[Loading action] toggle loading";
 export const LOGOUT_ACTION = "[Logout action] logout action";
 export const  SET_USER_TASK = "SET_USER_TASK";
 export const  SET_USER_DETAIL = "SET_USER_DETAIL";
-
+export const SELECT_CHAIN_ACTION = "SELECT_CHAIN_ACTION";
 export function signupAction(email, password, navigate) {
   return (dispatch) => {
     signUp(email, password)
@@ -150,6 +150,12 @@ export function loadingToggleAction(status) {
 export function setUserTaskAction(data) {
   return {
     type: SET_USER_TASK,
+    payload: data,
+  };
+}
+export function setChainAction(data) {
+  return {
+    type: SELECT_CHAIN_ACTION,
     payload: data,
   };
 }

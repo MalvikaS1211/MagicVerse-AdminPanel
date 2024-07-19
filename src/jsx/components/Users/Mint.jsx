@@ -3,11 +3,12 @@ import Web3 from "web3";
 
 import { Row, Col, Card, Table } from "react-bootstrap";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { registration } from "./web3/web3Helper";
+import { polygonMint, registration } from "./web3/web3Helper";
 import { useAccount } from "wagmi";
 import { getMintRecord } from "../../../services/api_function";
 import toast from "react-hot-toast";
-
+import { useDispatch, useSelector } from "react-redux";
+import { setChainAction } from "../../../store/actions/AuthActions";
 export const Mint = () => {
   const web3 = new Web3(new Web3(window.ethereum));
   const [apiData, setApiData] = useState([]);
@@ -15,6 +16,9 @@ export const Mint = () => {
   const [totalPages, setTotalPages] = useState(1);
   const { address } = useAccount();
   const [apiStatus, setApiStatus] = useState("Loading...");
+  const selectChain  = useSelector((state=>state.auth.selectChain));
+
+  const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
     address: "",
@@ -48,12 +52,24 @@ export const Mint = () => {
   const mint = async (e) => {
     e.preventDefault();
     try {
-      const res = await registration(
-        formData.address,
-        formData.price,
-        address,
-        web3
-      );
+      let res;
+      if(selectChain==="bsc"){
+        res = await registration(
+         formData.address,
+         formData.price,
+         address,
+         web3
+       );
+      }
+      else{
+        res = await polygonMint(
+         formData.address,
+         formData.price,
+         address,
+         web3
+       );
+      }
+
       console.log(res);
       if (res) {
         toast.success("Mint Successfully..!");
@@ -92,11 +108,33 @@ export const Mint = () => {
                   <ConnectButton />
                 </div>
                 <div className="container">
-                  <form className="ms-5">
+                  <form className="ms-5" onSubmit={mint}>
                     <div class="mb-3">
                       <label
                         for="exampleInputEmail1"
                         className="form-label fs-4 text-white"
+                      >
+                        Chain
+                      </label>
+                      <span>
+                        <select
+                          className="form-control"
+                          style={{ width: "30rem" }}
+                          onChange={(e) =>(
+                            dispatch(setChainAction(e.target.value))
+                          )
+                            
+                          }
+                          required
+                        >
+                          <option value="">---Select Chain---</option>
+                          <option value="polygon">Polygon</option>
+                          <option value="bsc">Bsc</option>
+                        </select>
+                      </span>
+                      <label
+                        for="exampleInputEmail1"
+                        className="form-label fs-4 text-white mt-3"
                       >
                         Address
                       </label>
@@ -110,6 +148,7 @@ export const Mint = () => {
                           style={{ width: "30rem" }}
                           value={formData.address}
                           onChange={setInput}
+                          required
                         />
                       </span>
                     </div>
@@ -130,6 +169,7 @@ export const Mint = () => {
                           style={{ width: "30rem" }}
                           value={formData.price}
                           onChange={setInput}
+                          required
                         />
                       </span>
                     </div>
@@ -141,7 +181,8 @@ export const Mint = () => {
                           " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
                         color: "black",
                       }}
-                      onClick={mint}
+                      // onClick={mint}
+                      type="submit"
                     >
                       Mint
                     </button>
@@ -154,7 +195,7 @@ export const Mint = () => {
                     <th
                       scope="col"
                       className="text-center text-white fs-4"
-                      colspan="3"
+                      colspan="4"
                     >
                       Mint Records
                     </th>
@@ -164,6 +205,7 @@ export const Mint = () => {
                   <tr className="text-center text-white">
                     <th scope="col">No</th>
                     <th scope="col">User Address</th>
+                    <th scope="col">Chain</th>
                     <th scope="col">Amount</th>
                   </tr>
                 </thead>
@@ -177,6 +219,7 @@ export const Mint = () => {
                       <tr className="text-center text-white" key={index}>
                         <th scope="col">{index + 1}</th>
                         <th scope="col">{item?.toAddress}</th>
+                        <th scope="col">{item?.chain}</th>
                         <th scope="col">{(item?.value / 1e18).toFixed(2)}</th>
                       </tr>
                     ))

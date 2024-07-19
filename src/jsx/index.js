@@ -192,8 +192,8 @@ import {
   getDefaultWallets,
   RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
-import { bsc } from "wagmi/chains";
-import { configureChains, createClient, WagmiConfig } from "wagmi";
+import { bsc, polygon } from "wagmi/chains";
+import { configureChains, createClient, mainnet, WagmiConfig } from "wagmi";
 import "@rainbow-me/rainbowkit/styles.css";
 import UserReferral from "./components/Users/user-info/UserReferal";
 import ReferralIncome from "./components/Users/user-info/ReferralIncome";
@@ -202,6 +202,7 @@ import SignupBonus from "./components/Users/user-info/SignupBonus";
 import Support from "./components/Users/Support/Support";
 import SupportCharts from "./components/Users/Support/SupportCharts";
 import Kyc from "./components/Users/kyc/Kyc";
+import { useSelector } from "react-redux";
 
 const Markup = () => {
   const allroutes = [
@@ -303,9 +304,15 @@ const Markup = () => {
   //   },
   //   testnet: true,
   // };
+
+  const selectChain  = useSelector((state=>state.auth.selectChain));
+  console.log(selectChain,"chain")
+  const chain = selectChain==="bsc"?bsc:selectChain==="polygon"?polygon:mainnet;
   const { chains, provider } = configureChains(
     // [mbscTestnet],
-    [bsc],
+    // [mainnet],
+    // [bsc],
+    [chain],
     [publicProvider()],
     [
       jsonRpcProvider({
@@ -336,6 +343,7 @@ const Markup = () => {
   //     projectId: "1ff81cbbd335161159e53053dce2ddec",
   //   }
   // );
+
   const wagmiClient = createClient({
     autoConnect: true,
     connectors,

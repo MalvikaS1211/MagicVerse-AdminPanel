@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Row, Col, Card, Table } from "react-bootstrap";
 // import { allUser } from "../../../services/api_function";
 import { COLUMNS } from "../../../components/table/FilteringTable/Columns";
+import { HiSelector } from "react-icons/hi";
 
 import { useDispatch } from "react-redux";
 import {
@@ -216,7 +217,7 @@ export const Kyc = () => {
                           </td>
                           <td>
                             <select
-                              className="form-select text-center"
+                              className="form-control text-center"
                               width="100"
                               value={data?.kyc_status}
                               style={{ background: "transparent" }}

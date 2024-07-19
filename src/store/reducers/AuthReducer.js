@@ -7,6 +7,7 @@ import {
     SET_USER_DETAIL,
     SIGNUP_CONFIRMED_ACTION,
     SIGNUP_FAILED_ACTION,
+    SELECT_CHAIN_ACTION,
 } from '../actions/AuthActions';
 
 const initialState = {
@@ -33,6 +34,16 @@ export function AuthReducer(state = initialState, action) {
             showLoading: false,
         };
     }
+    if (action.type === SELECT_CHAIN_ACTION) {
+        return {
+            ...state,
+            selectChain: action.payload,
+            errorMessage: '',
+           // successMessage: 'Login Successfully Completed',
+            showLoading: false,
+        };
+    }
+
     if (action.type === LOGIN_CONFIRMED_ACTION) {
         return {
             ...state,

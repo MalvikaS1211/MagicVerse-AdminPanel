@@ -13,10 +13,10 @@ function Login (props) {
 	const [heartActive, setHeartActive] = useState(true);
 	
 	const navigate = useNavigate();
-    const [email, setEmail] = useState('demo@example.com');
+    const [email, setEmail] = useState('');
     let errorsObj = { email: '', password: '' };
     const [errors, setErrors] = useState({ email: "", password: "" });
-    const [password, setPassword] = useState('123456');
+    const [password, setPassword] = useState('');
     const dispatch = useDispatch();
 
     function onLogin(e) {
