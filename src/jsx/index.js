@@ -203,6 +203,7 @@ import Support from "./components/Users/Support/Support";
 import SupportCharts from "./components/Users/Support/SupportCharts";
 import Kyc from "./components/Users/kyc/Kyc";
 import { useSelector } from "react-redux";
+import PdfUpload from "./components/Users/PdfUpload";
 
 const Markup = () => {
   const allroutes = [
@@ -264,6 +265,9 @@ const Markup = () => {
     { url: "address-setting", component: <AddressWithdraw /> },
     { url: "deposit-setting", component: <DepositMinimum /> },
     { url: "withdraw-setting", component: <WithdrawMinimum /> },
+
+    // pdf upload
+    { url: "reports", component: <PdfUpload /> },
 
     // key
     { url: "pending-kyc", component: <Kyc/> },

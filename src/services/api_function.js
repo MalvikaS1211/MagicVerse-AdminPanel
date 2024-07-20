@@ -1,9 +1,9 @@
 import axios from "axios";
 import toast from "react-hot-toast";
-export const url = "https://backoffice.inrx.io/api";
+// export const url = "https://backoffice.inrx.io/api";
 export const url2 = "https://backoffice.inrx.io/api";
 
-// export const url = "http://localhost:2222/api";
+export const url = "http://localhost:2222/api";
 
 export const teamlist = "https://farming.wyscale.com/api";
 
@@ -279,7 +279,53 @@ export const getAllChatsList = async(jwtToken)=>{
       console.log(error)
     }
   }
+
 // End kyc functions 
+
+// all reports api function
+
+export const uploadPdf=async(formData)=>{
+  try {
+    const res = await axios.post(`${url}/admin/report`,formData,{
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },})
+    return res;
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const getReports = async(page)=>{
+  try {
+    const res = await axios.get(`${url}/admin/all-reports?page=${page}`)
+    return res
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const deleteReport = async(id)=>{
+  try {
+    const res = await axios.delete(`${url}/admin/report-delete/${id}`)
+    return res;
+  } catch (error) {
+    console.log(error)
+  }
+}
+// End reports api function
+
+
+
+
+
+
+
+
+
+
+
+
 export function dashboardData(token, date) {
   const apiUrl = `${url}/admin/dashboard?date=${date}`;
   return fetch(apiUrl, {

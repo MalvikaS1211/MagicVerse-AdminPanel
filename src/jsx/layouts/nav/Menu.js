@@ -114,6 +114,11 @@ export const MenuList = [
     iconStyle: <i className="material-icons">account_circle</i>,
     to: "support-chats",
   },
+  {
+    title: "Reports",
+    iconStyle: <i className="material-icons">account_circle</i>,
+    to: "reports",
+  },
   // {
   //   title: "Withdraw Approve ",
   //   //classsChange: 'mm-collapse',

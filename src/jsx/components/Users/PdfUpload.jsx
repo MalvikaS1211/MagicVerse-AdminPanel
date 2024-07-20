@@ -2,27 +2,23 @@ import React, { Fragment, useEffect, useState, useMemo, useRef } from "react";
 import Web3 from "web3";
 
 import { Row, Col, Card, Table } from "react-bootstrap";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { polygonMint, registration } from "./web3/web3Helper";
-import { useAccount } from "wagmi";
-import { getMintRecord } from "../../../services/api_function";
+import { deleteReport, getMintRecord, getReports, uploadPdf, url, url2 } from "../../../services/api_function";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { setChainAction } from "../../../store/actions/AuthActions";
-export const Mint = () => {
-  const web3 = new Web3(new Web3(window.ethereum));
+export const PdfUpload = () => {
   const [apiData, setApiData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const { address } = useAccount();
   const [apiStatus, setApiStatus] = useState("Loading...");
   const selectChain  = useSelector((state=>state.auth.selectChain));
 
   const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
-    address: "",
-    price: "",
+    quater: "",
+    title: "",
+    pdf: "",
   });
 
   useEffect(() => {
@@ -32,7 +28,7 @@ export const Mint = () => {
     const token = parsedDetails.token;
     const fetchData = async () => {
       try {
-        const res = await getMintRecord(currentPage, token);
+        const res = await getReports(currentPage);
         setApiData(res.data.data);
         setTotalPages(res.data.totalPages);
         if (res.data.data) {
@@ -46,43 +42,57 @@ export const Mint = () => {
   }, [currentPage]);
 
   const setInput = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const mint = async (e) => {
-    e.preventDefault();
-    try {
-      let res;
-      if(selectChain==="bsc"){
-        res = await registration(
-         formData.address,
-         formData.price,
-         address,
-         web3
-       );
-      }
-      else{
-        res = await polygonMint(
-         formData.address,
-         formData.price,
-         address,
-         web3
-       );
-      }
-      console.log(res);
-      if (res) {
-        toast.success("Mint Successfully..!");
-        setFormData({
-          address: "",
-          price: "",
-        });
-      } else {
-        toast.error("Mint failed..!");
-      }
-    } catch (error) {
-      console.log("Error in mint function()", error.message);
+    if(e.target.name!=="pdf"){
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
+    else{
+      setFormData({ ...formData, [e.target.name]: e.target.files[0] });
     }
   };
+
+  const handleSubmit=async(e)=>{
+    e.preventDefault()
+    if(!formData.pdf){
+      return toast.error("Please Select Pdf")
+    }
+    try {
+      const res = await uploadPdf(formData)
+      if(res.data.status===200){
+        toast.success(res.data.message)
+        setApiData(prevData => {
+          return [...prevData, res.data.data];
+        });
+        setFormData({
+          quater: "",
+          title: "",
+          pdf: "",
+        })
+      }else{
+        toast.error(res.data.message)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const deletePdf = async(id)=>{
+   if(window.confirm("Are You Want To Delete This Report ?")){
+    try {
+      const res = await deleteReport(id)
+      if(res.data.status===200){
+        setApiData(apiData.filter(it=>it._id!=id))
+        toast.success(res.data.message)
+      }else{
+        toast.error(res.data.message)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+   }
+  }
+
+  console.log(apiData,"done")
+
   return (
     <Fragment>
       <Row>
@@ -92,7 +102,7 @@ export const Mint = () => {
               style={{ background: "black", border: "1px solid white" }}
             >
               <Card.Title style={{ color: "white", margin: "auto" }}>
-                Mint
+                Report
               </Card.Title>
             </Card.Header>
             <Card.Body
@@ -104,48 +114,47 @@ export const Mint = () => {
             >
               <div className="col-md-12">
                 <div className="float-end">
-                  <ConnectButton />
                 </div>
                 <div className="container">
-                  <form className="ms-5" onSubmit={mint}>
+                  <form className="ms-5" onSubmit={handleSubmit}>
                     <div class="mb-3">
                       <label
                         for="exampleInputEmail1"
                         className="form-label fs-4 text-white"
                       >
-                        Chain
+                        Quater
                       </label>
                       <span>
                         <select
                           className="form-control"
                           style={{ width: "30rem" }}
-                          onChange={(e) =>(
-                            dispatch(setChainAction(e.target.value))
-                          )
-                            
-                          }
+                          name="quater"
+                          id="quater"
                           required
+                          onChange={setInput}
                         >
-                          <option value="">---Select Chain---</option>
-                          <option value="polygon">Polygon</option>
-                          <option value="bsc">Bsc</option>
+                          <option value="" selected={formData.quater?false:true}>---Select Quater---</option>
+                          <option value="January 1 - March 31">January 1 - March 31</option>
+                          <option value="April 1 - June 30">April 1 - June 30</option>
+                          <option value="July 1 - September 30">July 1 - September 30</option>
+                          <option value="October 1 - December 31">October 1 - December 31</option>
                         </select>
                       </span>
                       <label
                         for="exampleInputEmail1"
                         className="form-label fs-4 text-white mt-3"
                       >
-                        Address
+                        Title
                       </label>
                       <span>
                         <input
                           type="text"
-                          name="address"
-                          id="address"
+                          name="title"
+                          id="title"
                           className="form-control"
-                          placeholder="Enter Address"
+                          placeholder="Enter title"
                           style={{ width: "30rem" }}
-                          value={formData.address}
+                          value={formData.title}
                           onChange={setInput}
                           required
                         />
@@ -156,23 +165,20 @@ export const Mint = () => {
                         for="exampleInputEmail1"
                         className="form-label fs-4 text-white"
                       >
-                        Amount
+                        Pdf
                       </label>
                       <span>
                         <input
-                          type="number"
-                          name="price"
-                          id="price"
+                          type="file"
+                          name="pdf"
+                          id="pdf"
                           className="form-control"
-                          placeholder="Enter Amount"
                           style={{ width: "30rem" }}
-                          value={formData.price}
                           onChange={setInput}
                           required
                         />
                       </span>
                     </div>
-
                     <button
                       className="btn btn-md"
                       style={{
@@ -180,32 +186,33 @@ export const Mint = () => {
                           " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
                         color: "black",
                       }}
-                      // onClick={mint}
                       type="submit"
                     >
-                      Mint
+                      Upload
                     </button>
                   </form>
                 </div>
               </div>
+
               <table className="table border mt-5">
                 <thead>
                   <tr>
                     <th
                       scope="col"
                       className="text-center text-white fs-4"
-                      colspan="4"
+                      colspan="5"
                     >
-                      Mint Records
+                      All Records
                     </th>
                   </tr>
                 </thead>
                 <thead>
                   <tr className="text-center text-white">
                     <th scope="col">No</th>
-                    <th scope="col">User Address</th>
-                    <th scope="col">Chain</th>
-                    <th scope="col">Amount</th>
+                    <th scope="col">Pdf</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Quater</th>
+                    <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -217,9 +224,12 @@ export const Mint = () => {
                     apiData?.map((item, index) => (
                       <tr className="text-center text-white" key={index}>
                         <th scope="col">{index + 1}</th>
-                        <th scope="col">{item?.toAddress}</th>
-                        <th scope="col">{item?.chain}</th>
-                        <th scope="col">{(item?.value / 1e18).toFixed(2)}</th>
+                        <th scope="col"><a href={`${url}/${(item?.file).replace("uploads","support")}`} target="_blanck">
+                            <img src="pdf-preview.png" alt="" height={50} width={80}/>
+                          </a></th>
+                        <th scope="col">{item?.title}</th>
+                        <th scope="col">{item?.quater}</th>
+                        <th scope="col"><button className="btn btn-outline-danger btn-sm" onClick={()=>deletePdf(item?._id)}>Delete</button></th>
                       </tr>
                     ))
                   )}
@@ -262,4 +272,4 @@ export const Mint = () => {
   );
 };
 
-export default Mint;
+export default PdfUpload;
