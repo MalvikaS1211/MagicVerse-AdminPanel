@@ -63,6 +63,11 @@ export const MenuList = [
   //     iconStyle: <i className="material-icons">grid_view</i>,
   //    },
   {
+    title: "Pending Deposit ",
+    iconStyle: <i className="material-icons">account_circle</i>,
+    to: "pending-deposit",
+  },
+  {
     title: "Deposit ",
     //classsChange: 'mm-collapse',
     //iconStyle: Widget,
@@ -74,11 +79,7 @@ export const MenuList = [
     iconStyle: <i className="material-icons">account_circle</i>,
     to: "withdraw",
   },
-  // {
-  //   title: "Pending Withdraw ",
-  //   iconStyle: <i className="material-icons">account_circle</i>,
-  //   to: "withdraw",
-  // },
+  
   {
     title: "Asset ",
     iconStyle: <i className="material-icons">account_circle</i>,
@@ -214,6 +215,14 @@ export const MenuList = [
       classsChange: 'mm-collapse',
       iconStyle: <IoSettingsSharp className="material-icons" style={{maxWidth: '25px', maxHeight: '20px'}}/>,
       content: [
+            {
+              title: 'Bank Settings',
+              to: 'bank-setting',
+          },
+          {
+            title: 'UPI Settings',
+            to: 'upi-setting',
+        },
           {
               title: 'Price',
               to: 'price-setting',

@@ -160,6 +160,7 @@ import { ThemeContext } from "../context/ThemeContext";
 import Login from "./pages/Login";
 import ClaimHistory from "./components/Users/claimHistory";
 import Deposit from "./components/Users/deposit";
+import PendingDeposit from "./components/Users/pendingdeposit";
 import Swap from "./components/Users/swap";
 import Asset from "./components/Users/asset";
 import Currency from "./components/Users/currency";
@@ -170,6 +171,8 @@ import AssetsDetail from "./components/Users/user-info/AssetsDetail";
 import Activity from "./components/Users/user-info/Activity";
 import Exchange from "./components/Users/user-info/Exchange";
 import PriceSetting from "./components/Users/settings/priceSetting";
+import BankSetting from "./components/Users/settings/bankSetting";
+import UpiSetting from "./components/Users/settings/upiSetting";
 import AddressWithdraw from "./components/Users/settings/addressWithdraw";
 import DepositMinimum from "./components/Users/settings/depositMinimum";
 import WithdrawMinimum from "./components/Users/settings/withdrawMinimum";
@@ -220,6 +223,7 @@ const Markup = () => {
     { url: "staking-user", component: <StakingUser /> },
     { url: "claim-history", component: <ClaimHistory /> },
     { url: "deposite", component: <Deposit /> },
+    { url: "pending-deposit", component: <PendingDeposit /> },
     { url: "asset", component: <Asset /> },
     { url: "currency", component: <Currency /> },
     { url: "swap", component: <Swap /> },
@@ -262,6 +266,8 @@ const Markup = () => {
 
     // Dashboard Setting
     { url: "price-setting", component: <PriceSetting /> },
+    { url: "bank-setting", component: <BankSetting /> },
+    { url: "upi-setting", component: <UpiSetting /> },
     { url: "address-setting", component: <AddressWithdraw /> },
     { url: "deposit-setting", component: <DepositMinimum /> },
     { url: "withdraw-setting", component: <WithdrawMinimum /> },

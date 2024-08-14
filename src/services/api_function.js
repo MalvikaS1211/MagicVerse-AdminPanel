@@ -1,9 +1,9 @@
 import axios from "axios";
 import toast from "react-hot-toast";
-// export const url = "https://backoffice.inrx.io/api";
+export const url = "https://backoffice.inrx.io/api";
 export const url2 = "https://backoffice.inrx.io/api";
 
-export const url = "http://localhost:2222/api";
+// export const url = "http://localhost:2222/api";
 
 export const teamlist = "https://farming.wyscale.com/api";
 
@@ -24,6 +24,10 @@ export function allUser(table, page, filteredData, token) {
     )}`;
   } else if (table === "deposit") {
     apiUrl = `${url}/admin/deposit?page=${page}&search=${encodeURIComponent(
+      searchQuery
+    )}`;
+  } else if (table === "pendingdeposit") {
+    apiUrl = `${url}/admin/pending-deposit?page=${page}&search=${encodeURIComponent(
       searchQuery
     )}`;
   } else if (table === "withdraw-history") {
@@ -270,6 +274,19 @@ export const getAllChatsList = async(jwtToken)=>{
   export const updateKycStatus = async(id,status,token)=>{
     try{
       const res = await axios.get(`${url}/admin/update-kyc?id=${id}&status=${status}`,{
+        headers:{
+          Authorization: `Bearer ${token}`
+        }
+      })
+      return res;
+    }catch(error){
+      console.log(error)
+    }
+  }
+
+  export const updatedepositStatus = async(id,status,token)=>{
+    try{
+      const res = await axios.get(`${url}/admin/update-Deposit?id=${id}&status=${status}`,{
         headers:{
           Authorization: `Bearer ${token}`
         }
