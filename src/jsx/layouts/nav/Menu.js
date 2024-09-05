@@ -79,6 +79,12 @@ export const MenuList = [
     iconStyle: <i className="material-icons">account_circle</i>,
     to: "withdraw",
   },
+
+  {
+    title: "Withdraw-INR ",
+    iconStyle: <i className="material-icons">account_circle</i>,
+    to: "withdrawal-inr",
+  },
   
   {
     title: "Asset ",

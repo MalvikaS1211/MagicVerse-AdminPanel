@@ -3,7 +3,7 @@ import { Row, Col, Card, Table } from "react-bootstrap";
 import { allUser, url, withdrawRoi } from "../../../services/api_function";
 import { Link, Navigate } from "react-router-dom";
 
-export const Withdraw = () => {
+export const WithdrawalINR = () => {
   const [apiData, setApiData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -17,7 +17,7 @@ export const Withdraw = () => {
         const userDetails = localStorage.getItem("userDetails");
         const parsedDetails = JSON.parse(userDetails);
         const token = parsedDetails.token;
-        const table = "withdraw-history"
+        const table = "withdraw-inr-history"
         const result = await allUser(
           table,
           currentPage,
@@ -107,7 +107,7 @@ export const Withdraw = () => {
               style={{ background: "black", border: "1px solid white" }}
             >
               <Card.Title style={{ color: "white", margin: "auto" }}>
-                Withdraw History
+                Withdraw INR Pending History
               </Card.Title>
               {/* <button type="button" class="btn btn-success">Approve</button> */}
             </Card.Header>
@@ -149,8 +149,12 @@ export const Withdraw = () => {
                     <th>
                       <strong>Status</strong>
                     </th>
+                    
                     <th>
                       <strong>Date & Time</strong>
+                    </th>
+                    <th>
+                      <strong>Action</strong>
                     </th>
                   </tr>
                 </thead>
@@ -167,8 +171,9 @@ export const Withdraw = () => {
                         <td>{index + 1}</td>
                         <td>{data?.name}</td>
                         <td>{data?.symbol}</td>
-                        <td>{data?.amount }</td>
-                        <td>{data?.fee ? data?.fee :"--" }</td>
+                        <td>{data?.amount}</td>
+                        <td>{data?.fee ? data?.fee : "--"}</td>
+
                         <td>
                           {!data?.reciever?("Self"):(<a href={`https://testnet.bscscan.com/address/${data?.reciever}`} target="_blanck" className="text-white">{data?.reciever.slice(0, 5) +
                             "...." +
@@ -178,9 +183,19 @@ export const Withdraw = () => {
                         <td>
                           {data?.hash.slice(0, 5) + "...." + data?.hash.slice(-5)}
                         </td>
-                        <td style={{color:data?.status ?( (data?.status === "-1")?"yellow": (data?.status === "2") ?"red":"green"):data?.success?"green":"red"}}>{data?.status ?((data?.status === "-1")?"Pending":(data?.status === "2") ?"Rejected":"Success"):data?.success?"success":"Failed"}</td>
                         {/* <td style={{color:(data?.success)?"green":"red"}}>{(data?.success)?"Success":"Failed"}</td> */}
+                        <td style={{color:data?.status ?( (data?.status === "-1")?"yellow": (data?.status === "2") ?"red":"green"):data?.success?"green":"red"}}>{data?.status ?((data?.status === "-1")?"Pending":(data?.status === "2") ?"Rejected":"Success"):data?.success?"success":"Failed"}</td>
+                        {/* <td>
+                        <div className="d-flex justify-content-center align-items-center gap-2">
+                        <div className="btn btn-success">Approve </div>
+                        <div className="btn btn-danger">Reject </div>
+                        </div>
+
+                        </td> */}
+
                         <td>{new Date(data.createdAt).toLocaleString()}</td>
+                        <td><Link to={`/withdrawal-inr-info?id=${data?.hash}`} className="btn btn-outline-info">view</Link></td>
+
                       </tr>
                     ))
                   )}
@@ -235,4 +250,4 @@ export const Withdraw = () => {
   );
 };
 
-export default Withdraw;
+export default WithdrawalINR;

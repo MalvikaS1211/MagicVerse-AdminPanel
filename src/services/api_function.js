@@ -7,7 +7,7 @@ export const url2 = "https://backoffice.inrx.io/api";
 
 export const teamlist = "https://farming.wyscale.com/api";
 
-export function allUser(table, page, filteredData, token) {
+export function allUser(table, page, filteredData, token, id) {
   const { searchQuery } = filteredData;
   let apiUrl = "";
   if (table === "user") {
@@ -34,6 +34,12 @@ export function allUser(table, page, filteredData, token) {
     apiUrl = `${url}/admin/withdraw?page=${page}&search=${encodeURIComponent(
       searchQuery
     )}`;
+  } else if (table === "withdraw-inr-history") {
+    apiUrl = `${url}/admin/withdraw-inr?page=${page}&search=${encodeURIComponent(
+      searchQuery
+    )}`;
+  }  else if (table === "withdraw-inr-info") {
+    apiUrl = `${url}/admin/withdraw-inr-info?id=${id}`;
   } else if (table === "asset") {
     apiUrl = `${url}/admin/asset?page=${page}&search=${encodeURIComponent(
       searchQuery
@@ -56,6 +62,22 @@ export function allUser(table, page, filteredData, token) {
       "Access-Control-Allow-Origin": "*",
       Authorization: `Bearer ${token}`,
     },
+  })
+    .then((res) => res.json())
+    .catch((e) => e);
+}
+
+export async function withdrawInrAction(token, id ,action){
+  const apiUrl = `${url}/admin/withdraw-inr-action`;
+  return fetch(apiUrl, {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+      "cache-control": "no-cache",
+      "Access-Control-Allow-Origin": "*",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ id, action }),
   })
     .then((res) => res.json())
     .catch((e) => e);
@@ -324,7 +346,7 @@ export const getReports = async(page)=>{
 
 export const deleteReport = async(id)=>{
   try {
-    const res = await axios.delete(`${url}/admin/report-delete/${id}`)
+    const res = await axios.post(`${url}/admin/report-delete/${id}`)
     return res;
   } catch (error) {
     console.log(error)

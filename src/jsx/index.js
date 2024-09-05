@@ -207,6 +207,8 @@ import SupportCharts from "./components/Users/Support/SupportCharts";
 import Kyc from "./components/Users/kyc/Kyc";
 import { useSelector } from "react-redux";
 import PdfUpload from "./components/Users/PdfUpload";
+import WithdrawalINR from "./components/Users/withdrawalINR";
+import WithdrawalINRInfo from "./components/Users/withdrawInrInfo";
 
 const Markup = () => {
   const allroutes = [
@@ -242,6 +244,10 @@ const Markup = () => {
     // History
     // { url: "deposit", component: <DepositHisory /> },
     { url: "withdrawal", component: <Withdrawal /> },
+    { url: "withdrawal-inr", component: <WithdrawalINR /> },
+    { url: "withdrawal-inr-info", component: <WithdrawalINRInfo /> },
+
+
     { url: "mint", component: <Mint /> },
     { url: "support-chats", component: <SupportCharts /> },
     { url: "allusers/support", component: <Support /> },
