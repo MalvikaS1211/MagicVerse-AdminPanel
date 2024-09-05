@@ -44,22 +44,18 @@ const Protocol = () => {
         <Col lg={12}>
           <Card>
             <Card.Header
-              style={{ background: "black", border: "1px solid white" }}
+              
             >
-              <Card.Title style={{ color: "white", margin: "auto" }}>
+              <Card.Title>
                 Protocol
               </Card.Title>
             </Card.Header>
             <Card.Body
-              style={{ background: "black", border: "1px solid white" }}
+             
             >
               <Table
                 responsive
-                style={{
-                  background: "black",
-                  color: "white",
-                  borderBottom: "1px solid white",
-                }}
+               
               >
                 <thead>
                   <tr>
@@ -308,7 +304,7 @@ const Protocol = () => {
                 className="text-center mb-3 col-lg-6"
                 style={{ margin: "auto" }}
               >
-          <div className="filter-pagination  mt-3 bg-black"  >
+          <div className="filter-pagination  mt-3 "  >
                   <button
                     className="previous-button"
                     onClick={handlePreviousPage}

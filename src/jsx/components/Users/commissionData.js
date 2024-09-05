@@ -36,7 +36,7 @@ const CommissionData = (props) => {
         <Col lg={12}>
           <Card>
             <Card.Header
-              style={{ background: "black", border: "1px solid white" }}
+             
             >
               <i
                 class="fas fa-circle-left "
@@ -48,15 +48,11 @@ const CommissionData = (props) => {
               </Card.Title>
             </Card.Header>
             <Card.Body
-              style={{ background: "black", border: "1px solid white" }}
+              
             >
               <Table
                 responsive
-                style={{
-                  background: "black",
-                  color: "white",
-                  borderBottom: "1px solid white",
-                }}
+                
               >
                 <thead>
                   <tr>

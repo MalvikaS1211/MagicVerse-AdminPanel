@@ -12391,9 +12391,9 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
             padding: 0;
             color: #969BA0; } }
       .deznav .metismenu > li > a {
-        font-weight: 500;
+        font-weight: 400;
         display: inline-block;
-        font-size: 1rem;
+        font-size: 0.875rem;
         color: #737B8B; }
         .deznav .metismenu > li > a i {
           color: #96A0AF; }
@@ -25348,7 +25348,7 @@ code {
     text-transform: capitalize;
     font-size: 1.125rem;
     white-space: nowrap;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 0.0313rem;
     border-color: #f5f5f5 !important; }
     [data-theme-version="dark"] .table thead th {

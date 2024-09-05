@@ -28,24 +28,24 @@
 
 .filter-pagination{
 	display: inline-block;
-    background: #f0f0f0;
+    /* background: #f0f0f0; */
     border-radius: 10px;
     padding: 5px 5px;
 }
 .filter-pagination .previous-button,
 .filter-pagination .next-button{
-    font-size: 16px;
+    font-size: 14px;
     border: 0 !important;
     width: auto;
 	padding: 14px 20px;
 	margin: 0 5px;
     border-radius: 10px;
     display: inline-block;
-    background-color: #fff;
-	color: #9568FF;
+    background-color:rgb(182, 212, 182);
+	color: #000;
 }
 .filter-pagination button:hover{
-	background:	#9568FF;
+	background:	#4caf50;
 	color:#fff;
 }
 .filter-pagination button[disabled]{
@@ -53,7 +53,7 @@
 	cursor: default;
 }
 .filter-pagination button[disabled]:hover{
-	background:#9568FF;
+	background:#4caf50;
 	opacity:0.5;
 	color:#fff;
 }

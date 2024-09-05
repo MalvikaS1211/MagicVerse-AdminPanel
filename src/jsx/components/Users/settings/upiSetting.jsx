@@ -59,18 +59,14 @@ export const UpiSetting = () => {
         <Col lg={12}>
           <Card>
             <Card.Header
-              style={{ background: "black", border: "1px solid white" }}
+             
             >
-              <Card.Title style={{ color: "white", margin: "auto" }}>
+              <Card.Title>
                 UPI Setting
               </Card.Title>
             </Card.Header>
             <Card.Body
-              style={{
-                background: "black",
-                border: "1px solid white",
-                borderRadius: "3px",
-              }}
+            
             >
               <div className="col-md-12">
                 <div className="container">

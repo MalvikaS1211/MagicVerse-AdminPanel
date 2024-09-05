@@ -7,6 +7,8 @@ import { RiMoneyDollarCircleFill } from "react-icons/ri";
 import { RxActivityLog } from "react-icons/rx";
 import { GrStakeholder } from "react-icons/gr";
 import { MdWebAsset } from "react-icons/md";
+import { BsThreeDotsVertical } from "react-icons/bs";
+
 import {
   useTable,
   useGlobalFilter,
@@ -38,14 +40,12 @@ const HtmlTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
 ))(({ theme }) => ({
   [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: "white",
-    color: "rgba(0, 0, 0, 0.87)",
-    // maxWidth: 220,
-    // fontSize: theme.typography.pxToRem(12),
-    // border: "1px solid #dadde9",
+    backgroundColor: "#dadde9",
+    fontSize: "12px",
+    fontWeight: 400,
+    border: "1px solid #25262B",
   },
 }));
-
 
 export const AllUser = () => {
   const [apiData, setApiData] = useState([]);
@@ -58,7 +58,7 @@ export const AllUser = () => {
   const [recordStatus, setRecordStatus] = useState("Loading...");
   const [config, setcofig] = useState([]);
   const pageSize = 100;
-  
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -160,58 +160,27 @@ export const AllUser = () => {
 
         <Col lg={12}>
           <Card>
-            <Card.Header
-              style={{ background: "black", border: "1px solid white" }}
-            >
-              <Card.Title style={{ color: "white", margin: "auto" }}>
-                All Users
-              </Card.Title>
+            <Card.Header>
+              <Card.Title>All Users</Card.Title>
             </Card.Header>
-            <Card.Body
-              style={{
-                background: "black",
-                border: "1px solid white",
-                borderRadius: "3px",
-              }}
-            >
-              <Table
-                responsive
-                style={{
-                  background: "black",
-                  color: "white",
-                  borderBottom: "0.5px solid white",
-                }}
-              >
+            <Card.Body>
+              <Table responsive>
                 {/* <button onClick={() => exportToExcel(data, 'exported-data')}>Export to Excel</button> */}
                 <thead>
                   <tr>
-                    <th>
-                      <strong>NO.</strong>
-                    </th>
-                    <th>
-                      <strong>Name</strong>
-                    </th>
-                    <th>
-                      <strong>UserName</strong>
-                    </th>
-                    <th>
-                      <strong>Phone</strong>
-                    </th>
-                    <th>
-                      <strong> DOB</strong>
-                    </th>
-                    <th>
-                      <strong> Wallet Balance</strong>
-                    </th>
-                    <th>
-                      <strong> Action</strong>
-                    </th>
+                    <th>NO.</th>
+                    <th>Name</th>
+                    <th>UserName</th>
+                    <th>Phone</th>
+                    <th>DOB</th>
+                    <th>Wallet Balance</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {!apiData[0] ? (
                     <tr>
-                      <td className="text-light text-center" colSpan="7">
+                      <td className="text-center" colSpan="7">
                         {recordStatus}
                       </td>
                     </tr>
@@ -219,7 +188,8 @@ export const AllUser = () => {
                     apiData.map((data, index) => {
                       const total = data?.currency?.reduce((pre, it) => {
                         const price = config.find(
-                          (itm) => itm.symbol.toLowerCase() == it.symbol.toLowerCase()
+                          (itm) =>
+                            itm.symbol.toLowerCase() == it.symbol.toLowerCase()
                         );
                         const fp = price ? price.price : 1;
                         const tt = pre + it.available * fp;
@@ -235,201 +205,151 @@ export const AllUser = () => {
                           <td>{new Date(data.dob).toLocaleDateString()}</td>
                           <td>{total?.toFixed(3)}(INR)</td>
                           <td>
-                            <Link
-                              
-                              to={`deposit-detail?id=${data._id}`}
-                            >
-                              <HtmlTooltip
-                                title={
-                                  <React.Fragment placement="top">
-                                    <Typography color="inherit">
-                                      Deposite
-                                    </Typography>
-                                  </React.Fragment>
-                                }
-                              >
-                                <Button className="text-white fs-2" arrow><RiLuggageDepositFill /></Button>
-                              </HtmlTooltip>
-                            </Link>
-                            <Link
-                              
-                              to={`withdraw-detail?id=${data._id}`}
-                            >
-                             <HtmlTooltip
-                                title={
-                                  <React.Fragment>
-                                    <Typography color="inherit">
-                                      Withdraw
-                                    </Typography>
-                                  </React.Fragment>
-                                }
-                              >
-                                <Button className="text-white fs-2" arrow><RiMoneyDollarCircleFill /></Button>
-                              </HtmlTooltip>
-                            </Link>
-                            <Link
-                              className=" me-1"
-                              to={`staking-detail?id=${data._id}`}
-                            >
-                              <HtmlTooltip
-                                title={
-                                  <React.Fragment placement="top">
-                                    <Typography color="inherit">
-                                      Stake
-                                    </Typography>
-                                  </React.Fragment>
-                                }
-                              >
-                                <Button className="text-white fs-2" arrow><GrStakeholder /></Button>
-                              </HtmlTooltip>
-                            </Link>
-                            <Link
-                              
-                              to={`assets-detail?id=${data._id}`}
-                            >
-                              <HtmlTooltip
-                                title={
-                                  <React.Fragment placement="top">
-                                    <Typography color="inherit">
-                                      Asset
-                                    </Typography>
-                                  </React.Fragment>
-                                }
-                              >
-                                <Button className="text-white fs-2" arrow><MdWebAsset /></Button>
-                              </HtmlTooltip>
-                            </Link>
-                            <Link
-                              className="text-white me-3 fs-3"
-                              to={`exchange-detail?id=${data._id}`}
-                            >
-                              {/* <Tooltip title="Add" placement="top">
-                              <FaExchangeAlt>Exchange</FaExchangeAlt>
-                              </Tooltip> */}
-                              <HtmlTooltip
-                                title={
-                                  <React.Fragment placement="top">
-                                    <Typography color="inherit">
-                                      Exchange
-                                    </Typography>
-                                  </React.Fragment>
-                                }
-                              >
-                                <Button className="text-white fs-2" arrow><FaExchangeAlt/></Button>
-                              </HtmlTooltip>
-                            </Link>
-                            <Link
-                              
-                              to={`activity-detail?id=${data._id}`}
-                            >
-                              <HtmlTooltip
-                                title={
-                                  <React.Fragment placement="top">
-                                    <Typography color="inherit">
-                                      Activity
-                                    </Typography>
-                                  </React.Fragment>
-                                }
-                              >
-                                <Button className="text-white fs-2" arrow><RxActivityLog /></Button>
-                              </HtmlTooltip>
-                            </Link>
-                            <Link
-                              to={`user-referal?id=${data._id}`}
-                            >
-                              <HtmlTooltip
-                                title={
-                                  <React.Fragment placement="top">
-                                    <Typography color="inherit">
-                                      User Referal
-                                    </Typography>
-                                  </React.Fragment>
-                                }
-                              >
-                                <Button className="text-white fs-2" arrow><PiUsersThreeFill />
-                                </Button>
-                              </HtmlTooltip>
-                            </Link>
-                            <Link
-                              
-                              to={`referral-income?id=${data._id}`}
-                            >
-                              <HtmlTooltip
-                                title={
-                                  <React.Fragment placement="top">
-                                    <Typography color="inherit">
-                                     Referal Income
-                                    </Typography>
-                                  </React.Fragment>
-                                }
-                              >
-                                <Button className="text-white fs-2" arrow><GiReceiveMoney />
-                                </Button>
-                              </HtmlTooltip>
-                            </Link>
-                            <Link
-                              
-                              to={`signup-bonus?id=${data._id}`}
-                            >
-                              <HtmlTooltip
-                                title={
-                                  <React.Fragment placement="top">
-                                    <Typography color="inherit">
-                                     Signup Bonus 
-                                    </Typography>
-                                  </React.Fragment>
-                                }
-                              >
-                                <Button className="text-white fs-2" arrow><SiApostrophe />
-                                </Button>
-                              </HtmlTooltip>
-                            </Link>
-                            <span
-                              // to={"task-reward"}
-                              onClick={()=>{
-                                console.log(data,' user data');
-                                dispatch(setUserTaskAction(data?.rewards))
-                                setTimeout(() => {
-                                  navigate("task-reward")                                  
-                                }, 200);
-                              }}
-                            >
-                              <HtmlTooltip
-                                title={
-                                  <React.Fragment placement="top">
-                                    <Typography color="inherit">
-                                     Task Reward
-                                    </Typography>
-                                  </React.Fragment>
-                                }                                
-                              >
-                                <Button className="text-white fs-2" arrow><IoMdTrophy />
-                                </Button>
-                              </HtmlTooltip>
-                            </span>
-                            <span
-                              // to={"task-reward"}
-                              onClick={()=>{
-                                console.log(data,' user data');
-                                dispatch(setUserTaskAction(data))
-                                setTimeout(() => {
-                                  navigate("support")                                  
-                                }, 200);
-                              }}
-                            >
-                              <HtmlTooltip
-                                title={
-                                  <React.Fragment placement="top">
-                                    <Typography color="inherit">
-                                     Support Chat
-                                    </Typography>
-                                  </React.Fragment>
-                                }                                
-                              >
-                                <Button className="text-white fs-2" arrow><FaMessage />
-                                </Button>
-                              </HtmlTooltip>
-                            </span>
+                            <div>
+                              <div class="btn-group">
+                                
+                                <button
+                                  type="button"
+                                  class="custom_btn dropdown-toggle"
+                                  data-bs-toggle="dropdown"
+                                  aria-expanded="false"
+                                >
+                                 View
+
+                                </button>
+                                <ul class="dropdown-menu">
+                                  <li>
+                                    <Link
+                                      className="dropdown-item"
+                                      to={`deposit-detail?id=${data._id}`}
+                                    >
+                                      <div>
+                                        <RiLuggageDepositFill  className="me-2"/> Deposit
+                                      </div>
+                                    </Link>
+                                  </li>
+                                 
+
+                                  <li>
+                                    {" "}
+                                    <Link
+                                      className="dropdown-item"
+                                      to={`withdraw-detail?id=${data._id}`}
+                                    >
+                                      <div>
+                                        <RiMoneyDollarCircleFill  className="me-2"/> Withdraw
+                                      </div>
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      className="dropdown-item"
+                                      to={`staking-detail?id=${data._id}`}
+                                    >
+                                      <div>
+                                        <GrStakeholder  className="me-2"/> Stake
+                                      </div>
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      className="dropdown-item"
+                                      to={`assets-detail?id=${data._id}`}
+                                    >
+                                      <div>
+                                        <MdWebAsset  className="me-2"/>Assets
+                                      </div>
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      className="dropdown-item"
+                                      to={`exchange-detail?id=${data._id}`}
+                                    >
+                                      <div>
+                                        <FaExchangeAlt  className="me-2"/>Exchange 
+                                      </div>
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      className="dropdown-item"
+                                      to={`activity-detail?id=${data._id}`}
+                                    >
+                                      <div>
+                                        <RxActivityLog  className="me-2"/>Activity 
+                                      </div>
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      className="dropdown-item"
+                                      to={`user-referal?id=${data._id}`}
+                                    >
+                                      <div>
+                                        <PiUsersThreeFill  className="me-2"/>User Referal 
+                                      </div>
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      className="dropdown-item"
+                                      to={`referral-income?id=${data._id}`}
+                                    >
+                                      <div>
+                                        <GiReceiveMoney  className="me-2"/>Referal Income 
+                                      </div>
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      className="dropdown-item"
+                                      to={`signup-bonus?id=${data._id}`}
+                                    >
+                                      <div>
+                                        <SiApostrophe  className="me-2"/>Signup Bonus
+                                      </div>
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      className="dropdown-item"
+                                      // to={"task-reward"}
+                                      onClick={() => {
+                                        console.log(data, " user data");
+                                        dispatch(
+                                          setUserTaskAction(data?.rewards)
+                                        );
+                                        setTimeout(() => {
+                                          navigate("task-reward");
+                                        }, 200);
+                                      }}
+                                    >
+                                      <div>
+                                        <IoMdTrophy  className="me-2"/>Task Reward
+                                      </div>
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      className="dropdown-item"
+                                      // to={"task-reward"}
+                                      onClick={() => {
+                                        console.log(data, " user data");
+                                        dispatch(setUserTaskAction(data));
+                                        setTimeout(() => {
+                                          navigate("support");
+                                        }, 200);
+                                      }}
+                                    >
+                                      <div>
+                                        <FaMessage  className="me-2"/>Support Chat
+                                      </div>
+                                    </Link>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
                           </td>
                         </tr>
                       );
@@ -448,16 +368,11 @@ export const AllUser = () => {
                 className="text-center mb-3 col-lg-6"
                 style={{ margin: "auto" }}
               >
-                <div className="filter-pagination  mt-3 bg-black">
+                <div className="filter-pagination mt-3">
                   <button
                     className="previous-button"
                     onClick={handlePreviousPage}
                     disabled={currentPage === 1}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
                   >
                     Previous
                   </button>
@@ -466,29 +381,11 @@ export const AllUser = () => {
                     className="next-button"
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
                   >
                     Next
                   </button>
 
-                  {/* <button
-                    className="next-button"
-                    onClick={handleNextPage}
-                    disabled={currentPage === totalPages}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
-                  >
-                    {">>"}
-                  </button> */}
-
-                  <span className="bg-black text-white">
+                  <span className=" ">
                     Page {currentPage} of {totalPages}
                   </span>
                 </div>

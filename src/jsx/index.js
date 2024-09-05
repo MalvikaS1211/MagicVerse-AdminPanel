@@ -414,7 +414,7 @@ function MainLayout() {
       <Nav />
       <div
         className="content-body"
-        style={{ minHeight: window.screen.height - 45, background: "black" }}
+        style={{ minHeight: window.screen.height - 45, }}
       >
         <div className="container-fluid">
           <Outlet />

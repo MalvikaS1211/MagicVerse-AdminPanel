@@ -98,6 +98,7 @@
     "test:lockfile-lint": "lockfile-lint --allowed-hosts npm --allowed-schemes https: --empty-hostname false --type npm --path package-lock.json",
     "test:stylelint": "stylelint docs/assets/scss/ --cache --cache-location node_modules/.cache/.stylelintcache --rd",
     "test:vnu": "node build/vnu-jar.js"
+    
   },
   "version": "1.4.0"
 }

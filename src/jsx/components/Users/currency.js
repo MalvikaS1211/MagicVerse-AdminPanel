@@ -49,7 +49,6 @@ export const Currency = () => {
           localStorage.removeItem("userDetails");
         }
       } catch (error) {
-        
         console.error("Error fetching data:", error.message);
       }
     };
@@ -122,52 +121,21 @@ export const Currency = () => {
 
         <Col lg={12}>
           <Card>
-            <Card.Header
-              style={{ background: "black", border: "1px solid white" }}
-            >
-              <Card.Title style={{ color: "white", margin: "auto" }}>
-                Currency
-              </Card.Title>
+            <Card.Header>
+              <Card.Title>Currency</Card.Title>
             </Card.Header>
-            <Card.Body
-              style={{
-                background: "black",
-                border: "1px solid white",
-                borderRadius: "3px",
-              }}
-            >
-              <Table
-                responsive
-                style={{
-                  background: "black",
-                  color: "white",
-                  borderBottom: "0.5px solid white",
-                }}
-              >
+            <Card.Body>
+              <Table responsive>
                 {/* <button onClick={() => exportToExcel(data, 'exported-data')}>Export to Excel</button> */}
                 <thead>
                   <tr>
-                    <th>
-                      <strong>NO.</strong>
-                    </th>
-                    <th>
-                      <strong>User</strong>
-                    </th>
-                    <th>
-                      <strong>INR</strong>
-                    </th>
-                    <th>
-                      <strong>INRX</strong>
-                    </th>
-                    <th>
-                      <strong>USDT</strong>
-                    </th>
-                    <th>
-                      <strong>USDC</strong>
-                    </th>
-                    <th>
-                      <strong>Total</strong>
-                    </th>
+                    <th>NO.</th>
+                    <th>User</th>
+                    <th>INR</th>
+                    <th>INRX</th>
+                    <th>USDT</th>
+                    <th>USDC</th>
+                    <th>Total</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -180,16 +148,19 @@ export const Currency = () => {
                   ) : (
                     apiData?.map((data, index) => {
                       const total = data?.currency?.reduce((pre, it) => {
-                        const fn = config?.find((t) => t.symbol.toLowerCase() === it.symbol.toLowerCase());
+                        const fn = config?.find(
+                          (t) =>
+                            t.symbol.toLowerCase() === it.symbol.toLowerCase()
+                        );
                         const price = fn ? fn.price : 1;
                         const tt = pre + it.available * price;
                         return tt;
                       }, 0);
                       return (
                         <tr>
-                          <th>{index + 1}</th>
-                          <th>{data.name}</th>
-                          <th>
+                          <td>{index + 1}</td>
+                          <td>{data.name}</td>
+                          <td>
                             {data.currency
                               ?.find((it) => it.symbol?.toLowerCase() === "inr")
                               ?.available?.toFixed(2)}
@@ -200,11 +171,11 @@ export const Currency = () => {
                                 )?.icon
                               }`}
                               height="20"
-                              width="20"
+                              widtd="20"
                               className="ms-2"
                             />
-                          </th>
-                          <th>
+                          </td>
+                          <td>
                             {data.currency
                               ?.find(
                                 (it) => it.symbol?.toLowerCase() === "inrx"
@@ -217,11 +188,11 @@ export const Currency = () => {
                                 )?.icon
                               }`}
                               height="20"
-                              width="20"
+                              widtd="20"
                               className="ms-2"
                             />
-                          </th>
-                          <th>
+                          </td>
+                          <td>
                             {data.currency
                               ?.find(
                                 (it) => it.symbol?.toLowerCase() === "usdt"
@@ -234,11 +205,11 @@ export const Currency = () => {
                                 )?.icon
                               }`}
                               height="20"
-                              width="20"
+                              widtd="20"
                               className="ms-2"
                             />
-                          </th>
-                          <th>
+                          </td>
+                          <td>
                             {data.currency
                               ?.find(
                                 (it) => it.symbol?.toLowerCase() === "usdc"
@@ -251,11 +222,11 @@ export const Currency = () => {
                                 )?.icon
                               }`}
                               height="20"
-                              width="20"
+                              widtd="20"
                               className="ms-2"
                             />
-                          </th>
-                          <th>{total?.toFixed(2)} (INR)</th>
+                          </td>
+                          <td>{total?.toFixed(2)} (INR)</td>
                         </tr>
                       );
                     })
@@ -273,7 +244,7 @@ export const Currency = () => {
                 className="text-center mb-3 col-lg-6"
                 style={{ margin: "auto" }}
               >
-                <div className="filter-pagination  mt-3 bg-black">
+                <div className="filter-pagination  mt-3 ">
                   {/* <button
                     className="previous-button"
                     onClick={handlePreviousPage}
@@ -291,11 +262,6 @@ export const Currency = () => {
                     className="previous-button"
                     onClick={handlePreviousPage}
                     disabled={currentPage === 1}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
                   >
                     Previous
                   </button>
@@ -304,29 +270,11 @@ export const Currency = () => {
                     className="next-button"
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
                   >
                     Next
                   </button>
 
-                  {/* <button
-                    className="next-button"
-                    onClick={handleNextPage}
-                    disabled={currentPage === totalPages}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
-                  >
-                    {">>"}
-                  </button> */}
-
-                  <span className="bg-black text-white">
+                  <span>
                     Page {currentPage} of {totalPages}
                   </span>
                 </div>

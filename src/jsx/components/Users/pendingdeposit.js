@@ -5,20 +5,24 @@ import { useNavigate } from "react-router-dom";
 import * as XLSX from "xlsx";
 
 import { Row, Col, Card, Table } from "react-bootstrap";
-import { allUser, updatedepositStatus, updateKycStatus } from "../../../services/api_function";
+import {
+  allUser,
+  updatedepositStatus,
+  updateKycStatus,
+} from "../../../services/api_function";
 import { COLUMNS } from "../table/FilteringTable/Columns";
 import toast from "react-hot-toast";
 
 export const PendingDeposit = () => {
   const [apiData, setApiData] = useState([]);
-  const [update, setUpdate] = useState(false)
+  const [update, setUpdate] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [selectedFilter, setSelectedFilter] = useState("");
   const [search, setSearch] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
-  const [recordStatus,setRecordStatus] = useState("Loading...")
+  const [recordStatus, setRecordStatus] = useState("Loading...");
   const pageSize = 100;
   const userDetails = localStorage.getItem("userDetails");
   const parsedDetails = JSON.parse(userDetails);
@@ -27,7 +31,6 @@ export const PendingDeposit = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-       
         const table = "pendingdeposit";
         const result = await allUser(
           table,
@@ -38,8 +41,8 @@ export const PendingDeposit = () => {
         console.log(result);
         setApiData(result.data);
         setFilteredData(result.data);
-        if(!result.data[0]){
-          setRecordStatus("No Record")
+        if (!result.data[0]) {
+          setRecordStatus("No Record");
         }
         setTotalPages(result.totalPages);
         if (result.status == 404) {
@@ -95,12 +98,11 @@ export const PendingDeposit = () => {
   };
   const tableRef = useRef(null);
 
-
   const handleSelect = async (id, status) => {
     try {
       const res = await updatedepositStatus(id, status, token);
       if (res.data.status === 200) {
-        setUpdate(!update)
+        setUpdate(!update);
         toast.success(res.data.message);
       }
     } catch (error) {
@@ -132,28 +134,11 @@ export const PendingDeposit = () => {
 
         <Col lg={12}>
           <Card>
-            <Card.Header
-              style={{ background: "black", border: "1px solid white" }}
-            >
-              <Card.Title style={{ color: "white", margin: "auto" }}>
-                Deposite History
-              </Card.Title>
+            <Card.Header>
+              <Card.Title>Deposit History</Card.Title>
             </Card.Header>
-            <Card.Body
-              style={{
-                background: "black",
-                border: "1px solid white",
-                borderRadius: "3px",
-              }}
-            >
-              <Table
-                responsive
-                style={{
-                  background: "black",
-                  color: "white",
-                  borderBottom: "0.5px solid white",
-                }}
-              >
+            <Card.Body>
+              <Table responsive>
                 {/* <button onClick={() => exportToExcel(data, 'exported-data')}>Export to Excel</button> */}
                 <thead>
                   <tr>
@@ -175,7 +160,6 @@ export const PendingDeposit = () => {
                     <th>
                       <strong>Action</strong>
                     </th>
-                   
                   </tr>
                 </thead>
                 <tbody>
@@ -191,64 +175,43 @@ export const PendingDeposit = () => {
                         <td>{index + 1}</td>
                         <td>{data.name}</td>
                         {/* <td>{data.symbol}</td> */}
-                        <td>{data.amount.toFixed(2)} ({data.symbol})</td>
+                        <td>
+                          {data.amount.toFixed(2)} ({data.symbol})
+                        </td>
                         <td>{new Date(data.createdAt).toLocaleString()}</td>
                         <td>
-                            <select
-                              className="form-control text-center"
-                              width="100"
-                              value={data?.success}
-                              style={{ background: "transparent" }}
-                              onChange={(e) =>
-                                handleSelect(data?._id, e.target.value)
-                              }
-                              aria-label="Default select example"
-                            >
-                              <option value="" selected>Pending</option>
-                              <option value="approved">Approved</option>
-                              <option value="rejected">Rejected</option>
-                            </select>
-                          </td>
-                        
+                          <select
+                            className="form-select w-50"
+                            // width="100"
+                            value={data?.success}                           
+                            onChange={(e) =>
+                              handleSelect(data?._id, e.target.value)
+                            }
+                            aria-label="select"
+                          >
+                            <option value="" selected>
+                              Pending
+                            </option>
+                            <option value="approved">Approved</option>
+                            <option value="rejected">Rejected</option>
+                          </select>
+                        </td>
                       </tr>
                     ))
                   )}
                 </tbody>
               </Table>
 
-              <div className="d-flex justify-content-between">
-                <span>
-                  {/* Page{" "} */}
-                  <strong>{/* {currentPage} of {totalPages} */}</strong>
-                </span>
-              </div>
+             
               <div
                 className="text-center mb-3 col-lg-6"
                 style={{ margin: "auto" }}
               >
-                <div className="filter-pagination  mt-3 bg-black">
-                  {/* <button
-                    className="previous-button"
-                    onClick={handlePreviousPage}
-                    disabled={currentPage === 1}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
-                  >
-                    {"<<"}
-                  </button> */}
-
+                <div className="filter-pagination  mt-3">
                   <button
                     className="previous-button"
                     onClick={handlePreviousPage}
                     disabled={currentPage === 1}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
                   >
                     Previous
                   </button>
@@ -257,29 +220,11 @@ export const PendingDeposit = () => {
                     className="next-button"
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
                   >
                     Next
                   </button>
-
-                  {/* <button
-                    className="next-button"
-                    onClick={handleNextPage}
-                    disabled={currentPage === totalPages}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
-                  >
-                    {">>"}
-                  </button> */}
-
-                  <span className="bg-black text-white">
+                 
+                  <span>
                     Page {currentPage} of {totalPages}
                   </span>
                 </div>

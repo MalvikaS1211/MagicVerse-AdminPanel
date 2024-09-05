@@ -42,22 +42,18 @@ const TopTeams = () => {
         <Col lg={12}>
           <Card>
             <Card.Header
-              style={{ background: "black", border: "1px solid white" }}
+              
             >
-              <Card.Title style={{ color: "black", margin: "auto" }}>
+              <Card.Title >
                 Top 10 Team{" "}
               </Card.Title>
             </Card.Header>
             <Card.Body
-              style={{ background: "black", border: "1px solid white" }}
+             
             >
               <Table
                 responsive
-                style={{
-                  background: "black",
-                  color: "white",
-                  borderBottom: "1px solid white",
-                }}
+               
               >
                 <thead>
                   <tr>

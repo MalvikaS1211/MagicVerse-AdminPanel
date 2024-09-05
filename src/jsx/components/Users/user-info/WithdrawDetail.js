@@ -115,27 +115,18 @@ export const WithdrawDetail = () => {
         <Col lg={12}>
           <Card>
             <Card.Header
-              style={{ background: "black", border: "1px solid white" }}
             >
-              <Card.Title style={{ color: "white", margin: "auto" }}>
+              <Card.Title>
                Withdraw Details
               </Card.Title>
                 <Link className="btn btn-dark btn-sm" to="/allusers">Back</Link>
             </Card.Header>
             <Card.Body
-              style={{
-                background: "black",
-                border: "1px solid white",
-                borderRadius: "3px",
-              }}
+              
             >
               <Table
                 responsive
-                style={{
-                  background: "black",
-                  color: "white",
-                  borderBottom: "0.5px solid white",
-                }}
+                
               >
                 {/* <button onClick={() => exportToExcel(data, 'exported-data')}>Export to Excel</button> */}
                 <thead>
@@ -188,7 +179,7 @@ export const WithdrawDetail = () => {
                 className="text-center mb-3 col-lg-6"
                 style={{ margin: "auto" }}
               >
-                <div className="filter-pagination  mt-3 bg-black">
+                <div className="filter-pagination  mt-3 ">
 
                   <button
                     className="previous-button"
@@ -216,7 +207,7 @@ export const WithdrawDetail = () => {
                     Next
                   </button>
 
-                  <span className="bg-black text-white">
+                  <span className=" text-white">
                     Page {currentPage} of {totalPages}
                   </span>
                 </div>

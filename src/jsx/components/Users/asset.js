@@ -117,77 +117,44 @@ export const Asset = () => {
 
         <Col lg={12}>
           <Card>
-            <Card.Header
-              style={{ background: "black", border: "1px solid white" }}
-            >
-              <Card.Title style={{ color: "white", margin: "auto" }}>
-                Asset
-              </Card.Title>
+            <Card.Header>
+              <Card.Title>Asset</Card.Title>
             </Card.Header>
-            <Card.Body
-              style={{
-                background: "black",
-                border: "1px solid white",
-                borderRadius: "3px",
-              }}
-            >
-              <Table
-                responsive
-                style={{
-                  background: "black",
-                  color: "white",
-                  borderBottom: "0.5px solid white",
-                }}
-              >
+            <Card.Body>
+              <Table responsive>
                 {/* <button onClick={() => exportToExcel(data, 'exported-data')}>Export to Excel</button> */}
                 <thead>
                   <tr>
-                    <th>
-                      <strong>NO.</strong>
-                    </th>
-                    <th>
-                      <strong>Name</strong>
-                    </th>
-                    <th>
-                      <strong> Symbol</strong>
-                    </th>
-                    <th>
-                      <strong>Blockchain</strong>
-                    </th>
-                    <th>
-                      <strong>Contract</strong>
-                    </th>
-                    <th>
-                      <strong>Icon</strong>
-                    </th>
-                    <th>
-                      <strong>Decimal</strong>
-                    </th>
-                    <th>
-                      <strong>Type</strong>
-                    </th>
+                    <th>NO.</th>
+                    <th>Name</th>
+                    <th>Symbol</th>
+                    <th>Blockchain</th>
+                    <th>Contract</th>
+                    <th>Icon</th>
+                    <th>Decimal</th>
+                    <th>Type</th>
                   </tr>
                 </thead>
                 <tbody>
                   {!apiData[0] ? (
                     <tr>
-                      <td className="text-light text-center" colSpan="7">
-                       {recordStatus}
+                      <td className="text-center" colSpan="7">
+                        {recordStatus}
                       </td>
                     </tr>
                   ) : (
                     apiData.map((data, index) => (
                       <tr>
-                        <th>{index + 1}</th>
-                        <th>{data.name}</th>
-                        <th>{data.symbol}</th>
-                        <th>{data.blockchain}</th>
-                        <th>{data.contract}</th>
-                        <th>
-                          <img src={data.icon} height="30" width="30" />
-                        </th>
-                        <th>{data.decimal}</th>
-                        <th>{data.type}</th>
+                        <td>{index + 1}</td>
+                        <td>{data.name}</td>
+                        <td>{data.symbol}</td>
+                        <td>{data.blockchain}</td>
+                        <td>{data.contract}</td>
+                        <td>
+                          <img src={data.icon} height="30" widtd="30" />
+                        </td>
+                        <td>{data.decimal}</td>
+                        <td>{data.type}</td>
                       </tr>
                     ))
                   )}
@@ -204,7 +171,7 @@ export const Asset = () => {
                 className="text-center mb-3 col-lg-6"
                 style={{ margin: "auto" }}
               >
-                <div className="filter-pagination  mt-3 bg-black">
+                <div className="filter-pagination  mt-3 ">
                   {/* <button
                     className="previous-button"
                     onClick={handlePreviousPage}
@@ -222,11 +189,6 @@ export const Asset = () => {
                     className="previous-button"
                     onClick={handlePreviousPage}
                     disabled={currentPage === 1}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
                   >
                     Previous
                   </button>
@@ -235,29 +197,10 @@ export const Asset = () => {
                     className="next-button"
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
                   >
                     Next
                   </button>
-
-                  {/* <button
-                    className="next-button"
-                    onClick={handleNextPage}
-                    disabled={currentPage === totalPages}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
-                  >
-                    {">>"}
-                  </button> */}
-
-                  <span className="bg-black text-white">
+                  <span>
                     Page {currentPage} of {totalPages}
                   </span>
                 </div>

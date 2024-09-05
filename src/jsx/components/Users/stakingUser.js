@@ -43,7 +43,7 @@ export const StakingUser = () => {
         );
         setApiData(result.data);
         setFilteredData(result.data);
-        console.log(result.data)
+        console.log(result.data);
         // const total = result.totalUsers;
         // const pages = Math.ceil(total / pageSize);
         setTotalPages(result.totalPages);
@@ -156,67 +156,40 @@ export const StakingUser = () => {
 
         <Col lg={12}>
           <Card>
-            <Card.Header
-              style={{ background: "black", border: "1px solid white" }}
-            >
-              <Card.Title style={{ color: "white", margin: "auto" }}>
-                Staking User
-              </Card.Title>
+            <Card.Header>
+              <Card.Title>Staking User</Card.Title>
             </Card.Header>
-            <Card.Body
-              style={{
-                background: "black",
-                border: "1px solid white",
-                borderRadius: "3px",
-              }}
-            >
-              <Table
-                responsive
-                style={{
-                  background: "black",
-                  color: "white",
-                  borderBottom: "0.5px solid white",
-                }}
-              >
+            <Card.Body>
+              <Table responsive>
                 {/* <button onClick={() => exportToExcel(data, 'exported-data')}>Export to Excel</button> */}
                 <thead>
                   <tr>
-                    <th>
-                      <strong>NO.</strong>
-                    </th>
-                    <th>
-                      <strong>User</strong>
-                    </th>
-                    <th>
-                      <strong>Staking Amount</strong>
-                    </th>
-                    <th>
-                      <strong>Total Amount</strong>
-                    </th>
-                    <th>
-                      <strong>Claim Amount</strong>
-                    </th>
-                    <th>
-                      <strong>Remaining Amount</strong>
-                    </th>
+                    <th>NO.</th>
+                    <th>User</th>
+                    <th>Staking Amount</th>
+                    <th>Total Amount</th>
+                    <th>Claim Amount</th>
+                    <th>Remaining Amount</th>
                   </tr>
                 </thead>
                 <tbody>
                   {!apiData[0] ? (
                     <tr>
                       <td className="text-light text-center" colSpan="7">
-                       {recordStatus}
+                        {recordStatus}
                       </td>
                     </tr>
                   ) : (
                     apiData.map((data, index) => (
                       <tr>
-                        <th>{index + 1}</th>
-                        <th>{data.name}</th>
-                        <th>{data.stakeAmount.toFixed(2)}  ({data.symbol})</th>
-                        <th>{data.totalAmount.toFixed(2)}</th>
-                        <th>{data.claimAmount.toFixed(2)}</th>
-                        <th>{data.availableAmount.toFixed(2)}</th>
+                        <td>{index + 1}</td>
+                        <td>{data.name}</td>
+                        <td>
+                          {data.stakeAmount.toFixed(2)} ({data.symbol})
+                        </td>
+                        <td>{data.totalAmount.toFixed(2)}</td>
+                        <td>{data.claimAmount.toFixed(2)}</td>
+                        <td>{data.availableAmount.toFixed(2)}</td>
                         {/* <th>{data.claimAmount.toFixed(2)}</th> */}
                         {/* <th>
                           {new Date(data.endTimestamp * 1000).toLocaleString()}
@@ -230,7 +203,6 @@ export const StakingUser = () => {
 
               <div className="d-flex justify-content-between">
                 <span>
-                  {/* Page{" "} */}
                   <strong>{/* {currentPage} of {totalPages} */}</strong>
                 </span>
               </div>
@@ -238,29 +210,11 @@ export const StakingUser = () => {
                 className="text-center mb-3 col-lg-6"
                 style={{ margin: "auto" }}
               >
-                <div className="filter-pagination  mt-3 bg-black">
-                  {/* <button
-                    className="previous-button"
-                    onClick={handlePreviousPage}
-                    disabled={currentPage === 1}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
-                  >
-                    {"<<"}
-                  </button> */}
-
+                <div className="filter-pagination mt-3">
                   <button
                     className="previous-button"
                     onClick={handlePreviousPage}
                     disabled={currentPage === 1}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
                   >
                     Previous
                   </button>
@@ -269,11 +223,6 @@ export const StakingUser = () => {
                     className="next-button"
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
                   >
                     Next
                   </button>
@@ -291,7 +240,7 @@ export const StakingUser = () => {
                     {">>"}
                   </button> */}
 
-                  <span className="bg-black text-white">
+                  <span className=" text-white">
                     Page {currentPage} of {totalPages}
                   </span>
                 </div>

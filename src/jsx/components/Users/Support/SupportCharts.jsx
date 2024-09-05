@@ -95,7 +95,7 @@ const SupportCharts = () => {
       <main className="pt-5 support_main">
         <div className="container-fluid">
           <div className="mb-3 d-flex justify-content-between">
-            <h1 className="heading text-white">Support</h1>
+            <h1 className="heading">Support</h1>
           </div>
           {/* accordian start */}
           {list?.length > 0
@@ -105,8 +105,8 @@ const SupportCharts = () => {
                     <div
                       className="accordion accordion-flush"
                       id={"accordionFlushExample" + i}
-                      style={{ backgroundColor: "#0D0D0D" }}
-                      onClick={()=>setReplyMessage("")}
+                      // style={{ backgroundColor: "#fff" }}
+                      onClick={() => setReplyMessage("")}
                     >
                       <div className="accordion-item mb-2 rounded">
                         <h2 className="accordion-header">
@@ -137,7 +137,9 @@ const SupportCharts = () => {
                                           objectFit: "cover",
                                         }}
                                       />
-                                      <span className="ms-3">{item?.userName}</span>
+                                      <span className="ms-3">
+                                        {item?.userName}
+                                      </span>
                                       <img
                                         src="https://auth.inrx.io/images/message.svg"
                                         alt="message"
@@ -196,7 +198,6 @@ const SupportCharts = () => {
                             {/* {item?.query_meggage} */}
                             <div
                               style={{
-                                background: "#0d0d0d",
                                 height: "500px",
                                 overflow: "scroll",
                                 overflowX: "hidden",
@@ -206,269 +207,256 @@ const SupportCharts = () => {
                               <div className="row">
                                 <div className="col-lg-12 col-sm-12 mb-2">
                                   <div>
-                                    <h6
-                                      className="py-2"
-                                      style={{ color: "#6C757D" }}
-                                    >
-                                      Your Chats
-                                    </h6>
-
-                                    {item?.message?.map((it, i) => {
-                                      if (it.type == "user1") {
-                                        return (
-                                          <div
-                                            className="col-lg-12 col-sm-12 mb-2"
-                                            style={{
-                                              display: "flex",
-                                              flexDirection: "row",
-                                              justifyContent: "flex-start",
-                                            }}
-                                          >
-                                            <div className="col-lg-6 col-sm-12 mb-2">
-                                              <div
-                                                style={{
-                                                  flex: 1,
-                                                  border: "1px solid #222",
-                                                  borderRadius: 10,
-                                                  padding: 10,
-                                                }}
-                                                className=" my-2"
-                                              >
-                                                <div className="d-flex gap-2 align-items-center">
-                                                  <div className="">
-                                                    <img
-                                                      src={
-                                                        item?.user_picture
-                                                          ? `data:image/jpeg;base64,${item?.user_picture}`
-                                                          : `images/user.svg`
-                                                      }
-                                                      alt="user"
-                                                      style={{
-                                                        height: "45px",
-                                                        width: "45px",
-                                                        borderRadius: "50%",
-                                                        objectFit: "cover",
-                                                      }}
-                                                    />
-                                                  </div>
-                                                  <div style={{ flex: 1 }}>
-                                                    <div className="d-flex justify-content-between align-items-center">
-                                                      <h6
-                                                        className=" fw-bold"
+                                    <h6>Your Chats</h6>
+                                    <div className="row">
+                                      {item?.message?.map((it, i) => {
+                                        if (it.type == "user1") {
+                                          return (
+                                            <div className="col-lg-6 col-sm-6 mb-2">
+                                              <div className="card">
+                                                <div className="card-body">
+                                                  <div className="d-flex gap-2 align-items-center">
+                                                    <div className="">
+                                                      <img
+                                                        src={
+                                                          item?.user_picture
+                                                            ? `data:image/jpeg;base64,${item?.user_picture}`
+                                                            : `images/user.svg`
+                                                        }
+                                                        alt="user"
                                                         style={{
-                                                          color: "#02FF01",
+                                                          height: "45px",
+                                                          width: "45px",
+                                                          borderRadius: "50%",
+                                                          objectFit: "cover",
                                                         }}
-                                                      >
-                                                        {item?.userName}
-                                                      </h6>
-                                                      <div className="text-muted mob-font ">
-                                                        {/* {new Date(
+                                                      />
+                                                    </div>
+                                                    <div style={{ flex: 1 }}>
+                                                      <div className="d-flex justify-content-between align-items-center">
+                                                        <h6
+                                                          className=" fw-bold"
+                                                          style={{
+                                                            color: "#02FF01",
+                                                          }}
+                                                        >
+                                                          {item?.userName}
+                                                        </h6>
+                                                        <div className="text-muted mob-font ">
+                                                          {/* {new Date(
                                               item?.querytime * 1000
                                             ).toLocaleTimeString()} */}
+                                                        </div>
                                                       </div>
+                                                      <p className="mb-0 mob-font text-muted">
+                                                        {/* {item?.query_meggage} */}
+                                                      </p>
                                                     </div>
-                                                    <p className="mb-0 mob-font text-muted">
-                                                      {/* {item?.query_meggage} */}
-                                                    </p>
+                                                  </div>
+                                                  <div
+                                                    style={{
+                                                      flex: 1,
+                                                      flexDirection: "column",
+                                                    }}
+                                                  >
+                                                    <div
+                                                      className="py-2"
+                                                      style={{
+                                                        flex: 0.7,
+                                                        color: "#6C757D",
+                                                      }}
+                                                    >
+                                                      {it.message}
+                                                    </div>
+                                                  </div>
+
+                                                  {it?.file ? (
+                                                    <img
+                                                      src={(
+                                                        url2 +
+                                                        "/" +
+                                                        it?.file
+                                                      ).replace(
+                                                        "/uploads",
+                                                        "/support"
+                                                      )}
+                                                      className="chat-image"
+                                                      alt="Query Image"
+                                                    />
+                                                  ) : null}
+                                                  <div
+                                                    style={{
+                                                      display: "flex",
+                                                      flexDirection: "row",
+                                                      justifyContent:
+                                                        "flex-end",
+                                                    }}
+                                                  >
+                                                    <span
+                                                      style={{
+                                                        color: "#6C757D",
+                                                      }}
+                                                    >
+                                                      {new Date(
+                                                        it.createdAt
+                                                      ).toLocaleDateString() +
+                                                        " / " +
+                                                        formatTime(
+                                                          new Date(
+                                                            it.createdAt
+                                                          ).getHours()
+                                                        ) +
+                                                        ":" +
+                                                        formatTime(
+                                                          new Date(
+                                                            it.createdAt
+                                                          ).getSeconds()
+                                                        ) +
+                                                        " " +
+                                                        getAmPm(
+                                                          new Date(
+                                                            it.createdAt
+                                                          ).getTime()
+                                                        )}
+                                                    </span>
                                                   </div>
                                                 </div>
+                                              </div>
+                                            </div>
+                                          );
+                                        } else {
+                                          return (
+                                            <div
+                                              className="col-lg-12 col-sm-12 mb-2"
+                                              style={{
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                justifyContent: "flex-end",
+                                              }}
+                                            >
+                                              <div
+                                                className="col-lg-6 col-sm-12 mb-2"
+                                                style={{
+                                                  flexDirection: "row",
+                                                }}
+                                              >
                                                 <div
                                                   style={{
                                                     flex: 1,
-                                                    flexDirection: "column",
+                                                    border: "1px solid #222",
+                                                    borderRadius: 10,
+                                                    padding: 10,
+                                                    alignSelf: "flex-end",
                                                   }}
                                                 >
+                                                  <div className="d-flex gap-2 align-items-center">
+                                                    <div className="">
+                                                      <img
+                                                        alt="user"
+                                                        src={
+                                                          item?.replier_picture
+                                                            ? `data:image/jpeg;base64,${item?.replier_picture}`
+                                                            : `images/user.svg`
+                                                        }
+                                                        style={{
+                                                          height: "45px",
+                                                          width: "45px",
+                                                          borderRadius: "50%",
+                                                          objectFit: "cover",
+                                                        }}
+                                                      />
+                                                    </div>
+                                                    <div style={{ flex: 1 }}>
+                                                      <div className="d-flex justify-content-between align-items-center">
+                                                        <h6
+                                                          className=" fw-bold"
+                                                          style={{
+                                                            color: "#02FF01",
+                                                          }}
+                                                        >
+                                                          {item?.replierName
+                                                            ? item?.replierName
+                                                            : "Boface"}
+                                                        </h6>
+                                                        <div className="text-muted mob-font "></div>
+                                                      </div>
+                                                    </div>
+                                                  </div>
                                                   <div
-                                                    className="py-2"
                                                     style={{
-                                                      flex: 0.7,
-                                                      color: "#6C757D",
+                                                      flex: 1,
+                                                      flexDirection: "column",
                                                     }}
                                                   >
-                                                    {it.message}
+                                                    <div
+                                                      style={{
+                                                        flex: 0.7,
+                                                        color: "#6C757D",
+                                                      }}
+                                                    >
+                                                      {it.message}
+                                                    </div>
                                                   </div>
-                                                </div>
 
-                                                {it?.file ? (
-                                                  <img
-                                                    src={(
-                                                      url2 +
-                                                      "/" +
-                                                      it?.file
-                                                    ).replace(
-                                                      "/uploads",
-                                                      "/support"
-                                                    )}
-                                                    className="chat-image"
-                                                    alt="Query Image"
-                                                  />
-                                                ) : null}
-                                                <div
-                                                  style={{
-                                                    display: "flex",
-                                                    flexDirection: "row",
-                                                    justifyContent: "flex-end",
-                                                  }}
-                                                >
-                                                  <span
-                                                    style={{ color: "#6C757D" }}
+                                                  {it?.file ? (
+                                                    <img
+                                                      src={(
+                                                        url2 +
+                                                        "/" +
+                                                        item?.file
+                                                      ).replace(
+                                                        "/uploads",
+                                                        "/support"
+                                                      )}
+                                                      style={{
+                                                        height: "105px",
+                                                        width: "105px",
+                                                        // borderRadius: "50%",
+                                                        objectFit: "cover",
+                                                      }}
+                                                      alt="Query Image"
+                                                    />
+                                                  ) : null}
+                                                  <div
+                                                    style={{
+                                                      display: "flex",
+                                                      flexDirection: "row",
+                                                      justifyContent:
+                                                        "flex-end",
+                                                    }}
                                                   >
-                                                    {new Date(
-                                                      it.createdAt
-                                                    ).toLocaleDateString() +
-                                                      " / " +
-                                                      formatTime(
+                                                    <span
+                                                      className=""
+                                                      style={{
+                                                        color: "#6C757D",
+                                                      }}
+                                                    >
+                                                      {formatTime(
                                                         new Date(
                                                           it.createdAt
                                                         ).getHours()
                                                       ) +
-                                                      ":" +
-                                                      formatTime(
-                                                        new Date(
-                                                          it.createdAt
-                                                        ).getSeconds()
-                                                      ) +
-                                                      " " +
-                                                      getAmPm(
-                                                        new Date(
-                                                          it.createdAt
-                                                        ).getTime()
-                                                      )}
-                                                  </span>
+                                                        ":" +
+                                                        formatTime(
+                                                          new Date(
+                                                            it.createdAt
+                                                          ).getSeconds()
+                                                        ) +
+                                                        " " +
+                                                        getAmPm(
+                                                          new Date(
+                                                            it.createdAt
+                                                          ).getTime()
+                                                        )}
+                                                    </span>
+                                                  </div>
                                                 </div>
                                               </div>
                                             </div>
-                                          </div>
-                                        );
-                                      } else {
-                                        return (
-                                          <div
-                                            className="col-lg-12 col-sm-12 mb-2"
-                                            style={{
-                                              display: "flex",
-                                              flexDirection: "row",
-                                              justifyContent: "flex-end",
-                                            }}
-                                          >
-                                            <div
-                                              className="col-lg-6 col-sm-12 mb-2"
-                                              style={{
-                                                flexDirection: "row",
-                                              }}
-                                            >
-                                              <div
-                                                style={{
-                                                  flex: 1,
-                                                  border: "1px solid #222",
-                                                  borderRadius: 10,
-                                                  padding: 10,
-                                                  alignSelf: "flex-end",
-                                                }}
-                                              >
-                                                <div className="d-flex gap-2 align-items-center">
-                                                  <div className="">
-                                                    <img
-                                                      alt="user"
-                                                      src={
-                                                        item?.replier_picture
-                                                          ? `data:image/jpeg;base64,${item?.replier_picture}`
-                                                          : `images/user.svg`
-                                                      }
-                                                      style={{
-                                                        height: "45px",
-                                                        width: "45px",
-                                                        borderRadius: "50%",
-                                                        objectFit: "cover",
-                                                      }}
-                                                    />
-                                                  </div>
-                                                  <div style={{ flex: 1 }}>
-                                                    <div className="d-flex justify-content-between align-items-center">
-                                                      <h6
-                                                        className=" fw-bold"
-                                                        style={{
-                                                          color: "#02FF01",
-                                                        }}
-                                                      >
-                                                        {item?.replierName
-                                                          ? item?.replierName
-                                                          : "Boface"}
-                                                      </h6>
-                                                      <div className="text-muted mob-font "></div>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                                <div
-                                                  style={{
-                                                    flex: 1,
-                                                    flexDirection: "column",
-                                                  }}
-                                                >
-                                                  <div
-                                                    style={{
-                                                      flex: 0.7,
-                                                      color: "#6C757D",
-                                                    }}
-                                                  >
-                                                    {it.message}
-                                                  </div>
-                                                </div>
-
-                                                {it?.file ? (
-                                                  <img
-                                                    src={(
-                                                      url2 +
-                                                      "/" +
-                                                      item?.file
-                                                    ).replace(
-                                                      "/uploads",
-                                                      "/support"
-                                                    )}
-                                                    style={{
-                                                      height: "105px",
-                                                      width: "105px",
-                                                      // borderRadius: "50%",
-                                                      objectFit: "cover",
-                                                    }}
-                                                    alt="Query Image"
-                                                  />
-                                                ) : null}
-                                                <div
-                                                  style={{
-                                                    display: "flex",
-                                                    flexDirection: "row",
-                                                    justifyContent: "flex-end",
-                                                  }}
-                                                >
-                                                  <span
-                                                    className=""
-                                                    style={{ color: "#6C757D" }}
-                                                  >
-                                                    {formatTime(
-                                                      new Date(
-                                                        it.createdAt
-                                                      ).getHours()
-                                                    ) +
-                                                      ":" +
-                                                      formatTime(
-                                                        new Date(
-                                                          it.createdAt
-                                                        ).getSeconds()
-                                                      ) +
-                                                      " " +
-                                                      getAmPm(
-                                                        new Date(
-                                                          it.createdAt
-                                                        ).getTime()
-                                                      )}
-                                                  </span>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        );
-                                      }
-                                    })}
+                                          );
+                                        }
+                                      })}
+                                    </div>
                                   </div>
                                 </div>
                               </div>
@@ -507,8 +495,8 @@ const SupportCharts = () => {
                                       type="checkbox"
                                       name="suppot-close"
                                       className="ms-5"
-                                      onChange={(e) =>{
-                                        setClosed(e.target.checked)
+                                      onChange={(e) => {
+                                        setClosed(e.target.checked);
                                         e.stopPropagation();
                                       }}
                                     />{" "}

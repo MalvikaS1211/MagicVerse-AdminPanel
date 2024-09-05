@@ -120,71 +120,40 @@ export const Swap = () => {
 
         <Col lg={12}>
           <Card>
-            <Card.Header
-              style={{ background: "black", border: "1px solid white" }}
-            >
-              <Card.Title style={{ color: "white", margin: "auto" }}>
-                Swap
-              </Card.Title>
+            <Card.Header>
+              <Card.Title>Swap</Card.Title>
             </Card.Header>
-            <Card.Body
-              style={{
-                background: "black",
-                border: "1px solid white",
-                borderRadius: "3px",
-              }}
-            >
-              <Table
-                responsive
-                style={{
-                  background: "black",
-                  color: "white",
-                  borderBottom: "0.5px solid white",
-                }}
-              >
+            <Card.Body>
+              <Table responsive>
                 {/* <button onClick={() => exportToExcel(data, 'exported-data')}>Export to Excel</button> */}
                 <thead>
                   <tr>
-                    <th>
-                      <strong>NO.</strong>
-                    </th>
-                    <th>
-                      <strong>User</strong>
-                    </th>
-                    <th>
-                      <strong> Pay Token</strong>
-                    </th>
-                    <th>
-                      <strong>Get Token</strong>
-                    </th>
-                    <th>
-                      <strong>Pay Amount</strong>
-                    </th>
-                    <th>
-                      <strong>Get Amount</strong>
-                    </th>
-                    <th>
-                      <strong>Date & Time</strong>
-                    </th>
+                    <th>NO.</th>
+                    <th>User</th>
+                    <th>Pay Token</th>
+                    <th>Get Token</th>
+                    <th>Pay Amount</th>
+                    <th>Get Amount</th>
+                    <th>Date & Time</th>
                   </tr>
                 </thead>
                 <tbody>
                   {!apiData[0] ? (
                     <tr>
-                      <td className="text-light text-center" colSpan="7">
+                      <td className="text-center" colSpan="7">
                         {recordStatus}
                       </td>
                     </tr>
                   ) : (
                     apiData.map((data, index) => (
                       <tr>
-                        <th>{index + 1}</th>
-                        <th>{data.name}</th>
-                        <th>{data.payToken}</th>
-                        <th>{data.getToken}</th>
-                        <th>{data?.payAmount?.toFixed(2)}</th>
-                        <th>{data?.getAmount?.toFixed(2)}</th>
-                        <th>{new Date(data.createdAt).toLocaleString()}</th>
+                        <td>{index + 1}</td>
+                        <td>{data.name}</td>
+                        <td>{data.payToken}</td>
+                        <td>{data.getToken}</td>
+                        <td>{data?.payAmount?.toFixed(2)}</td>
+                        <td>{data?.getAmount?.toFixed(2)}</td>
+                        <td>{new Date(data.createdAt).toLocaleString()}</td>
                       </tr>
                     ))
                   )}
@@ -201,29 +170,11 @@ export const Swap = () => {
                 className="text-center mb-3 col-lg-6"
                 style={{ margin: "auto" }}
               >
-                <div className="filter-pagination  mt-3 bg-black">
-                  {/* <button
-                    className="previous-button"
-                    onClick={handlePreviousPage}
-                    disabled={currentPage === 1}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
-                  >
-                    {"<<"}
-                  </button> */}
-
+                <div className="filter-pagination  mt-3 ">
                   <button
                     className="previous-button"
                     onClick={handlePreviousPage}
                     disabled={currentPage === 1}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
                   >
                     Previous
                   </button>
@@ -232,29 +183,10 @@ export const Swap = () => {
                     className="next-button"
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
                   >
                     Next
                   </button>
-
-                  {/* <button
-                    className="next-button"
-                    onClick={handleNextPage}
-                    disabled={currentPage === totalPages}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
-                  >
-                    {">>"}
-                  </button> */}
-
-                  <span className="bg-black text-white">
+                  <span className="">
                     Page {currentPage} of {totalPages}
                   </span>
                 </div>

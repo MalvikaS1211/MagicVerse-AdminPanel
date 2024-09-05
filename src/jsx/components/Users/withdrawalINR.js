@@ -17,7 +17,7 @@ export const WithdrawalINR = () => {
         const userDetails = localStorage.getItem("userDetails");
         const parsedDetails = JSON.parse(userDetails);
         const token = parsedDetails.token;
-        const table = "withdraw-inr-history"
+        const table = "withdraw-inr-history";
         const result = await allUser(
           table,
           currentPage,
@@ -74,10 +74,6 @@ export const WithdrawalINR = () => {
     }
   };
 
- 
-
-
-
   return (
     <Fragment>
       <Row>
@@ -103,59 +99,25 @@ export const WithdrawalINR = () => {
 
         <Col lg={12}>
           <Card>
-            <Card.Header
-              style={{ background: "black", border: "1px solid white" }}
-            >
-              <Card.Title style={{ color: "white", margin: "auto" }}>
-                Withdraw INR Pending History
-              </Card.Title>
+            <Card.Header>
+              <Card.Title>Withdraw INR Pending History</Card.Title>
               {/* <button type="button" class="btn btn-success">Approve</button> */}
             </Card.Header>
 
-            <Card.Body
-              style={{ background: "black", border: "1px solid white" }}
-            >
-              <Table
-                responsive
-                style={{
-                  background: "black",
-                  color: "white",
-                  borderBottom: "1px solid white",
-                }}
-              >
+            <Card.Body>
+              <Table responsive>
                 <thead>
                   <tr>
-                    <th>
-                      <strong>No</strong>
-                    </th>
-                    <th>
-                      <strong>Name</strong>
-                    </th>
-                    <th>
-                      <strong>Symbol</strong>
-                    </th>
-                    <th>
-                      <strong>Amount</strong>
-                    </th>
-                    <th>
-                      <strong>Fee</strong>
-                    </th>
-                    <th>
-                      <strong>Reciever</strong>
-                    </th>
-                    <th>
-                      <strong>Hash</strong>
-                    </th>
-                    <th>
-                      <strong>Status</strong>
-                    </th>
-                    
-                    <th>
-                      <strong>Date & Time</strong>
-                    </th>
-                    <th>
-                      <strong>Action</strong>
-                    </th>
+                    <th>No</th>
+                    <th>Name</th>
+                    <th>Symbol</th>
+                    <th>Amount</th>
+                    <th>Fee</th>
+                    <th>Reciever</th>
+                    <th>Hash</th>
+                    <th>Status</th>
+                    <th>Date & Time</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -175,16 +137,49 @@ export const WithdrawalINR = () => {
                         <td>{data?.fee ? data?.fee : "--"}</td>
 
                         <td>
-                          {!data?.reciever?("Self"):(<a href={`https://testnet.bscscan.com/address/${data?.reciever}`} target="_blanck" className="text-white">{data?.reciever.slice(0, 5) +
-                            "...." +
-                            data?.reciever.slice(-5)}</a>)}
-                            
+                          {!data?.reciever ? (
+                            "Self"
+                          ) : (
+                            <a
+                              href={`https://testnet.bscscan.com/address/${data?.reciever}`}
+                              target="_blanck"
+                              className="anchor_link"
+                            >
+                              {data?.reciever.slice(0, 5) +
+                                "...." +
+                                data?.reciever.slice(-5)}
+                            </a>
+                          )}
                         </td>
                         <td>
-                          {data?.hash.slice(0, 5) + "...." + data?.hash.slice(-5)}
+                          {data?.hash.slice(0, 5) +
+                            "...." +
+                            data?.hash.slice(-5)}
                         </td>
                         {/* <td style={{color:(data?.success)?"green":"red"}}>{(data?.success)?"Success":"Failed"}</td> */}
-                        <td style={{color:data?.status ?( (data?.status === "-1")?"yellow": (data?.status === "2") ?"red":"green"):data?.success?"green":"red"}}>{data?.status ?((data?.status === "-1")?"Pending":(data?.status === "2") ?"Rejected":"Success"):data?.success?"success":"Failed"}</td>
+                        <td
+                          style={{
+                            color: data?.status
+                              ? data?.status === "-1"
+                                ? "orange"
+                                : data?.status === "2"
+                                ? "red"
+                                : "green"
+                              : data?.success
+                              ? "green"
+                              : "red",
+                          }}
+                        >
+                          {data?.status
+                            ? data?.status === "-1"
+                              ? "Pending"
+                              : data?.status === "2"
+                              ? "Rejected"
+                              : "Success"
+                            : data?.success
+                            ? "success"
+                            : "Failed"}
+                        </td>
                         {/* <td>
                         <div className="d-flex justify-content-center align-items-center gap-2">
                         <div className="btn btn-success">Approve </div>
@@ -194,8 +189,14 @@ export const WithdrawalINR = () => {
                         </td> */}
 
                         <td>{new Date(data.createdAt).toLocaleString()}</td>
-                        <td><Link to={`/withdrawal-inr-info?id=${data?.hash}`} className="btn btn-outline-info">view</Link></td>
-
+                        <td>
+                          <Link
+                            to={`/withdrawal-inr-info?id=${data?.hash}`}
+                            className="custom_btn"
+                          >
+                            View
+                          </Link>
+                        </td>
                       </tr>
                     ))
                   )}
@@ -210,16 +211,11 @@ export const WithdrawalINR = () => {
                 className="text-center mb-3 col-lg-6"
                 style={{ margin: "auto" }}
               >
-                <div className="filter-pagination  mt-3 bg-black">
+                <div className="filter-pagination mt-3">
                   <button
                     className="previous-button"
                     onClick={handlePreviousPage}
                     disabled={currentPage === 1}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
                   >
                     Previous
                   </button>
@@ -228,16 +224,11 @@ export const WithdrawalINR = () => {
                     className="next-button"
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
                   >
                     Next
                   </button>
 
-                  <span className="text-white">
+                  <span className="">
                     Page {currentPage} of {totalPages}
                   </span>
                 </div>

@@ -235,7 +235,7 @@ const SideBar = () => {
           : ""
       }`
     }
-    style={{background:"black"}}
+   
     >
       <PerfectScrollbar className="deznav-scroll">         
           <ul className="metismenu" id="menu">

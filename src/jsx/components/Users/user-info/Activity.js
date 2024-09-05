@@ -107,25 +107,21 @@ export const Activity = () => {
         <Col lg={12}>
           <Card>
             <Card.Header
-              style={{ background: "black", border: "1px solid white" }}
+              
             >
-              <Card.Title style={{ color: "white", margin: "auto" }}>
+              <Card.Title>
                 User Activity
               </Card.Title>
               <Dropdown className="me-3">
                 <Dropdown.Toggle
                   id="dropdown-basic"
-                  style={{ backgroundColor: "black", borderColor: "white" }}
+                  
                 >
                   {activity}
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu
-                  style={{
-                    backgroundColor: "black",
-                    borderColor: "white",
-                    color: "white",
-                  }}
+                 
                 >
                   <Dropdown.Item onClick={() => setActivity("Deposit")}>
                     Deposite
@@ -158,19 +154,11 @@ export const Activity = () => {
               </Link>
             </Card.Header>
             <Card.Body
-              style={{
-                background: "black",
-                border: "1px solid white",
-                borderRadius: "3px",
-              }}
+             
             >
               <Table
                 responsive
-                style={{
-                  background: "black",
-                  color: "white",
-                  borderBottom: "0.5px solid white",
-                }}
+               
               >
                 <thead>
                   <tr>
@@ -210,7 +198,7 @@ export const Activity = () => {
                 className="text-center mb-3 col-lg-6"
                 style={{ margin: "auto" }}
               >
-                <div className="filter-pagination  mt-3 bg-black">
+                <div className="filter-pagination  mt-3 ">
                   <button
                     className="previous-button"
                     onClick={handlePreviousPage}
@@ -237,7 +225,7 @@ export const Activity = () => {
                     Next
                   </button>
 
-                  <span className="bg-black text-white">
+                  <span className=" text-white">
                     Page {currentPage} of {totalPages}
                   </span>
                 </div>

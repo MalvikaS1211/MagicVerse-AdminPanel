@@ -2,6 +2,20 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { Logout } from "../../../store/actions/AuthActions";
 import { IoSettingsSharp } from "react-icons/io5";
+import { ImStack } from "react-icons/im";
+import { LuUser2 } from "react-icons/lu";
+import { BiBriefcase } from "react-icons/bi";
+import { BiArchiveOut } from "react-icons/bi";
+import { BiArchiveIn } from "react-icons/bi";
+import { BsCurrencyRupee } from "react-icons/bs";
+import { TbExchange } from "react-icons/tb";
+import { TbActivity } from "react-icons/tb";
+import { RiLeafLine } from "react-icons/ri";
+import { SlSupport } from "react-icons/sl";
+import { HiOutlineDocumentReport } from "react-icons/hi";
+import { TbUserShield } from "react-icons/tb";
+import { SlSettings } from "react-icons/sl";
+
 //import { LOGOUT_ACTION } from "../../../store/actions/AuthActions"
 export const MenuList = [
   //Dashboard
@@ -15,14 +29,14 @@ export const MenuList = [
     title: "User",
     //classsChange: 'mm-collapse',
     // iconStyle: Widget,
-    iconStyle: <i className="material-icons text-white">account_circle</i>,
+    iconStyle: <LuUser2   className="fs-3" />,
     to: "allUsers",
   },
   {
     title: " Staking",
     //classsChange: 'mm-collapse',
     // iconStyle: Widget,
-    iconStyle: <i className="material-icons text-white">account_circle</i>,
+    iconStyle: <ImStack  className="fs-3" />,
     to: "staking-user",
   },
   // {
@@ -64,31 +78,31 @@ export const MenuList = [
   //    },
   {
     title: "Pending Deposit ",
-    iconStyle: <i className="material-icons">account_circle</i>,
+    iconStyle: <BiArchiveOut  className="fs-3"/>,
     to: "pending-deposit",
   },
   {
     title: "Deposit ",
     //classsChange: 'mm-collapse',
     //iconStyle: Widget,
-    iconStyle: <i className="material-icons">account_circle</i>,
+    iconStyle: <BiArchiveOut  className="fs-3"/>,
     to: "deposite",
   },
   {
     title: "Withdraw ",
-    iconStyle: <i className="material-icons">account_circle</i>,
+    iconStyle: <BiArchiveIn  className="fs-3"/>,
     to: "withdraw",
   },
 
   {
     title: "Withdraw-INR ",
-    iconStyle: <i className="material-icons">account_circle</i>,
+    iconStyle: <BiArchiveIn  className="fs-3"/>,
     to: "withdrawal-inr",
   },
   
   {
     title: "Asset ",
-    iconStyle: <i className="material-icons">account_circle</i>,
+    iconStyle: <BiBriefcase  className="fs-3"/>,
     to: "asset",
   },
   // {
@@ -98,32 +112,32 @@ export const MenuList = [
   // },
   {
     title: "Currency ",
-    iconStyle: <i className="material-icons">account_circle</i>,
+    iconStyle: <BsCurrencyRupee  className="fs-3"/>,
     to: "currency",
   },
   {
     title: "Swap ",
-    iconStyle: <i className="material-icons">account_circle</i>,
+    iconStyle:<TbExchange  className="fs-3"/>,
     to: "swap",
   },
   {
     title: "Login Activity",
-    iconStyle: <i className="material-icons">account_circle</i>,
+    iconStyle: <TbActivity  className="fs-3"/>,
     to: "login-activity",
   },
   {
     title: "Mint",
-    iconStyle: <i className="material-icons">account_circle</i>,
+    iconStyle: <RiLeafLine  className="fs-3"/>,
     to: "mint",
   },
   {
     title: "Support",
-    iconStyle: <i className="material-icons">account_circle</i>,
+    iconStyle: <SlSupport  className="fs-3"/>,
     to: "support-chats",
   },
   {
     title: "Reports",
-    iconStyle: <i className="material-icons">account_circle</i>,
+    iconStyle: <HiOutlineDocumentReport  className="fs-3"/>,
     to: "reports",
   },
   // {
@@ -200,7 +214,7 @@ export const MenuList = [
   {
     title: 'Kyc',
     classsChange: 'mm-collapse',
-    iconStyle: <i className="material-icons">account_circle</i>,
+    iconStyle: <TbUserShield  className="fs-3" />,
     content: [
         {
             title: 'Pending Kyc',
@@ -219,7 +233,7 @@ export const MenuList = [
   {
       title: 'Settings',
       classsChange: 'mm-collapse',
-      iconStyle: <IoSettingsSharp className="material-icons" style={{maxWidth: '25px', maxHeight: '20px'}}/>,
+      iconStyle: <SlSettings  className="fs-3"/>,
       content: [
             {
               title: 'Bank Settings',

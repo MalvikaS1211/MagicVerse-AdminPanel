@@ -248,7 +248,7 @@ const formatTimestamp = (timestamp) => {
                 className="text-center mb-3 col-lg-6"
                 style={{ margin: "auto" }}
               >
-              <div className="filter-pagination  mt-3 bg-black"  >
+              <div className="filter-pagination  mt-3 "  >
                   <button
                     className="previous-button"
                     onClick={handlePreviousPage}

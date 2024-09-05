@@ -140,19 +140,19 @@ export const WithdrawalINRInfo = () => {
         <Col lg={12}>
           <Card>
             <Card.Header
-              style={{ background: "black", border: "1px solid white" }}
+             
             >
-              <Card.Title style={{ color: "white", margin: "auto" }}>
+              <Card.Title >
                 Withdraw INR User INFO
               </Card.Title>
               {/* <button type="button" class="btn btn-success">Approve</button> */}
             </Card.Header>
 
-            <Card.Body style={{ background: "black", border: "1px solid white" }} >
+            <Card.Body >
              <div>
                {!apiData[0] ? (
                     <tr>
-                      <td className="text-light text-center" colSpan="7">
+                      <td className="text-center" colSpan="7">
                         {recordStatus && recordStatus}
                       </td>
                     </tr>

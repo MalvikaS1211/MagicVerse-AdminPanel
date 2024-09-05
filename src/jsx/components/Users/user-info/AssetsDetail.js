@@ -21,16 +21,12 @@ export const AssetsDetail = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const id = searchParams.get('id');
+  const id = searchParams.get("id");
   useEffect(() => {
     const fetchData = async () => {
       try {
         const table = "asset";
-        const result = await SingleUserDetail(
-          table,
-          id,
-          currentPage,
-        );
+        const result = await SingleUserDetail(table, id, currentPage);
         setApiData(result.data);
         setFilteredData(result.data);
         setTotalPages(result.totalPages);
@@ -59,15 +55,15 @@ export const AssetsDetail = () => {
     setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : prevPage));
   };
 
-//   const formatTimestamp = (timestamp) => {
-//     const date = new Date(timestamp);
-//     const day = String(date.getDate()).padStart(2, "0");
-//     const month = String(date.getMonth() + 1).padStart(2, "0");
-//     const year = date.getFullYear();
-//     const hours = String(date.getHours()).padStart(2, "0");
-//     const minutes = String(date.getMinutes()).padStart(2, "0");
-//     return `${day}-${month}-${year} ${hours}:${minutes}`;
-//   };
+  //   const formatTimestamp = (timestamp) => {
+  //     const date = new Date(timestamp);
+  //     const day = String(date.getDate()).padStart(2, "0");
+  //     const month = String(date.getMonth() + 1).padStart(2, "0");
+  //     const year = date.getFullYear();
+  //     const hours = String(date.getHours()).padStart(2, "0");
+  //     const minutes = String(date.getMinutes()).padStart(2, "0");
+  //     return `${day}-${month}-${year} ${hours}:${minutes}`;
+  //   };
   const columns = useMemo(() => COLUMNS, []);
   const data = useMemo(() => apiData, [apiData]);
 
@@ -79,15 +75,15 @@ export const AssetsDetail = () => {
       setCurrentPage(1);
     }
   };
-//   const exportToExcel = (data, fileName) => {
-//     const wb = XLSX.utils.book_new();
+  //   const exportToExcel = (data, fileName) => {
+  //     const wb = XLSX.utils.book_new();
 
-//     const ws = XLSX.utils.json_to_sheet(data);
+  //     const ws = XLSX.utils.json_to_sheet(data);
 
-//     XLSX.utils.book_append_sheet(wb, ws, "Data");
+  //     XLSX.utils.book_append_sheet(wb, ws, "Data");
 
-//     XLSX.writeFile(wb, `${fileName}.xlsx`);
-//   };
+  //     XLSX.writeFile(wb, `${fileName}.xlsx`);
+  //   };
   const tableRef = useRef(null);
   return (
     <Fragment>
@@ -114,29 +110,14 @@ export const AssetsDetail = () => {
 
         <Col lg={12}>
           <Card>
-            <Card.Header
-              style={{ background: "black", border: "1px solid white" }}
-            >
-              <Card.Title style={{ color: "white", margin: "auto" }}>
-                 Assets Details
-              </Card.Title>
-                <Link className="btn btn-dark btn-sm" to="/allusers">Back</Link>
+            <Card.Header>
+              <Card.Title>Assets Details</Card.Title>
+              <Link className="btn btn-dark btn-sm" to="/allusers">
+                Back
+              </Link>
             </Card.Header>
-            <Card.Body
-              style={{
-                background: "black",
-                border: "1px solid white",
-                borderRadius: "3px",
-              }}
-            >
-              <Table
-                responsive
-                style={{
-                  background: "black",
-                  color: "white",
-                  borderBottom: "0.5px solid white",
-                }}
-              >
+            <Card.Body>
+              <Table responsive>
                 {/* <button onClick={() => exportToExcel(data, 'exported-data')}>Export to Excel</button> */}
                 <thead>
                   <tr>
@@ -161,16 +142,24 @@ export const AssetsDetail = () => {
                   </tr>
                 </thead>
                 <tbody>
-                {!apiData[0]?(<tr><td colSpan="12" className="text-center">{recordStatus}</td></tr>):(apiData.map((data,index)=>(
-                  <tr>
-                    <td>{index+1}</td>
-                    <td>{data?.balance.toFixed(2)}</td>
-                    <td>{data?.withdraw.toFixed(2)}</td>
-                    <td>{data?.available.toFixed(2)}</td>
-                    <td>{data?.symbol}</td>
-                    <td>{new Date(data.createdAt).toLocaleString()}</td>
-                  </tr>
-                  )))}
+                  {!apiData[0] ? (
+                    <tr>
+                      <td colSpan="12" className="text-center">
+                        {recordStatus}
+                      </td>
+                    </tr>
+                  ) : (
+                    apiData.map((data, index) => (
+                      <tr>
+                        <td>{index + 1}</td>
+                        <td>{data?.balance.toFixed(2)}</td>
+                        <td>{data?.withdraw.toFixed(2)}</td>
+                        <td>{data?.available.toFixed(2)}</td>
+                        <td>{data?.symbol}</td>
+                        <td>{new Date(data.createdAt).toLocaleString()}</td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </Table>
 
@@ -184,8 +173,7 @@ export const AssetsDetail = () => {
                 className="text-center mb-3 col-lg-6"
                 style={{ margin: "auto" }}
               >
-                <div className="filter-pagination  mt-3 bg-black">
-
+                <div className="filter-pagination  mt-3 ">
                   <button
                     className="previous-button"
                     onClick={handlePreviousPage}
@@ -212,7 +200,7 @@ export const AssetsDetail = () => {
                     Next
                   </button>
 
-                  <span className="bg-black text-white">
+                  <span className=" text-white">
                     Page {currentPage} of {totalPages}
                   </span>
                 </div>

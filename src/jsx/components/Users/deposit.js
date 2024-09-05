@@ -16,7 +16,7 @@ export const Deposit = () => {
   const [search, setSearch] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
-  const [recordStatus,setRecordStatus] = useState("Loading...")
+  const [recordStatus, setRecordStatus] = useState("Loading...");
   const pageSize = 100;
 
   const navigate = useNavigate();
@@ -36,8 +36,8 @@ export const Deposit = () => {
         console.log(result);
         setApiData(result.data);
         setFilteredData(result.data);
-        if(!result.data[0]){
-          setRecordStatus("No Record")
+        if (!result.data[0]) {
+          setRecordStatus("No Record");
         }
         setTotalPages(result.totalPages);
         if (result.status == 404) {
@@ -117,28 +117,11 @@ export const Deposit = () => {
 
         <Col lg={12}>
           <Card>
-            <Card.Header
-              style={{ background: "black", border: "1px solid white" }}
-            >
-              <Card.Title style={{ color: "white", margin: "auto" }}>
-                Deposite History
-              </Card.Title>
+            <Card.Header>
+              <Card.Title>Deposit History</Card.Title>
             </Card.Header>
-            <Card.Body
-              style={{
-                background: "black",
-                border: "1px solid white",
-                borderRadius: "3px",
-              }}
-            >
-              <Table
-                responsive
-                style={{
-                  background: "black",
-                  color: "white",
-                  borderBottom: "0.5px solid white",
-                }}
-              >
+            <Card.Body>
+              <Table responsive>
                 {/* <button onClick={() => exportToExcel(data, 'exported-data')}>Export to Excel</button> */}
                 <thead>
                   <tr>
@@ -175,8 +158,12 @@ export const Deposit = () => {
                         <td>{index + 1}</td>
                         <td>{data.name}</td>
                         {/* <td>{data.symbol}</td> */}
-                        <td>{data.amount.toFixed(2)} ({data.symbol})</td>
-                        <td style={{color:data?.success?"green":"red"}}>{data?.success?"Success":"Failed"}</td>
+                        <td>
+                          {data.amount.toFixed(2)} ({data.symbol})
+                        </td>
+                        <td style={{ color: data?.success ? "green" : "red" }}>
+                          {data?.success ? "Success" : "Failed"}
+                        </td>
                         <td>{new Date(data.createdAt).toLocaleString()}</td>
                       </tr>
                     ))
@@ -194,29 +181,11 @@ export const Deposit = () => {
                 className="text-center mb-3 col-lg-6"
                 style={{ margin: "auto" }}
               >
-                <div className="filter-pagination  mt-3 bg-black">
-                  {/* <button
-                    className="previous-button"
-                    onClick={handlePreviousPage}
-                    disabled={currentPage === 1}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
-                  >
-                    {"<<"}
-                  </button> */}
-
+                <div className="filter-pagination mt-3">
                   <button
                     className="previous-button"
                     onClick={handlePreviousPage}
                     disabled={currentPage === 1}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
                   >
                     Previous
                   </button>
@@ -225,29 +194,11 @@ export const Deposit = () => {
                     className="next-button"
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
                   >
                     Next
-                  </button>
+                  </button>                
 
-                  {/* <button
-                    className="next-button"
-                    onClick={handleNextPage}
-                    disabled={currentPage === totalPages}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
-                  >
-                    {">>"}
-                  </button> */}
-
-                  <span className="bg-black text-white">
+                  <span>
                     Page {currentPage} of {totalPages}
                   </span>
                 </div>

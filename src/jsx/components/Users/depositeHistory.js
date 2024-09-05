@@ -62,25 +62,21 @@ const DepositHisory = (props) => {
         <Col lg={12}>
           <Card>
             <Card.Header
-              style={{ background: "black", border: "1px solid white" }}
+              
             >
               <i
                 class="fas fa-circle-left "
                 style={{ fontSize: "2rem" }}
                 onClick={() => navigate(-1)}
               ></i>
-              <Card.Title style={{ color: "white",margin:"auto" }}>Deposit</Card.Title>
+              <Card.Title >Deposit</Card.Title>
             </Card.Header>
             <Card.Body
-              style={{ background: "black", border: "1px solid white" }}
+              
             >
               <Table
                 responsive
-                style={{
-                  background: "black",
-                  color: "white",
-                  borderBottom: "1px solid white",
-                }}
+              
               >
                 <thead>
                
@@ -147,7 +143,7 @@ const DepositHisory = (props) => {
                 className="text-center mb-3 col-lg-6"
                 style={{ margin: "auto" }}
               >
-                <div className="filter-pagination  mt-3 bg-black">
+                <div className="filter-pagination  mt-3 ">
                   <button
                     className="previous-button"
                     onClick={handlePreviousPage}

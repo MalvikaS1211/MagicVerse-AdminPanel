@@ -28,12 +28,12 @@ const NavHader = () => {
     ThemeContext
   );
   return (
-    <div className="nav-header" style={{background:"black"}}>
+    <div className="nav-header">
       <Link to="/dashboard" className="brand-logo"> 
 		{/* <img src={logo1}  className="logo-abbr" alt=""/> 
 		<img src={logoColor} className="logo-color" alt="" />
 		<img src={logoColorText} className="brand-title color-title" alt="" /> */}
-    <img src="inrx-logo.png"className="brand-title" alt="" height="50"/>
+    <img src="/images/logo.svg" className="" alt="" width="100"/>
       </Link>
 
       <div

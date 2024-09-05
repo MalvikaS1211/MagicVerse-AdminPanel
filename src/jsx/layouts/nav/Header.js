@@ -100,7 +100,7 @@ const Header = ({ onNote }) => {
           <div className="collapse navbar-collapse justify-content-between">
             <div className="header-left">
               <div
-                className="dashboard_bar text-white"
+                className="dashboard_bar"
                 style={{ textTransform: "capitalize" }}
               >
                 {finalName.join(" ").length === 0

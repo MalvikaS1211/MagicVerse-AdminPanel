@@ -148,26 +148,18 @@ export const ClaimHistory = () => {
         <Col lg={12}>
           <Card>
             <Card.Header
-              style={{ background: "black", border: "1px solid white" }}
+             
             >
-              <Card.Title style={{ color: "white", margin: "auto" }}>
+              <Card.Title>
                 Claim History
               </Card.Title>
             </Card.Header>
             <Card.Body
-              style={{
-                background: "black",
-                border: "1px solid white",
-                borderRadius: "3px",
-              }}
+             
             >
               <Table
                 responsive
-                style={{
-                  background: "black",
-                  color: "white",
-                  borderBottom: "0.5px solid white",
-                }}
+                
               >
                 {/* <button onClick={() => exportToExcel(data, 'exported-data')}>Export to Excel</button> */}
                 <thead>
@@ -220,7 +212,7 @@ export const ClaimHistory = () => {
                 className="text-center mb-3 col-lg-6"
                 style={{ margin: "auto" }}
               >
-                <div className="filter-pagination  mt-3 bg-black">
+                <div className="filter-pagination  mt-3 ">
                   {/* <button
                     className="previous-button"
                     onClick={handlePreviousPage}
@@ -273,7 +265,7 @@ export const ClaimHistory = () => {
                     {">>"}
                   </button> */}
 
-                  <span className="bg-black text-white">
+                  <span>
                     Page {currentPage} of {totalPages}
                   </span>
                 </div>

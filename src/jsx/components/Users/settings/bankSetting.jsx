@@ -48,18 +48,14 @@ export const BankSetting = () => {
         <Col lg={12}>
           <Card>
             <Card.Header
-              style={{ background: "black", border: "1px solid white" }}
+             
             >
-              <Card.Title style={{ color: "white", margin: "auto" }}>
+              <Card.Title>
                 Bank Setting
               </Card.Title>
             </Card.Header>
             <Card.Body
-              style={{
-                background: "black",
-                border: "1px solid white",
-                borderRadius: "3px",
-              }}
+             
             >
               <div className="col-md-12">
                 <div className="container">
@@ -122,7 +118,7 @@ export const BankSetting = () => {
                 className="text-center mb-3 col-lg-6"
                 style={{ margin: "auto" }}
               >
-                {/* <div className="filter-pagination  mt-3 bg-black">
+                {/* <div className="filter-pagination  mt-3 ">
                   <button
                     className="previous-button"
                     style={{

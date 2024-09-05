@@ -89,18 +89,14 @@ export const Mint = () => {
         <Col lg={12}>
           <Card>
             <Card.Header
-              style={{ background: "black", border: "1px solid white" }}
+              
             >
               <Card.Title style={{ color: "white", margin: "auto" }}>
                 Mint
               </Card.Title>
             </Card.Header>
             <Card.Body
-              style={{
-                background: "black",
-                border: "1px solid white",
-                borderRadius: "3px",
-              }}
+            
             >
               <div className="col-md-12">
                 <div className="float-end">
@@ -250,7 +246,7 @@ export const Mint = () => {
                 >
                   Next
                 </button>
-                <span className="bg-black text-white ms-2">
+                <span className=" text-white ms-2">
                   Page {currentPage} of {totalPages}
                 </span>
               </div>
