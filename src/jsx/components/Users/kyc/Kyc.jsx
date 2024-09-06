@@ -117,52 +117,27 @@ export const Kyc = () => {
 
         <Col lg={12}>
           <Card>
-            <Card.Header
-             
-            >
-              <Card.Title>
-                Kyc
-              </Card.Title>
+            <Card.Header>
+              <Card.Title>Kyc</Card.Title>
             </Card.Header>
-            <Card.Body
-            
-            >
-              <Table
-                responsive
-               
-              >
+            <Card.Body>
+              <Table responsive>
                 <thead>
                   <tr>
-                    <th>
-                      <strong>NO.</strong>
-                    </th>
-                    <th>
-                      <strong>Name</strong>
-                    </th>
-                    <th>
-                      <strong>Email</strong>
-                    </th>
-                    <th>
-                      <strong>IDNumber</strong>
-                    </th>
-                    <th>
-                      <strong>Type</strong>
-                    </th>
-                    <th>
-                      <strong>Doc Front</strong>
-                    </th>
-                    <th>
-                      <strong>Doc Back</strong>
-                    </th>
-                    <th>
-                      <strong>Action</strong>
-                    </th>
+                    <th>NO.</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>IDNumber</th>
+                    <th>Type</th>
+                    <th>Doc Front</th>
+                    <th>Doc Back</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {!apiData[0] ? (
                     <tr>
-                      <td className="text-light text-center" colSpan="7">
+                      <td className="text-center" colSpan="7">
                         {recordStatus}
                       </td>
                     </tr>
@@ -209,14 +184,12 @@ export const Kyc = () => {
                           </td>
                           <td>
                             <select
-                              className="form-control text-center"
-                              width="100"
-                              value={data?.kyc_status}
-                              style={{ background: "transparent" }}
+                              className="form-select"                             
+                              value={data?.kyc_status}                              
                               onChange={(e) =>
                                 handleSelect(data?._id, e.target.value)
                               }
-                              aria-label="Default select example"
+                              aria-label="status_dropdown"
                             >
                               <option value="pending">Pending</option>
                               <option value="approved">Approved</option>
@@ -244,12 +217,7 @@ export const Kyc = () => {
                   <button
                     className="previous-button"
                     onClick={handlePreviousPage}
-                    disabled={currentPage === 1}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
+                    disabled={currentPage === 1}                    
                   >
                     Previous
                   </button>
@@ -257,30 +225,12 @@ export const Kyc = () => {
                   <button
                     className="next-button"
                     onClick={handleNextPage}
-                    disabled={currentPage === totalPages}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
+                    disabled={currentPage === totalPages}                    
                   >
                     Next
-                  </button>
+                  </button>                
 
-                  {/* <button
-                    className="next-button"
-                    onClick={handleNextPage}
-                    disabled={currentPage === totalPages}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
-                  >
-                    {">>"}
-                  </button> */}
-
-                  <span className=" text-white">
+                  <span className="">
                     Page {currentPage} of {totalPages}
                   </span>
                 </div>

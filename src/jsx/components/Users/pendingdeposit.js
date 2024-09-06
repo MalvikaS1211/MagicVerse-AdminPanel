@@ -138,34 +138,20 @@ export const PendingDeposit = () => {
               <Card.Title>Deposit History</Card.Title>
             </Card.Header>
             <Card.Body>
-              <Table responsive>
-                {/* <button onClick={() => exportToExcel(data, 'exported-data')}>Export to Excel</button> */}
+              <Table responsive>                
                 <thead>
                   <tr>
-                    <th>
-                      <strong>NO.</strong>
-                    </th>
-                    <th>
-                      <strong>User</strong>
-                    </th>
-                    {/* <th>
-                      <strong> Symbol</strong>
-                    </th> */}
-                    <th>
-                      <strong>Amount</strong>
-                    </th>
-                    <th>
-                      <strong>Date & Time</strong>
-                    </th>
-                    <th>
-                      <strong>Action</strong>
-                    </th>
+                    <th>S. No.</th>
+                    <th>User</th>
+                    <th>Amount</th>
+                    <th>Date & Time</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {!apiData[0] ? (
                     <tr>
-                      <td className="text-light text-center" colSpan="7">
+                      <td className="text-center" colSpan="7">
                         {recordStatus}
                       </td>
                     </tr>
@@ -183,7 +169,7 @@ export const PendingDeposit = () => {
                           <select
                             className="form-select w-50"
                             // width="100"
-                            value={data?.success}                           
+                            value={data?.success}
                             onChange={(e) =>
                               handleSelect(data?._id, e.target.value)
                             }
@@ -202,12 +188,11 @@ export const PendingDeposit = () => {
                 </tbody>
               </Table>
 
-             
               <div
                 className="text-center mb-3 col-lg-6"
                 style={{ margin: "auto" }}
               >
-                <div className="filter-pagination  mt-3">
+                <div className="filter-pagination mt-3">
                   <button
                     className="previous-button"
                     onClick={handlePreviousPage}
@@ -223,7 +208,6 @@ export const PendingDeposit = () => {
                   >
                     Next
                   </button>
-                 
                   <span>
                     Page {currentPage} of {totalPages}
                   </span>

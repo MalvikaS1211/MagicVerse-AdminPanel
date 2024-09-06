@@ -6,7 +6,7 @@ import { AdminSettings } from "../../../../services/api_function";
 export const UpiSetting = () => {
   const [formDataState, setFormDataState] = useState({
     upi_id: "",
-    filedata: null // Stores the file object
+    filedata: null, // Stores the file object
   });
 
   const formHandle = (e) => {
@@ -20,7 +20,7 @@ export const UpiSetting = () => {
 
   const formSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Validate UPI ID and file
     if (!formDataState.upi_id) {
       toast.error("Please enter UPI ID");
@@ -34,7 +34,11 @@ export const UpiSetting = () => {
     // Create FormData and append values
     const formData = new FormData();
     formData.append("upi_id", formDataState.upi_id);
-    formData.append("deposit", formDataState.filedata, formDataState.filedata.name);
+    formData.append(
+      "deposit",
+      formDataState.filedata,
+      formDataState.filedata.name
+    );
 
     // Fetch token from localStorage
     const userDetail = localStorage.getItem("userDetails");
@@ -48,84 +52,68 @@ export const UpiSetting = () => {
       toast.success("UPI updated successfully!");
       setFormDataState({
         upi_id: "",
-        filedata: null
+        filedata: null,
       });
     }
   };
 
   return (
-    <Fragment>
-      <Row>
-        <Col lg={12}>
-          <Card>
-            <Card.Header
-             
-            >
-              <Card.Title>
-                UPI Setting
-              </Card.Title>
-            </Card.Header>
-            <Card.Body
-            
-            >
-              <div className="col-md-12">
-                <div className="container">
-                  <form className="ms-5" onSubmit={formSubmit}>
-                    <div>
-                      {/* UPI ID Input */}
-                      <div className="mb-3">
-                        <label className="form-label fs-4 text-white">UPI ID</label>
-                        <span>
-                          <input
-                            type="text"
-                            name="upi_id"
-                            id="upi_id"
-                            className="form-control"
-                            placeholder="Enter UPI ID"
-                            style={{ width: "30rem" }}
-                            onChange={formHandle}
-                            required
-                            value={formDataState.upi_id}
-                          />
-                        </span>
-                      </div>
-
-                      {/* QR Image Upload */}
-                      <div className="mb-3">
-                        <label className="form-label fs-4 text-white">Upload QR Image</label>
-                        <span>
-                          <input
-                            type="file"
-                            name="qr_image"
-                            id="qr_image"
-                            className="form-control"
-                            accept="image/*"
-                            style={{ width: "30rem" }}
-                            onChange={formHandle}
-                            required
-                          />
-                        </span>
-                      </div>
-
-                      {/* Submit Button */}
-                      <button
-                        className="btn btn-md"
-                        style={{
-                          background: "linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                          color: "black",
-                        }}
-                      >
-                        Save
-                      </button>
-                    </div>
-                  </form>
+    <>
+      <div className="col-md-6 m-auto">
+        <div className="card">
+          <div className="card-body">
+            <form onSubmit={formSubmit}>
+              <div>
+                {/* UPI ID Input */}
+                <div className="mb-3">
+                  <label className="form-label">UPI ID</label>
+                  <span>
+                    <input
+                      type="text"
+                      name="upi_id"
+                      id="upi_id"
+                      className="form-control"
+                      placeholder="Enter UPI ID"
+                      
+                      onChange={formHandle}
+                      required
+                      value={formDataState.upi_id}
+                    />
+                  </span>
                 </div>
+
+                {/* QR Image Upload */}
+                <div className="mb-3">
+                  <label className="form-label">
+                    Upload QR Image
+                  </label>
+                  <span>
+                    <input
+                      type="file"
+                      name="qr_image"
+                      id="qr_image"
+                      className="form-control"
+                      accept="image/*"
+                      
+                      onChange={formHandle}
+                      required
+                    />
+                  </span>
+                </div>
+
+                {/* Submit Button */}
+                <button
+                  className="action_btn"
+                 
+                >
+                  Save
+                </button>
               </div>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </Fragment>
+            </form>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 

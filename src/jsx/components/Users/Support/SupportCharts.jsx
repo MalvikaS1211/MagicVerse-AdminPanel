@@ -3,8 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { formatTime, getAmPm } from "./actionHandler";
-import { FaExchangeAlt } from "react-icons/fa";
-import { IoRefresh } from "react-icons/io5";
+import { FiSend } from "react-icons/fi";
 import {
   getAllChatsList,
   raisedTicketList,
@@ -122,7 +121,7 @@ const SupportCharts = () => {
                               <div className="d-flex gap-4">
                                 <div className="col mob-font ">
                                   <div className="d-flex align-items-center gap-3">
-                                    <div className="text-success d-flex">
+                                    <div className="d-flex gap-2 align-items-center">
                                       <img
                                         src={
                                           item?.user_picture
@@ -137,29 +136,33 @@ const SupportCharts = () => {
                                           objectFit: "cover",
                                         }}
                                       />
-                                      <span className="ms-3">
+                                      <div >
+                                      <div className="text-muted fst-normal fs-8 mb-1 text-nowrap text-nowrap">
+                                    Name
+                                  </div>
                                         {item?.userName}
-                                      </span>
-                                      <img
+                                      </div>
+                                      {/* <img
                                         src="https://auth.inrx.io/images/message.svg"
                                         alt="message"
                                         className="ms-3"
-                                      />
+                                      /> */}
                                     </div>
-                                    <div className="">
-                                      <div className="text-muted fst-normal fs-8 mb-1 text-nowrap text-nowrap">
-                                        ID Ticket
-                                      </div>
-                                      <div className="text-nowrap">
-                                        #{item?.ticketId}
-                                      </div>
-                                    </div>
+                                  </div>
+                                </div>
+
+                                <div className="col mob-font">
+                                  <div className="text-muted fst-normal fs-8 mb-1 text-nowrap text-nowrap">
+                                    ID Ticket
+                                  </div>
+                                  <div className="text-nowrap">
+                                    #{item?.ticketId}
                                   </div>
                                 </div>
 
                                 <div className="col mob-font ">
                                   <div className="text-muted fst-normal fs-8 mb-1 text-nowrap">
-                                    Subject of the appeal
+                                    Subject
                                   </div>
                                   <div className="text-nowrap">
                                     {item?.query_subject}
@@ -178,11 +181,18 @@ const SupportCharts = () => {
 
                                 <div className="col mob-font ">
                                   <div className="text-muted fst-normal fs-8 mb-1 text-nowrap">
-                                    Status of the request
+                                    Status
                                   </div>
                                   <div className="text-nowrap">
-                                    <i className="fa-regular fa-message text-success"></i>{" "}
-                                    Response from support . 3 {item?.status}
+                                    <span
+                                      className={`fs-14 fw-normal text-capitalize ${
+                                        item?.status === "success"
+                                          ? "text-success"
+                                          : "text-warning"
+                                      }`}
+                                    >
+                                      {item?.status}
+                                    </span>
                                   </div>
                                 </div>
                               </div>
@@ -196,26 +206,28 @@ const SupportCharts = () => {
                         >
                           <div className="accordion-body">
                             {/* {item?.query_meggage} */}
+                            {/* Customer Chats */}
                             <div
                               style={{
-                                height: "500px",
+                                minHeight:"auto",
+                                maxHeight: "500px",
                                 overflow: "scroll",
                                 overflowX: "hidden",
                               }}
-                              className=" px-3 chat_custom-scrollbar"
+                              className="px-3 chat_custom-scrollbar"
                             >
-                              <div className="row">
+                              <div className="">
                                 <div className="col-lg-12 col-sm-12 mb-2">
                                   <div>
-                                    <h6>Your Chats</h6>
-                                    <div className="row">
+                                    {/* <h6>Your Chats</h6> */}
+                                    <div className="">
                                       {item?.message?.map((it, i) => {
                                         if (it.type == "user1") {
                                           return (
-                                            <div className="col-lg-6 col-sm-6 mb-2">
-                                              <div className="card">
-                                                <div className="card-body">
-                                                  <div className="d-flex gap-2 align-items-center">
+                                            <div className="col-lg-6 col-sm-12 mb-2">
+                                              <div className="border-0 shadow-none">
+                                                <div className="">
+                                                  <div className="d-flex gap-2">
                                                     <div className="">
                                                       <img
                                                         src={
@@ -232,71 +244,37 @@ const SupportCharts = () => {
                                                         }}
                                                       />
                                                     </div>
-                                                    <div style={{ flex: 1 }}>
-                                                      <div className="d-flex justify-content-between align-items-center">
-                                                        <h6
-                                                          className=" fw-bold"
-                                                          style={{
-                                                            color: "#02FF01",
-                                                          }}
-                                                        >
+                                                    <div className="card border-0 mb-2 shadow-none bg_green">
+                                                      <div className="card-body py-3">
+                                                        <h6 className="mb-0">
                                                           {item?.userName}
                                                         </h6>
-                                                        <div className="text-muted mob-font ">
-                                                          {/* {new Date(
-                                              item?.querytime * 1000
-                                            ).toLocaleTimeString()} */}
+                                                        <div>
+                                                          <div className="text_gray">
+                                                            {it.message}
+                                                          </div>
+                                                          {it?.file ? (
+                                                            <img
+                                                              src={(
+                                                                url2 +
+                                                                "/" +
+                                                                it?.file
+                                                              ).replace(
+                                                                "/uploads",
+                                                                "/support"
+                                                              )}
+                                                              className="chat-image"
+                                                              alt="Query Image"
+                                                            />
+                                                          ) : null}
                                                         </div>
                                                       </div>
-                                                      <p className="mb-0 mob-font text-muted">
-                                                        {/* {item?.query_meggage} */}
-                                                      </p>
-                                                    </div>
-                                                  </div>
-                                                  <div
-                                                    style={{
-                                                      flex: 1,
-                                                      flexDirection: "column",
-                                                    }}
-                                                  >
-                                                    <div
-                                                      className="py-2"
-                                                      style={{
-                                                        flex: 0.7,
-                                                        color: "#6C757D",
-                                                      }}
-                                                    >
-                                                      {it.message}
                                                     </div>
                                                   </div>
 
-                                                  {it?.file ? (
-                                                    <img
-                                                      src={(
-                                                        url2 +
-                                                        "/" +
-                                                        it?.file
-                                                      ).replace(
-                                                        "/uploads",
-                                                        "/support"
-                                                      )}
-                                                      className="chat-image"
-                                                      alt="Query Image"
-                                                    />
-                                                  ) : null}
-                                                  <div
-                                                    style={{
-                                                      display: "flex",
-                                                      flexDirection: "row",
-                                                      justifyContent:
-                                                        "flex-end",
-                                                    }}
-                                                  >
-                                                    <span
-                                                      style={{
-                                                        color: "#6C757D",
-                                                      }}
-                                                    >
+                                                  {/* Custome Time Stamp */}
+                                                  <div className="ms-5 ps-3 mb-3">
+                                                    <span className="text_gray fs-12">
                                                       {new Date(
                                                         it.createdAt
                                                       ).toLocaleDateString() +
@@ -326,130 +304,82 @@ const SupportCharts = () => {
                                           );
                                         } else {
                                           return (
-                                            <div
-                                              className="col-lg-12 col-sm-12 mb-2"
-                                              style={{
-                                                display: "flex",
-                                                flexDirection: "row",
-                                                justifyContent: "flex-end",
-                                              }}
-                                            >
-                                              <div
-                                                className="col-lg-6 col-sm-12 mb-2"
-                                                style={{
-                                                  flexDirection: "row",
-                                                }}
-                                              >
-                                                <div
-                                                  style={{
-                                                    flex: 1,
-                                                    border: "1px solid #222",
-                                                    borderRadius: 10,
-                                                    padding: 10,
-                                                    alignSelf: "flex-end",
-                                                  }}
-                                                >
-                                                  <div className="d-flex gap-2 align-items-center">
-                                                    <div className="">
-                                                      <img
-                                                        alt="user"
-                                                        src={
-                                                          item?.replier_picture
-                                                            ? `data:image/jpeg;base64,${item?.replier_picture}`
-                                                            : `images/user.svg`
-                                                        }
-                                                        style={{
-                                                          height: "45px",
-                                                          width: "45px",
-                                                          borderRadius: "50%",
-                                                          objectFit: "cover",
-                                                        }}
-                                                      />
-                                                    </div>
-                                                    <div style={{ flex: 1 }}>
-                                                      <div className="d-flex justify-content-between align-items-center">
-                                                        <h6
-                                                          className=" fw-bold"
-                                                          style={{
-                                                            color: "#02FF01",
-                                                          }}
-                                                        >
-                                                          {item?.replierName
-                                                            ? item?.replierName
-                                                            : "Boface"}
-                                                        </h6>
-                                                        <div className="text-muted mob-font "></div>
+                                            <div className="row justify-content-end mb-2 bg-danger--">
+                                              <div className="col-lg-6 col-sm-12 mb-2">
+                                                <div className="d-flex gap-2 align-items-center justify-content-end">
+                                                  <div className="">
+                                                    <img
+                                                      alt="user"
+                                                      src={
+                                                        item?.replier_picture
+                                                          ? `data:image/jpeg;base64,${item?.replier_picture}`
+                                                          : `images/user.svg`
+                                                      }
+                                                      style={{
+                                                        height: "45px",
+                                                        width: "45px",
+                                                        borderRadius: "50%",
+                                                        objectFit: "cover",
+                                                      }}
+                                                    />
+                                                  </div>
+                                                  <div className="card mb-2 border-0 shadow-none bg_gray">
+                                                    <div className="card-body py-3">
+                                                      <h6 className="mb-0">
+                                                        {item?.replierName
+                                                          ? item?.replierName
+                                                          : "Boface"}
+                                                      </h6>
+                                                      <div className="text_gray">
+                                                        {it.message}
+                                                      </div>
+                                                      <div>
+                                                        {it?.file ? (
+                                                          <img
+                                                            src={(
+                                                              url2 +
+                                                              "/" +
+                                                              item?.file
+                                                            ).replace(
+                                                              "/uploads",
+                                                              "/support"
+                                                            )}
+                                                            style={{
+                                                              height: "105px",
+                                                              width: "105px",
+                                                              // borderRadius: "50%",
+                                                              objectFit:
+                                                                "cover",
+                                                            }}
+                                                            alt="Query Image"
+                                                          />
+                                                        ) : null}
                                                       </div>
                                                     </div>
                                                   </div>
-                                                  <div
-                                                    style={{
-                                                      flex: 1,
-                                                      flexDirection: "column",
-                                                    }}
-                                                  >
-                                                    <div
-                                                      style={{
-                                                        flex: 0.7,
-                                                        color: "#6C757D",
-                                                      }}
-                                                    >
-                                                      {it.message}
-                                                    </div>
-                                                  </div>
+                                                </div>
 
-                                                  {it?.file ? (
-                                                    <img
-                                                      src={(
-                                                        url2 +
-                                                        "/" +
-                                                        item?.file
-                                                      ).replace(
-                                                        "/uploads",
-                                                        "/support"
-                                                      )}
-                                                      style={{
-                                                        height: "105px",
-                                                        width: "105px",
-                                                        // borderRadius: "50%",
-                                                        objectFit: "cover",
-                                                      }}
-                                                      alt="Query Image"
-                                                    />
-                                                  ) : null}
-                                                  <div
-                                                    style={{
-                                                      display: "flex",
-                                                      flexDirection: "row",
-                                                      justifyContent:
-                                                        "flex-end",
-                                                    }}
-                                                  >
-                                                    <span
-                                                      className=""
-                                                      style={{
-                                                        color: "#6C757D",
-                                                      }}
-                                                    >
-                                                      {formatTime(
+                                                {/* Time and Date */}
+                                                <div className="text-end mb-3 fs-12">
+                                                  <span className="text_gray">
+                                                    {formatTime(
+                                                      new Date(
+                                                        it.createdAt
+                                                      ).getHours()
+                                                    ) +
+                                                      ":" +
+                                                      formatTime(
                                                         new Date(
                                                           it.createdAt
-                                                        ).getHours()
+                                                        ).getSeconds()
                                                       ) +
-                                                        ":" +
-                                                        formatTime(
-                                                          new Date(
-                                                            it.createdAt
-                                                          ).getSeconds()
-                                                        ) +
-                                                        " " +
-                                                        getAmPm(
-                                                          new Date(
-                                                            it.createdAt
-                                                          ).getTime()
-                                                        )}
-                                                    </span>
-                                                  </div>
+                                                      " " +
+                                                      getAmPm(
+                                                        new Date(
+                                                          it.createdAt
+                                                        ).getTime()
+                                                      )}
+                                                  </span>
                                                 </div>
                                               </div>
                                             </div>
@@ -462,98 +392,101 @@ const SupportCharts = () => {
                               </div>
                             </div>
                           </div>
-                          <div
-                            className="col-lg-12 col-sm-12 mb-2 px-2"
-                            style={{ backgroundColor: "#6C757D" }}
-                          >
+
+                          {/* Admin Chats */}
+                          <div className="col-lg-12 col-sm-12">
                             {item?.status == "pending" ? (
-                              <div className="d-flex justify-content-between align-items-center pt-2">
-                                <div
-                                  className="support_input"
-                                  style={{ flex: 2 }}
-                                >
-                                  <div className="support-inputs2">
-                                    <input
-                                      type="text"
-                                      placeholder="Write your message..."
-                                      className="form-control p-1  rounded-pill text-center"
-                                      id="exampleInputPassword1"
-                                      style={{
-                                        width: "50%",
-                                        backgroundColor: "black",
-                                      }}
-                                      value={replymessage}
-                                      onChange={(e) => {
-                                        let msg = e.target.value;
-                                        if (e?.target?.value?.length > 500) {
-                                          msg = msg.slice(0, 500);
-                                        }
-                                        setReplyMessage(msg);
-                                      }}
-                                    />
-                                    <input
-                                      type="checkbox"
-                                      name="suppot-close"
-                                      className="ms-5"
-                                      onChange={(e) => {
-                                        setClosed(e.target.checked);
-                                        e.stopPropagation();
-                                      }}
-                                    />{" "}
-                                    <span className="text-white mt-3 ms-1">
-                                      {"Support Close"}
-                                    </span>
-                                  </div>
-                                  <div className=" text-black px-2">
-                                    {500 - replymessage?.length}/500
-                                  </div>
-                                </div>
-                                <div
-                                  className="mb-3"
-                                  style={{
-                                    justifyContent: "flex-end",
-                                    display: "flex",
-                                  }}
-                                >
-                                  <div className="d-flex gap-4 align-items-center ">
-                                    <div
-                                      className="text-white"
-                                      onClick={() =>
-                                        document
-                                          .getElementById("replyfile")
-                                          .click()
-                                      }
-                                    >
-                                      <i className="fa-solid fa-paperclip fs-4" />
+                              <div className="card-footer bg_lgray">
+                                <div className="row justify-content-end">
+                                  <div className="row align-items-center">
+                                    <div className="col-lg-3">
+                                      <div className="text-end">
+                                        <div className="mb-2">
+                                          {" "}
+                                          <input
+                                            type="checkbox"
+                                            id="suppot-close"
+                                            name="suppot-close"
+                                            className=""
+                                            onChange={(e) => {
+                                              setClosed(e.target.checked);
+                                              e.stopPropagation();
+                                            }}
+                                          />
+                                          <label
+                                            for="suppot-close"
+                                            className="ms-2 text_gray"
+                                          >
+                                            {"Support Close"}
+                                          </label>
+                                        </div>
+                                      </div>
                                     </div>
-                                    <input
-                                      type="file"
-                                      className=" d-none"
-                                      id="replyfile"
-                                      onChange={(e) => {
-                                        // console.log(e.target.files[0],' file name ')
-                                        setReplyFile(e?.target?.files[0]);
-                                      }}
-                                    />
-                                    <div
-                                      className="coin_style3"
-                                      onClick={() =>
-                                        sendReply(
-                                          item?.ticketId,
-                                          item?.query_subject
-                                        )
-                                      }
-                                    >
-                                      {loading ? (
-                                        <div
-                                          className="spinner-border text-black load-icon mx-1"
-                                          role="status"
-                                        ></div>
-                                      ) : (
-                                        <i className="fa-solid fa-arrow-up "></i>
-                                      )}
-                                    </div>
-                                    {/* <IoRefresh
+
+                                    <div className="col-lg-9">
+                                      <div className="d-flex gap-2">
+                                        <div style={{ flex: "auto" }}>
+                                          <textarea
+                                            type="text"
+                                            rows="2"
+                                            placeholder="Write your message..."
+                                            className="form-control"
+                                            id="exampleInputPassword1"
+                                            value={replymessage}
+                                            onChange={(e) => {
+                                              let msg = e.target.value;
+                                              if (
+                                                e?.target?.value?.length > 500
+                                              ) {
+                                                msg = msg.slice(0, 500);
+                                              }
+                                              setReplyMessage(msg);
+                                            }}
+                                          />
+                                          <div className="text_gray fs-12 text-end px-2">
+                                            {500 - replymessage?.length}/500
+                                          </div>
+                                        </div>
+                                        <div className="d-flex gap-4 ">
+                                          <div
+                                            className="anchor_link"
+                                            style={{ lineHeight: "47px" }}
+                                            onClick={() =>
+                                              document
+                                                .getElementById("replyfile")
+                                                .click()
+                                            }
+                                          >
+                                            <i className="fa-solid fa-paperclip text_gray fs-4" />
+                                          </div>
+                                          <input
+                                            type="file"
+                                            className=" d-none"
+                                            id="replyfile"
+                                            onChange={(e) => {
+                                              // console.log(e.target.files[0],' file name ')
+                                              setReplyFile(e?.target?.files[0]);
+                                            }}
+                                          />
+                                          <div
+                                            className="coin_style3"
+                                            onClick={() =>
+                                              sendReply(
+                                                item?.ticketId,
+                                                item?.query_subject
+                                              )
+                                            }
+                                          >
+                                            {loading ? (
+                                              <div
+                                                className="spinner-border text-black load-icon mx-1"
+                                                role="status"
+                                              ></div>
+                                            ) : (
+                                              <FiSend />
+                                            )}
+                                          </div>
+                                          {/* <IoRefresh
                                       size={22}
                                       onClick={() => {
                                         if (!refreshing) {
@@ -568,6 +501,9 @@ const SupportCharts = () => {
                                         color: "white",
                                       }}
                                     /> */}
+                                        </div>
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
                               </div>

@@ -125,7 +125,7 @@ export const Asset = () => {
                 {/* <button onClick={() => exportToExcel(data, 'exported-data')}>Export to Excel</button> */}
                 <thead>
                   <tr>
-                    <th>NO.</th>
+                    <th>S.No.</th>
                     <th>Name</th>
                     <th>Symbol</th>
                     <th>Blockchain</th>

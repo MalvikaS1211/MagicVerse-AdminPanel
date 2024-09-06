@@ -129,7 +129,7 @@ export const Currency = () => {
                 {/* <button onClick={() => exportToExcel(data, 'exported-data')}>Export to Excel</button> */}
                 <thead>
                   <tr>
-                    <th>NO.</th>
+                    <th>S.No.</th>
                     <th>User</th>
                     <th>INR</th>
                     <th>INRX</th>

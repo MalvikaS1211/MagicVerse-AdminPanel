@@ -3,13 +3,17 @@ import { DownloadTableExcel } from "react-export-table-to-excel";
 import { DownloadExcel } from "react-excel-export";
 import { useNavigate } from "react-router-dom";
 import * as XLSX from "xlsx";
+import { MdLogout } from "react-icons/md";
 
 import { Row, Col, Card, Table } from "react-bootstrap";
-import { LogoutuserByAdmin, allUser, getAllLoginUser } from "../../../services/api_function";
+import {
+  LogoutuserByAdmin,
+  allUser,
+  getAllLoginUser,
+} from "../../../services/api_function";
 import { COLUMNS } from "../table/FilteringTable/Columns";
 import { IoLogOut } from "react-icons/io5";
 import toast from "react-hot-toast";
-
 
 export const LoginActivity = () => {
   const [apiData, setApiData] = useState([]);
@@ -85,18 +89,19 @@ export const LoginActivity = () => {
     }
   };
 
-  const LogoutUser=async(userid,sessionid,login)=>{
+  const LogoutUser = async (userid, sessionid, login) => {
     const userDetails = localStorage.getItem("userDetails");
     const parsedDetails = JSON.parse(userDetails);
     const token = parsedDetails.token;
-    const res = await LogoutuserByAdmin(userid,sessionid,login,token)
-    if(res?.status===200){
-      toast.success("User logout Successfully")
-      const updatearr = apiData.map(it=>it.userId == userid?{...it,login:false}:it)
+    const res = await LogoutuserByAdmin(userid, sessionid, login, token);
+    if (res?.status === 200) {
+      toast.success("User logout Successfully");
+      const updatearr = apiData.map((it) =>
+        it.userId == userid ? { ...it, login: false } : it
+      );
       setApiData(updatearr);
     }
-  }
-
+  };
 
   const exportToExcel = (data, fileName) => {
     const wb = XLSX.utils.book_new();
@@ -133,63 +138,59 @@ export const LoginActivity = () => {
 
         <Col lg={12}>
           <Card>
-            <Card.Header
-              
-            >
-              <Card.Title style={{ color: "white", margin: "auto" }}>
-                Login Activity
-              </Card.Title>
+            <Card.Header>
+              <Card.Title>Login Activity</Card.Title>
             </Card.Header>
-            <Card.Body
-             
-            >
-              <Table
-                responsive
-               
-              >
+            <Card.Body>
+              <Table responsive>
                 {/* <button onClick={() => exportToExcel(data, 'exported-data')}>Export to Excel</button> */}
                 <thead>
                   <tr>
-                    <th>
-                      <strong>NO.</strong>
-                    </th>
-                    <th>
-                      <strong>Name</strong>
-                    </th>
-                    <th>
-                      <strong>IP</strong>
-                    </th>
-                    <th>
-                      <strong>Browser Name</strong>
-                    </th>
-                    <th>
-                      <strong>Os</strong>
-                    </th>
-                    <th>
-                      <strong>Status</strong>
-                    </th>
-                    <th>
-                      <strong>Action</strong>
-                    </th>
+                    <th>S.No.</th>
+                    <th>Name</th>
+                    <th>IP</th>
+                    <th>Browser Name</th>
+                    <th>OS</th>
+                    <th>Status</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {!apiData[0] ? (
                     <tr>
-                      <td className="text-light text-center" colSpan="7">
+                      <td className="text-center" colSpan="7">
                         {recordStatus}
                       </td>
                     </tr>
                   ) : (
                     apiData.map((data, index) => (
                       <tr>
-                        <th>{index + 1}</th>
-                        <th>{data?.name}</th>
-                        <th>{(data?.agentinfo?.ip).split(":").pop()}</th>
-                        <th>{data?.agentinfo?.browser?.name}</th>
-                        <th>{data?.agentinfo?.os?.name}</th>
-                        <th style={{color:data?.login?"green":"red"}}>{data?.login?"Login":"Logout"}</th>
-                        <th style={{color:data?.login?"red":""}}>{data?.login?<button className="btn btn-danger btn-sm" onClick={()=>LogoutUser(data?.userId,data?.sessionId,data?.login)}><IoLogOut /> Logout</button>:""}</th>
+                        <td>{index + 1}</td>
+                        <td>{data?.name}</td>
+                        <td>{(data?.agentinfo?.ip).split(":").pop()}</td>
+                        <td>{data?.agentinfo?.browser?.name}</td>
+                        <td>{data?.agentinfo?.os?.name}</td>
+                        <td style={{ color: data?.login ? "green" : "orange" }}>
+                          {data?.login ? "Connected" : "Disconnected"}
+                        </td>
+                        <td style={{ color: data?.login ? "red" : "" }}>
+                          {data?.login ? (
+                            <button
+                              className="custom_btn_red"
+                              onClick={() =>
+                                LogoutUser(
+                                  data?.userId,
+                                  data?.sessionId,
+                                  data?.login
+                                )
+                              }
+                            >
+                              <MdLogout /> Logout
+                            </button>
+                          ) : (
+                            ""
+                          )}
+                        </td>
                       </tr>
                     ))
                   )}
@@ -206,29 +207,11 @@ export const LoginActivity = () => {
                 className="text-center mb-3 col-lg-6"
                 style={{ margin: "auto" }}
               >
-                <div className="filter-pagination  mt-3">
-                  {/* <button
-                    className="previous-button"
-                    onClick={handlePreviousPage}
-                    disabled={currentPage === 1}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
-                  >
-                    {"<<"}
-                  </button> */}
-
+                <div className="filter-pagination mt-3">
                   <button
                     className="previous-button"
                     onClick={handlePreviousPage}
                     disabled={currentPage === 1}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
                   >
                     Previous
                   </button>
@@ -237,27 +220,9 @@ export const LoginActivity = () => {
                     className="next-button"
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
                   >
                     Next
                   </button>
-
-                  {/* <button
-                    className="next-button"
-                    onClick={handleNextPage}
-                    disabled={currentPage === totalPages}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
-                  >
-                    {">>"}
-                  </button> */}
 
                   <span>
                     Page {currentPage} of {totalPages}

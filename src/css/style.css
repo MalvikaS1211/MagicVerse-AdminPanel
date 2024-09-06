@@ -1,58 +1,3 @@
-/*
-    Table of Contents
-
-    Name                 : CryptoZone
-    Author               : Dexignzone
-    Author Portfolio     : https://themeforest.net/user/dexignzone/portfolio
-    
-
-
-    Table of Sass Contents
-
-    1. Abstracts
-        _bs-custom
-        _inheritance
-        _maps
-        _mixin
-        _variable
-
-    2. bootstrap 
-        -Here goes all official bootstrap scss files
-
-    3. Global/Base
-        _color
-        _custom-grid
-        _fonts
-        _helper
-        _reset
-
-    4. layout
-        +footer
-        +header
-        +rtl
-        +sidebar
-        +tables
-        +theme
-        +version-dark
-
-    5. Conponents
-        +app
-        +charts
-        +forms
-        +map
-        +uc
-        +ui
-        +widget
-
-    6. Page
-        _index-1
-        _page-error
-        _page-register
-        _page-signin
-        _page-user-lock
-        _page-user-lock
-
-*/
 @import url("https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800");
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600,700");
@@ -75,162 +20,6 @@
 @import url(./../vendor/aos/css/aos.min.css);
 @import url(./../vendor/perfect-scrollbar/css/perfect-scrollbar.css);
 @import url(./../vendor/metismenu/css/metisMenu.min.css);
-/* :root {
-  --primary: #333;
-  --secondary: #333;
-  --secondary-dark: #22173f;
-  --primary-hover: #7135ff;
-  --primary-dark: #3d00ce;
-  --rgba-primary-1: rgba(149, 104, 255, 0.1);
-  --rgba-primary-2: rgba(149, 104, 255, 0.2);
-  --rgba-primary-3: rgba(149, 104, 255, 0.3);
-  --rgba-primary-4: rgba(149, 104, 255, 0.4);
-  --rgba-primary-5: rgba(149, 104, 255, 0.5);
-  --rgba-primary-6: rgba(149, 104, 255, 0.6);
-  --rgba-primary-7: rgba(149, 104, 255, 0.7);
-  --rgba-primary-8: rgba(149, 104, 255, 0.8);
-  --rgba-primary-9: rgba(149, 104, 255, 0.9);
-  --rgba-secondary-1: rgba(54, 36, 101, 0.1);
-  --rgba-secondary-2: rgba(54, 36, 101, 0.2);
-  --rgba-secondary-3: rgba(54, 36, 101, 0.3);
-  --rgba-secondary-4: rgba(54, 36, 101, 0.4);
-  --rgba-secondary-5: rgba(54, 36, 101, 0.5);
-  --rgba-secondary-6: rgba(54, 36, 101, 0.6);
-  --rgba-secondary-7: rgba(54, 36, 101, 0.7);
-  --rgba-secondary-8: rgba(54, 36, 101, 0.8);
-  --rgba-secondary-9: rgba(54, 36, 101, 0.9);
-  --font-family-base: nunito, sans-serif, sans-serif;
-  --font-family-title: poppins, sans-serif, sans-serif;
-  --title: #374557; } */
-
-.gradient_one {
-  background-image: linear-gradient(to right, rgba(186, 1, 181, 0.85) 0%, rgba(103, 25, 255, 0.85) 100%); }
-
-.gradient-1 {
-  background: #f0a907;
-  background: -moz-linear-gradient(top, #f0a907 0%, #f53c79 100%);
-  background: -webkit-linear-gradient(top, #f0a907 0%, #f53c79 100%);
-  background: linear-gradient(to bottom, #f0a907 0%, #f53c79 100%) !important;
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f0a907', endColorstr='#f53c79',GradientType=0 ); }
-
-.gradient-2 {
-  background: #4dedf5;
-  background: -moz-linear-gradient(top, #4dedf5 0%, #480ceb 100%);
-  background: -webkit-linear-gradient(top, #4dedf5 0%, #480ceb 100%);
-  background: linear-gradient(to bottom, #4dedf5 0%, #480ceb 100%) !important;
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4dedf5', endColorstr='#480ceb',GradientType=0 ); }
-
-.gradient-3 {
-  background: #51f5ae;
-  background: -moz-linear-gradient(top, #51f5ae 0%, #3fbcda 100%);
-  background: -webkit-linear-gradient(top, #51f5ae 0%, #3fbcda 100%);
-  background: linear-gradient(to bottom, #51f5ae 0%, #3fbcda 100%) !important;
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#51f5ae', endColorstr='#3fbcda',GradientType=0 ); }
-
-.gradient-4 {
-  background: #f25521;
-  background: -moz-linear-gradient(left, #f25521 0%, #f9c70a 100%);
-  background: -webkit-linear-gradient(left, #f25521 0%, #f9c70a 100%);
-  background: linear-gradient(to right, #f25521 0%, #f9c70a 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f25521', endColorstr='#f9c70a',GradientType=1 ); }
-
-.gradient-5 {
-  background: #f53c79;
-  background: -moz-linear-gradient(left, #f53c79 0%, #f0a907 100%);
-  background: -webkit-linear-gradient(left, #f53c79 0%, #f0a907 100%);
-  background: linear-gradient(to right, #f53c79 0%, #f0a907 100%) !important;
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f53c79', endColorstr='#f0a907',GradientType=1 ); }
-
-.gradient-6 {
-  background: #36b9d8;
-  background: -moz-linear-gradient(left, #36b9d8 0%, #4bffa2 100%);
-  background: -webkit-linear-gradient(left, #36b9d8 0%, #4bffa2 100%);
-  background: linear-gradient(to right, #36b9d8 0%, #4bffa2 100%) !important;
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#36b9d8', endColorstr='#4bffa2',GradientType=1 ); }
-
-.gradient-7 {
-  background: #4400eb;
-  background: -moz-linear-gradient(left, #4400eb 0%, #44e7f5 100%);
-  background: -webkit-linear-gradient(left, #4400eb 0%, #44e7f5 100%);
-  background: linear-gradient(to right, #4400eb 0%, #44e7f5 100%) !important;
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4400eb', endColorstr='#44e7f5',GradientType=1 ); }
-
-.gradient-8 {
-  background: #F7B00F;
-  background: -moz-linear-gradient(top, #F7B00F 0%, #F25521 100%);
-  background: -webkit-linear-gradient(top, #F7B00F 0%, #F25521 100%);
-  background: linear-gradient(to bottom, #F7B00F 0%, #F25521 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#F7B00F', endColorstr='#F25521',GradientType=1 ); }
-
-.gradient-9, .datepicker.datepicker-dropdown td.day:hover, .datepicker.datepicker-dropdown th.next:hover, .datepicker.datepicker-dropdown th.prev:hover, .datepicker table tr td.selected, .datepicker table tr td.active, .datepicker table tr td.today, .datepicker table tr td.today:hover, .datepicker table tr td.today.disabled, .datepicker table tr td.today.disabled:hover {
-  background: #f31e7a !important;
-  background: -moz-linear-gradient(left, #f31e7a 0%, #fd712c 100%);
-  background: -webkit-linear-gradient(left, #f31e7a 0%, #fd712c 100%);
-  background: linear-gradient(to right, #f31e7a 0%, #fd712c 100%) !important;
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f31e7a', endColorstr='#fd712c',GradientType=1 ); }
-
-.gradient-10 {
-  background: #f25521 !important;
-  background: -moz-linear-gradient(left, #f25521 0%, #f9c70a 100%);
-  background: -webkit-linear-gradient(left, #f25521 0%, #f9c70a 100%);
-  background: linear-gradient(to top, #f25521 0%, #f9c70a 100%) !important;
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f25521', endColorstr='#f9c70a',GradientType=1 ); }
-
-.gradient-11 {
-  background: #3398fb;
-  background: -moz-linear-gradient(left, #3398fb 0%, #8553ee 100%);
-  background: -webkit-linear-gradient(left, #3398fb 0%, #8553ee 100%);
-  background: linear-gradient(to right, #3398fb 0%, #8553ee 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3398fb', endColorstr='#8553ee',GradientType=1 ); }
-
-.gradient-12 {
-  background: #36e1b4;
-  background: -moz-linear-gradient(left, #36e1b4 0%, #11cae7 100%);
-  background: -webkit-linear-gradient(left, #36e1b4 0%, #11cae7 100%);
-  background: linear-gradient(to right, #36e1b4 0%, #11cae7 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#36e1b4', endColorstr='#11cae7',GradientType=1 ); }
-
-.gradient-13 {
-  background: #ffbf31;
-  background: -moz-linear-gradient(left, #ffbf31 0%, #ff890e 100%);
-  background: -webkit-linear-gradient(left, #ffbf31 0%, #ff890e 100%);
-  background: linear-gradient(to right, #ffbf31 0%, #ff890e 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffbf31', endColorstr='#ff890e',GradientType=1 ); }
-
-.gradient-14 {
-  background: #23bdb8;
-  background: -moz-linear-gradient(-45deg, #23bdb8 0%, #43e794 100%);
-  background: -webkit-linear-gradient(-45deg, #23bdb8 0%, #43e794 100%);
-  background: linear-gradient(135deg, #23bdb8 0%, #43e794 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#23bdb8', endColorstr='#43e794',GradientType=1 ); }
-
-.gradient-15 {
-  background: #9a56ff;
-  background: -moz-linear-gradient(-45deg, #9a56ff 0%, #e36cd9 100%);
-  background: -webkit-linear-gradient(-45deg, #9a56ff 0%, #e36cd9 100%);
-  background: linear-gradient(135deg, #9a56ff 0%, #e36cd9 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9a56ff', endColorstr='#e36cd9',GradientType=1 ); }
-
-.gradient-16 {
-  background: #f48665;
-  background: -moz-linear-gradient(-45deg, #f48665 0%, #fda23f 100%);
-  background: -webkit-linear-gradient(-45deg, #f48665 0%, #fda23f 100%);
-  background: linear-gradient(135deg, #f48665 0%, #fda23f 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f48665', endColorstr='#fda23f',GradientType=1 ); }
-
-.gradient-17 {
-  background: #e36cd9;
-  background: -moz-linear-gradient(-45deg, #e36cd9 0%, #fe60ae 100%);
-  background: -webkit-linear-gradient(-45deg, #e36cd9 0%, #fe60ae 100%);
-  background: linear-gradient(135deg, #e36cd9 0%, #fe60ae 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e36cd9', endColorstr='#fe60ae',GradientType=1 ); }
-
-.gradient-18 {
-  background: #a15cff;
-  background: -moz-linear-gradient(left, #a15cff 0%, #ce82fd 100%);
-  background: -webkit-linear-gradient(left, #a15cff 0%, #ce82fd 100%);
-  background: linear-gradient(to right, #a15cff 0%, #ce82fd 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a15cff', endColorstr='#ce82fd',GradientType=1 ); }
 
 /*
 0 - 600: Phone
@@ -248,32 +37,6 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
  * Copyright 2011-2021 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
-:root {
-  --bs-blue: #5e72e4;
-  --bs-indigo: #6610f2;
-  --bs-purple: #6f42c1;
-  --bs-pink: #e83e8c;
-  --bs-red: #EE3232;
-  --bs-orange: #ff9900;
-  --bs-yellow: #FFFA6F;
-  --bs-green: #297F00;
-  --bs-teal: #20c997;
-  --bs-cyan: #3065D0;
-  --bs-white: #fff;
-  --bs-gray: #6c757d;
-  --bs-gray-dark: #343a40;
-  --bs-primary: #E5EEE5;
-  --bs-secondary: #362465;
-  --bs-success: #00A389;
-  --bs-info: #58bad7;
-  --bs-warning: #f0a901;
-  --bs-danger: #EB5757;
-  --bs-light: #c8c8c8;
-  --bs-dark: #6e6e6e;
-  --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0)); }
-
 *,
 *::before,
 *::after {
@@ -3460,7 +3223,7 @@ textarea.form-control-lg {
   text-decoration: none; }
 
 .card-link + .card-link {
-  margin-left: 1rem /* rtl:ignore */; }
+  margin-left: 1rem; }
 
 .card-header {
   padding: 0.5rem 1rem;
@@ -3588,9 +3351,10 @@ textarea.form-control-lg {
     z-index: 2; }
   .accordion-button:focus {
     z-index: 3;
-    border-color: #cab4ff;
+    /* border-color: #cab4ff; */
     outline: 0;
-    box-shadow: 0 0 0 0.25rem rgba(149, 104, 255, 0.25); }
+    /* box-shadow: 0 0 0 0.25rem rgba(149, 104, 255, 0.25);*/ 
+    } 
 
 .accordion-header {
   margin-bottom: 0; }
@@ -15341,14 +15105,14 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
     [data-sidebarbg="color_4"][data-sidebar-style="compact"][data-layout="vertical"] .deznav .metismenu > li:hover > a i {
       background: var(--primary);
       color: #fff !important; }
-  [data-sidebarbg="color_4"][data-theme-version="dark"] .deznav .metismenu a,
+  /* [data-sidebarbg="color_4"][data-theme-version="dark"] .deznav .metismenu a,
   [data-sidebarbg="color_4"] .deznav .metismenu a {
-    color: rgba(255, 255, 255, 0.8) !important; }
+    color: rgba(255, 255, 255, 0.8) !important; } */
   [data-sidebarbg="color_4"][data-theme-version="dark"] .deznav .metismenu li ul a:hover, [data-sidebarbg="color_4"][data-theme-version="dark"] .deznav .metismenu li ul a:focus, [data-sidebarbg="color_4"][data-theme-version="dark"] .deznav .metismenu li ul a.mm-active,
   [data-sidebarbg="color_4"] .deznav .metismenu li ul a:hover,
   [data-sidebarbg="color_4"] .deznav .metismenu li ul a:focus,
   [data-sidebarbg="color_4"] .deznav .metismenu li ul a.mm-active {
-    color: #fff; }
+    color: #4CAF50; }
   [data-sidebarbg="color_4"][data-theme-version="dark"] .deznav .metismenu > li:hover > a,
   [data-sidebarbg="color_4"] .deznav .metismenu > li:hover > a {
     background: rgba(255, 255, 255, 0.15) !important; }
@@ -15359,10 +15123,10 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
     [data-sidebarbg="color_4"][data-theme-version="dark"] .deznav .metismenu > li > a i,
     [data-sidebarbg="color_4"] .deznav .metismenu > li > a i {
       color: rgba(0, 0, 0, 0.85) !important; }
-  [data-sidebarbg="color_4"][data-theme-version="dark"] .deznav .metismenu > li.mm-active > a,
+  /* [data-sidebarbg="color_4"][data-theme-version="dark"] .deznav .metismenu > li.mm-active > a,
   [data-sidebarbg="color_4"] .deznav .metismenu > li.mm-active > a {
     background: rgba(255, 255, 255, 0.15) !important;
-    color: #fff; }
+    color: #fff; } */
     [data-sidebarbg="color_4"][data-theme-version="dark"] .deznav .metismenu > li.mm-active > a i,
     [data-sidebarbg="color_4"] .deznav .metismenu > li.mm-active > a i {
       color: #fff !important; }
@@ -21702,15 +21466,52 @@ input#checkAll.form-check-input:checked {
     background-color: rgb(182, 212, 182);
     color: #000;
 }
+
+
+.custom_btn_red {
+  font-size: 14px;
+  border: 0 !important;
+  width: auto;
+  padding: 6px 15px;
+  border-radius: 6px;
+  display: inline-block;
+  background-color: rgb(255 226 224 / 77%);
+  color: #ef0000;
+}
+.bg_gray {
+  background-color: #F1F5F9!important;
+}
+.text_gray {
+  color:#6C757D
+}
+.bg_green {
+  background: #e5eee5!important;
+}
+.bg_dgreen {
+  background-color: #B6D4B6!important;
+}
+.bg_lgray{
+  background-color: #f4f4f4!important;
+}
+.bg-warning {
+  color:#fff;
+  background-color: #f1df3c !important;
+}
+.form-label {
+  color:#6C757D;
+  font-size:12px
+}
+
 .anchor_link {
   color:#000!important;
+  cursor: pointer;
 
 }
 
 .form-control {
   background: #fff;
   color: #6e6e6e;
-  line-height: 2.4;
+  /* line-height: 2.4; */
   font-size: 1rem;
   height: 2.5rem;
   border-radius: 0.625rem;
@@ -25286,8 +25087,9 @@ button {
   position: relative;
   /* border: 0rem solid transparent; */
   border-radius: 1.25rem;
-  box-shadow: 0rem 0.3125rem 0.3125rem 0rem rgba(82, 63, 105, 0.05);
-  height: calc(100% - 30px); }
+  /* box-shadow: 0rem 0.3125rem 0.3125rem 0rem rgba(82, 63, 105, 0.05); */
+  /* height: calc(100% - 30px);  */
+}
   @media only screen and (max-width: 35.9375rem) {
     .card {
       margin-bottom: 0.938rem;
@@ -28553,6 +28355,7 @@ table.dataTable thead .sorting_asc {
 
 .count-num {
   font-size: 28px;
+  line-height: 28px;
   font-weight: 600;
   color: var(--secondary);
   margin: 0; }
@@ -34330,4 +34133,45 @@ label[data-shrink=false]+.MuiInputBase-formControl .css-nxo287-MuiInputBase-inpu
 }
 .css-p0rm37{
   color: white !important;
+}
+
+.action_btn {
+  background-color: rgb(182, 212, 182);
+  border: 0;
+  border-radius: 5px;
+  color: #000;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 400;
+  height: 40px;
+  line-height: 40px;
+  outline: 0;
+  overflow: hidden;
+  padding: 0 20px;
+  pointer-events: auto;
+  position: relative;
+  text-align: center;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  vertical-align: top;
+  white-space: nowrap;
+  z-index: 9;
+}
+
+.circle_bg {
+  /* background-color: #000; */
+  border-radius: 50px;
+  color: #fff;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+.img_50 {
+  width:50px;
+  height:50px
 }

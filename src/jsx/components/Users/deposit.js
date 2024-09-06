@@ -126,22 +126,22 @@ export const Deposit = () => {
                 <thead>
                   <tr>
                     <th>
-                      <strong>NO.</strong>
+                      S.No.
                     </th>
                     <th>
-                      <strong>User</strong>
+                      User
                     </th>
                     {/* <th>
-                      <strong> Symbol</strong>
+                       Symbol
                     </th> */}
                     <th>
-                      <strong>Amount</strong>
+                      Amount
                     </th>
                     <th>
-                      <strong>Status</strong>
+                      Status
                     </th>
                     <th>
-                      <strong>Date & Time</strong>
+                      Date & Time
                     </th>
                   </tr>
                 </thead>

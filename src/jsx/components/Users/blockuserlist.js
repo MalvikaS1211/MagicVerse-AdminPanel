@@ -69,7 +69,7 @@ const BlockUserList = () => {
                   <tr>
 
                     <th>
-                      <strong>NO.</strong>
+                      <strong>S.No.</strong>
 
                     </th>
                     <th>
