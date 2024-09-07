@@ -95,13 +95,7 @@ export const Deposit = () => {
   return (
     <Fragment>
       <Row>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            width: "100%",
-            marginBottom: "20px",
-          }}
+        <div className="display_end"        
         >
           <div className="input-group" style={{ maxWidth: "300px" }}>
             <input
@@ -125,24 +119,11 @@ export const Deposit = () => {
                 {/* <button onClick={() => exportToExcel(data, 'exported-data')}>Export to Excel</button> */}
                 <thead>
                   <tr>
-                    <th>
-                      S.No.
-                    </th>
-                    <th>
-                      User
-                    </th>
-                    {/* <th>
-                       Symbol
-                    </th> */}
-                    <th>
-                      Amount
-                    </th>
-                    <th>
-                      Status
-                    </th>
-                    <th>
-                      Date & Time
-                    </th>
+                    <th>S.No.</th>
+                    <th>User</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Date & Time</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -196,7 +177,7 @@ export const Deposit = () => {
                     disabled={currentPage === totalPages}
                   >
                     Next
-                  </button>                
+                  </button>
 
                   <span>
                     Page {currentPage} of {totalPages}

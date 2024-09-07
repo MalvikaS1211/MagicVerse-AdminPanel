@@ -68,8 +68,8 @@ svg.svg-map {
 .svg-map__location:hover {
   fill: black !important;
 }
-.map-unselected{
-	fill: #eff2f4 !important;
+.map-unselected {
+  fill: #eff2f4 !important;
 }
 
 .p-meddle {
@@ -520,29 +520,28 @@ button.react-calendar__tile.react-calendar__tile--active.react-calendar__tile--r
   padding: 16px 5px 15px 5px;
   /* border-radius: 35px; */
   line-height: 1;
-  color:#fff;
-  background:var(--primary)!important;
+  color: #fff;
+  background: var(--primary) !important;
 }
 
 button.react-calendar__tile.react-calendar__tile--now.react-calendar__month-view__days__day::before,
 button.react-calendar__tile.react-calendar__tile--active.react-calendar__tile--range.react-calendar__tile--rangeStart.react-calendar__tile--rangeEnd.react-calendar__tile--rangeBothEnds.react-calendar__month-view__days__day::before {
-	content:"";
-	height: 1.4rem;
-	width: 1.4rem;
-	border-radius: 1.4rem;
-	right: -0.3125rem;
-	top: -0.3125rem;
-	position:absolute;
-	border: 3px solid #fff;
-	background: #FFC368;
+  content: "";
+  height: 1.4rem;
+  width: 1.4rem;
+  border-radius: 1.4rem;
+  right: -0.3125rem;
+  top: -0.3125rem;
+  position: absolute;
+  border: 3px solid #fff;
+  background: #ffc368;
 }
-
 
 .react-calendar {
   border: none;
 }
-.react-calendar__navigation button{
-	font-size:24px;
+.react-calendar__navigation button {
+  font-size: 24px;
 }
 
 .calendar {
@@ -691,22 +690,126 @@ button.react-calendar__tile.react-calendar__tile--active.react-calendar__tile--r
   display: none;
 }
 
-.nestable .icon-minus-gray,.nestable .icon-plus-gray{
-	background-image:none;
+.nestable .icon-minus-gray,
+.nestable .icon-plus-gray {
+  background-image: none;
 }
-.nestable .nestable-icon:before{
-	content:"\f068";
-	font-family:'Font Awesome 5 Free';
-	font-weight: 600;
-	width: auto;
-	height: auto;
-	display: contents;
+.nestable .nestable-icon:before {
+  content: "\f068";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 600;
+  width: auto;
+  height: auto;
+  display: contents;
 }
-.nestable .nestable-item--children-collapsed .nestable-icon:before{
-	content:"\f067";
-	font-family:'Font Awesome 5 Free';
-	font-weight: 600;
-	width: auto;
-	height: auto;
-	display: contents;
+.nestable .nestable-item--children-collapsed .nestable-icon:before {
+  content: "\f067";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 600;
+  width: auto;
+  height: auto;
+  display: contents;
+}
+
+.custom_btn {
+  font-size: 14px;
+  border: 0 !important;
+  width: auto;
+  padding: 6px 15px;
+  border-radius: 6px;
+  display: inline-block;
+  background-color: rgb(182, 212, 182);
+  color: #000;
+}
+
+.action_btn {
+  background-color: rgb(182, 212, 182);
+  border: 0;
+  border-radius: 5px;
+  color: #000;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 400;
+  height: 40px;
+  line-height: 40px;
+  outline: 0;
+  overflow: hidden;
+  padding: 0 20px;
+  pointer-events: auto;
+  position: relative;
+  text-align: center;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  vertical-align: top;
+  white-space: nowrap;
+  z-index: 9;
+}
+
+.circle_bg {
+  /* background-color: #000; */
+  border-radius: 50px;
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.img_50 {
+  width: 40px;
+  height: 40px;
+}
+
+.custom_btn_red {
+  font-size: 14px;
+  border: 0 !important;
+  width: auto;
+  padding: 6px 15px;
+  border-radius: 6px;
+  display: inline-block;
+  background-color: rgb(255 226 224 / 77%);
+  color: #ef0000;
+}
+.bg_gray {
+  background-color: #f1f5f9 !important;
+}
+.text_gray {
+  color: #6c757d;
+}
+.bg_green {
+  background: #e5eee5 !important;
+}
+.bg_dgreen {
+  background-color: #b6d4b6 !important;
+}
+.bg_lgray {
+  background-color: #f4f4f4 !important;
+}
+.bg-warning {
+  color: #fff;
+  background-color: #f1df3c !important;
+}
+.form-label {
+  color: #6c757d;
+  font-size: 12px;
+}
+
+.anchor_link {
+  color: #000 !important;
+  cursor: pointer;
+}
+
+.display_end {
+  display: flex;
+  justify-content: flex-end;
+
+  margin-bottom: 20px;
+}
+@media (max-width: 480px) {
+  .display_end {
+    display: flex;
+    justify-content: center;
+  }
 }

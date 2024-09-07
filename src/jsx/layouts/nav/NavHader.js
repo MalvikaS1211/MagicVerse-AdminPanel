@@ -9,6 +9,9 @@ import logotext1 from './../../../images/logo/logo-text.png';
 import logoColor from './../../../images/logo/logo-color.png';
 import logoColorText from './../../../images/logo/logo-text-color.png';
 import image from "../../../images/t Text.svg"
+import { PiDotsNineBold } from "react-icons/pi";
+import { IoMdArrowRoundBack } from "react-icons/io";
+import { IoArrowBack } from "react-icons/io5";
 
 export function  NavMenuToggle(){
 	setTimeout(()=>{	
@@ -29,11 +32,14 @@ const NavHader = () => {
   );
   return (
     <div className="nav-header">
-      <Link to="/dashboard" className="brand-logo"> 
-		{/* <img src={logo1}  className="logo-abbr" alt=""/> 
-		<img src={logoColor} className="logo-color" alt="" />
-		<img src={logoColorText} className="brand-title color-title" alt="" /> */}
-    <img src="/images/logo.svg" className="" alt="" width="100"/>
+      <Link to="/dashboard" className="brand-logo">
+
+      {/* //for mobile */}
+         <img src="/images/inrx2.png" className="logo-color" alt="" />  
+
+         {/* for // Desktop */}
+        <img src="/images/inrx2.png" className="logo-abbr" alt="" width="100"/>
+        <img src="/images/logo-text.png" class="brand-title" alt=""/>
       </Link>
 
       <div
@@ -45,20 +51,11 @@ const NavHader = () => {
         }}
       >
         <div className={`hamburger ${toggle ? "is-active" : ""}`}>
+       <div className=""> <i className="fa fa-arrow-left-long fs-3 text_green lines"></i></div>
+        {/* <span className="line"></span>
           <span className="line"></span>
-          <span className="line"></span>
-          <span className="line"></span>
-		  <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-			<rect x="22" y="11" width="4" height="4" rx="2" fill="#2A353A"/>
-			<rect x="11" width="4" height="4" rx="2" fill="#2A353A"/>
-			<rect x="22" width="4" height="4" rx="2" fill="#2A353A"/>
-			<rect x="11" y="11" width="4" height="4" rx="2" fill="#2A353A"/>
-			<rect x="11" y="22" width="4" height="4" rx="2" fill="#2A353A"/>
-			<rect width="4" height="4" rx="2" fill="#2A353A"/>
-			<rect y="11" width="4" height="4" rx="2" fill="#2A353A"/>
-			<rect x="22" y="22" width="4" height="4" rx="2" fill="#2A353A"/>
-			<rect y="22" width="4" height="4" rx="2" fill="#2A353A"/>
-		  </svg>	
+          <span className="line"></span> */}
+          <PiDotsNineBold style={{fontSize:"2.5rem"}} />
         </div>
       </div>
     </div>

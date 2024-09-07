@@ -99,14 +99,7 @@ export const Currency = () => {
   return (
     <Fragment>
       <Row>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            width: "100%",
-            marginBottom: "20px",
-          }}
-        >
+        <div className="display_end">
           <div className="input-group" style={{ maxWidth: "300px" }}>
             <input
               type="search"
@@ -244,19 +237,7 @@ export const Currency = () => {
                 className="text-center mb-3 col-lg-6"
                 style={{ margin: "auto" }}
               >
-                <div className="filter-pagination  mt-3 ">
-                  {/* <button
-                    className="previous-button"
-                    onClick={handlePreviousPage}
-                    disabled={currentPage === 1}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
-                  >
-                    {"<<"}
-                  </button> */}
+                <div className="filter-pagination  mt-3 ">               
 
                   <button
                     className="previous-button"

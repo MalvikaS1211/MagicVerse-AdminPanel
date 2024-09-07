@@ -72,14 +72,7 @@ export const ApproveWithdraw = () => {
   return (
     <Fragment>
       <Row>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            width: "100%",
-            marginBottom: "20px",
-          }}
-        >
+        <div className="display_end">
           <div className="input-group" style={{ maxWidth: "300px" }}>
             <input
               type="search"
@@ -94,54 +87,27 @@ export const ApproveWithdraw = () => {
 
         <Col lg={12}>
           <Card>
-            <Card.Header
-             
-            >
+            <Card.Header>
               <Card.Title style={{ color: "white", margin: "auto" }}>
                 Approved Withdraw
               </Card.Title>
               {/* <button type="button" class="btn btn-success">Approve</button> */}
             </Card.Header>
 
-            <Card.Body
-              
-            >
-              <Table
-                responsive
-                
-              >
+            <Card.Body>
+              <Table responsive>
                 <thead>
                   <tr>
-                    <th>
-                      <strong>No</strong>
-                    </th>
-                    <th>
-                      <strong>Name</strong>
-                    </th>
-                    <th>
-                      <strong>User</strong>
-                    </th>
-                    <th>
-                      <strong>Amount</strong>
-                    </th>
-                    <th>
-                      <strong>Fess(5%)</strong>
-                    </th>
-                    <th>
-                      <strong>Total</strong>
-                    </th>
-                    <th>
-                      <strong>Type</strong>
-                    </th>
-                    <th>
-                      <strong>Method</strong>
-                    </th>
-                    <th>
-                      <strong>Transaction ID</strong>
-                    </th>
-                    <th>
-                      <strong>Date&Time</strong>
-                    </th>
+                    <th>No</th>
+                    <th>Name</th>
+                    <th>User</th>
+                    <th>Amount</th>
+                    <th>Fess(5%)</th>
+                    <th>Total</th>
+                    <th>Type</th>
+                    <th>Method</th>
+                    <th>Transaction ID</th>
+                    <th>Date&Time</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -171,7 +137,9 @@ export const ApproveWithdraw = () => {
                               : ""}
                           </a>
                         </td>
-                        <td>{formatTimestamp(Data.timestamp ?? Data.createdAt)}</td>
+                        <td>
+                          {formatTimestamp(Data.timestamp ?? Data.createdAt)}
+                        </td>
                       </tr>
                     ))
                   ) : (
@@ -195,11 +163,7 @@ export const ApproveWithdraw = () => {
                     className="previous-button"
                     onClick={handlePreviousPage}
                     disabled={currentPage === 1}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
+                   
                   >
                     {"<<"}
                   </button>
@@ -208,11 +172,7 @@ export const ApproveWithdraw = () => {
                     className="previous-button"
                     onClick={handlePreviousPage}
                     disabled={currentPage === 1}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
+                   
                   >
                     Previous
                   </button>
@@ -221,11 +181,7 @@ export const ApproveWithdraw = () => {
                     className="next-button"
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
+                    
                   >
                     Next
                   </button>
@@ -234,16 +190,12 @@ export const ApproveWithdraw = () => {
                     className="next-button"
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
+                  
                   >
                     {">>"}
                   </button>
 
-                  <span className="text-white">
+                  <span>
                     Page {currentPage} of {totalPages}
                   </span>
                 </div>

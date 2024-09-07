@@ -159,12 +159,12 @@ export const StakingUser = () => {
             <Card.Header>
               <Card.Title>Staking User</Card.Title>
             </Card.Header>
-            <Card.Body>
+            <Card.Body className="pt-0">
               <Table responsive>
                 {/* <button onClick={() => exportToExcel(data, 'exported-data')}>Export to Excel</button> */}
                 <thead>
                   <tr>
-                    <th>NO.</th>
+                    <th>S.No.</th>
                     <th>User</th>
                     <th>Staking Amount</th>
                     <th>Total Amount</th>
@@ -227,20 +227,7 @@ export const StakingUser = () => {
                     Next
                   </button>
 
-                  {/* <button
-                    className="next-button"
-                    onClick={handleNextPage}
-                    disabled={currentPage === totalPages}
-                    style={{
-                      background:
-                        " linear-gradient(90deg, #a2d254 15.9%, #ffd300 98.32%)",
-                      color: "black",
-                    }}
-                  >
-                    {">>"}
-                  </button> */}
-
-                  <span className=" text-white">
+                  <span>
                     Page {currentPage} of {totalPages}
                   </span>
                 </div>

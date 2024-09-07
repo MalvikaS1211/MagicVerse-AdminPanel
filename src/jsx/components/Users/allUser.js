@@ -76,6 +76,11 @@ export const AllUser = () => {
           token
         );
         setApiData(result?.data);
+
+
+      console.log("API Data:", result.data);
+
+       
         setcofig(result?.config);
         setFilteredData(result?.data);
         setTotalPages(result.totalPages);
@@ -138,14 +143,7 @@ export const AllUser = () => {
   return (
     <Fragment>
       <Row>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            width: "100%",
-            marginBottom: "20px",
-          }}
-        >
+        <div className="display_end">
           <div className="input-group" style={{ maxWidth: "300px" }}>
             <input
               type="search"
@@ -170,7 +168,7 @@ export const AllUser = () => {
                   <tr>
                     <th>S. No.</th>
                     <th>Name</th>
-                    <th>UserName</th>
+                    <th>Email</th>
                     <th>Phone</th>
                     <th>DOB</th>
                     <th>Wallet Balance</th>

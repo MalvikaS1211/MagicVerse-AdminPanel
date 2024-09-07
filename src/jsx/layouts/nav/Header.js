@@ -111,8 +111,8 @@ const Header = ({ onNote }) => {
               </div>
             </div>
             <div className="navbar-nav header-right">
-              <div className="nav-item d-flex align-items-center">
-                <div className="input-group search-area">
+              {/* <div className="nav-item d-flex align-items-center">
+                <div className="input-group search-area"> */}
                   {/* <span className="input-group-text">
                     <Link to={"#"}>
                       <svg
@@ -134,8 +134,8 @@ const Header = ({ onNote }) => {
                     className="form-control"
                     placeholder="Search here..."
                   /> */}
-                </div>
-              </div>
+                {/* </div>
+              </div> */}
               {/* <div className="dz-side-menu">
                 <div className="search-coundry d-flex align-items-center">
                   <img src={United} alt="" className="mx-2" />

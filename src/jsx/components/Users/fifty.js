@@ -73,14 +73,7 @@ const Fifty = () => {
   return (
     <Fragment>
       <Row>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            width: "100%",
-            marginBottom: "20px",
-          }}
-        >
+        <div className="display_end">
           <div className="input-group" style={{ maxWidth: "300px" }}>
             <input
               type="search"
