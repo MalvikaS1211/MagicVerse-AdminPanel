@@ -8,6 +8,7 @@ import { RxActivityLog } from "react-icons/rx";
 import { GrStakeholder } from "react-icons/gr";
 import { MdWebAsset } from "react-icons/md";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { LuIndianRupee } from "react-icons/lu";
 
 import {
   useTable,
@@ -201,7 +202,7 @@ export const AllUser = () => {
                           <td>{data.username}</td>
                           <td>{data.mobile}</td>
                           <td>{new Date(data.dob).toLocaleDateString()}</td>
-                          <td>{total?.toFixed(3)}(INR)</td>
+                          <td>{total?.toFixed(3)}<LuIndianRupee className="ms-1" /></td>
                           <td>
                             <div>
                               <div class="btn-group">
