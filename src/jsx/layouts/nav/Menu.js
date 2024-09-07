@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { Logout } from "../../../store/actions/AuthActions";
-import { IoSettingsSharp, IoShieldHalfSharp } from "react-icons/io5";
+import { IoShieldHalfSharp } from "react-icons/io5";
 import { ImStack } from "react-icons/im";
 import { LuUser2 } from "react-icons/lu";
 import { BiBriefcase } from "react-icons/bi";
@@ -13,9 +13,8 @@ import { TbActivity } from "react-icons/tb";
 import { RiLeafLine } from "react-icons/ri";
 import { SlSupport } from "react-icons/sl";
 import { HiOutlineDocumentReport } from "react-icons/hi";
-import { TbUserShield } from "react-icons/tb";
 import { SlSettings } from "react-icons/sl";
-import { GoVerified } from "react-icons/go";
+
 
 
 //import { LOGOUT_ACTION } from "../../../store/actions/AuthActions"
@@ -267,8 +266,8 @@ export const MenuList = [
   {
     title: "Logout",
     // classsChange: 'mm-collapse',
-    iconStyle: <i class="material-icons"> logout </i>,    
-    to: "#",
+    iconStyle: <i class="material-icons"> logout </i>,   
+    
     onClick: Logout,
   },
 ];

@@ -11472,7 +11472,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 .deznav {
   width: 18.75rem;
   padding-bottom: 10px;
-  height: calc(100% - 5rem);
+  height: calc(100% - 4rem);
   position: absolute;
   top: 4rem;
   padding-top: 1rem;
