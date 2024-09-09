@@ -93,7 +93,7 @@ export const MenuList = [
         },
         {
             title: 'Rejected Deposit (₹)',
-            to: 'deposit',
+            to: '#',
         },
     ]
 },
