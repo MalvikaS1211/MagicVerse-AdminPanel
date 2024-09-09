@@ -142,8 +142,8 @@ export const Deposit = () => {
                         <td>
                           {data.amount.toFixed(2)} ({data.symbol})
                         </td>
-                        <td style={{ color: data?.success ? "green" : "red" }}>
-                          {data?.success ? "Success" : "Failed"}
+                        <td style={{ color: data?.success ? "green" : data.symbol==="INRx"? "green": "red" }}>
+                          {data?.success ? "Success" : data.symbol==="INRx"? "Success" : "Failed"}
                         </td>
                         <td>{new Date(data.createdAt).toLocaleString()}</td>
                       </tr>
