@@ -77,18 +77,38 @@ export const MenuList = [
   //     // classsChange: 'mm-collapse',
   //     iconStyle: <i className="material-icons">grid_view</i>,
   //    },
+
   {
-    title: "Pending Deposit ",
+    title: 'Deposit ',
+    classsChange: 'mm-collapse',
     iconStyle: <BiArchiveOut  className="fs-3"/>,
-    to: "pending-deposit",
-  },
-  {
-    title: "Deposit ",
-    //classsChange: 'mm-collapse',
-    //iconStyle: Widget,
-    iconStyle: <BiArchiveOut  className="fs-3"/>,
-    to: "deposite",
-  },
+    content: [
+        {
+            title: 'Pending Deposit (₹)',
+            to: 'pending-deposit',
+        },
+        {
+            title: 'Approved Deposit (₹)',
+            to: 'deposit',
+        },
+        {
+            title: 'Rejected Deposit (₹)',
+            to: 'deposit',
+        },
+    ]
+},
+
+
+  // {
+  //   title: "Pending Deposit ",
+  //   iconStyle: <BiArchiveOut  className="fs-3"/>,
+  //   to: "pending-deposit",
+  // },
+  // {
+  //   title: "Deposit ",
+  //   iconStyle: <BiArchiveOut  className="fs-3"/>,
+  //   to: "deposit",
+  // },
   {
     title: "Withdraw ",
     iconStyle: <BiArchiveIn  className="fs-3"/>,

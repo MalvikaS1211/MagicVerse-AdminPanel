@@ -224,7 +224,7 @@ const Markup = () => {
     { url: "allUsers", auth: true, component: <AllUser /> },
     { url: "staking-user", component: <StakingUser /> },
     { url: "claim-history", component: <ClaimHistory /> },
-    { url: "deposite", component: <Deposit /> },
+    { url: "deposit", component: <Deposit /> },
     { url: "pending-deposit", component: <PendingDeposit /> },
     { url: "asset", component: <Asset /> },
     { url: "currency", component: <Currency /> },

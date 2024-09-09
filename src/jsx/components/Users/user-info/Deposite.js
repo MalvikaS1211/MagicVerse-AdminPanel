@@ -30,7 +30,7 @@ export const Deposite = () => {
         setFilteredData(result?.data);
         setTotalPages(result?.totalPages);
         if (!result.data[0]) {
-          setRecordStatus("No Deposite");
+          setRecordStatus("No Deposit");
         }
         if (result.status == 404) {
           navigate("/login");
@@ -110,7 +110,7 @@ export const Deposite = () => {
         <Col lg={12}>
           <Card>
             <Card.Header>
-              <Card.Title>Deposite Details</Card.Title>
+              <Card.Title>Deposit Details</Card.Title>
               <Link className="btn btn-dark btn-sm" to="/allusers">
                 Back
               </Link>

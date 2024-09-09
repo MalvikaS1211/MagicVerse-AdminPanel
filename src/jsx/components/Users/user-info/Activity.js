@@ -124,7 +124,7 @@ export const Activity = () => {
                  
                 >
                   <Dropdown.Item onClick={() => setActivity("Deposit")}>
-                    Deposite
+                    Deposit
                   </Dropdown.Item>
                   <Dropdown.Item onClick={() => setActivity("Claim")}>
                     Claim
