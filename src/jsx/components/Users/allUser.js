@@ -199,7 +199,7 @@ export const AllUser = () => {
                         <tr>
                           <td>{index + 1}</td>
                           <td>{data.name}</td>
-                          <td>{data.username}</td>
+                          <td>{data.email}</td>
                           <td>{data.mobile}</td>
                           <td>{new Date(data.dob).toLocaleDateString()}</td>
                           <td>{total?.toFixed(3)}<LuIndianRupee className="ms-1" /></td>
