@@ -856,9 +856,13 @@ button.react-calendar__tile.react-calendar__tile--active.react-calendar__tile--r
   justify-content: space-between;
  
 }
+.accordion-item:last-of-type .accordion-button{
+  border-bottom: 0!important;
+}
 .accordion-item {
   margin-bottom: 0!important;
 }
+
 
 .custom_badge {
   background: #e5eee5;
