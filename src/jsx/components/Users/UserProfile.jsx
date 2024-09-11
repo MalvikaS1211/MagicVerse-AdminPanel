@@ -57,6 +57,24 @@ export const UserProfile = () => {
     fetchData();
   }, []);
 
+  const totalBalance = apiData?.currencyDetail?.reduce((pre, it) => {
+    // const price = config.find(
+    //   (itm) =>
+    //     itm.symbol.toLowerCase() == it.symbol.toLowerCase()
+    // );
+    // const fp = price ? price.price : 1;
+    {/* const tt = pre + it.available * fp; */}
+    const tt = pre + it.available;
+
+    return Number(tt)?.toFixed(2);
+  }, 0);
+
+  const currencies = apiData?.currencyDetail?.filter(token => token.symbol === 'INRx' || token.symbol === 'INR');
+  const currencyObject = {};
+  currencies.forEach(token => {
+    currencyObject[token.symbol] = token; // Use symbol as the key
+  });
+
   return (
     <>
       <div class="row">
@@ -74,8 +92,8 @@ export const UserProfile = () => {
                 style={{ width: "150px" }}
               />
               <h5 class="my-3">{apiData?.name}</h5>
-              <p class="text-muted mb-1">Full Stack Developer</p>
-              <p class="text-muted mb-4">{apiData?.full_address}</p>
+              <p class="text-muted mb-1">{apiData?.fatherName}</p>
+              <p class="text-muted mb-4">{apiData?.state} {apiData?.country}, {apiData?.zip}</p>
               <div class="d-flex justify-content-center mb-2">
                 <button
                   type="button"
@@ -123,12 +141,12 @@ export const UserProfile = () => {
                    <div>
                    <div className="d-flex justify-content-between mb-3">
                    <div>INR</div>
-                   <div>85.223 <BiRupee/> </div>
+                   <div>{currencyObject?.["INR"]?.available} <BiRupee/> </div>
                    </div>
                    
                    <div><div className="d-flex justify-content-between mb-2">
                      <div>INRx</div>
-                    <div>85.223 <img src="/images/inrx2.png" width={"20px"} alt="" /> </div>
+                    <div>{currencyObject?.["INRx"]?.available} <img src="/images/inrx2.png" width={"20px"} alt="" /> </div>
                     </div>
                     </div>
                    </div>
@@ -321,7 +339,7 @@ export const UserProfile = () => {
                 </div>
                 <div class="col-sm-9">
                   <p class="text-muted mb-0">
-                    379.23 <LuIndianRupee />
+                    {totalBalance} <LuIndianRupee />
                   </p>
                 </div>
               </div>
