@@ -746,6 +746,31 @@ button.react-calendar__tile.react-calendar__tile--active.react-calendar__tile--r
   z-index: 9;
 }
 
+.action_btn_outline {
+  border:1px solid rgb(182, 212, 182); 
+  background-color: transparent;
+  border-radius: 5px;
+  color: #000;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 400;
+  height: 40px;
+  line-height: 40px;
+  outline: 0;
+  overflow: hidden;
+  padding: 0 20px;
+  pointer-events: auto;
+  position: relative;
+  text-align: center;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  vertical-align: top;
+  white-space: nowrap;
+  z-index: 9;
+}
+
+
 .circle_bg {
   /* background-color: #000; */
   border-radius: 50px;
@@ -812,4 +837,12 @@ button.react-calendar__tile.react-calendar__tile--active.react-calendar__tile--r
     display: flex;
     justify-content: center;
   }
+}
+
+.hr_line {
+  background-color: #4c4c4c4a;
+}
+
+.progress-bar-green {
+  background-color: #42be0242!important;
 }

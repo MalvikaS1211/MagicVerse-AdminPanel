@@ -209,6 +209,7 @@ import { useSelector } from "react-redux";
 import PdfUpload from "./components/Users/PdfUpload";
 import WithdrawalINR from "./components/Users/withdrawalINR";
 import WithdrawalINRInfo from "./components/Users/withdrawInrInfo";
+import UserProfile from "./components/Users/UserProfile";
 
 const Markup = () => {
   const allroutes = [
@@ -221,6 +222,7 @@ const Markup = () => {
     { url: "index-4", component: <Dashboard4 /> },
     { url: "index-5", component: <Dashboard5 /> },
     // Users
+    { url: "userprofile", auth: true, component: <UserProfile /> },
     { url: "allUsers", auth: true, component: <AllUser /> },
     { url: "staking-user", component: <StakingUser /> },
     { url: "claim-history", component: <ClaimHistory /> },
