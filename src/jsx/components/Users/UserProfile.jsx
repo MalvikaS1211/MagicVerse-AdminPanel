@@ -101,7 +101,7 @@ export const UserProfile = () => {
                   data-mdb-ripple-init
                   class="action_btn"
                 >
-                  Follow
+                  Block
                 </button>
                 <button
                   type="button"
@@ -115,28 +115,29 @@ export const UserProfile = () => {
             </div>
           </div>
           <div class="card mb-4 mb-lg-0">
-            <div class="card-body py-2 px-2">
+            <div class="card-body py-2 px-1">
               <div class="accordion" id="userInfoAccordion">
                 <div class="accordion-item">
                   <h2 class="accordion-header" id="headingOne">
                     <button
-                      class="accordion-button"
+                      class="accordion-button collapsed"
                       type="button"
                       data-bs-toggle="collapse"
                       data-bs-target="#collapseOne"
                       aria-expanded="true"
                       aria-controls="collapseOne"
                     >
-                      <div> Assets</div> <div class="custom_badge me-5">200.22</div>
+                      <div> Assets</div>{" "}
+                      <div class="custom_badge me-5">200.22</div>
                     </button>
                   </h2>
                   <div
                     id="collapseOne"
-                    class="accordion-collapse collapse show"
+                    class="accordion-collapse collapse"
                     aria-labelledby="headingOne"
                     data-bs-parent="#userInfoAccordion"
                   >
-                    <div class="accordion-body">
+                    <div class="accordion-body p-4">
                   
                    <div>
                    <div className="d-flex justify-content-between mb-3">
@@ -163,7 +164,8 @@ export const UserProfile = () => {
                       aria-expanded="false"
                       aria-controls="collapseTwo"
                     >
-                      <div> Staking</div> <div class=" custom_badge me-5">1,000</div>
+                      <div> Staking</div>{" "}
+                      <div class=" custom_badge me-5">1,000</div>
                     </button>
                   </h2>
                   <div
@@ -172,16 +174,44 @@ export const UserProfile = () => {
                     aria-labelledby="headingTwo"
                     data-bs-parent="#userInfoAccordion"
                   >
-                    <div class="accordion-body">
-                      <strong>This is the second item's accordion body.</strong>{" "}
-                      It is hidden by default, until the collapse plugin adds
-                      the appropriate classes that we use to style each element.
-                      These classes control the overall appearance, as well as
-                      the showing and hiding via CSS transitions. You can modify
-                      any of this with custom CSS or overriding our default
-                      variables. It's also worth noting that just about any HTML
-                      can go within the <code>.accordion-body</code>, though the
-                      transition does limit overflow.
+                    <div class="accordion-body p-4">
+                      <div>
+                        <div className="d-flex justify-content-between mb-3">
+                          <div>Staked Amount</div>
+                          <div>
+                            85.223 <BiRupee />{" "}
+                          </div>
+                        </div>
+
+                        <div>
+                          <div className="d-flex justify-content-between mb-2">
+                            <div>Claimed Amount</div>
+                            <div>
+                              85.223{" "}
+                              <img
+                                src="/images/inrx2.png"
+                                width={"20px"}
+                                alt=""
+                              />{" "}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div>
+                          <div className="d-flex justify-content-between mb-2">
+                            <div> Staking Bonus</div>
+                            <div>
+                              85.223{" "}
+                              <img
+                                src="/images/inrx2.png"
+                                width={"20px"}
+                                alt=""
+                              />{" "}
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -195,7 +225,8 @@ export const UserProfile = () => {
                       aria-expanded="false"
                       aria-controls="collapseThree"
                     >
-                      <div>Referral</div> <div class="custom_badge me-5">79.23</div>
+                      <div>Referral</div>{" "}
+                      <div class="custom_badge me-5">79.23</div>
                     </button>
                   </h2>
                   <div
@@ -204,16 +235,29 @@ export const UserProfile = () => {
                     aria-labelledby="headingThree"
                     data-bs-parent="#userInfoAccordion"
                   >
-                    <div class="accordion-body">
-                      <strong>This is the third item's accordion body.</strong>{" "}
-                      It is hidden by default, until the collapse plugin adds
-                      the appropriate classes that we use to style each element.
-                      These classes control the overall appearance, as well as
-                      the showing and hiding via CSS transitions. You can modify
-                      any of this with custom CSS or overriding our default
-                      variables. It's also worth noting that just about any HTML
-                      can go within the <code>.accordion-body</code>, though the
-                      transition does limit overflow.
+                    <div class="accordion-body p-4">
+                      <div>
+                        <div className="d-flex justify-content-between mb-3">
+                          <div>Reference APR</div>
+                          <div>
+                            48%
+                          </div>
+                        </div>
+
+                        <div>
+                          <div className="d-flex justify-content-between mb-2">
+                            <div>Monthly Est.Reward</div>
+                            <div>
+                              85.223{" "}
+                              <img
+                                src="/images/inrx2.png"
+                                width={"20px"}
+                                alt=""
+                              />{" "}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -240,16 +284,29 @@ export const UserProfile = () => {
                     aria-labelledby="deposited"
                     data-bs-parent="#userInfoAccordion"
                   >
-                    <div class="accordion-body">
-                      <strong>This is the third item's accordion body.</strong>{" "}
-                      It is hidden by default, until the collapse plugin adds
-                      the appropriate classes that we use to style each element.
-                      These classes control the overall appearance, as well as
-                      the showing and hiding via CSS transitions. You can modify
-                      any of this with custom CSS or overriding our default
-                      variables. It's also worth noting that just about any HTML
-                      can go within the <code>.accordion-body</code>, though the
-                      transition does limit overflow.
+                    <div class="accordion-body p-4">
+                      <div>
+                        <div className="d-flex justify-content-between mb-3">
+                          <div>INR</div>
+                          <div>
+                            85.223 <BiRupee />{" "}
+                          </div>
+                        </div>
+
+                        <div>
+                          <div className="d-flex justify-content-between mb-2">
+                            <div>INRx</div>
+                            <div>
+                              85.223{" "}
+                              <img
+                                src="/images/inrx2.png"
+                                width={"20px"}
+                                alt=""
+                              />{" "}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -276,16 +333,29 @@ export const UserProfile = () => {
                     aria-labelledby="withdrawal"
                     data-bs-parent="#userInfoAccordion"
                   >
-                    <div class="accordion-body">
-                      <strong>This is the third item's accordion body.</strong>{" "}
-                      It is hidden by default, until the collapse plugin adds
-                      the appropriate classes that we use to style each element.
-                      These classes control the overall appearance, as well as
-                      the showing and hiding via CSS transitions. You can modify
-                      any of this with custom CSS or overriding our default
-                      variables. It's also worth noting that just about any HTML
-                      can go within the <code>.accordion-body</code>, though the
-                      transition does limit overflow.
+                   <div class="accordion-body p-4">
+                      <div>
+                        <div className="d-flex justify-content-between mb-3">
+                          <div>INR</div>
+                          <div>
+                            85.223 <BiRupee />{" "}
+                          </div>
+                        </div>
+
+                        <div>
+                          <div className="d-flex justify-content-between mb-2">
+                            <div>INRx</div>
+                            <div>
+                              85.223{" "}
+                              <img
+                                src="/images/inrx2.png"
+                                width={"20px"}
+                                alt=""
+                              />{" "}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -343,7 +413,7 @@ export const UserProfile = () => {
                   </p>
                 </div>
               </div>
-              <hr className="hr_line" />
+             
             </div>
           </div>
           <div class="row">
