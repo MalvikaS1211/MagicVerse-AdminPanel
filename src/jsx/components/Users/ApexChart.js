@@ -31,11 +31,11 @@ const ApexChart = () => {
 
   const [chartSeries, setChartSeries] = useState([
     {
-      name: 'Collateral', // Name of the first series
+      name: 'Deposit', // Name of the first series
       data: [30, 40, 35, 50, 49, 60], // Data points for the "Collateral" series
     },
     {
-      name: 'Acquisition', // Name of the second series
+      name: 'Withdrawal', // Name of the second series
       data: [20, 30, 45, 60, 49, 70], // Data points for the "Acquisition" series
     },
   ]);
