@@ -120,7 +120,7 @@ export const Asset = () => {
                   <tr>
                     <th>S.No.</th>
                     <th>Name</th>
-                    <th>Email</th>
+                    {/* <th>Email</th> */}
                     <th colSpan="2">Wallet balance</th>
                     <th>Reward balance</th>
                   </tr>
@@ -144,10 +144,10 @@ export const Asset = () => {
                         <tr>
                           <td>{index + 1}</td>
                           <td>{data.name}</td>
-                          <td>{data.email}</td>
-                          <td>{currencyObject["INR"].available?.toFixed(2)} {currencyObject["INR"].symbol}</td>
-                          <td>{currencyObject["INRx"].available?.toFixed(2)} {currencyObject["INRx"].symbol}</td>
-                          <td>{currencyObject["INRx"].rewardBonus?.toFixed(2)} {currencyObject["INRx"].symbol}</td>
+                          {/* <td>{data.email}</td> */}
+                          <td>{currencyObject["INR"]?.available?.toFixed(2)} {currencyObject["INR"]?.symbol}</td>
+                          <td>{currencyObject["INRx"]?.available?.toFixed(2)} {currencyObject["INRx"]?.symbol}</td>
+                          <td>{currencyObject["INRx"]?.rewardBonus?.toFixed(2)} {currencyObject["INRx"]?.symbol}</td>
                         </tr>
                         </>
                       )
