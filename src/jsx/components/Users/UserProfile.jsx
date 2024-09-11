@@ -57,23 +57,32 @@ export const UserProfile = () => {
     fetchData();
   }, []);
 
-  const totalBalance = apiData?.currencyDetail?.reduce((pre, it) => {
-    // const price = config.find(
-    //   (itm) =>
-    //     itm.symbol.toLowerCase() == it.symbol.toLowerCase()
-    // );
-    // const fp = price ? price.price : 1;
-    {/* const tt = pre + it.available * fp; */}
-    const tt = pre + it.available;
+  const totalBalance = useMemo(() => {
+    return apiData?.currencyDetail?.reduce((pre, it) => {
+      // Optionally include price calculation logic
+      // const price = config.find(
+      //   (itm) => itm.symbol.toLowerCase() === it.symbol.toLowerCase()
+      // );
+      // const fp = price ? price.price : 1;
+      // const tt = pre + it.available * fp;
+      
+      const tt = pre + it.available; // Remove price factor if not needed
+      return Number(tt);
+    }, 0).toFixed(2);
+  }, [apiData?.currencyDetail, config]);
 
-    return Number(tt)?.toFixed(2);
-  }, 0);
-
-  const currencies = apiData?.currencyDetail?.filter(token => token.symbol === 'INRx' || token.symbol === 'INR');
-  const currencyObject = {};
-  currencies.forEach(token => {
-    currencyObject[token.symbol] = token; // Use symbol as the key
-  });
+  const currencyObject = useMemo(() => {
+    const currencies = apiData?.currencyDetail?.filter(token => 
+      token.symbol === 'INRx' || token.symbol === 'INR'
+    );
+    
+    const result = {};
+    currencies && currencies?.forEach(token => {
+      result[token.symbol] = token;
+    });
+    return result;
+  }, [apiData?.currencyDetail]);
+  console.log(currencyObject,"currencyObject")
 
   return (
     <>
@@ -128,7 +137,7 @@ export const UserProfile = () => {
                       aria-controls="collapseOne"
                     >
                       <div> Assets</div>{" "}
-                      <div class="custom_badge me-5">200.22</div>
+                      <div class="custom_badge me-5">{totalBalance}</div>
                     </button>
                   </h2>
                   <div
@@ -142,12 +151,12 @@ export const UserProfile = () => {
                    <div>
                    <div className="d-flex justify-content-between mb-3">
                    <div>INR</div>
-                   <div>{currencyObject?.["INR"]?.available} <BiRupee/> </div>
+                   <div>{currencyObject?.["INR"]?.available?.toFixed(2)} <BiRupee/> </div>
                    </div>
                    
                    <div><div className="d-flex justify-content-between mb-2">
                      <div>INRx</div>
-                    <div>{currencyObject?.["INRx"]?.available} <img src="/images/inrx2.png" width={"20px"} alt="" /> </div>
+                    <div>{currencyObject?.["INRx"]?.available?.toFixed(2)} <img src="/images/inrx2.png" width={"20px"} alt="" /> </div>
                     </div>
                     </div>
                    </div>
