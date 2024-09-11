@@ -1,5 +1,9 @@
 import React, { Fragment, useEffect, useState, useMemo, useRef } from "react";
 import { Row, Col, Card, Table } from "react-bootstrap";
+import { BiBriefcase, BiCopy } from "react-icons/bi";
+import { ImStack } from "react-icons/im";
+import { Link } from "react-router-dom";
+import ApexChart from "./ApexChart";
 
 export const UserProfile = () => {
   return (
@@ -40,29 +44,30 @@ export const UserProfile = () => {
           <div class="card mb-4 mb-lg-0">
             <div class="card-body p-0">
               <ul class="list-group list-group-flush rounded-3">
-                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                  <i class="fas fa-globe fa-lg text-warning"></i>
-                  <p class="mb-0">https://mdbootstrap.com</p>
+               
+                <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-4">
+                 
+                  <p class="mb-0"> Assets</p>
+                <p class="mb-0">54.23</p>
                 </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                  <i class="fab fa-github fa-lg text-body"></i>
-                  <p class="mb-0">mdbootstrap</p>
+                <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-4">
+                  
+                  <p class="mb-0"> Staking</p>
+                 <p class="mb-0">0.000</p>
                 </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                  <i class="fab fa-twitter fa-lg" style={{color: "#55acee"}}></i>
-                  <p class="mb-0">@mdbootstrap</p>
+                <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-4">
+                 
+                  <p class="mb-0">Referral</p>
+                 <p class="mb-0">0.000</p>
                 </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                  <i class="fab fa-instagram fa-lg" style={{color: "#ac2bac"}}></i>
-                  <p class="mb-0">mdbootstrap</p>
+                <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-4">
+                  
+                  <p class="mb-0">Deposited</p>
+                 <p class="mb-0">0.000</p>
                 </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                  <i
-                    class="fab fa-facebook-f fa-lg"
-                    style={{color: "#3b5998"}}
-                    
-                  ></i>
-                  <p class="mb-0">mdbootstrap</p>
+                <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-4">                
+                  <p class="mb-0">Withdrawal</p>
+                 <p class="mb-0">0.000</p>
                 </li>
               </ul>
             </div>
@@ -89,15 +94,7 @@ export const UserProfile = () => {
                 </div>
               </div>
                <hr className="hr_line"/>
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0">Phone</p>
-                </div>
-                <div class="col-sm-9">
-                  <p class="text-muted mb-0">(097) 234-5678</p>
-                </div>
-              </div>
-               <hr className="hr_line"/>
+             
               <div class="row">
                 <div class="col-sm-3">
                   <p class="mb-0">Mobile</p>
@@ -115,156 +112,84 @@ export const UserProfile = () => {
                   <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
                 </div>
               </div>
+              <hr className="hr_line"/>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Wallet</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">3FZbgi29cpjq2GjdwV8eyHuJJnkLtktZc5 <Link className="text-teal"><BiCopy/></Link></p>
+                </div>
+              </div>
+               <hr className="hr_line"/>
             </div>
           </div>
           <div class="row">
             <div class="col-md-6">
-              <div class="card mb-4 mb-md-0">
-                <div class="card-body">
-                  <p class="mb-4">
-                    <span class="text-teal me-1">Assigment</span>{" "}
-                    Project Status
+              <div class="card">
+              <div class="card-body">
+              <p class="mb-4">
+                    <span class="text-teal me-1">Login</span>{" "}
+                   Activity
                   </p>
-                  <p class="mb-1">
-                    Web Design
-                  </p>
-                  <div class="progress rounded" >
-                    <div
-                      class="progress-bar progress-bar-green"
-                      role="progressbar"
-                      style={{width: "72%"}}
-                      aria-valuenow="80"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
-                  </div>
-                  <p class="mt-4 mb-1" >
-                    Website Markup
-                  </p>
-                  <div class="progress rounded" >
-                    <div
-                      class="progress-bar progress-bar-green"
-                      role="progressbar"
-                      style={{width: "72%"}}                                        
-                      aria-valuenow="72"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
-                  </div>
-                  <p class="mt-4 mb-1" >
-                    One Page
-                  </p>
-                  <div class="progress rounded" >
-                    <div
-                      class="progress-bar progress-bar-green"
-                      role="progressbar"
-                      style={{width: "89%"}}
-                      aria-valuenow="89"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
-                  </div>
-                  <p class="mt-4 mb-1" >
-                    Mobile Template
-                  </p>
-                  <div class="progress rounded" >
-                    <div
-                      class="progress-bar progress-bar-green"
-                      role="progressbar"
-                      style={{width: "55%"}}
-                      aria-valuenow="55"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
-                  </div>
-                  <p class="mt-4 mb-1" >
-                    Backend API
-                  </p>
-                  <div class="progress rounded mb-2" >
-                    <div
-                      class="progress-bar progress-bar-green"
-                      role="progressbar"
-                      style={{width: "66%"}}
-                      aria-valuenow="66"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
-                  </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="">
+                  <p class="mb-0">IP</p>
                 </div>
+                <div class="">
+                  <p class="text-muted mb-0">127.0.0.1</p>
+                </div>
+              </div>
+              <hr className="hr_line"/>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="">
+                  <p class="mb-0">Browser Name </p>
+                </div>
+                <div class="">
+                  <p class="text-muted mb-0">Chrome</p>
+                </div>
+              </div>
+               
+              <hr className="hr_line"/>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="">
+                  <p class="mb-0">OS</p>
+                </div>
+                <div class="">
+                  <p class="text-muted mb-0">	Android</p>
+                </div>
+              </div>
+              <hr className="hr_line"/>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="">
+                  <p class="mb-0">Status</p>
+                </div>
+                <div class="">
+                  <p class="text-muted mb-0">	Connected</p>
+                </div>
+              </div>
+              <hr className="hr_line"/>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="">
+                  <p class="mb-0">Action</p>
+                </div>
+                <div class="">
+                  <p class="text-muted mb-0"> <div className="text-danger">Logout</div></p>
+                </div>
+              </div>
+               
+            </div>
               </div>
             </div>
             <div class="col-md-6">
               <div class="card mb-4 mb-md-0">
-                <div class="card-body">
-                  <p class="mb-4">
-                    <span class="text-teal me-1">Assigment</span>{" "}
-                    Project Status
+                <div class="card-body pb-3">
+                  <p class="mb-2">
+                    <span class="text-teal me-1"> Collateral </span>{" "}
+                   vs Acquisition
                   </p>
-                  <p class="mb-1" >
-                    Web Design
-                  </p>
-                  <div class="progress rounded" >
-                    <div
-                      class="progress-bar progress-bar-green"
-                      role="progressbar"
-                      style={{width: "80%"}}
-                      aria-valuenow="80"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
-                  </div>
-                  <p class="mt-4 mb-1" >
-                    Website Markup
-                  </p>
-                  <div class="progress rounded" >
-                    <div
-                      class="progress-bar progress-bar-green"
-                      role="progressbar"
-                      style={{width: "72%"}}
-                      aria-valuenow="72"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
-                  </div>
-                  <p class="mt-4 mb-1" >
-                    One Page
-                  </p>
-                  <div class="progress rounded" >
-                    <div
-                      class="progress-bar progress-bar-green"
-                      role="progressbar"
-                      style={{width: "89%"}}
-                      aria-valuenow="89"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
-                  </div>
-                  <p class="mt-4 mb-1" >
-                    Mobile Template
-                  </p>
-                  <div class="progress rounded" >
-                    <div
-                      class="progress-bar progress-bar-green"
-                      role="progressbar"
-                      style={{width: "55%"}}
-                      aria-valuenow="55"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
-                  </div>
-                  <p class="mt-4 mb-1" >
-                    Backend API
-                  </p>
-                  <div class="progress rounded mb-2" >
-                    <div
-                      class="progress-bar progress-bar-green"
-                      role="progressbar"
-                      style={{width: "66%"}}
-                      aria-valuenow="66"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
-                  </div>
+                
+                 <ApexChart/>
                 </div>
               </div>
             </div>
