@@ -24,6 +24,8 @@ import Dashboard5 from "./components/Dashboard/Dashboard5";
 
 // Users
 import AllUser from "./components/Users/allUser";
+import PendingUser from "./components/Users/pendingUser";
+
 import StakingUser from "./components/Users/stakingUser";
 import TeamDetails from "./components/Users/team";
 import Announcement from "./components/Users/announcement";
@@ -224,6 +226,8 @@ const Markup = () => {
     // Users
     { url: "userprofile", auth: true, component: <UserProfile /> },
     { url: "allUsers", auth: true, component: <AllUser /> },
+    { url: "pendingUsers", auth: true, component: <PendingUser /> },
+
     { url: "staking-user", component: <StakingUser /> },
     { url: "claim-history", component: <ClaimHistory /> },
     { url: "deposit", component: <Deposit /> },

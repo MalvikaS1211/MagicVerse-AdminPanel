@@ -34,6 +34,13 @@ export const MenuList = [
     to: "allUsers",
   },
   {
+    title: "Pending Users",
+    //classsChange: 'mm-collapse',
+    // iconStyle: Widget,
+    iconStyle: <LuUser2   className="fs-3" />,
+    to: "pendingUsers",
+  },
+  {
     title: " Staking",
     //classsChange: 'mm-collapse',
     // iconStyle: Widget,
