@@ -102,7 +102,7 @@ export const UserProfile = () => {
               />
               <h5 class="my-3">{apiData?.name}</h5>
               <p class="text-muted mb-1">{apiData?.fatherName}</p>
-              <p class="text-muted mb-4">{apiData?.state} {apiData?.country}, {apiData?.zip}</p>
+              <p class="text-muted mb-3">{apiData?.state} {apiData?.country}, {apiData?.zip}</p>
               <div class="d-flex justify-content-center mb-2">
                 <button
                   type="button"
@@ -219,7 +219,6 @@ export const UserProfile = () => {
                             </div>
                           </div>
                         </div>
-
                       </div>
                     </div>
                   </div>
@@ -248,9 +247,7 @@ export const UserProfile = () => {
                       <div>
                         <div className="d-flex justify-content-between mb-3">
                           <div>Reference APR</div>
-                          <div>
-                            48%
-                          </div>
+                          <div>48%</div>
                         </div>
 
                         <div>
@@ -342,7 +339,7 @@ export const UserProfile = () => {
                     aria-labelledby="withdrawal"
                     data-bs-parent="#userInfoAccordion"
                   >
-                   <div class="accordion-body p-4">
+                    <div class="accordion-body p-4">
                       <div>
                         <div className="d-flex justify-content-between mb-3">
                           <div>INR</div>
@@ -422,73 +419,109 @@ export const UserProfile = () => {
                   </p>
                 </div>
               </div>
-             
             </div>
           </div>
           <div class="row">
             <div class="col-md-6">
               <div class="card">
-                <div class="card-body">
+                <div class="card-body" style={{maxHeight:"370px", overflow:"auto"}}>
                   <p class="mb-4">
                     <span class="text-teal me-1">Login</span> Activity
                   </p>
-                  <div class=" card shadow-sm mb-2">
-                    <div className="card-body py-2 d-flex justify-content-between align-items-center">
-                      <div class="">
-                        <p class="mb-0">IP</p>
-                      </div>
-                      <div class="">
-                        <p class="text-muted mb-0">127.0.0.1</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class=" card shadow-sm mb-2">
-                    <div className="card-body py-2 d-flex justify-content-between align-items-center">
-                      <div class="">
+                  <div class=" card shadow-sm mb-3">
+                    <div className="card-body py-2 ">
+                      <div className="d-flex justify-content-between align-items-center">
                         <p class="mb-0">Browser Name </p>
-                      </div>
-                      <div class="">
+
                         <p class="text-muted mb-0">Chrome</p>
                       </div>
-                    </div>
-                  </div>
 
-                  <div class=" card shadow-sm mb-2">
-                    <div className="card-body py-2 d-flex justify-content-between align-items-center">
-                      <div class="">
+                      <div className="d-flex justify-content-between align-items-center">
+                        <p class="mb-0">IP</p>
+                        <p class="text-muted mb-0">127.0.0.1</p>
+                      </div>
+                      <div className="d-flex justify-content-between align-items-center">
                         <p class="mb-0">OS</p>
+                        <p class="text-muted mb-0">Android</p>
                       </div>
-                      <div class="">
-                        <p class="text-muted mb-0"> Android</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class=" card shadow-sm mb-2">
-                    <div className="card-body py-2 d-flex justify-content-between align-items-center">
-                      <div class="">
+                      <div className="d-flex justify-content-between align-items-center">
                         <p class="mb-0">Last Login</p>
-                      </div>
-                      <div class="">
-                        <p class="text-muted mb-0"> 12-02-2024</p>
+                        <p class="text-muted mb-0">12-02-2024 09:00 AM</p>
                       </div>
                     </div>
                   </div>
 
-                  <div class=" card shadow-sm mb-2">
-                    <div className="card-body py-2 d-flex justify-content-between align-items-center">
-                      <div class="">
-                        <p class="mb-0">Action</p>
+                  <div class=" card shadow-sm mb-3">
+                    <div className="card-body py-2 ">
+                      <div className="d-flex justify-content-between align-items-center">
+                        <p class="mb-0">Browser Name </p>
+
+                        <p class="text-muted mb-0">Safari</p>
                       </div>
-                      <div class="">
-                        <p class="text-muted mb-0">
-                          {" "}
-                          <div className="text-danger">Logout</div>
-                        </p>
+
+                      <div className="d-flex justify-content-between align-items-center">
+                        <p class="mb-0">IP</p>
+                        <p class="text-muted mb-0">127.0.0.1</p>
+                      </div>
+                      <div className="d-flex justify-content-between align-items-center">
+                        <p class="mb-0">OS</p>
+                        <p class="text-muted mb-0">Mac</p>
+                      </div>
+                      <div className="d-flex justify-content-between align-items-center">
+                        <p class="mb-0">Last Login</p>
+                        <p class="text-muted mb-0">12-02-2024 09:00 AM</p>
                       </div>
                     </div>
                   </div>
+                  <div class=" card shadow-sm mb-3">
+                    <div className="card-body py-2 ">
+                      <div className="d-flex justify-content-between align-items-center">
+                        <p class="mb-0">Browser Name </p>
+
+                        <p class="text-muted mb-0">Chrome</p>
+                      </div>
+
+                      <div className="d-flex justify-content-between align-items-center">
+                        <p class="mb-0">IP</p>
+                        <p class="text-muted mb-0">148.23.23.1</p>
+                      </div>
+                      <div className="d-flex justify-content-between align-items-center">
+                        <p class="mb-0">OS</p>
+                        <p class="text-muted mb-0">MAC</p>
+                      </div>
+                      <div className="d-flex justify-content-between align-items-center">
+                        <p class="mb-0">Last Login</p>
+                        <p class="text-muted mb-0">12-02-2024 09:00 AM</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+
+                  <div class=" card shadow-sm mb-3">
+                    <div className="card-body py-2 ">
+                      <div className="d-flex justify-content-between align-items-center">
+                        <p class="mb-0">Browser Name </p>
+
+                        <p class="text-muted mb-0">Chrome</p>
+                      </div>
+
+                      <div className="d-flex justify-content-between align-items-center">
+                        <p class="mb-0">IP</p>
+                        <p class="text-muted mb-0">148.23.23.1</p>
+                      </div>
+                      <div className="d-flex justify-content-between align-items-center">
+                        <p class="mb-0">OS</p>
+                        <p class="text-muted mb-0">MAC</p>
+                      </div>
+                      <div className="d-flex justify-content-between align-items-center">
+                        <p class="mb-0">Last Login</p>
+                        <p class="text-muted mb-0">12-02-2024 09:00 AM</p>
+                      </div>
+                    </div>
+                  </div>
+                 
+
+                
                 </div>
               </div>
             </div>
@@ -496,8 +529,7 @@ export const UserProfile = () => {
               <div class="card mb-4 mb-md-0">
                 <div class="card-body pb-3">
                   <p class="mb-2">
-                    <span class="text-teal me-1"> Collateral </span> vs
-                    Acquisition
+                    <span class="text-teal me-1"> Deposit </span> & Withdrawal
                   </p>
 
                   <ApexChart />
