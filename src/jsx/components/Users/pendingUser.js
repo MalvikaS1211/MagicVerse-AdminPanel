@@ -200,7 +200,7 @@ export const PendingUsers = () => {
                       return (
                         <tr>
                           <td>{index + 1}</td>
-                          <td>{data.name}</td>
+                          <td><Link to={`/userprofile?id=${data?._id}`}>{data.name}</Link></td>
                           <td>{data.email}</td>
                           <td>{data.mobile}</td>
                           <td>{new Date(data.dob).toLocaleDateString()}</td>

@@ -2,10 +2,60 @@ import React, { Fragment, useEffect, useState, useMemo, useRef } from "react";
 import { Row, Col, Card, Table } from "react-bootstrap";
 import { BiBriefcase, BiCopy } from "react-icons/bi";
 import { ImStack } from "react-icons/im";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { UserInfo } from "../../../services/api_function";
 import ApexChart from "./ApexChart";
 
 export const UserProfile = () => {
+  const [apiData, setApiData] = useState([]);
+  const [config, setcofig] = useState([]);
+  const [recordStatus, setRecordStatus] = useState("Loading...");
+  const navigate = useNavigate();
+
+  function useQuery() {
+    return new URLSearchParams(useLocation().search);
+  }
+  const query = useQuery();
+  const id = query.get('id');
+  console.log(id,"id")
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userDetails = localStorage.getItem("userDetails");
+        const parsedDetails = JSON.parse(userDetails);
+        const token = parsedDetails.token;
+        const table = "Userinfo";
+        const result = await UserInfo(
+          table,
+          token,
+          id?.toString()
+        );
+        if(result?.data?.length > 0){
+          setApiData(result?.data?.[0]);
+        }else{
+          setApiData({});
+        }
+        setcofig(result?.config);
+
+
+      console.log("API Data:", result);
+
+       
+        if (!result?.data[0]) {
+          setRecordStatus("No Record");
+        }
+        if (result.status == 404) {
+          navigate("/login");
+          localStorage.removeItem("userDetails");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
       <div class="row">
@@ -13,14 +63,18 @@ export const UserProfile = () => {
           <div class="card mb-4">
             <div class="card-body text-center">
               <img
-                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                src={apiData?.profile_image?.indexOf('https')>-1?
+                apiData?.profile_image:
+                apiData?.profile_image
+                  ? `data:image/jpeg;base64,${apiData?.profile_image}`
+                  : "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"}
                 alt="avatar"
                 class="rounded-circle img-fluid"
                 style={{ width: "150px" }}
               />
-              <h5 class="my-3">John Smith</h5>
+              <h5 class="my-3">{apiData?.name}</h5>
               <p class="text-muted mb-1">Full Stack Developer</p>
-              <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
+              <p class="text-muted mb-4">{apiData?.full_address}</p>
               <div class="d-flex justify-content-center mb-2">
                 <button
                   type="button"
@@ -81,7 +135,7 @@ export const UserProfile = () => {
                   <p class="mb-0">Full Name</p>
                 </div>
                 <div class="col-sm-9">
-                  <p class="text-muted mb-0">Johnatan Smith</p>
+                  <p class="text-muted mb-0">{apiData?.name || "--"}</p>
                 </div>
               </div>
               <hr className="hr_line"/>
@@ -90,7 +144,7 @@ export const UserProfile = () => {
                   <p class="mb-0">Email</p>
                 </div>
                 <div class="col-sm-9">
-                  <p class="text-muted mb-0">example@example.com</p>
+                  <p class="text-muted mb-0">{apiData?.email || "--"} </p>
                 </div>
               </div>
                <hr className="hr_line"/>
@@ -100,7 +154,7 @@ export const UserProfile = () => {
                   <p class="mb-0">Mobile</p>
                 </div>
                 <div class="col-sm-9">
-                  <p class="text-muted mb-0">(098) 765-4321</p>
+                  <p class="text-muted mb-0">{apiData?.mobile || "--"}</p>
                 </div>
               </div>
                <hr className="hr_line"/>
@@ -109,7 +163,7 @@ export const UserProfile = () => {
                   <p class="mb-0">Address</p>
                 </div>
                 <div class="col-sm-9">
-                  <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
+                  <p class="text-muted mb-0">{apiData?.full_address || "--"}</p>
                 </div>
               </div>
               <hr className="hr_line"/>

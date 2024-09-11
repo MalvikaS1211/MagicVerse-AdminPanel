@@ -1,9 +1,9 @@
 import axios from "axios";
 import toast from "react-hot-toast";
-export const url = "https://backoffice.inrx.io/api";
+// export const url = "https://backoffice.inrx.io/api";
 export const url2 = "https://backoffice.inrx.io/api";
 
-// export const url = "http://localhost:2222/api";
+export const url = "http://localhost:2222/api";
 
 export const teamlist = "https://farming.wyscale.com/api";
 
@@ -20,6 +20,10 @@ export function allUser(table, page, filteredData, token, id) {
     )}`;
   } else if (table === "allUser") {
     apiUrl = `${url}/admin/all-user-data?page=${page}&search=${encodeURIComponent(
+      searchQuery
+    )}`;
+  } else if (table === "Userinfo") {
+    apiUrl = `${url}/admin/user-info?id=${id}&search=${encodeURIComponent(
       searchQuery
     )}`;
   } else if (table === "stake") {
@@ -362,6 +366,25 @@ export const deleteReport = async(id)=>{
 }
 // End reports api function
 
+
+export function UserInfo(table, token, id) {
+  let apiUrl = "";
+ if (table === "Userinfo") {
+    apiUrl = `${url}/admin/user-info?id=${id}`
+  } 
+
+  return fetch(apiUrl, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "cache-control": "no-cache",
+      "Access-Control-Allow-Origin": "*",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => res.json())
+    .catch((e) => e);
+}
 
 
 
