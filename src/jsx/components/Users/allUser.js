@@ -191,7 +191,9 @@ export const AllUser = () => {
                             itm.symbol.toLowerCase() == it.symbol.toLowerCase()
                         );
                         const fp = price ? price.price : 1;
-                        const tt = pre + it.available * fp;
+                        {/* const tt = pre + it.available * fp; */}
+                        const tt = pre + it.available;
+
                         return tt;
                       }, 0);
 
