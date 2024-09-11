@@ -1,9 +1,9 @@
 import axios from "axios";
 import toast from "react-hot-toast";
-// export const url = "https://backoffice.inrx.io/api";
+export const url = "https://backoffice.inrx.io/api";
 export const url2 = "https://backoffice.inrx.io/api";
 
-export const url = "http://localhost:2222/api";
+// export const url = "http://localhost:2222/api";
 
 export const teamlist = "https://farming.wyscale.com/api";
 
