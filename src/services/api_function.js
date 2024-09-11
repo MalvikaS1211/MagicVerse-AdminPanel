@@ -14,6 +14,14 @@ export function allUser(table, page, filteredData, token, id) {
     apiUrl = `${url}/admin/user-data?page=${page}&search=${encodeURIComponent(
       searchQuery
     )}`;
+  } else if (table === "pendingUser") {
+    apiUrl = `${url}/admin/pending-user-data?page=${page}&search=${encodeURIComponent(
+      searchQuery
+    )}`;
+  } else if (table === "allUser") {
+    apiUrl = `${url}/admin/all-user-data?page=${page}&search=${encodeURIComponent(
+      searchQuery
+    )}`;
   } else if (table === "stake") {
     apiUrl = `${url}/admin/stake?page=${page}&search=${encodeURIComponent(
       searchQuery

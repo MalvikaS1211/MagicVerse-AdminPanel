@@ -26,18 +26,18 @@ export const Asset = () => {
         const userDetails = localStorage.getItem("userDetails");
         const parsedDetails = JSON.parse(userDetails);
         const token = parsedDetails.token;
-        const table = "asset";
+        const table = "allUser";
         const result = await allUser(
           table,
           currentPage,
           { searchQuery: search },
           token
         );
-        // console.log(result);
-        setApiData(result.data);
-        setFilteredData(result.data);
-        setTotalPages(result.totalPages);
-        if (!result.data[0]) {
+        console.log(result);
+        setApiData(result?.data);
+        setFilteredData(result?.data);
+        setTotalPages(result?.totalPages);
+        if (!result?.data[0]) {
           setRecordStatus("No Record");
         }
         if (result.status == 404) {
@@ -120,12 +120,9 @@ export const Asset = () => {
                   <tr>
                     <th>S.No.</th>
                     <th>Name</th>
-                    <th>Symbol</th>
-                    <th>Blockchain</th>
-                    <th>Contract</th>
-                    <th>Icon</th>
-                    <th>Decimal</th>
-                    <th>Type</th>
+                    <th>Email</th>
+                    <th colSpan="2">Wallet balance</th>
+                    <th>Reward balance</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -136,20 +133,25 @@ export const Asset = () => {
                       </td>
                     </tr>
                   ) : (
-                    apiData.map((data, index) => (
-                      <tr>
-                        <td>{index + 1}</td>
-                        <td>{data.name}</td>
-                        <td>{data.symbol}</td>
-                        <td>{data.blockchain}</td>
-                        <td>{data.contract}</td>
-                        <td>
-                          <img src={data.icon} height="30" widtd="30" />
-                        </td>
-                        <td>{data.decimal}</td>
-                        <td>{data.type}</td>
-                      </tr>
-                    ))
+                    apiData.map((data, index) => {
+                      const currencies = data?.currency?.filter(token => token.symbol === 'INRx' || token.symbol === 'INR');
+                      const currencyObject = {};
+                        currencies.forEach(token => {
+                          currencyObject[token.symbol] = token; // Use symbol as the key
+                        });
+                      return (
+                        <>
+                        <tr>
+                          <td>{index + 1}</td>
+                          <td>{data.name}</td>
+                          <td>{data.email}</td>
+                          <td>{currencyObject["INR"].available?.toFixed(2)} {currencyObject["INR"].symbol}</td>
+                          <td>{currencyObject["INRx"].available?.toFixed(2)} {currencyObject["INRx"].symbol}</td>
+                          <td>{currencyObject["INRx"].rewardBonus?.toFixed(2)} {currencyObject["INRx"].symbol}</td>
+                        </tr>
+                        </>
+                      )
+                    })
                   )}
                 </tbody>
               </Table>
