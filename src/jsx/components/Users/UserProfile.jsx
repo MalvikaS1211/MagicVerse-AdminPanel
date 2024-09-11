@@ -1,10 +1,11 @@
 import React, { Fragment, useEffect, useState, useMemo, useRef } from "react";
 import { Row, Col, Card, Table } from "react-bootstrap";
-import { BiBriefcase, BiCopy } from "react-icons/bi";
+import { BiBriefcase, BiCopy, BiRupee } from "react-icons/bi";
 import { ImStack } from "react-icons/im";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { UserInfo } from "../../../services/api_function";
 import ApexChart from "./ApexChart";
+import { LuIndianRupee } from "react-icons/lu";
 
 export const UserProfile = () => {
   const [apiData, setApiData] = useState([]);
@@ -59,7 +60,7 @@ export const UserProfile = () => {
   return (
     <>
       <div class="row">
-        <div class="col-lg-4">
+        <div class="col-lg-3">
           <div class="card mb-4">
             <div class="card-body text-center">
               <img
@@ -96,38 +97,185 @@ export const UserProfile = () => {
             </div>
           </div>
           <div class="card mb-4 mb-lg-0">
-            <div class="card-body p-0">
-              <ul class="list-group list-group-flush rounded-3">
-               
-                <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-4">
-                 
-                  <p class="mb-0"> Assets</p>
-                <p class="mb-0">54.23</p>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-4">
+            <div class="card-body py-2 px-2">
+              <div class="accordion" id="userInfoAccordion">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingOne">
+                    <button
+                      class="accordion-button"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#collapseOne"
+                      aria-expanded="true"
+                      aria-controls="collapseOne"
+                    >
+                      <div> Assets</div> <div class="custom_badge me-5">200.22</div>
+                    </button>
+                  </h2>
+                  <div
+                    id="collapseOne"
+                    class="accordion-collapse collapse show"
+                    aria-labelledby="headingOne"
+                    data-bs-parent="#userInfoAccordion"
+                  >
+                    <div class="accordion-body">
                   
-                  <p class="mb-0"> Staking</p>
-                 <p class="mb-0">0.000</p>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-4">
-                 
-                  <p class="mb-0">Referral</p>
-                 <p class="mb-0">0.000</p>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-4">
-                  
-                  <p class="mb-0">Deposited</p>
-                 <p class="mb-0">0.000</p>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-4">                
-                  <p class="mb-0">Withdrawal</p>
-                 <p class="mb-0">0.000</p>
-                </li>
-              </ul>
+                   <div>
+                   <div className="d-flex justify-content-between mb-3">
+                   <div>INR</div>
+                   <div>85.223 <BiRupee/> </div>
+                   </div>
+                   
+                   <div><div className="d-flex justify-content-between mb-2">
+                     <div>INRx</div>
+                    <div>85.223 <img src="/images/inrx2.png" width={"20px"} alt="" /> </div>
+                    </div>
+                    </div>
+                   </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-item">
+                  <h2 class="accordion-header">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#collapseTwo"
+                      aria-expanded="false"
+                      aria-controls="collapseTwo"
+                    >
+                      <div> Staking</div> <div class=" custom_badge me-5">1,000</div>
+                    </button>
+                  </h2>
+                  <div
+                    id="collapseTwo"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="headingTwo"
+                    data-bs-parent="#userInfoAccordion"
+                  >
+                    <div class="accordion-body">
+                      <strong>This is the second item's accordion body.</strong>{" "}
+                      It is hidden by default, until the collapse plugin adds
+                      the appropriate classes that we use to style each element.
+                      These classes control the overall appearance, as well as
+                      the showing and hiding via CSS transitions. You can modify
+                      any of this with custom CSS or overriding our default
+                      variables. It's also worth noting that just about any HTML
+                      can go within the <code>.accordion-body</code>, though the
+                      transition does limit overflow.
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingThree">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#collapseThree"
+                      aria-expanded="false"
+                      aria-controls="collapseThree"
+                    >
+                      <div>Referral</div> <div class="custom_badge me-5">79.23</div>
+                    </button>
+                  </h2>
+                  <div
+                    id="collapseThree"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="headingThree"
+                    data-bs-parent="#userInfoAccordion"
+                  >
+                    <div class="accordion-body">
+                      <strong>This is the third item's accordion body.</strong>{" "}
+                      It is hidden by default, until the collapse plugin adds
+                      the appropriate classes that we use to style each element.
+                      These classes control the overall appearance, as well as
+                      the showing and hiding via CSS transitions. You can modify
+                      any of this with custom CSS or overriding our default
+                      variables. It's also worth noting that just about any HTML
+                      can go within the <code>.accordion-body</code>, though the
+                      transition does limit overflow.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="accordion-item">
+                  <h2 class="accordion-header">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#deposited"
+                      aria-expanded="false"
+                      aria-controls="deposited"
+                    >
+                      <div>Deposited </div>
+                      <div>
+                        <span class=" custom_badge me-5">90.25</span>
+                      </div>
+                    </button>
+                  </h2>
+                  <div
+                    id="deposited"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="deposited"
+                    data-bs-parent="#userInfoAccordion"
+                  >
+                    <div class="accordion-body">
+                      <strong>This is the third item's accordion body.</strong>{" "}
+                      It is hidden by default, until the collapse plugin adds
+                      the appropriate classes that we use to style each element.
+                      These classes control the overall appearance, as well as
+                      the showing and hiding via CSS transitions. You can modify
+                      any of this with custom CSS or overriding our default
+                      variables. It's also worth noting that just about any HTML
+                      can go within the <code>.accordion-body</code>, though the
+                      transition does limit overflow.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingThree">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#withdrawal"
+                      aria-expanded="false"
+                      aria-controls="withdrawal"
+                    >
+                      <div>Withdrawal </div>
+                      <div>
+                        <span class=" custom_badge me-5">100.25</span>
+                      </div>
+                    </button>
+                  </h2>
+                  <div
+                    id="withdrawal"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="withdrawal"
+                    data-bs-parent="#userInfoAccordion"
+                  >
+                    <div class="accordion-body">
+                      <strong>This is the third item's accordion body.</strong>{" "}
+                      It is hidden by default, until the collapse plugin adds
+                      the appropriate classes that we use to style each element.
+                      These classes control the overall appearance, as well as
+                      the showing and hiding via CSS transitions. You can modify
+                      any of this with custom CSS or overriding our default
+                      variables. It's also worth noting that just about any HTML
+                      can go within the <code>.accordion-body</code>, though the
+                      transition does limit overflow.
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <div class="col-lg-8">
+        <div class="col-lg-9">
           <div class="card mb-4">
             <div class="card-body">
               <div class="row">
@@ -138,7 +286,7 @@ export const UserProfile = () => {
                   <p class="text-muted mb-0">{apiData?.name || "--"}</p>
                 </div>
               </div>
-              <hr className="hr_line"/>
+              <hr className="hr_line" />
               <div class="row">
                 <div class="col-sm-3">
                   <p class="mb-0">Email</p>
@@ -147,8 +295,8 @@ export const UserProfile = () => {
                   <p class="text-muted mb-0">{apiData?.email || "--"} </p>
                 </div>
               </div>
-               <hr className="hr_line"/>
-             
+              <hr className="hr_line" />
+
               <div class="row">
                 <div class="col-sm-3">
                   <p class="mb-0">Mobile</p>
@@ -157,7 +305,7 @@ export const UserProfile = () => {
                   <p class="text-muted mb-0">{apiData?.mobile || "--"}</p>
                 </div>
               </div>
-               <hr className="hr_line"/>
+              <hr className="hr_line" />
               <div class="row">
                 <div class="col-sm-3">
                   <p class="mb-0">Address</p>
@@ -166,84 +314,96 @@ export const UserProfile = () => {
                   <p class="text-muted mb-0">{apiData?.full_address || "--"}</p>
                 </div>
               </div>
-              <hr className="hr_line"/>
+              <hr className="hr_line" />
               <div class="row">
                 <div class="col-sm-3">
                   <p class="mb-0">Wallet</p>
                 </div>
                 <div class="col-sm-9">
-                  <p class="text-muted mb-0">3FZbgi29cpjq2GjdwV8eyHuJJnkLtktZc5 <Link className="text-teal"><BiCopy/></Link></p>
+                  <p class="text-muted mb-0">
+                    379.23 <LuIndianRupee />
+                  </p>
                 </div>
               </div>
-               <hr className="hr_line"/>
+              <hr className="hr_line" />
             </div>
           </div>
           <div class="row">
             <div class="col-md-6">
               <div class="card">
-              <div class="card-body">
-              <p class="mb-4">
-                    <span class="text-teal me-1">Login</span>{" "}
-                   Activity
+                <div class="card-body">
+                  <p class="mb-4">
+                    <span class="text-teal me-1">Login</span> Activity
                   </p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="">
-                  <p class="mb-0">IP</p>
+                  <div class=" card shadow-sm mb-2">
+                    <div className="card-body py-2 d-flex justify-content-between align-items-center">
+                      <div class="">
+                        <p class="mb-0">IP</p>
+                      </div>
+                      <div class="">
+                        <p class="text-muted mb-0">127.0.0.1</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class=" card shadow-sm mb-2">
+                    <div className="card-body py-2 d-flex justify-content-between align-items-center">
+                      <div class="">
+                        <p class="mb-0">Browser Name </p>
+                      </div>
+                      <div class="">
+                        <p class="text-muted mb-0">Chrome</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class=" card shadow-sm mb-2">
+                    <div className="card-body py-2 d-flex justify-content-between align-items-center">
+                      <div class="">
+                        <p class="mb-0">OS</p>
+                      </div>
+                      <div class="">
+                        <p class="text-muted mb-0"> Android</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class=" card shadow-sm mb-2">
+                    <div className="card-body py-2 d-flex justify-content-between align-items-center">
+                      <div class="">
+                        <p class="mb-0">Last Login</p>
+                      </div>
+                      <div class="">
+                        <p class="text-muted mb-0"> 12-02-2024</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class=" card shadow-sm mb-2">
+                    <div className="card-body py-2 d-flex justify-content-between align-items-center">
+                      <div class="">
+                        <p class="mb-0">Action</p>
+                      </div>
+                      <div class="">
+                        <p class="text-muted mb-0">
+                          {" "}
+                          <div className="text-danger">Logout</div>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div class="">
-                  <p class="text-muted mb-0">127.0.0.1</p>
-                </div>
-              </div>
-              <hr className="hr_line"/>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="">
-                  <p class="mb-0">Browser Name </p>
-                </div>
-                <div class="">
-                  <p class="text-muted mb-0">Chrome</p>
-                </div>
-              </div>
-               
-              <hr className="hr_line"/>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="">
-                  <p class="mb-0">OS</p>
-                </div>
-                <div class="">
-                  <p class="text-muted mb-0">	Android</p>
-                </div>
-              </div>
-              <hr className="hr_line"/>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="">
-                  <p class="mb-0">Status</p>
-                </div>
-                <div class="">
-                  <p class="text-muted mb-0">	Connected</p>
-                </div>
-              </div>
-              <hr className="hr_line"/>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="">
-                  <p class="mb-0">Action</p>
-                </div>
-                <div class="">
-                  <p class="text-muted mb-0"> <div className="text-danger">Logout</div></p>
-                </div>
-              </div>
-               
-            </div>
               </div>
             </div>
             <div class="col-md-6">
               <div class="card mb-4 mb-md-0">
                 <div class="card-body pb-3">
                   <p class="mb-2">
-                    <span class="text-teal me-1"> Collateral </span>{" "}
-                   vs Acquisition
+                    <span class="text-teal me-1"> Collateral </span> vs
+                    Acquisition
                   </p>
-                
-                 <ApexChart/>
+
+                  <ApexChart />
                 </div>
               </div>
             </div>

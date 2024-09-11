@@ -846,3 +846,24 @@ button.react-calendar__tile.react-calendar__tile--active.react-calendar__tile--r
 .progress-bar-green {
   background-color: #42be0242!important;
 }
+.accordion-button {
+  border-bottom: 1px solid #eee !important;
+  border-top: 0!important;
+  border-left: 0!important;
+  border-right: 0!important;
+  border-radius: 0!important;
+  display: flex;
+  justify-content: space-between;
+ 
+}
+.accordion-item {
+  margin-bottom: 0!important;
+}
+
+.custom_badge {
+  background: #e5eee5;
+    padding: 1px 7px;
+    border-radius: 6px;
+    color: #000;
+}
+
