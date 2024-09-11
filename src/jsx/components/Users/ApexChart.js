@@ -25,7 +25,7 @@ const ApexChart = () => {
       enabled: true, // Show tooltips when hovering over data points
     },
     legend: {
-      position: 'top', // Position of the legend
+      position: 'bottom', // Position of the legend
     },
   });
 
