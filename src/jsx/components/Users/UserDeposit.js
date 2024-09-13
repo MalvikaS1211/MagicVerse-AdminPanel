@@ -22,9 +22,9 @@ import { FaMessage } from "react-icons/fa6";
 import { Row, Col, Card, Table } from "react-bootstrap";
 import { dataList } from "../../../services/api_function";
 import { Link } from "react-router-dom";
-import { COLUMNS } from "../../components/table/FilteringTable/Columns";
-import MOCK_DATA from "../../components/table/FilteringTable/MOCK_DATA_2.json";
-import { FaExchangeAlt } from "react-icons/fa";
+import { COLUMNS } from "../table/FilteringTable/Columns";
+import MOCK_DATA from "../table/FilteringTable/MOCK_DATA_2.json";
+import { FaExchangeAlt,FaRegCopy } from "react-icons/fa";
 import { SiApostrophe } from "react-icons/si";
 // import Tooltip from "@mui/material/Tooltip";
 import { PiUsersThreeFill } from "react-icons/pi";
@@ -38,6 +38,7 @@ import { useDispatch } from "react-redux";
 import { setUserTaskAction } from "../../../store/actions/AuthActions";
 import { FaCheck } from "react-icons/fa";
 import { GiCancel } from "react-icons/gi";
+import toast from "react-hot-toast";
 
 const HtmlTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -50,7 +51,7 @@ const HtmlTooltip = styled(({ className, ...props }) => (
   },
 }));
 
-export const AllUser = () => {
+export const UserDeposit = () => {
   const [apiData, setApiData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -71,12 +72,13 @@ export const AllUser = () => {
         const userDetails = localStorage.getItem("userDetails");
         const parsedDetails = JSON.parse(userDetails);
         const token = parsedDetails.token;
-        const table = "get-AllUser";
+        const table = "get-history";
         const result = await dataList(
           table,
           currentPage,
           search,
-          token
+          token,
+          "deposit",
         );
         setApiData(result?.data);
 
@@ -162,7 +164,7 @@ export const AllUser = () => {
         <Col lg={12}>
           <Card>
             <Card.Header>
-              <Card.Title>All Users</Card.Title>
+              <Card.Title>Deposit</Card.Title>
             </Card.Header>
             <Card.Body>
               <Table responsive>
@@ -170,15 +172,14 @@ export const AllUser = () => {
                 <thead>
                   <tr>
                   <th>S.No</th>
-                    <th>Id</th>
-                    <th>Username</th>
-                    <th>Name</th>
+                    <th>User Id</th>
+                    <th>Address</th>
+                    <th>Order Id</th>
                     <th>Amount</th>
-                    <th>Twitter</th>
-                    <th>Instagram</th>
-                    <th>Telagram</th>
-                    <th>Youtube</th>
-
+                    <th>Capture Status</th>
+                    <th>Network</th>
+                
+                    <th>Initiate Time</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -206,14 +207,19 @@ export const AllUser = () => {
                       return (
                         <tr>
                           <td>{position}</td>
-                          <td>{data?.id} </td>
-                          <td>{data.usename}</td>
-                          <td>{data?.first_name} {data?.last_name}</td>
-                          <td>{data?.amount}</td>
-                          <td>{data.is_twitter_follow?<FaCheck  color="green"/>: <GiCancel color="red"/>}</td>
-                          <td>{data.is_instagram_follow?<FaCheck color="green" />: <GiCancel color="red" />}</td>
-                          <td>{data.is_telegram_follow?<FaCheck color="green" />: <GiCancel color="red" />}</td>
-                          <td>{data.is_youtube_follow?<FaCheck  color="green"/>: <GiCancel  color="red"/>}</td>
+                          <td>{data?.user_id} </td>
+                          <td>{data.address.slice(0,6)}...{data.address.slice(-6)} <FaRegCopy style={{cursor:"pointer"}} onClick={()=>{
+                             navigator.clipboard.writeText(data.address?data.address:"").then(() => {
+                              toast.success('Address copied.');
+                            }).catch(err => {
+                              console.error('Failed to copy text: ', err);
+                            });
+                          }}/></td>
+                          <td>{data?.order_id}</td>
+                          <td>{data?.amount} {data?.symbol}</td>
+                          <td>{data?.capture_status?<FaCheck  color="green"/>: <GiCancel  color="red"/>}</td>
+                          <td style={{textTransform:"capitalize"}}>{data?.network}</td>
+                          <td>{formatTimestamp(data?.initiate_time)}</td>
                           {/* <td>
                             <div>
                               <div class="btn-group">
@@ -408,4 +414,4 @@ export const AllUser = () => {
   );
 };
 
-export default AllUser;
+export default UserDeposit;

@@ -212,6 +212,13 @@ import PdfUpload from "./components/Users/PdfUpload";
 import WithdrawalINR from "./components/Users/withdrawalINR";
 import WithdrawalINRInfo from "./components/Users/withdrawInrInfo";
 import UserProfile from "./components/Users/UserProfile";
+import Airdrop from "./components/Users/Airdrop";
+import UserDeposit from "./components/Users/UserDeposit";
+import UserWithdrawal from "./components/Users/UserWithdrawal";
+import HotWallet from "./components/Users/HotWallet";
+import Matrix from "./components/Users/matix";
+import ContractAddress from "./components/Users/ContractAddress";
+import ReferralHistory from "./components/Users/ReferralHistory";
 
 const Markup = () => {
   const allroutes = [
@@ -291,6 +298,13 @@ const Markup = () => {
     { url: "pending-kyc", component: <Kyc/> },
     { url: "approved-kyc", component: <Kyc/> },
     { url: "rejected-kyc", component: <Kyc/> },
+    { url: "airdrop", component: <Airdrop/> },
+    { url: "user-deposit", component: <UserDeposit/> },
+    { url: "user-Withdrawal", component: <UserWithdrawal/> },
+    { url: "hot-wallet", component: <HotWallet/> },
+    { url: "matix", component: <Matrix/> },
+    { url: "contract-address", component: <ContractAddress/> },
+    { url: "referral", component: <ReferralHistory/> },
   ];
   //let path = window.location.pathname;
   //path = path.split("/");

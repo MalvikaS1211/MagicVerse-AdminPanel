@@ -50,7 +50,7 @@ const HtmlTooltip = styled(({ className, ...props }) => (
   },
 }));
 
-export const AllUser = () => {
+const Airdrop = () => {
   const [apiData, setApiData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -71,7 +71,7 @@ export const AllUser = () => {
         const userDetails = localStorage.getItem("userDetails");
         const parsedDetails = JSON.parse(userDetails);
         const token = parsedDetails.token;
-        const table = "get-AllUser";
+        const table = "get-airdrop";
         const result = await dataList(
           table,
           currentPage,
@@ -162,7 +162,7 @@ export const AllUser = () => {
         <Col lg={12}>
           <Card>
             <Card.Header>
-              <Card.Title>All Users</Card.Title>
+              <Card.Title>Airdrop</Card.Title>
             </Card.Header>
             <Card.Body>
               <Table responsive>
@@ -170,14 +170,11 @@ export const AllUser = () => {
                 <thead>
                   <tr>
                   <th>S.No</th>
-                    <th>Id</th>
-                    <th>Username</th>
-                    <th>Name</th>
+                    <th>User Id</th>
                     <th>Amount</th>
-                    <th>Twitter</th>
-                    <th>Instagram</th>
-                    <th>Telagram</th>
-                    <th>Youtube</th>
+                    <th>Type</th>
+                    <th>Timestamp</th>
+               
 
                   </tr>
                 </thead>
@@ -206,14 +203,11 @@ export const AllUser = () => {
                       return (
                         <tr>
                           <td>{position}</td>
-                          <td>{data?.id} </td>
-                          <td>{data.usename}</td>
-                          <td>{data?.first_name} {data?.last_name}</td>
-                          <td>{data?.amount}</td>
-                          <td>{data.is_twitter_follow?<FaCheck  color="green"/>: <GiCancel color="red"/>}</td>
-                          <td>{data.is_instagram_follow?<FaCheck color="green" />: <GiCancel color="red" />}</td>
-                          <td>{data.is_telegram_follow?<FaCheck color="green" />: <GiCancel color="red" />}</td>
-                          <td>{data.is_youtube_follow?<FaCheck  color="green"/>: <GiCancel  color="red"/>}</td>
+                          <td>{data?.user_id} </td>
+                          <td>{data.amount}</td>
+                          <td>{data?.type} {data?.last_name}</td>
+                          <td>{data?.createdAt}</td>
+                        
                           {/* <td>
                             <div>
                               <div class="btn-group">
@@ -408,4 +402,4 @@ export const AllUser = () => {
   );
 };
 
-export default AllUser;
+export default Airdrop;

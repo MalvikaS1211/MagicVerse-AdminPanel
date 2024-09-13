@@ -6,6 +6,7 @@ export const url2 = "https://backoffice.inrx.io/api";
 // export const url = "http://localhost:2222/api";
 
 export const teamlist = "https://farming.wyscale.com/api";
+export const localApi="http://localhost:5009/api/"
 
 export function allUser(table, page, filteredData, token, id) {
   const { searchQuery } = filteredData;
@@ -79,6 +80,97 @@ export function allUser(table, page, filteredData, token, id) {
     .catch((e) => e);
 }
 
+
+export function dataList(route,page,search,token,type){
+  let apiUrl = "";
+  if (route === "get-AllUser") {
+    apiUrl = `${localApi}${route}?page=${page}&limit=10&search=${search}`;
+  }else if(route === "get-airdrop") {
+    apiUrl = `${localApi}${route}?page=${page}&limit=10&search=${search}`;
+  }else if(route === "get-history") {
+    apiUrl = `${localApi}${route}?page=${page}&limit=10&search=${search}&type=${type}`;
+  }else if(route === "get-hotWallet") {
+    apiUrl = `${localApi}${route}?page=${page}&limit=10&search=${search}`;
+  }else if(route === "get-matix") {
+    apiUrl = `${localApi}${route}?page=${page}&limit=10&search=${search}`;
+  }else if(route === "get-contract-address") {
+    apiUrl = `${localApi}${route}?page=${page}&limit=10&search=${search}`;
+  }else if(route === "get-referral") {
+    apiUrl = `${localApi}${route}?page=${page}&limit=10&search=${search}`;
+  }
+
+  return fetch(apiUrl, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "cache-control": "no-cache",
+      "Access-Control-Allow-Origin": "*",
+      // Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => res.json())
+    .catch((e) => e);
+}
+
+
+export function updateHotWallet(data){
+
+
+   const apiUrl = `${localApi}update-hotWallet`;
+
+
+  return fetch(apiUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "cache-control": "no-cache",
+      "Access-Control-Allow-Origin": "*",
+      // Authorization: `Bearer ${token}`,
+    },
+    body:JSON.stringify(data)
+  })
+    .then((res) => res.json())
+    .catch((e) => e);
+}
+
+export function updateMatix(data){
+
+
+  const apiUrl = `${localApi}update-matix`;
+
+
+ return fetch(apiUrl, {
+   method: "POST",
+   headers: {
+     "Content-Type": "application/json",
+     "cache-control": "no-cache",
+     "Access-Control-Allow-Origin": "*",
+     // Authorization: `Bearer ${token}`,
+   },
+   body:JSON.stringify(data)
+ })
+   .then((res) => res.json())
+   .catch((e) => e);
+}
+export function updateContractAddress(data){
+
+
+  const apiUrl = `${localApi}update-contract-address`;
+
+
+ return fetch(apiUrl, {
+   method: "POST",
+   headers: {
+     "Content-Type": "application/json",
+     "cache-control": "no-cache",
+     "Access-Control-Allow-Origin": "*",
+     // Authorization: `Bearer ${token}`,
+   },
+   body:JSON.stringify(data)
+ })
+   .then((res) => res.json())
+   .catch((e) => e);
+}
 export async function withdrawInrAction(token, id ,action){
   const apiUrl = `${url}/admin/withdraw-inr-action`;
   return fetch(apiUrl, {
