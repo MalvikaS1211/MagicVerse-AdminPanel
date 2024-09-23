@@ -22,9 +22,9 @@ import { FaMessage } from "react-icons/fa6";
 import { Row, Col, Card, Table } from "react-bootstrap";
 import { dataList } from "../../../services/api_function";
 import { Link } from "react-router-dom";
-import { COLUMNS } from "../table/FilteringTable/Columns";
-import MOCK_DATA from "../table/FilteringTable/MOCK_DATA_2.json";
-import { FaExchangeAlt, FaRegCopy } from "react-icons/fa";
+import { COLUMNS } from "../../components/table/FilteringTable/Columns";
+import MOCK_DATA from "../../components/table/FilteringTable/MOCK_DATA_2.json";
+import { FaExchangeAlt } from "react-icons/fa";
 import { SiApostrophe } from "react-icons/si";
 // import Tooltip from "@mui/material/Tooltip";
 import { PiUsersThreeFill } from "react-icons/pi";
@@ -38,8 +38,9 @@ import { useDispatch } from "react-redux";
 import { setUserTaskAction } from "../../../store/actions/AuthActions";
 import { FaCheck } from "react-icons/fa";
 import { GiCancel } from "react-icons/gi";
-import toast from "react-hot-toast";
 import { IoClose } from "react-icons/io5";
+import { formatDateToIST } from "../../../services/helperFunction";
+
 
 const HtmlTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -52,7 +53,7 @@ const HtmlTooltip = styled(({ className, ...props }) => (
   },
 }));
 
- const UserWithdrawal = () => {
+ const ScratchCard = () => {
   const [apiData, setApiData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -73,25 +74,25 @@ const HtmlTooltip = styled(({ className, ...props }) => (
         const userDetails = localStorage.getItem("userDetails");
         const parsedDetails = JSON.parse(userDetails);
         const token = parsedDetails.token;
-        const table = "get-history";
+        const table = "get-scratchcard";
         const result = await dataList(
           table,
           currentPage,
           search,
-          token,
-          "withdrawal",
+          token
         );
-     
+        setApiData(result?.data || []);
 
 
-    if(result.status==200){
-      setApiData(result?.data);
-        setFilteredData(result?.data??[]);
+      console.log("API Data:", result?.data);
+
+       
+        // setcofig(result?.config);
+        setFilteredData(result?.data);
         setTotalPages(result.totalPages);
         if (!result?.data[0]) {
           setRecordStatus("No Record");
         }
-      }
         if (result.status == 404) {
           navigate("/login");
           localStorage.removeItem("userDetails");
@@ -164,7 +165,7 @@ const HtmlTooltip = styled(({ className, ...props }) => (
         <Col lg={12}>
           <Card>
             <Card.Header>
-              <Card.Title>WithDrawal</Card.Title>
+              <Card.Title>All Users</Card.Title>
             </Card.Header>
             <Card.Body>
               <Table responsive>
@@ -173,13 +174,11 @@ const HtmlTooltip = styled(({ className, ...props }) => (
                   <tr>
                   <th>S.No</th>
                     <th>User Id</th>
-                    <th>Address</th>
-                    <th>Order Id</th>
                     <th>Amount</th>
-                    <th>Capture Status</th>
-                    <th>Network</th>
-                
-                    <th>Initiate Time</th>
+                    <th>Scratched Status</th>
+                    <th>Created At</th>
+                   
+
                   </tr>
                 </thead>
                 <tbody>
@@ -191,35 +190,17 @@ const HtmlTooltip = styled(({ className, ...props }) => (
                     </tr>
                   ) : (
                     apiData?.map((data, index) => {
-                      // const total = data?.currency?.reduce((pre, it) => {
-                      //   const price = config.find(
-                      //     (itm) =>
-                      //       itm.symbol.toLowerCase() == it.symbol.toLowerCase()
-                      //   );
-                      //   const fp = price ? price.price : 1;
-                      //   {/* const tt = pre + it.available * fp; */}
-                      //   const tt = pre + it.available;
-
-                      //   return tt;
-                      // }, 0);
+                
                       const position = (currentPage - 1) * 10 + (index + 1);
 
                       return (
                         <tr>
                           <td>{position}</td>
                           <td>{data?.user_id} </td>
-                          <td>{data.address.slice(0,6)}...{data.address.slice(-6)} <FaRegCopy style={{cursor:"pointer"}} onClick={()=>{
-                             navigator.clipboard.writeText(data.address?data.address:"").then(() => {
-                              toast.success('Address copied.');
-                            }).catch(err => {
-                              console.error('Failed to copy text: ', err);
-                            });
-                          }}/></td>
-                          <td>{data?.order_id}</td>
-                          <td>{data?.amount} {data?.symbol}</td>
-                          <td>{data?.capture_status?<FaCheck  color="green"/>: <IoClose  color="red"/>}</td>
-                          <td style={{textTransform:"capitalize"}}>{data?.network}</td>
-                          <td>{formatTimestamp(data?.initiate_time)}</td>
+                          <td>{data.amount}</td>
+                         
+                          <td>{data.scratched?<FaCheck  color="green"/>: <IoClose color="red"/>}</td>
+                       <td>{formatDateToIST(data.createdAt)}</td>
                           {/* <td>
                             <div>
                               <div class="btn-group">
@@ -414,4 +395,4 @@ const HtmlTooltip = styled(({ className, ...props }) => (
   );
 };
 
-export default UserWithdrawal;
+export default ScratchCard;

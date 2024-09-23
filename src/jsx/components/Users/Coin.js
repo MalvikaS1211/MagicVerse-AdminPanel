@@ -22,6 +22,7 @@ import { FaMessage } from "react-icons/fa6";
 import { Row, Col, Card, Table, Modal } from "react-bootstrap";
 import {
   dataList,
+  updateCoin,
   updateContractAddress,
   updateHotWallet,
   updateMatix,
@@ -57,7 +58,7 @@ const HtmlTooltip = styled(({ className, ...props }) => (
   },
 }));
 
-const ContractAddress = () => {
+const Coin = () => {
   const [apiData, setApiData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -71,15 +72,15 @@ const ContractAddress = () => {
   const [editModal, setEditModal] = useState(false);
   const [updateData, setUpdateData] = useState({
     _id: "",
+    coin: "",
     symbol: "",
-    blockchain: "",
-    contract_address: "",
-    contract_type: "",
-    precision: "",
-    is_withdrawal: false,
-    is_deposit: false,
-    mainnet_rpc: "",
-    testnet_rpc: "",
+    name: "",
+    intstagram_amount: "",
+    minimum_withdraw: "",
+    referral_amount: 0,
+    telegram_amount: 0,
+    twitter_amount: "",
+    youtube_amount: "",
   });
   const [updateStatus, setUpdateStatus] = useState(false);
 
@@ -92,7 +93,7 @@ const ContractAddress = () => {
         const userDetails = localStorage.getItem("userDetails");
         const parsedDetails = JSON.parse(userDetails);
         const token = parsedDetails.token;
-        const table = "get-contract-address";
+        const table = "get-coin";
         const result = await dataList(table, currentPage, search, token, "");
         setApiData(result?.data);
 
@@ -155,11 +156,12 @@ const ContractAddress = () => {
 
     XLSX.writeFile(wb, `${fileName}.xlsx`);
   };
+
   const tableRef = useRef(null);
 
   const handleUpdate = async () => {
     console.log(updateData,"updateData")
-    const res = await updateContractAddress(updateData);
+    const res = await updateCoin(updateData);
     if (res.status == 200) {
       toast.success("Wallet Updated Successfully");
       setUpdateStatus(!updateStatus);
@@ -190,22 +192,23 @@ const ContractAddress = () => {
         <Col lg={12}>
           <Card>
             <Card.Header>
-              <Card.Title>Contract Address</Card.Title>
+              <Card.Title>Coins</Card.Title>
             </Card.Header>
             <Card.Body>
               <Table responsive>
                 {/* <button onClick={() => exportToExcel(data, 'exported-data')}>Export to Excel</button> */}
                 <thead>
                   <tr>
+                    
                     <th>Symbol</th>
-                    <th>Blockchain</th>
-                    <th>Contract Address</th>
-                    <th>Contract Type</th>
-                    <th>Precision</th>
-                    <th>Withdrawal Status</th>
-                    <th>Deposit Status</th>
-                    <th>Mainnet Rpc</th>
-                    <th>Testnet Rpc</th>
+                    <th>Name</th> 
+                    <th>Icon</th>
+                    <th>Minimum Withdraw</th>
+                    <th>Referral Amount</th>
+                    <th>Intstagram Amount</th>
+                    <th>Telegram Amount</th>
+                    <th>Twitter Amount</th>
+                    <th>Youtube Amount</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -217,33 +220,20 @@ const ContractAddress = () => {
                     </tr>
                   ) : (
                     apiData.map((data, index) => {
-                      const position = (currentPage - 1) * 10 + (index + 1);
 
                       return (
                         <tr>
                           {/* <td>{position}</td> */}
+                        
                           <td>{data?.symbol}</td>
-                          <td>{data.blockchain}</td>
-                          <td>{data.contract_address}</td>
-                          <td>{data.contract_type}</td>
-                          <td>{data.precision}</td>
-                          <td>
-                            {data.is_withdrawal ? (
-                              <FaCheck color="green" />
-                            ) : (
-                              <IoClose color="red" />
-                            )}
-                          </td>
-                          <td>
-                            {data.is_deposit ? (
-                              <FaCheck color="green" />
-                            ) : (
-                              <GiCancel color="red" />
-                            )}
-                          </td>
-                          <td>{data.mainnet_rpc}</td>
-                          <td>{data.testnet_rpc}</td>
-                          {/* <td>{data?.symbol}</td> */}
+                          <td>{data?.name}</td>
+                          <td>{data?.icon}</td>
+                          <td>{data?.minimum_withdraw}</td>
+                          <td>{data?.referral_amount}</td>
+                          <td>{data?.intstagram_amount}</td>
+                          <td>{data?.telegram_amount}</td>
+                          <td>{data?.twitter_amount}</td>
+                          <td>{data?.youtube_amount}</td>
                           <td>
                             <button
                               className="custom_btn"
@@ -330,112 +320,115 @@ const ContractAddress = () => {
                 }))
               }
             />
-            <label className="form-label d-block mt-3">Enter Blockchain</label>
+            <label className="form-label d-block mt-3">Enter Name</label>
             <input
               type="text"
               className="form-control w-100"
-              placeholder="Level"
-              value={updateData.blockchain}
+              placeholder="name"
+              value={updateData.name}
               onChange={(e) =>
                 setUpdateData((prevData) => ({
                   ...prevData,
-                  blockchain: e.target.value,
+                  name: e.target.value,
                 }))
               }
             />
             <label className="form-label d-block mt-3">
-              Enter contract_address
+              Enter IconUrl
             </label>
             <input
               type="text"
               className="form-control w-100"
-              placeholder="Amount"
-              value={updateData.contract_address}
+              placeholder="iconurl"
+              value={updateData.icon}
               onChange={(e) =>
                 setUpdateData((prevData) => ({
                   ...prevData,
-                  contract_address: e.target.value,
+                  icon: e.target.value,
                 }))
               }
             />
             <label className="form-label d-block mt-3">
-              Enter contract_type
+              Enter Minimum Withdrawal
             </label>
             <input
-              type="text"
+              type="number"
               className="form-control w-100"
-              placeholder="Contract Type"
-              value={updateData.contract_type}
+              placeholder="minimum withdraw"
+              value={updateData.minimum_withdraw}
               onChange={(e) =>
                 setUpdateData((prevData) => ({
                   ...prevData,
-                  contract_type: e.target.value,
+                  minimum_withdraw: e.target.value,
                 }))
               }
             />
-            <label className="form-label d-block mt-3">Enter precision</label>
+            <label className="form-label d-block mt-3">Enter referral amount</label>
             <input
-              type="text"
+              type="number"
               className="form-control w-100"
-              placeholder="Precision"
-              value={updateData.precision}
+              placeholder="referral amount"
+              value={updateData.referral_amount}
               onChange={(e) =>
                 setUpdateData((prevData) => ({
                   ...prevData,
-                  precision: e.target.value,
+                  referral_amount: e.target.value,
                 }))
               }
             />
-            <label className="form-label d-block mt-3">Enter Mainnet RPC</label>
+            <label className="form-label d-block mt-3">Enter Intstagram Amount</label>
             <input
-              type="text"
+              type="number"
               className="form-control w-100"
-              placeholder="Symbol"
-              value={updateData.mainnet_rpc}
+              placeholder="intstagram amount"
+              value={updateData.intstagram_amount}
               onChange={(e) =>
                 setUpdateData((prevData) => ({
                   ...prevData,
-                  mainnet_rpc: e.target.value,
+                  intstagram_amount: e.target.value,
                 }))
               }
             />
-            <label className="form-label d-block mt-3">Enter Testnet RPC</label>
+            <label className="form-label d-block mt-3">Enter Telegram Amount</label>
             <input
-              type="text"
+              type="number"
               className="form-control w-100"
-              placeholder="Symbol"
-              value={updateData.testnet_rpc}
+              placeholder="telegram amount"
+              value={updateData.telegram_amount}
               onChange={(e) =>
                 setUpdateData((prevData) => ({
                   ...prevData,
-                  testnet_rpc: e.target.value,
+                  telegram_amount: e.target.value,
                 }))
               }
             />
-            <label className="form-label d-block mt-3">Can Withdrawal</label>
+            <label className="form-label d-block mt-3">Enter Twitter Amount</label>
             <input
-              type="checkbox"
-              className="form-check-input"
-              checked={updateData.is_withdrawal || false}
+              type="number"
+              className="form-control w-100"
+              placeholder="youtube amount"
+              value={updateData.twitter_amount}
               onChange={(e) =>
                 setUpdateData((prevData) => ({
                   ...prevData,
-                  is_withdrawal: e.target.checked,
+                  twitter_amount: e.target.value,
                 }))
               }
             />
-            <label className="form-label d-block mt-3">Can Deposit</label>
+            <label className="form-label d-block mt-3">Enter Youtube Amount</label>
             <input
-              type="checkbox"
-              className="form-check-input"
-              checked={updateData.is_deposit || false}
+              type="number"
+              className="form-control w-100"
+              placeholder="youtube amount"
+              value={updateData.youtube_amount}
               onChange={(e) =>
                 setUpdateData((prevData) => ({
                   ...prevData,
-                  is_deposit: e.target.checked,
+                  youtube_amount: e.target.value,
                 }))
               }
             />
+         
           </div>
           <div className="modal-footer">
             <button
@@ -461,4 +454,4 @@ const ContractAddress = () => {
   );
 };
 
-export default ContractAddress;
+export default Coin;

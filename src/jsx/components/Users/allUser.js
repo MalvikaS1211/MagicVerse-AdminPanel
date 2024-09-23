@@ -38,6 +38,7 @@ import { useDispatch } from "react-redux";
 import { setUserTaskAction } from "../../../store/actions/AuthActions";
 import { FaCheck } from "react-icons/fa";
 import { GiCancel } from "react-icons/gi";
+import { IoClose } from "react-icons/io5";
 
 const HtmlTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -170,6 +171,7 @@ export const AllUser = () => {
                 <thead>
                   <tr>
                   <th>S.No</th>
+                  <th>User Id</th>
                     <th>Id</th>
                     <th>Username</th>
                     <th>Name</th>
@@ -206,14 +208,15 @@ export const AllUser = () => {
                       return (
                         <tr>
                           <td>{position}</td>
+                          <td>{data?._id} </td>
                           <td>{data?.id} </td>
                           <td>{data.usename}</td>
                           <td>{data?.first_name} {data?.last_name}</td>
                           <td>{data?.amount}</td>
-                          <td>{data.is_twitter_follow?<FaCheck  color="green"/>: <GiCancel color="red"/>}</td>
-                          <td>{data.is_instagram_follow?<FaCheck color="green" />: <GiCancel color="red" />}</td>
-                          <td>{data.is_telegram_follow?<FaCheck color="green" />: <GiCancel color="red" />}</td>
-                          <td>{data.is_youtube_follow?<FaCheck  color="green"/>: <GiCancel  color="red"/>}</td>
+                          <td>{data.is_twitter_follow?<FaCheck  color="green"/>: <IoClose color="red"/>}</td>
+                          <td>{data.is_instagram_follow?<FaCheck color="green" />: <IoClose color="red" />}</td>
+                          <td>{data.is_telegram_follow?<FaCheck color="green" />: <IoClose color="red" />}</td>
+                          <td>{data.is_youtube_follow?<FaCheck  color="green"/>: <IoClose  color="red"/>}</td>
                           {/* <td>
                             <div>
                               <div class="btn-group">

@@ -219,6 +219,12 @@ import HotWallet from "./components/Users/HotWallet";
 import Matrix from "./components/Users/matix";
 import ContractAddress from "./components/Users/ContractAddress";
 import ReferralHistory from "./components/Users/ReferralHistory";
+import ScratchCard from "./components/Users/ScratchCard";
+import Coin from "./components/Users/Coin";
+import Triangle from "./components/Users/triangle";
+import LevelIncome from "./components/Users/LevelIncome";
+import MetricsData from "./components/Users/Metrics";
+import SelfMatrix from "./components/Users/SelfMatrix";
 
 const Markup = () => {
   const allroutes = [
@@ -302,9 +308,15 @@ const Markup = () => {
     { url: "user-deposit", component: <UserDeposit/> },
     { url: "user-Withdrawal", component: <UserWithdrawal/> },
     { url: "hot-wallet", component: <HotWallet/> },
-    { url: "matix", component: <Matrix/> },
+    { url: "matix-master", component: <Matrix/> },
     { url: "contract-address", component: <ContractAddress/> },
     { url: "referral", component: <ReferralHistory/> },
+    { url: "scratchcard", component: <ScratchCard/> },
+    { url: "coin", component: <Coin/> },
+    { url: "metrics-summary", component: <Triangle/> },
+    { url: "level-income", component: <LevelIncome/> },
+    { url: "level-summary", component: <MetricsData/> },
+    { url: "self-metrics", component: <SelfMatrix/> },
   ];
   //let path = window.location.pathname;
   //path = path.split("/");

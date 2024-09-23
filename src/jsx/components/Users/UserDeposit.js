@@ -39,6 +39,7 @@ import { setUserTaskAction } from "../../../store/actions/AuthActions";
 import { FaCheck } from "react-icons/fa";
 import { GiCancel } from "react-icons/gi";
 import toast from "react-hot-toast";
+import { IoClose } from "react-icons/io5";
 
 const HtmlTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -217,7 +218,7 @@ export const UserDeposit = () => {
                           }}/></td>
                           <td>{data?.order_id}</td>
                           <td>{data?.amount} {data?.symbol}</td>
-                          <td>{data?.capture_status?<FaCheck  color="green"/>: <GiCancel  color="red"/>}</td>
+                          <td>{data?.capture_status?<FaCheck  color="green"/>: <IoClose  color="red"/>}</td>
                           <td style={{textTransform:"capitalize"}}>{data?.network}</td>
                           <td>{formatTimestamp(data?.initiate_time)}</td>
                           {/* <td>

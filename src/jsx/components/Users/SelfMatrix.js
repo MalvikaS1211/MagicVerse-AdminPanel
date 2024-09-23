@@ -19,26 +19,17 @@ import {
 import * as XLSX from "xlsx";
 
 import { FaMessage } from "react-icons/fa6";
-import { Row, Col, Card, Table, Modal } from "react-bootstrap";
-import { dataList, updateHotWallet, updateMatix,  } from "../../../services/api_function";
+import { Row, Col, Card, Table, Modal, Dropdown } from "react-bootstrap";
+import { dataList } from "../../../services/api_function";
 import { Link } from "react-router-dom";
-import { COLUMNS } from "../table/FilteringTable/Columns";
-import MOCK_DATA from "../table/FilteringTable/MOCK_DATA_2.json";
-import { FaExchangeAlt, FaRegCopy } from "react-icons/fa";
-import { SiApostrophe } from "react-icons/si";
-// import Tooltip from "@mui/material/Tooltip";
-import { PiUsersThreeFill } from "react-icons/pi";
-import { GiReceiveMoney } from "react-icons/gi";
-import { IoMdTrophy } from "react-icons/io";
+import { COLUMNS } from "../../components/table/FilteringTable/Columns";
+
 import { styled } from "@mui/material/styles";
-import Button from "@mui/material/Button";
+
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
-import Typography from "@mui/material/Typography";
+
 import { useDispatch } from "react-redux";
-import { setUserTaskAction } from "../../../store/actions/AuthActions";
-import { FaCheck } from "react-icons/fa";
-import { GiCancel } from "react-icons/gi";
-import toast from "react-hot-toast";
+import { formatDateToIST } from "../../../services/helperFunction";
 
 const HtmlTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -51,7 +42,7 @@ const HtmlTooltip = styled(({ className, ...props }) => (
   },
 }));
 
-const Matrix = () => {
+  const SelfMatrix = () => {
   const [apiData, setApiData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -60,17 +51,13 @@ const Matrix = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [recordStatus, setRecordStatus] = useState("Loading...");
-  const [config, setcofig] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [config, setConfig] = useState([]);
+  const packageList = ["All",2500,5000,10000,15000,20000,25000,100000];
+
+  const [selectedPackage, setSelectedPackage] = useState(packageList[0]);
+
   const pageSize = 100;
-  const [editModal, setEditModal] = useState(false);
-  const [updateData, setUpdateData] = useState({
-    _id: "",
-    type: "",
-    level: "",
-    amount: "",
-    direct: "",
-  });
-  const [updateStatus, setUpdateStatus] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -81,8 +68,9 @@ const Matrix = () => {
         const userDetails = localStorage.getItem("userDetails");
         const parsedDetails = JSON.parse(userDetails);
         const token = parsedDetails.token;
-        const table = "get-matix";
-        const result = await dataList(table, currentPage, search, token, "");
+        const table = "get-selfmetrix";
+        const result = await dataList(table, currentPage, search, token ,selectedPackage);
+        if(result.status==200){
         setApiData(result?.data);
 
         console.log("API Data:", result.data);
@@ -90,6 +78,7 @@ const Matrix = () => {
         // setcofig(result?.config);
         setFilteredData(result?.data);
         setTotalPages(result.totalPages);
+        }
         if (!result?.data[0]) {
           setRecordStatus("No Record");
         }
@@ -103,7 +92,7 @@ const Matrix = () => {
     };
 
     fetchData();
-  }, [currentPage, search,updateStatus]);
+  }, [currentPage, search,selectedPackage]);
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) =>
@@ -145,24 +134,52 @@ const Matrix = () => {
     XLSX.writeFile(wb, `${fileName}.xlsx`);
   };
   const tableRef = useRef(null);
-
-  const handleUpdate = async () => {
-    const res = await updateMatix(updateData);
-    if(res.status==200){
-        toast.success("Wallet Updated Successfully")
-        setUpdateStatus(!updateStatus)
-        setEditModal(false)
-    }else{
-        toast.error("Wallet Updation Failed");
-        setUpdateStatus(!updateStatus)
-        setEditModal(false)
-    }
+  const DataList = ({ data }) => {
+    return (
+      <div>
+        {/* <h3>Children</h3> */}
+        <ul>
+          {data.length == 0 ? (
+            <div className="card d-flex align-items-center justify-content-center ">
+              <p className="text-center">No Chidren Found.</p>
+            </div>
+          ) : (
+            data.map((item, index) => (
+              <li key={index} className="card p-2">
+                <p className="m-0">
+                  <strong>Child ID:</strong> {item.child_id}
+                </p>
+                {/* <p className="m-0"><strong>Object ID:</strong> {item.ObjectId}</p> */}
+                <p className="m-0">
+                  <strong>Position:</strong> {item.position}
+                </p>
+              </li>
+            ))
+          )}
+        </ul>
+      </div>
+    );
   };
 
   return (
     <Fragment>
       <Row>
         <div className="display_end">
+          <Dropdown className="btn-group mb-1">
+            <Dropdown.Toggle
+              className="btn dropdown-toggle px-3 ms-1 dropdown-mini"
+              data-toggle="dropdown"
+              style={{ color: "#000" }}
+            >
+            
+           {selectedPackage=="All"?"All":`Package ${selectedPackage}`}
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              {packageList.map((data, i) => (
+                <Dropdown.Item onClick={()=>{setSelectedPackage(data)}}>{data === "All" ? "All" : `Package (${ data })`}</Dropdown.Item>
+              ))}
+            </Dropdown.Menu>
+          </Dropdown>
           <div className="input-group" style={{ maxWidth: "300px" }}>
             <input
               type="search"
@@ -178,20 +195,23 @@ const Matrix = () => {
         <Col lg={12}>
           <Card>
             <Card.Header>
-              <Card.Title>Matix Master</Card.Title>
+              <Card.Title>Metrics</Card.Title>
             </Card.Header>
             <Card.Body>
               <Table responsive>
                 {/* <button onClick={() => exportToExcel(data, 'exported-data')}>Export to Excel</button> */}
                 <thead>
                   <tr>
-                   
-
-                    <th>Type</th>
-                    <th>Level</th>
+                    {/* <th>S.No</th> */}
+                    <th>Id</th>
+                    <th>Date</th>
+                    <th>User Id</th>
+                    {/* <th>Direct</th> */}
+                    <th>Sponser Id</th>
+                    <th>Upline Id</th>
                     <th>Amount</th>
-                    <th>Direct</th>
-                    <th>Edit</th>
+                    <th>Team Member</th>
+                  
                   </tr>
                 </thead>
                 <tbody>
@@ -203,38 +223,31 @@ const Matrix = () => {
                     </tr>
                   ) : (
                     apiData.map((data, index) => {
+                      // const total = data?.currency?.reduce((pre, it) => {
+                      //   const price = config.find(
+                      //     (itm) =>
+                      //       itm.symbol.toLowerCase() == it.symbol.toLowerCase()
+                      //   );
+                      //   const fp = price ? price.price : 1;
+                      //   {/* const tt = pre + it.available * fp; */}
+                      //   const tt = pre + it.available;
+
+                      //   return tt;
+                      // }, 0);
                       const position = (currentPage - 1) * 10 + (index + 1);
 
                       return (
                         <tr>
                           {/* <td>{position}</td> */}
-                          <td>
-                        {data?.type}
-                          </td>
-                          <td>
-                           {data.level}
-                     
-                          </td>
-                          <td>
-                           {data.amount}
-                     
-                          </td>
-                          <td>
-                           {data.direct}
-                     
-                          </td>
-                          {/* <td>{data?.symbol}</td> */}
-                          <td>
-                            <button
-                              className="custom_btn"
-                              onClick={() => {
-                                setUpdateData(data);
-                                setEditModal(true);
-                              }}
-                            >
-                              Edit
-                            </button>
-                          </td>
+                          <td>{data?.id}</td>
+                          <td>{formatDateToIST(data?.createdAt)}</td>
+                          <td>{data?.user_id} </td>
+                          {/* <td>{data.direct}</td> */}
+                          <td>{data?.sponser_id?data?.sponser_id:"-"}</td>
+                          <td>{data?.upline?data?.upline:"-"}</td>
+                          <td>{data?.amount}</td> 
+                          <td>{data?.children.length}</td> 
+                         
                         </tr>
                       );
                     })
@@ -282,89 +295,38 @@ const Matrix = () => {
         className="modal fade"
         id="exampleModal"
         centered
-        show={editModal}
-        onHide={setEditModal}
+        show={showModal}
+        onHide={setShowModal}
       >
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title" id="exampleModalLabel">
-              Edit Wallet Details
+              Children List
             </h5>
             <button
               type="button"
               className="btn-close"
-              onClick={() => setEditModal(false)}
+              onClick={() => setShowModal(false)}
             ></button>
           </div>
           <div className="modal-body">
-            <label className="form-label d-block">Enter Type</label>
-            <input
-              type="text"
-              className="form-control w-100"
-              placeholder="Type"
-              value={updateData.type}
-              onChange={(e) =>
-                setUpdateData((prevData) => ({
-                  ...prevData,
-                  type: e.target.value,
-                }))
-              }
-            />
-            <label className="form-label d-block mt-3">Enter Level</label>
-            <input
-              type="text"
-              className="form-control w-100"
-              placeholder="Level"
-              value={updateData.level}
-              onChange={(e) =>
-                setUpdateData((prevData) => ({
-                  ...prevData,
-                  level: e.target.value,
-                }))
-              }
-            />
-            <label className="form-label d-block mt-3">Enter Amount</label>
-            <input
-              type="text"
-              className="form-control w-100"
-              placeholder="Amount"
-              value={updateData.amount}
-              onChange={(e) =>
-                setUpdateData((prevData) => ({
-                  ...prevData,
-                  amount: e.target.value,
-                }))
-              }
-            />
-              <label className="form-label d-block mt-3">Enter Direct</label>
-            <input
-              type="text"
-              className="form-control w-100"
-              placeholder="Symbol"
-              value={updateData.direct}
-              onChange={(e) =>
-                setUpdateData((prevData) => ({
-                  ...prevData,
-                  direct: e.target.value,
-                }))
-              }
-            />
+            <DataList data={config} />
           </div>
           <div className="modal-footer">
             <button
               type="button"
               className="btn btn-secondary"
-              onClick={() => setEditModal(false)}
+              onClick={() => setShowModal(false)}
             >
               Close
             </button>
-            <button
+            {/* <button
               type="button"
               className="btn btn-primary"
               onClick={() => {handleUpdate()}}
             >
               Save
-            </button>
+            </button> */}
           </div>
         </div>
       </Modal>
@@ -372,4 +334,4 @@ const Matrix = () => {
   );
 };
 
-export default Matrix;
+export default SelfMatrix;

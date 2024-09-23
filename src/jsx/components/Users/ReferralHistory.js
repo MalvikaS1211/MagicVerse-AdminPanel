@@ -38,6 +38,7 @@ import { useDispatch } from "react-redux";
 import { setUserTaskAction } from "../../../store/actions/AuthActions";
 import { FaCheck } from "react-icons/fa";
 import { GiCancel } from "react-icons/gi";
+import { formatDateToIST } from "../../../services/helperFunction";
 
 const HtmlTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -207,7 +208,7 @@ const HtmlTooltip = styled(({ className, ...props }) => (
                           <td>{data?.user_id} </td>
                           <td>{data._from}</td>
                           <td>{data?.amount} {data?.last_name}</td>
-                          <td>{data?.createdAt}</td>
+                          <td>{formatDateToIST(data?.createdAt)}</td>
                           
                           {/* <td>
                             <div>

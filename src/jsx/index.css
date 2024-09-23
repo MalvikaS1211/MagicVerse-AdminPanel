@@ -870,4 +870,14 @@ button.react-calendar__tile.react-calendar__tile--active.react-calendar__tile--r
     border-radius: 6px;
     color: #000;
 }
+.dropdown-mini{
+  background-color: rgb(182, 212, 182) !important;
+  border-color:transparent !important;
+  margin-right: 10px;
+  border:0px;
+}
+.dropdown-mini .show{
+  border-color:transparent !important;
+
+}
 

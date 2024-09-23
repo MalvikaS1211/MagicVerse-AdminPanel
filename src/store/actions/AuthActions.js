@@ -90,9 +90,11 @@ export function Logout(navigate) {
 //   };
 // }
 export function loginAction(email, password, navigate) {
+  console.log(email,password, navigate)
   return (dispatch) => {
     SignIn(email, password)
       .then((response) => {
+        console.log(response,"resp")
         if (response.status === 200) {
           saveTokenInLocalStorage(response);
           dispatch(loginConfirmedAction(response));

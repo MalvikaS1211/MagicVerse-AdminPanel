@@ -97,6 +97,18 @@ export function dataList(route,page,search,token,type){
     apiUrl = `${localApi}${route}?page=${page}&limit=10&search=${search}`;
   }else if(route === "get-referral") {
     apiUrl = `${localApi}${route}?page=${page}&limit=10&search=${search}`;
+  }else if(route === "get-scratchcard") {
+    apiUrl = `${localApi}${route}?page=${page}&limit=10&search=${search}`;
+  }else if(route === "get-coin") {
+    apiUrl = `${localApi}${route}?page=${page}&limit=10&search=${search}`;
+  }else if(route === "get-metrix") {
+    apiUrl = `${localApi}${route}?page=${page}&limit=10&search=${search}&type=${type}`;
+  }else if(route === "get-levelIncome") {
+    apiUrl = `${localApi}${route}?page=${page}&limit=10&search=${search}&type=${type}`;
+  }else if(route === "get-levelmatrix") {
+    apiUrl = `${localApi}${route}?page=${page}&limit=10&search=${search}`;
+  }else if(route === "get-selfmetrix") {
+    apiUrl = `${localApi}${route}?page=${page}&limit=10&search=${search}&type=${type}`;
   }
 
   return fetch(apiUrl, {
@@ -156,6 +168,27 @@ export function updateContractAddress(data){
 
 
   const apiUrl = `${localApi}update-contract-address`;
+
+
+ return fetch(apiUrl, {
+   method: "POST",
+   headers: {
+     "Content-Type": "application/json",
+     "cache-control": "no-cache",
+     "Access-Control-Allow-Origin": "*",
+     // Authorization: `Bearer ${token}`,
+   },
+   body:JSON.stringify(data)
+ })
+   .then((res) => res.json())
+   .catch((e) => e);
+}
+
+export function updateCoin(data){
+
+
+  const apiUrl = `${localApi}update-coin`;
+  console.log(apiUrl,data,"apiUrl")
 
 
  return fetch(apiUrl, {
@@ -789,7 +822,8 @@ export function Topup_data(page, filteredData, token) {
 
 export function SignIn(email, password) {
   // console.log("afjsdhvh", email, password);
-  const apiUrl = `${url}/admin/login`;
+  const apiUrl = `${localApi}admin-login`;
+  // console.log(apiUrl,email,password,"password")
   return fetch(apiUrl, {
     method: "post",
     headers: {
