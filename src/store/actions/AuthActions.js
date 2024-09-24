@@ -1,12 +1,10 @@
 import React from "react";
-//import { useNavigate } from "react-router-dom";
 import { SignIn } from "../../services/api_function";
 
 import {
   formatError,
   login,
   runLogoutTimer,
-  saveTokenInLocalStorage,
   signUp,
 } from "../../services/AuthService";
 import { NotificationManager } from "react-notifications";
@@ -17,99 +15,47 @@ export const LOGIN_CONFIRMED_ACTION = "[login action] confirmed login";
 export const LOGIN_FAILED_ACTION = "[login action] failed login";
 export const LOADING_TOGGLE_ACTION = "[Loading action] toggle loading";
 export const LOGOUT_ACTION = "[Logout action] logout action";
-export const  SET_USER_TASK = "SET_USER_TASK";
-export const  SET_USER_DETAIL = "SET_USER_DETAIL";
+export const SET_USER_TASK = "SET_USER_TASK";
+export const SET_USER_DETAIL = "SET_USER_DETAIL";
 export const SELECT_CHAIN_ACTION = "SELECT_CHAIN_ACTION";
+
 export function signupAction(email, password, navigate) {
   return (dispatch) => {
     signUp(email, password)
       .then((response) => {
-        saveTokenInLocalStorage(response.token);
-        runLogoutTimer(
-          dispatch,
-          response.expiresIn * 1000
-          //history,
-        );
         dispatch(confirmedSignupAction(response.data));
         navigate("/dashboard");
-        //history.push('/dashboard');
       })
-      .catch((error) => {
-        //  const errorMessage = formatError(error.response.data);
-        //  dispatch(signupFailedAction(errorMessage));
-      });
+      .catch((error) => {});
   };
 }
 
 export function Logout(navigate) {
-  localStorage.removeItem("userDetails");
+  console.log("heyheyh", navigate, "::");
   navigate("/login");
-  //history.push('/login');
-
   return {
     type: LOGOUT_ACTION,
   };
 }
 
-
-// export function loginAction(email, password, navigate) {
-//   return (dispatch) => {
-//     SignIn(email, password)
-//       .then((response) => {
-//         if (response.status === 200) {
-//           console.log("expiresIn", response.expiresIn);
-//           const { token, expiresIn } = response;
-//           if (token != "") {
-//          //   console.log(response, "in if");
-//           } else {
-//            // console.log("token blank");
-//           }
-
-//           runLogoutTimer(dispatch, expiresIn, navigate);
-
-//           dispatch(
-//             loginConfirmedAction({
-//               email: email,
-//               idToken: email,
-//               localId: email,
-//               expiresIn: expiresIn,
-//               refreshToken: "",
-//             })
-//           );
-//           navigate("/dashboard");
-//          //  saveTokenInLocalStorage(response.token);
-          
-//           NotificationManager.success(response.message);
-//         } else {
-//           NotificationManager.error(response.message);
-//         }
-//       })
-//       .catch((error) => {
-//         console.log(error);
-//       });
-//   };
-// }
 export function loginAction(email, password, navigate) {
-  console.log(email,password, navigate)
+  console.log(email, password);
   return (dispatch) => {
     SignIn(email, password)
       .then((response) => {
-        console.log(response,"resp")
-        if (response.status === 200) {
-          saveTokenInLocalStorage(response);
+        console.log(response, "resp");
+        if (response) {
           dispatch(loginConfirmedAction(response));
-          console.log(response)
+          console.log(response);
           navigate("/dashboard");
-          NotificationManager.success(response.message);
+          NotificationManager.success("Successfully login");
         } else {
-        NotificationManager.error(response.message)
-          const errorMessage = formatError(response.data);
-          dispatch(loginFailedAction(errorMessage));
+          NotificationManager.error("Invalid Email and Password");
+          dispatch(loginFailedAction(response));
         }
       })
       .catch((error) => {
         console.log(error, "error");
-        // Handle any errors appropriately.
       });
   };
 }
@@ -121,7 +67,8 @@ export function loginFailedAction(data) {
   };
 }
 
-export function loginConfirmedAction(data) {  
+export function loginConfirmedAction(data) {
+  console.log(data, "::::");
   return {
     type: LOGIN_CONFIRMED_ACTION,
     payload: data,

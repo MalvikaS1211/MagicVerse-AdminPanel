@@ -7,15 +7,7 @@ import Nav from "./layouts/nav";
 import Footer from "./layouts/Footer";
 import ScrollToTop from "./layouts/ScrollToTop";
 import Home from "./components/Dashboard/Home";
-// import DashboardDark from "./components/Dashboard/DashboardDark";
 import AllUser from "./components/Users/allUser";
-import Widget from "./pages/Widget";
-import LockScreen from "./pages/LockScreen";
-import Error400 from "./pages/Error400";
-import Error403 from "./pages/Error403";
-import Error404 from "./pages/Error404";
-import Error500 from "./pages/Error500";
-import Error503 from "./pages/Error503";
 import { ThemeContext } from "../context/ThemeContext";
 import { Toaster } from "react-hot-toast";
 import { publicProvider } from "wagmi/providers/public";
@@ -30,12 +22,10 @@ import { configureChains, createClient, mainnet, WagmiConfig } from "wagmi";
 import "@rainbow-me/rainbowkit/styles.css";
 import { useSelector } from "react-redux";
 
-
 const Markup = () => {
   const allroutes = [
     { url: "", component: <Home /> },
     { url: "dashboard", component: <Home /> },
-    // { url: "dashboard-dark", component: <DashboardDark /> },
     { url: "allUsers", auth: true, component: <AllUser /> },
   ];
 
@@ -71,9 +61,6 @@ const Markup = () => {
   const chain =
     selectChain === "bsc" ? bsc : selectChain === "polygon" ? polygon : mainnet;
   const { chains, provider } = configureChains(
-    // [mbscTestnet],
-    // [mainnet],
-    // [bsc],
     [chain],
     [publicProvider()],
     [
@@ -106,14 +93,6 @@ const Markup = () => {
           theme={darkTheme()}
         >
           <Routes>
-            <Route path="page-lock-screen" element={<LockScreen />} />
-            <Route path="page-error-400" element={<Error400 />} />
-            <Route path="page-error-403" element={<Error403 />} />
-            <Route path="page-error-404" element={<Error404 />} />
-            <Route path="page-error-500" element={<Error500 />} />
-            <Route path="page-error-503" element={<Error503 />} />
-            {/* <Route path='/dashboard' element={<Home />} /> */}
-
             <Route element={<MainLayout />}>
               {allroutes.map((data, i) => (
                 <Route

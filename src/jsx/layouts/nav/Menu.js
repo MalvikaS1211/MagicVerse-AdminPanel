@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { Logout } from "../../../store/actions/AuthActions";
+// import { Logout } from "../../../store/actions/AuthActions";
 import { IoShieldHalfSharp, IoTriangleOutline } from "react-icons/io5";
 import { LuUser2 } from "react-icons/lu";
 import { BiArchiveOut } from "react-icons/bi";
@@ -15,10 +15,8 @@ import {
 } from "react-icons/fa";
 import { PiStepsLight } from "react-icons/pi";
 import Widget from "../../pages/Widget";
-
-//import { LOGOUT_ACTION } from "../../../store/actions/AuthActions"
+import { Logout } from "../../../store/actions/AuthActions";
 export const MenuList = [
-  //Dashboard
   {
     title: "Dashboard",
     classsChange: "mm-collapse",
@@ -109,9 +107,7 @@ export const MenuList = [
 
   {
     title: "Logout",
-    // classsChange: 'mm-collapse',
-    iconStyle: <i class="material-icons"> logout </i>,
-
-    onClick: Logout,
+    iconStyle: <i class="material-icons">logout</i>,
+    onClick: Logout
   },
 ];

@@ -1,6 +1,4 @@
 import { lazy, Suspense, useEffect } from "react";
-
-/// Components
 import Index from "./jsx";
 import { connect, useDispatch } from "react-redux";
 import {
@@ -10,28 +8,20 @@ import {
   useNavigate,
   useParams,
 } from "react-router-dom";
-// action
 import { checkAutoLogin } from "./services/AuthService";
 import { isAuthenticated } from "./store/selectors/AuthSelectors";
-/// Style
 import "./vendor/bootstrap-select/dist/css/bootstrap-select.min.css";
 import "./css/style.css";
-import Home from "./jsx/components/Dashboard/Home";
-
+import Login from "./jsx/pages/Login";
 const SignUp = lazy(() => import("./jsx/pages/Registration"));
 const ForgotPassword = lazy(() => import("./jsx/pages/ForgotPassword"));
-const Login = lazy(() => {
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(import("./jsx/pages/Login")), 500);
-  });
-});
+
 
 function withRouter(Component) {
   function ComponentWithRouterProp(props) {
     let location = useLocation();
     let navigate = useNavigate();
     let params = useParams();
-
     return <Component {...props} router={{ location, navigate, params }} />;
   }
 
@@ -39,18 +29,11 @@ function withRouter(Component) {
 }
 
 function App(props) {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  useEffect(() => {
-    checkAutoLogin(dispatch, navigate);
-  }, []);
-
   let routeblog = (
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/page-register" element={<SignUp />} />
       <Route path="/page-forgot-password" element={<ForgotPassword />} />
-      {/* <Route path='/dashboard' element={<Home />} /> */}
     </Routes>
   );
   if (props.isAuthenticated) {

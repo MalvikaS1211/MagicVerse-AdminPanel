@@ -1,44 +1,13 @@
 import React, { Fragment, useEffect, useState, useMemo, useRef } from "react";
-import { DownloadTableExcel } from "react-export-table-to-excel";
-import { DownloadExcel } from "react-excel-export";
 import { useNavigate } from "react-router-dom";
-import { RiLuggageDepositFill } from "react-icons/ri";
-import { RiMoneyDollarCircleFill } from "react-icons/ri";
-import { RxActivityLog } from "react-icons/rx";
-import { GrStakeholder } from "react-icons/gr";
-import { MdWebAsset } from "react-icons/md";
-import { BsThreeDotsVertical } from "react-icons/bs";
-import { LuIndianRupee } from "react-icons/lu";
-
-import {
-  useTable,
-  useGlobalFilter,
-  useFilters,
-  usePagination,
-} from "react-table";
 import * as XLSX from "xlsx";
-
-import { FaMessage } from "react-icons/fa6";
 import { Row, Col, Card, Table } from "react-bootstrap";
-import { dataList } from "../../../services/api_function";
-import { Link } from "react-router-dom";
 import { COLUMNS } from "../../components/table/FilteringTable/Columns";
 import MOCK_DATA from "../../components/table/FilteringTable/MOCK_DATA_2.json";
-import { FaExchangeAlt } from "react-icons/fa";
-import { SiApostrophe } from "react-icons/si";
-// import Tooltip from "@mui/material/Tooltip";
-import { PiUsersThreeFill } from "react-icons/pi";
-import { GiReceiveMoney } from "react-icons/gi";
-import { IoMdTrophy } from "react-icons/io";
 import { styled } from "@mui/material/styles";
-import Button from "@mui/material/Button";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
-import Typography from "@mui/material/Typography";
-import { useDispatch } from "react-redux";
-import { setUserTaskAction } from "../../../store/actions/AuthActions";
-import { FaCheck } from "react-icons/fa";
-import { GiCancel } from "react-icons/gi";
-import { IoClose } from "react-icons/io5";
+import { fireBase, db } from "./Firebase";
+import { collection, getDocs } from "firebase/firestore";
 
 const HtmlTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -55,46 +24,25 @@ export const AllUser = () => {
   const [apiData, setApiData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [selectedFilter, setSelectedFilter] = useState("");
   const [search, setSearch] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [filteredData, setFilteredData] = useState([]);
-  const [recordStatus, setRecordStatus] = useState("Loading...");
-  const [config, setcofig] = useState([]);
-  const pageSize = 100;
-
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const [adminData, setAdminData] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchAdminData = async () => {
       try {
-        const userDetails = localStorage.getItem("userDetails");
-        const parsedDetails = JSON.parse(userDetails);
-        const token = parsedDetails.token;
-        const table = "get-AllUser";
-        const result = await dataList(table, currentPage, search, token);
-        setApiData(result?.data);
-
-        console.log("API Data:", result.data);
-
-        // setcofig(result?.config);
-        setFilteredData(result?.data);
-        setTotalPages(result.totalPages);
-        if (!result?.data[0]) {
-          setRecordStatus("No Record");
-        }
-        if (result.status == 404) {
-          navigate("/login");
-          localStorage.removeItem("userDetails");
-        }
+        const querySnapshot = await getDocs(collection(db, "adminLogin"));
+        const data = querySnapshot.docs.map((doc) => {
+          return doc.data();
+        });
+        console.log(data);
+        setAdminData(data);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching adminLogin data:", error);
       }
     };
 
-    fetchData();
-  }, [currentPage, search]);
+    fetchAdminData();
+  }, []);
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) =>
@@ -106,18 +54,6 @@ export const AllUser = () => {
     setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : prevPage));
   };
 
-  const formatTimestamp = (timestamp) => {
-    const date = new Date(timestamp);
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    return `${day}-${month}-${year} ${hours}:${minutes}`;
-  };
-  const columns = useMemo(() => COLUMNS, []);
-  const data = useMemo(() => apiData, [apiData]);
-
   const handleSearch = async (e) => {
     const query = e.target.value.trim().toLowerCase();
     const sanitizedQuery = query.replace(/[\\|^$*+?.(){}[\]]/g, "");
@@ -126,7 +62,7 @@ export const AllUser = () => {
       setCurrentPage(1);
     }
   };
-  
+
   const exportToExcel = (data, fileName) => {
     const wb = XLSX.utils.book_new();
     const ws = XLSX.utils.json_to_sheet(data);
@@ -173,9 +109,7 @@ export const AllUser = () => {
                     <th>Youtube</th>
                   </tr>
                 </thead>
-                <tbody>
-
-                </tbody>
+                <tbody></tbody>
               </Table>
 
               <div className="d-flex justify-content-between">
