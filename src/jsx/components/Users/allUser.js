@@ -73,18 +73,11 @@ export const AllUser = () => {
         const parsedDetails = JSON.parse(userDetails);
         const token = parsedDetails.token;
         const table = "get-AllUser";
-        const result = await dataList(
-          table,
-          currentPage,
-          search,
-          token
-        );
+        const result = await dataList(table, currentPage, search, token);
         setApiData(result?.data);
 
+        console.log("API Data:", result.data);
 
-      console.log("API Data:", result.data);
-
-       
         // setcofig(result?.config);
         setFilteredData(result?.data);
         setTotalPages(result.totalPages);
@@ -133,13 +126,11 @@ export const AllUser = () => {
       setCurrentPage(1);
     }
   };
+  
   const exportToExcel = (data, fileName) => {
     const wb = XLSX.utils.book_new();
-
     const ws = XLSX.utils.json_to_sheet(data);
-
     XLSX.utils.book_append_sheet(wb, ws, "Data");
-
     XLSX.writeFile(wb, `${fileName}.xlsx`);
   };
   const tableRef = useRef(null);
@@ -170,8 +161,8 @@ export const AllUser = () => {
                 {/* <button onClick={() => exportToExcel(data, 'exported-data')}>Export to Excel</button> */}
                 <thead>
                   <tr>
-                  <th>S.No</th>
-                  <th>User Id</th>
+                    <th>S.No</th>
+                    <th>User Id</th>
                     <th>Id</th>
                     <th>Username</th>
                     <th>Name</th>
@@ -180,194 +171,10 @@ export const AllUser = () => {
                     <th>Instagram</th>
                     <th>Telagram</th>
                     <th>Youtube</th>
-
                   </tr>
                 </thead>
                 <tbody>
-                  {!apiData[0] ? (
-                    <tr>
-                      <td className="text-center" colSpan="7">
-                        {recordStatus}
-                      </td>
-                    </tr>
-                  ) : (
-                    apiData.map((data, index) => {
-                      // const total = data?.currency?.reduce((pre, it) => {
-                      //   const price = config.find(
-                      //     (itm) =>
-                      //       itm.symbol.toLowerCase() == it.symbol.toLowerCase()
-                      //   );
-                      //   const fp = price ? price.price : 1;
-                      //   {/* const tt = pre + it.available * fp; */}
-                      //   const tt = pre + it.available;
 
-                      //   return tt;
-                      // }, 0);
-                      const position = (currentPage - 1) * 10 + (index + 1);
-
-                      return (
-                        <tr>
-                          <td>{position}</td>
-                          <td>{data?._id} </td>
-                          <td>{data?.id} </td>
-                          <td>{data.usename}</td>
-                          <td>{data?.first_name} {data?.last_name}</td>
-                          <td>{data?.amount}</td>
-                          <td>{data.is_twitter_follow?<FaCheck  color="green"/>: <IoClose color="red"/>}</td>
-                          <td>{data.is_instagram_follow?<FaCheck color="green" />: <IoClose color="red" />}</td>
-                          <td>{data.is_telegram_follow?<FaCheck color="green" />: <IoClose color="red" />}</td>
-                          <td>{data.is_youtube_follow?<FaCheck  color="green"/>: <IoClose  color="red"/>}</td>
-                          {/* <td>
-                            <div>
-                              <div class="btn-group">
-                                
-                                <button
-                                  type="button"
-                                  class="custom_btn dropdown-toggle"
-                                  data-bs-toggle="dropdown"
-                                  aria-expanded="false"
-                                >
-                                 View
-
-                                </button>
-                                <ul class="dropdown-menu">
-                                  <li>
-                                    <Link
-                                      className="dropdown-item"
-                                      to={`deposit-detail?id=${data._id}`}
-                                    >
-                                      <div>
-                                        <RiLuggageDepositFill  className="me-2"/> Deposit
-                                      </div>
-                                    </Link>
-                                  </li>
-                                 
-
-                                  <li>
-                                    {" "}
-                                    <Link
-                                      className="dropdown-item"
-                                      to={`withdraw-detail?id=${data._id}`}
-                                    >
-                                      <div>
-                                        <RiMoneyDollarCircleFill  className="me-2"/> Withdraw
-                                      </div>
-                                    </Link>
-                                  </li>
-                                  <li>
-                                    <Link
-                                      className="dropdown-item"
-                                      to={`staking-detail?id=${data._id}`}
-                                    >
-                                      <div>
-                                        <GrStakeholder  className="me-2"/> Stake
-                                      </div>
-                                    </Link>
-                                  </li>
-                                  <li>
-                                    <Link
-                                      className="dropdown-item"
-                                      to={`assets-detail?id=${data._id}`}
-                                    >
-                                      <div>
-                                        <MdWebAsset  className="me-2"/>Assets
-                                      </div>
-                                    </Link>
-                                  </li>
-                                  <li>
-                                    <Link
-                                      className="dropdown-item"
-                                      to={`exchange-detail?id=${data._id}`}
-                                    >
-                                      <div>
-                                        <FaExchangeAlt  className="me-2"/>Exchange 
-                                      </div>
-                                    </Link>
-                                  </li>
-                                  <li>
-                                    <Link
-                                      className="dropdown-item"
-                                      to={`activity-detail?id=${data._id}`}
-                                    >
-                                      <div>
-                                        <RxActivityLog  className="me-2"/>Activity 
-                                      </div>
-                                    </Link>
-                                  </li>
-                                  <li>
-                                    <Link
-                                      className="dropdown-item"
-                                      to={`user-referal?id=${data._id}`}
-                                    >
-                                      <div>
-                                        <PiUsersThreeFill  className="me-2"/>User Referal 
-                                      </div>
-                                    </Link>
-                                  </li>
-                                  <li>
-                                    <Link
-                                      className="dropdown-item"
-                                      to={`referral-income?id=${data._id}`}
-                                    >
-                                      <div>
-                                        <GiReceiveMoney  className="me-2"/>Referal Income 
-                                      </div>
-                                    </Link>
-                                  </li>
-                                  <li>
-                                    <Link
-                                      className="dropdown-item"
-                                      to={`signup-bonus?id=${data._id}`}
-                                    >
-                                      <div>
-                                        <SiApostrophe  className="me-2"/>Signup Bonus
-                                      </div>
-                                    </Link>
-                                  </li>
-                                  <li>
-                                    <Link
-                                      className="dropdown-item"
-                                      // to={"task-reward"}
-                                      onClick={() => {
-                                        console.log(data, " user data");
-                                        dispatch(
-                                          setUserTaskAction(data?.rewards)
-                                        );
-                                        setTimeout(() => {
-                                          navigate("task-reward");
-                                        }, 200);
-                                      }}
-                                    >
-                                      <div>
-                                        <IoMdTrophy  className="me-2"/>Task Reward
-                                      </div>
-                                    </Link>
-                                  </li>
-                                  <li>
-                                    <Link
-                                      className="dropdown-item"
-                                      // to={"task-reward"}
-                                      onClick={() => {
-                                        console.log(data, " user data");
-                                        dispatch(setUserTaskAction(data));
-                                        setTimeout(() => {
-                                          navigate("support");
-                                        }, 200);
-                                      }}
-                                    >
-                                      <div>
-                                        <FaMessage  className="me-2"/>Support Chat
-                                      </div>
-                                    </Link>
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                          </td> */}
-                        </tr>
-                      );
-                    })
-                  )}
                 </tbody>
               </Table>
 
@@ -381,9 +188,9 @@ export const AllUser = () => {
                 className="text-center mb-3 col-lg-6"
                 style={{ margin: "auto" }}
               >
-                <div className="filter-pagination mt-3">
+                <div className="filter-pagination mt-3 d-flex gap-1 justify-content-center align-content-center align-items-center">
                   <button
-                    className="previous-button"
+                    className="previous-button btn btn-primary"
                     onClick={handlePreviousPage}
                     disabled={currentPage === 1}
                   >
@@ -391,7 +198,7 @@ export const AllUser = () => {
                   </button>
 
                   <button
-                    className="next-button"
+                    className="next-button btn btn-primary"
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}
                   >
