@@ -6,7 +6,7 @@ export const url2 = "https://backoffice.inrx.io/api";
 // export const url = "http://localhost:2222/api";
 
 export const teamlist = "https://farming.wyscale.com/api";
-export const localApi="http://localhost:5009/api/"
+export const localApi = "http://localhost:5009/api/";
 
 export function allUser(table, page, filteredData, token, id) {
   const { searchQuery } = filteredData;
@@ -51,7 +51,7 @@ export function allUser(table, page, filteredData, token, id) {
     apiUrl = `${url}/admin/withdraw-inr?page=${page}&search=${encodeURIComponent(
       searchQuery
     )}`;
-  }  else if (table === "withdraw-inr-info") {
+  } else if (table === "withdraw-inr-info") {
     apiUrl = `${url}/admin/withdraw-inr-info?id=${id}`;
   } else if (table === "asset") {
     apiUrl = `${url}/admin/asset?page=${page}&search=${encodeURIComponent(
@@ -80,34 +80,33 @@ export function allUser(table, page, filteredData, token, id) {
     .catch((e) => e);
 }
 
-
-export function dataList(route,page,search,token,type){
+export function dataList(route, page, search, token, type) {
   let apiUrl = "";
   if (route === "get-AllUser") {
     apiUrl = `${localApi}${route}?page=${page}&limit=10&search=${search}`;
-  }else if(route === "get-airdrop") {
+  } else if (route === "get-airdrop") {
     apiUrl = `${localApi}${route}?page=${page}&limit=10&search=${search}`;
-  }else if(route === "get-history") {
+  } else if (route === "get-history") {
     apiUrl = `${localApi}${route}?page=${page}&limit=10&search=${search}&type=${type}`;
-  }else if(route === "get-hotWallet") {
+  } else if (route === "get-hotWallet") {
     apiUrl = `${localApi}${route}?page=${page}&limit=10&search=${search}`;
-  }else if(route === "get-matix") {
+  } else if (route === "get-matix") {
     apiUrl = `${localApi}${route}?page=${page}&limit=10&search=${search}`;
-  }else if(route === "get-contract-address") {
+  } else if (route === "get-contract-address") {
     apiUrl = `${localApi}${route}?page=${page}&limit=10&search=${search}`;
-  }else if(route === "get-referral") {
+  } else if (route === "get-referral") {
     apiUrl = `${localApi}${route}?page=${page}&limit=10&search=${search}`;
-  }else if(route === "get-scratchcard") {
+  } else if (route === "get-scratchcard") {
     apiUrl = `${localApi}${route}?page=${page}&limit=10&search=${search}`;
-  }else if(route === "get-coin") {
+  } else if (route === "get-coin") {
     apiUrl = `${localApi}${route}?page=${page}&limit=10&search=${search}`;
-  }else if(route === "get-metrix") {
+  } else if (route === "get-metrix") {
     apiUrl = `${localApi}${route}?page=${page}&limit=10&search=${search}&type=${type}`;
-  }else if(route === "get-levelIncome") {
+  } else if (route === "get-levelIncome") {
     apiUrl = `${localApi}${route}?page=${page}&limit=10&search=${search}&type=${type}`;
-  }else if(route === "get-levelmatrix") {
+  } else if (route === "get-levelmatrix") {
     apiUrl = `${localApi}${route}?page=${page}&limit=10&search=${search}`;
-  }else if(route === "get-selfmetrix") {
+  } else if (route === "get-selfmetrix") {
     apiUrl = `${localApi}${route}?page=${page}&limit=10&search=${search}&type=${type}`;
   }
 
@@ -124,12 +123,8 @@ export function dataList(route,page,search,token,type){
     .catch((e) => e);
 }
 
-
-export function updateHotWallet(data){
-
-
-   const apiUrl = `${localApi}update-hotWallet`;
-
+export function updateHotWallet(data) {
+  const apiUrl = `${localApi}update-hotWallet`;
 
   return fetch(apiUrl, {
     method: "POST",
@@ -139,72 +134,63 @@ export function updateHotWallet(data){
       "Access-Control-Allow-Origin": "*",
       // Authorization: `Bearer ${token}`,
     },
-    body:JSON.stringify(data)
+    body: JSON.stringify(data),
   })
     .then((res) => res.json())
     .catch((e) => e);
 }
 
-export function updateMatix(data){
-
-
+export function updateMatix(data) {
   const apiUrl = `${localApi}update-matix`;
 
-
- return fetch(apiUrl, {
-   method: "POST",
-   headers: {
-     "Content-Type": "application/json",
-     "cache-control": "no-cache",
-     "Access-Control-Allow-Origin": "*",
-     // Authorization: `Bearer ${token}`,
-   },
-   body:JSON.stringify(data)
- })
-   .then((res) => res.json())
-   .catch((e) => e);
+  return fetch(apiUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "cache-control": "no-cache",
+      "Access-Control-Allow-Origin": "*",
+      // Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  })
+    .then((res) => res.json())
+    .catch((e) => e);
 }
-export function updateContractAddress(data){
-
-
+export function updateContractAddress(data) {
   const apiUrl = `${localApi}update-contract-address`;
 
-
- return fetch(apiUrl, {
-   method: "POST",
-   headers: {
-     "Content-Type": "application/json",
-     "cache-control": "no-cache",
-     "Access-Control-Allow-Origin": "*",
-     // Authorization: `Bearer ${token}`,
-   },
-   body:JSON.stringify(data)
- })
-   .then((res) => res.json())
-   .catch((e) => e);
+  return fetch(apiUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "cache-control": "no-cache",
+      "Access-Control-Allow-Origin": "*",
+      // Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  })
+    .then((res) => res.json())
+    .catch((e) => e);
 }
 
-export function updateCoin(data){
-
-
+export function updateCoin(data) {
   const apiUrl = `${localApi}update-coin`;
-  console.log(apiUrl,data,"apiUrl")
+  console.log(apiUrl, data, "apiUrl");
 
-
- return fetch(apiUrl, {
-   method: "POST",
-   headers: {
-     "Content-Type": "application/json",
-     "cache-control": "no-cache",
-     "Access-Control-Allow-Origin": "*",
-     // Authorization: `Bearer ${token}`,
-   },
-   body:JSON.stringify(data)
- })
-   .then((res) => res.json())
-   .catch((e) => e);
+  return fetch(apiUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "cache-control": "no-cache",
+      "Access-Control-Allow-Origin": "*",
+      // Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  })
+    .then((res) => res.json())
+    .catch((e) => e);
 }
-export async function withdrawInrAction(token, id ,action){
+export async function withdrawInrAction(token, id, action) {
   const apiUrl = `${url}/admin/withdraw-inr-action`;
   return fetch(apiUrl, {
     method: "post",
@@ -242,23 +228,22 @@ export const SingleUserDetail = async (table, id, page) => {
       apiUrl = `${url}/admin/deposite-detail?page=${page}&id=${encodeURIComponent(
         id
       )}`;
-    } 
-    else if (table === "withdraw") {
+    } else if (table === "withdraw") {
       apiUrl = `${url}/admin/withdraw-detail?page=${page}&id=${encodeURIComponent(
         id
       )}`;
     } else if (table === "stake") {
       apiUrl = `${url}/admin/stake-detail?page=${page}&id=${encodeURIComponent(
         id
-      )}`
+      )}`;
     } else if (table === "asset") {
       apiUrl = `${url}/admin/asset-detail?page=${page}&id=${encodeURIComponent(
         id
-      )}`
+      )}`;
     } else if (table === "exchange") {
       apiUrl = `${url}/admin/exchange-detail?page=${page}&id=${encodeURIComponent(
         id
-      )}`
+      )}`;
     }
     const { data } = await axios.get(apiUrl);
     return data;
@@ -267,85 +252,89 @@ export const SingleUserDetail = async (table, id, page) => {
   }
 };
 
-export const SingleUserActivity= async (id,collection,page)=>{
+export const SingleUserActivity = async (id, collection, page) => {
   try {
-    let table = collection.toLowerCase()
-    const apiUrl= `${url}/admin/activity-detail?page=${page}&collection=${table}&id=${encodeURIComponent(
-        id
-      )}`;
-      const {data} = await axios.get(apiUrl)
-      return data;
+    let table = collection.toLowerCase();
+    const apiUrl = `${url}/admin/activity-detail?page=${page}&collection=${table}&id=${encodeURIComponent(
+      id
+    )}`;
+    const { data } = await axios.get(apiUrl);
+    return data;
   } catch (error) {
-    console.log("error in SingleUserActivity()",error.message);
-    
+    console.log("error in SingleUserActivity()", error.message);
   }
-}
+};
 
-export const getAllLoginUser = async(page,search,token)=>{
-  const {searchQuery}=search
+export const getAllLoginUser = async (page, search, token) => {
+  const { searchQuery } = search;
   try {
-    const res = await axios.get(`${url}/admin/login-activity?page=${page}&search=${searchQuery}`,{
-      headers:{
-         Authorization: `Bearer ${token}`
+    const res = await axios.get(
+      `${url}/admin/login-activity?page=${page}&search=${searchQuery}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }
-    })
+    );
     return res;
   } catch (error) {
-    console.log("Error in getAllLoginUser()",error.message)
+    console.log("Error in getAllLoginUser()", error.message);
   }
-}
+};
 
-export const LogoutuserByAdmin=async(userId,sessionId,login,token)=>{
+export const LogoutuserByAdmin = async (userId, sessionId, login, token) => {
   try {
-    const res = await axios.get(`${url}/admin/logout-user/${userId}/${sessionId}/${login}`,{
-      headers:{
-         Authorization: `Bearer ${token}`
+    const res = await axios.get(
+      `${url}/admin/logout-user/${userId}/${sessionId}/${login}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }
-    })
+    );
     return res;
   } catch (error) {
-    console.log("Error in getAllLoginUser()",error.message)
+    console.log("Error in getAllLoginUser()", error.message);
   }
-}
+};
 
-export const getMintRecord = async(page,token)=>{
+export const getMintRecord = async (page, token) => {
   try {
-    const res = await axios.get(`${url}/admin/mint-records?page=${page}`,{
-      headers:{
-         Authorization: `Bearer ${token}`
-      }
-    })
+    const res = await axios.get(`${url}/admin/mint-records?page=${page}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return res;
   } catch (error) {
-    console.log("Error in getAllLoginUser()",error.message)
+    console.log("Error in getAllLoginUser()", error.message);
   }
-}
+};
 
-export const AdminSettings = async(formData,apiSubUrl,token)=>{
+export const AdminSettings = async (formData, apiSubUrl, token) => {
   try {
-      const res= await axios.post(`${url}/admin/${apiSubUrl}`,formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        } 
-      )
-      return res;
+    const res = await axios.post(`${url}/admin/${apiSubUrl}`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res;
   } catch (error) {
-    console.log("Erro in AdminSettings",error.message)
+    console.log("Erro in AdminSettings", error.message);
   }
-}
+};
 
-
-export const getReferralAmount = async(sec,id,page)=>{
-    try {
-      const {data} = await axios.get(`${url}/admin/${sec}?id=${id}&page=${page}`)
-      return data;
-    } catch (error) {
-      console.log("Error in getReferralAmount()",error.message)
-      toast.error(error.message)
-    }
-}
+export const getReferralAmount = async (sec, id, page) => {
+  try {
+    const { data } = await axios.get(
+      `${url}/admin/${sec}?id=${id}&page=${page}`
+    );
+    return data;
+  } catch (error) {
+    console.log("Error in getReferralAmount()", error.message);
+    toast.error(error.message);
+  }
+};
 
 // chats funtion
 
@@ -378,8 +367,8 @@ export function replyTicket(
   subject
 ) {
   const formData = new FormData();
-  if(replyfile){
-  formData.append("reply", replyfile, replyfile.name);
+  if (replyfile) {
+    formData.append("reply", replyfile, replyfile.name);
   }
   // formData.append("mobile", mobile);
   // formData.append("tokenId", sessionId);
@@ -391,112 +380,121 @@ export function replyTicket(
   return axios
     .post(url + "/auth/reply-tickets", formData, {
       headers: {
-        Authorization: `Bearer ${jwt}`
-      }
-    } )
+        Authorization: `Bearer ${jwt}`,
+      },
+    })
     .then((res) => res)
     .catch((e) => {
       console.log(e);
     });
 }
 
-export const getAllChatsList = async(jwtToken)=>{
+export const getAllChatsList = async (jwtToken) => {
   try {
-    const res = await axios.get(`${url}/admin/support-chats`,{
-      headers:{
-        Authorization:`Bearer ${jwtToken}`
-      }
-    })
+    const res = await axios.get(`${url}/admin/support-chats`, {
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    });
     return res;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};
 
 // End chats functions
 
 //kyc functions
 
-  export const getAllUserKyc = async(token,kycStatusParam,search)=>{
-    try {
-      const res = await axios.get(`${url}/admin/kyc-status?status=${kycStatusParam}&search=${search}`,{
-        headers:{
-           Authorization: `Bearer ${token}`
-        }
-      })
-      return res;
-    } catch (error) {
-      console.log(error)
-    }
+export const getAllUserKyc = async (token, kycStatusParam, search) => {
+  try {
+    const res = await axios.get(
+      `${url}/admin/kyc-status?status=${kycStatusParam}&search=${search}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return res;
+  } catch (error) {
+    console.log(error);
   }
+};
 
-  export const updateKycStatus = async(id,status,token)=>{
-    try{
-      const res = await axios.get(`${url}/admin/update-kyc?id=${id}&status=${status}`,{
-        headers:{
-          Authorization: `Bearer ${token}`
-        }
-      })
-      return res;
-    }catch(error){
-      console.log(error)
-    }
+export const updateKycStatus = async (id, status, token) => {
+  try {
+    const res = await axios.get(
+      `${url}/admin/update-kyc?id=${id}&status=${status}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return res;
+  } catch (error) {
+    console.log(error);
   }
+};
 
-  export const updatedepositStatus = async(id,status,token)=>{
-    try{
-      const res = await axios.get(`${url}/admin/update-Deposit?id=${id}&status=${status}`,{
-        headers:{
-          Authorization: `Bearer ${token}`
-        }
-      })
-      return res;
-    }catch(error){
-      console.log(error)
-    }
+export const updatedepositStatus = async (id, status, token) => {
+  try {
+    const res = await axios.get(
+      `${url}/admin/update-Deposit?id=${id}&status=${status}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return res;
+  } catch (error) {
+    console.log(error);
   }
+};
 
-// End kyc functions 
+// End kyc functions
 
 // all reports api function
 
-export const uploadPdf=async(formData)=>{
+export const uploadPdf = async (formData) => {
   try {
-    const res = await axios.post(`${url}/admin/report`,formData,{
+    const res = await axios.post(`${url}/admin/report`, formData, {
       headers: {
-        'Content-Type': 'multipart/form-data',
-      },})
+        "Content-Type": "multipart/form-data",
+      },
+    });
     return res;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};
 
-export const getReports = async(page)=>{
+export const getReports = async (page) => {
   try {
-    const res = await axios.get(`${url}/admin/all-reports?page=${page}`)
-    return res
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-export const deleteReport = async(id)=>{
-  try {
-    const res = await axios.post(`${url}/admin/report-delete/${id}`)
+    const res = await axios.get(`${url}/admin/all-reports?page=${page}`);
     return res;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};
+
+export const deleteReport = async (id) => {
+  try {
+    const res = await axios.post(`${url}/admin/report-delete/${id}`);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
 // End reports api function
-
 
 export function UserInfo(table, token, id) {
   let apiUrl = "";
- if (table === "Userinfo") {
-    apiUrl = `${url}/admin/user-info?id=${id}`
-  } 
+  if (table === "Userinfo") {
+    apiUrl = `${url}/admin/user-info?id=${id}`;
+  }
 
   return fetch(apiUrl, {
     method: "GET",
@@ -510,16 +508,6 @@ export function UserInfo(table, token, id) {
     .then((res) => res.json())
     .catch((e) => e);
 }
-
-
-
-
-
-
-
-
-
-
 
 export function dashboardData(token, date) {
   const apiUrl = `${url}/admin/dashboard?date=${date}`;
@@ -822,7 +810,7 @@ export function Topup_data(page, filteredData, token) {
 
 export function SignIn(email, password) {
   // console.log("afjsdhvh", email, password);
-  const apiUrl = `${localApi}admin-login`;
+  const apiUrl = `${url}/admin/login`;
   // console.log(apiUrl,email,password,"password")
   return fetch(apiUrl, {
     method: "post",
