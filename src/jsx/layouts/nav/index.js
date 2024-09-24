@@ -11,7 +11,6 @@ const JobieNav = ({ title, onClick: ClickToAddEvent, onClick2, onClick3 }) => {
   const onClick = (name) => setToggle(toggle === name ? "" : name);
   return (
     <Fragment>
-	  
       <NavHader />
       {/* <ChatBox onClick={() => onClick("chatbox")} toggle={toggle} /> */}
       <Header
