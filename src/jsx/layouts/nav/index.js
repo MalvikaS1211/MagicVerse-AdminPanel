@@ -4,7 +4,7 @@ import SideBar from "./SideBar";
 import NavHader from "./NavHader";
 import Header from "./Header";
 //import RightSideBar from "./RightSideBar";
-import ChatBox from "../ChatBox";
+// import ChatBox from "../ChatBox";
 
 const JobieNav = ({ title, onClick: ClickToAddEvent, onClick2, onClick3 }) => {
   const [toggle, setToggle] = useState("");
@@ -13,7 +13,7 @@ const JobieNav = ({ title, onClick: ClickToAddEvent, onClick2, onClick3 }) => {
     <Fragment>
 	  
       <NavHader />
-      <ChatBox onClick={() => onClick("chatbox")} toggle={toggle} />
+      {/* <ChatBox onClick={() => onClick("chatbox")} toggle={toggle} /> */}
       <Header
           onNote={() => onClick("chatbox")}
           onNotification={() => onClick("notification")}
