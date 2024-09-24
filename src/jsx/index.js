@@ -7,7 +7,7 @@ import Nav from "./layouts/nav";
 import Footer from "./layouts/Footer";
 import ScrollToTop from "./layouts/ScrollToTop";
 import Home from "./components/Dashboard/Home";
-import DashboardDark from "./components/Dashboard/DashboardDark";
+// import DashboardDark from "./components/Dashboard/DashboardDark";
 import AllUser from "./components/Users/allUser";
 import Widget from "./pages/Widget";
 import LockScreen from "./pages/LockScreen";
@@ -35,7 +35,7 @@ const Markup = () => {
   const allroutes = [
     { url: "", component: <Home /> },
     { url: "dashboard", component: <Home /> },
-    { url: "dashboard-dark", component: <DashboardDark /> },
+    // { url: "dashboard-dark", component: <DashboardDark /> },
     { url: "allUsers", auth: true, component: <AllUser /> },
   ];
 
