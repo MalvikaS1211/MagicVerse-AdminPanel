@@ -37,10 +37,29 @@
   }
 }
 
-
-.saksham{
+.saksham {
   display: none !important;
 }
-.dropdown-mini{
+.dropdown-mini {
   background-color: #ccc !important;
+}
+
+.qustn-btn {
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.qustn-btn .btn {
+  border: 1px solid black;
+}
+.qustn-btn .btn:hover {
+  background-color: #e5eee5 !important;
+}
+
+.qustn-btn .btn:hover {
+  color: black;
+}
+.qustn-btn .active1 {
+  background-color: #e5eee5 !important;
+  border: 2px solid rgb(250 162 38);
 }

@@ -26,6 +26,7 @@ export const AllUser = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [search, setSearch] = useState("");
   const [adminData, setAdminData] = useState([]);
+  const [active, setActive] = useState(1);
 
   useEffect(() => {
     const fetchAdminData = async () => {
@@ -89,61 +90,26 @@ export const AllUser = () => {
 
         <Col lg={12}>
           <Card>
-            <Card.Header>
-              <Card.Title>All Users</Card.Title>
+            <Card.Header className="qustn-btn">
+              <Card.Title
+                className={`btn ${active == 1 ? "active1" : ""}`}
+                onClick={() => {
+                  setActive(1);
+                }}
+              >
+                Add Question
+              </Card.Title>
+              <Card.Title
+                className={`btn ${active == 2 ? "active1" : ""}`}
+                onClick={() => {
+                  setActive(2);
+                }}
+              >
+                Add Contest
+              </Card.Title>
             </Card.Header>
             <Card.Body>
-              <Table responsive>
-                {/* <button onClick={() => exportToExcel(data, 'exported-data')}>Export to Excel</button> */}
-                <thead>
-                  <tr>
-                    <th>S.No</th>
-                    <th>User Id</th>
-                    <th>Id</th>
-                    <th>Username</th>
-                    <th>Name</th>
-                    <th>Amount</th>
-                    <th>Twitter</th>
-                    <th>Instagram</th>
-                    <th>Telagram</th>
-                    <th>Youtube</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </Table>
-
-              <div className="d-flex justify-content-between">
-                <span>
-                  {/* Page{" "} */}
-                  <strong>{/* {currentPage} of {totalPages} */}</strong>
-                </span>
-              </div>
-              <div
-                className="text-center mb-3 col-lg-6"
-                style={{ margin: "auto" }}
-              >
-                <div className="filter-pagination mt-3 d-flex gap-1 justify-content-center align-content-center align-items-center">
-                  <button
-                    className="previous-button btn btn-primary"
-                    onClick={handlePreviousPage}
-                    disabled={currentPage === 1}
-                  >
-                    Previous
-                  </button>
-
-                  <button
-                    className="next-button btn btn-primary"
-                    onClick={handleNextPage}
-                    disabled={currentPage === totalPages}
-                  >
-                    Next
-                  </button>
-
-                  <span className=" ">
-                    Page {currentPage} of {totalPages}
-                  </span>
-                </div>
-              </div>
+              <div className="row col-lg-12 border-1 text-black"></div>
             </Card.Body>
           </Card>
         </Col>

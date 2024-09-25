@@ -101,10 +101,10 @@ const SideBar = () => {
                     <NavLink
                       to={data.to}
                       onClick={() => {
+                        if(data.title == "Logout"){
                         const action = data.onClick();
                         dispatch(action);
-                        // navigate("/login");
-                        // console.log(action,' action')
+                        }
                       }}
                     >
                       {data.iconStyle}

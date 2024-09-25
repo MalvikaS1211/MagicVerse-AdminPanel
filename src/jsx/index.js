@@ -81,12 +81,12 @@ const Markup = () => {
   return (
     <>
       <Toaster position="top-center" />
-      <WagmiConfig client={wagmiClient}>
+      {/* <WagmiConfig client={wagmiClient}>
         <RainbowKitProvider
           chains={chains}
           modalSize="compact"
           theme={darkTheme()}
-        >
+        > */}
           <Routes>
             <Route element={<MainLayout />}>
               {allroutes.map((data, i) => (
@@ -99,8 +99,8 @@ const Markup = () => {
               ))}
             </Route>
           </Routes>
-        </RainbowKitProvider>
-      </WagmiConfig>
+        {/* </RainbowKitProvider>
+      </WagmiConfig> */}
       <ScrollToTop />
     </>
   );
