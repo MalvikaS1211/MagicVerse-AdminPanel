@@ -109,7 +109,9 @@ export const AllUser = () => {
               </Card.Title>
             </Card.Header>
             <Card.Body>
-              <div className="row col-lg-12 border-1 text-black"></div>
+              <div className="row col-lg-12 border-1 text-black">
+                
+              </div>
             </Card.Body>
           </Card>
         </Col>
