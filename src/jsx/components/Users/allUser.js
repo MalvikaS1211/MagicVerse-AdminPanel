@@ -8,6 +8,8 @@ import { styled } from "@mui/material/styles";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { fireBase, db } from "./Firebase";
 import { collection, getDocs } from "firebase/firestore";
+import Contest from "./Contest";
+import Question from "./Question";
 
 const HtmlTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -75,7 +77,7 @@ export const AllUser = () => {
   return (
     <Fragment>
       <Row>
-        <div className="display_end">
+        <div className="display_end" style={{ opacity: "0" }}>
           <div className="input-group" style={{ maxWidth: "300px" }}>
             <input
               type="search"
@@ -97,7 +99,7 @@ export const AllUser = () => {
                   setActive(1);
                 }}
               >
-                Add Question
+                Add Contest
               </Card.Title>
               <Card.Title
                 className={`btn ${active == 2 ? "active1" : ""}`}
@@ -105,12 +107,12 @@ export const AllUser = () => {
                   setActive(2);
                 }}
               >
-                Add Contest
+                Add Question
               </Card.Title>
             </Card.Header>
             <Card.Body>
-              <div className="row col-lg-12 border-1 text-black">
-                
+              <div className="row col-lg-12">
+                {active == 1 ? <Contest /> : <Question />}
               </div>
             </Card.Body>
           </Card>

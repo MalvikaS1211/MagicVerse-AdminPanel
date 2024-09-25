@@ -55,28 +55,28 @@ const Markup = () => {
   //   testnet: true,
   // };
 
-  const { chains, provider } = configureChains(
-    [bsc],
-    [publicProvider()],
-    [
-      jsonRpcProvider({
-        rpc: (chain) => ({
-          http: `${chain.rpcUrls.default.http[0]}`,
-        }),
-      }),
-    ]
-  );
-  const { connectors } = getDefaultWallets({
-    appName: "My RainbowKit App",
-    chains,
-  });
+  // const { chains, provider } = configureChains(
+  //   [bsc],
+  //   [publicProvider()],
+  //   [
+  //     jsonRpcProvider({
+  //       rpc: (chain) => ({
+  //         http: `${chain.rpcUrls.default.http[0]}`,
+  //       }),
+  //     }),
+  //   ]
+  // );
+  // const { connectors } = getDefaultWallets({
+  //   appName: "My RainbowKit App",
+  //   chains,
+  // });
 
-  const wagmiClient = createClient({
-    autoConnect: true,
-    connectors,
-    provider,
-    // webSocketProvider,
-  });
+  // const wagmiClient = createClient({
+  //   autoConnect: true,
+  //   connectors,
+  //   provider,
+  //   // webSocketProvider,
+  // });
 
   return (
     <>

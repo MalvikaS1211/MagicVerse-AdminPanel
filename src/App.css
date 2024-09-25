@@ -61,5 +61,32 @@
 }
 .qustn-btn .active1 {
   background-color: #e5eee5 !important;
-  border: 2px solid rgb(250 162 38);
+  /* border: 2px solid rgb(250 162 38); */
+  border: none;
+}
+
+
+.contest > div{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: space-around;
+  margin-top: 15px;
+}
+.contest input,select{
+  outline: none;
+  border: none;
+  height: 35px;
+  border: 2px solid rgba(0, 0, 0, 0.315);
+  border-radius: 5px;
+  padding-left: 5px;
+}
+.contest label{
+  background-color: #e5eee5;
+  padding: 8px;
+  /* border: 2px solid rgba(0, 0, 0, 0.315); */
+  width: fit-content;
+  border-radius: 5px;
+  color: black;
+  font-size: 16px;
 }
