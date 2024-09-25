@@ -108,6 +108,7 @@ export const MenuList = [
   {
     title: "Logout",
     iconStyle: <i class="material-icons">logout</i>,
-    onClick: Logout
+    onClick: Logout,
+    to: "login",
   },
 ];

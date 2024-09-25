@@ -8,14 +8,10 @@ import {
   useNavigate,
   useParams,
 } from "react-router-dom";
-import { checkAutoLogin } from "./services/AuthService";
 import { isAuthenticated } from "./store/selectors/AuthSelectors";
 import "./vendor/bootstrap-select/dist/css/bootstrap-select.min.css";
 import "./css/style.css";
 import Login from "./jsx/pages/Login";
-const SignUp = lazy(() => import("./jsx/pages/Registration"));
-const ForgotPassword = lazy(() => import("./jsx/pages/ForgotPassword"));
-
 
 function withRouter(Component) {
   function ComponentWithRouterProp(props) {
@@ -32,10 +28,10 @@ function App(props) {
   let routeblog = (
     <Routes>
       <Route path="/login" element={<Login />} />
-      <Route path="/page-register" element={<SignUp />} />
-      <Route path="/page-forgot-password" element={<ForgotPassword />} />
+      <Route path="/" element={<Login />} />
     </Routes>
   );
+
   if (props.isAuthenticated) {
     return (
       <>
@@ -55,6 +51,7 @@ function App(props) {
       </>
     );
   } else {
+    console.log(' in login')
     return (
       <div className="vh-100">
         <Suspense
@@ -76,10 +73,11 @@ function App(props) {
 }
 
 const mapStateToProps = (state) => {
+  // console.log(state,' authb states')
   return {
-    isAuthenticated: isAuthenticated(state),
+    isAuthenticated: (state?.AuthReducer?.auth||false),
   };
-};
+};    
 
 //export default connect((mapStateToProps)(App));
 export default withRouter(connect(mapStateToProps)(App));

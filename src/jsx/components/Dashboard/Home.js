@@ -10,7 +10,7 @@ const pickerData = [
   { fillcolor: "#E085E4", datatitle: "ETH(10%)", price: "154" },
 ];
 const axios = require("axios");
-const Home = () => {
+const Home = () => {''
   const { changeBackground } = useContext(ThemeContext);
 
   useEffect(() => {

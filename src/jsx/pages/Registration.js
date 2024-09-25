@@ -3,7 +3,6 @@ import { NavLink ,Link, useNavigate } from "react-router-dom";
 import { connect, useDispatch } from 'react-redux';
 import {
     loadingToggleAction,
-    signupAction,
 } from '../../store/actions/AuthActions';
 // image
 
@@ -37,7 +36,6 @@ function Register(props) {
         setErrors(errorObj);
         if (error) return;
         dispatch(loadingToggleAction(true));
-        dispatch(signupAction(email, password, navigate));
     }
 	
 	return (

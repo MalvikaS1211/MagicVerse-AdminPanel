@@ -5,6 +5,7 @@ const initialState = {
   successMessage: "",
   showLoading: false,
   userTask: [],
+  auth: false,
 };
 
 export function AuthReducer(state = initialState, action) {
@@ -13,6 +14,7 @@ export function AuthReducer(state = initialState, action) {
       ...state,
       errorMessage: "",
       showLoading: false,
+      auth: action.payload,
     };
   }
 
@@ -22,6 +24,7 @@ export function AuthReducer(state = initialState, action) {
       ...state,
       errorMessage: "",
       successMessage: "Logout Successfully",
+      auth:false,
     };
   }
 

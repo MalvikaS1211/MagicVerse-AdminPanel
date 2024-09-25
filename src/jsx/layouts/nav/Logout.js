@@ -1,8 +1,6 @@
 import React from "react";
 import { connect, useDispatch } from "react-redux";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-
-import { Logout } from "../../../store/actions/AuthActions";
 import { isAuthenticated } from "../../../store/selectors/AuthSelectors";
 
 function withRouter(Component) {
@@ -40,7 +38,6 @@ function LogoutPage(props) {
           <polyline points="16 17 21 12 16 7"></polyline>
           <line x1="21" y1="12" x2="9" y2="12"></line>
         </svg>
-        {/* <span className="ms-2">Logout</span>                */}
       </button>
     </>
   );
@@ -48,9 +45,8 @@ function LogoutPage(props) {
 const mapStateToProps = (state) => {
   console.log("logot", state);
   return {
-    isAuthenticated: isAuthenticated(state),
+    isAuthenticated: state.AuthReducer.auth,
   };
 };
-
 
 export default withRouter(connect(mapStateToProps)(LogoutPage));

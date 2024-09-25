@@ -11,6 +11,7 @@ function Login(props) {
   const [errors, setErrors] = useState({ email: "", password: "" });
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
+  
   function onLogin(e) {
     e.preventDefault();
     let error = false;
@@ -127,20 +128,6 @@ function Login(props) {
                                 >
                                   Log In
                                 </button>
-                                {/* <span className="form-check d-inline-block ms-2">
-                                  <input
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    id="check1"
-                                    name="example1"
-                                  />
-                                  <label
-                                    className="form-check-label"
-                                    htmlFor="check1"
-                                  >
-                                    Remember me
-                                  </label>
-                                </span> */}
                               </div>
                             </form>
                           </div>

@@ -1,12 +1,5 @@
 import React from "react";
 import { SignIn } from "../../services/api_function";
-
-import {
-  formatError,
-  login,
-  runLogoutTimer,
-  signUp,
-} from "../../services/AuthService";
 import { NotificationManager } from "react-notifications";
 
 export const SIGNUP_CONFIRMED_ACTION = "[signup action] confirmed signup";
@@ -19,27 +12,15 @@ export const SET_USER_TASK = "SET_USER_TASK";
 export const SET_USER_DETAIL = "SET_USER_DETAIL";
 export const SELECT_CHAIN_ACTION = "SELECT_CHAIN_ACTION";
 
-export function signupAction(email, password, navigate) {
-  return (dispatch) => {
-    signUp(email, password)
-      .then((response) => {
-        dispatch(confirmedSignupAction(response.data));
-        navigate("/dashboard");
-      })
-      .catch((error) => {});
-  };
-}
-
 export function Logout(navigate) {
   console.log("heyheyh", navigate, "::");
-  navigate("/login");
   return {
     type: LOGOUT_ACTION,
   };
 }
 
 export function loginAction(email, password, navigate) {
-  console.log(email, password);
+  // console.log(email, password);
   return (dispatch) => {
     SignIn(email, password)
       .then((response) => {

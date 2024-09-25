@@ -1,19 +1,5 @@
-import axios from "axios";
 import swal from "sweetalert";
-import { loginConfirmedAction, Logout } from "../store/actions/AuthActions";
-
-export function signUp(email, password) {
-  //axios call
-  const postData = {
-    email,
-    password,
-    returnSecureToken: true,
-  };
-  return axios.post(
-    `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyD3RPAp3nuETDn9OQimqn_YF6zdzqWITII`,
-    postData
-  );
-}
+import {Logout } from "../store/actions/AuthActions";
 
 export function formatError(errorResponse) {
   switch (errorResponse.error.message) {
@@ -34,12 +20,8 @@ export function formatError(errorResponse) {
   }
 }
 
-
-
 export function runLogoutTimer(dispatch, timer, navigate) {
   setTimeout(() => {
     dispatch(Logout(navigate));
   }, timer);
 }
-
-

@@ -9,10 +9,11 @@ import React, {
 import PerfectScrollbar from "react-perfect-scrollbar";
 import Collapse from "react-bootstrap/Collapse";
 import Button from "react-bootstrap/Button";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { MenuList } from "./Menu";
 import { useScrollPosition } from "@n8tb1t/use-scroll-position";
 import { ThemeContext } from "../../../context/ThemeContext";
+import { useDispatch } from "react-redux";
 const reducer = (previousState, updatedState) => ({
   ...previousState,
   ...updatedState,
@@ -48,6 +49,9 @@ const SideBar = () => {
       setState({ activeSubmenu: "" });
     }
   };
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   let path = window.location.pathname;
   path = path.split("/");
   path = path[path.length - 1];
@@ -94,7 +98,15 @@ const SideBar = () => {
                       <span className="nav-text">{data.title}</span>
                     </Link>
                   ) : (
-                    <NavLink to={data.to} onClick={data.onClick}>
+                    <NavLink
+                      to={data.to}
+                      onClick={() => {
+                        const action = data.onClick();
+                        dispatch(action);
+                        // navigate("/login");
+                        // console.log(action,' action')
+                      }}
+                    >
                       {data.iconStyle}
                       <span className="nav-text">{data.title}</span>
                     </NavLink>

@@ -20,7 +20,6 @@ import {
 import { bsc, polygon } from "wagmi/chains";
 import { configureChains, createClient, mainnet, WagmiConfig } from "wagmi";
 import "@rainbow-me/rainbowkit/styles.css";
-import { useSelector } from "react-redux";
 
 const Markup = () => {
   const allroutes = [
@@ -56,12 +55,8 @@ const Markup = () => {
   //   testnet: true,
   // };
 
-  const selectChain = useSelector((state) => state.auth.selectChain);
-  console.log(selectChain, "chain");
-  const chain =
-    selectChain === "bsc" ? bsc : selectChain === "polygon" ? polygon : mainnet;
   const { chains, provider } = configureChains(
-    [chain],
+    [bsc],
     [publicProvider()],
     [
       jsonRpcProvider({
