@@ -57,14 +57,15 @@ const SideBar = () => {
   path = path[path.length - 1];
   const dispatch = useDispatch();
   const checkUser = async () => {
+    console.log("in checkUser",login.login)
     try {
-      if (!login) {
+      if (!(login.login)) {
         navigate("/login");
       }
     } catch (error) {}
   };
   const Logout = () => {
-    dispatch(setLogin("/login"));
+    dispatch(setLogin(false));
   };
 
   useEffect(() => {
