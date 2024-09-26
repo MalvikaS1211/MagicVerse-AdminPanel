@@ -11,8 +11,9 @@ const Header = ({ onNote }) => {
   }, []);
   useEffect(() => {
     var path = window.location.pathname.split("/");
+    console.log(window.location,":::::")
     setPath(path)
-  },[window.location.href]);
+  },[window.location.pathname]);
 
   return (
     <div className={`header ${headerFix ? "is-fixed" : ""}`}>
@@ -24,7 +25,7 @@ const Header = ({ onNote }) => {
                 className="dashboard_bar"
                 style={{ textTransform: "capitalize" }}
               >
-                {path && path[1]}
+                {/* {path && path[1]} */}
               </div>
             </div>
             <div className="navbar-nav header-right"></div>
