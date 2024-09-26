@@ -4,7 +4,6 @@ import "./index.css";
 import "./chart.css";
 import "./step.css";
 import Nav from "./layouts/nav";
-import ScrollToTop from "./layouts/ScrollToTop";
 import Home from "./components/Dashboard/Home";
 import AllUser from "./components/Users/allUser";
 import { ThemeContext } from "../context/ThemeContext";
@@ -20,12 +19,14 @@ import { bsc, polygon } from "wagmi/chains";
 import { configureChains, createClient, mainnet, WagmiConfig } from "wagmi";
 import "@rainbow-me/rainbowkit/styles.css";
 import Login from "./pages/Login";
+import UserList from "./components/Users/UserList";
 
 const Markup = () => {
   const allroutes = [
     { url: "", component: <Home /> },
     { url: "dashboard", component: <Home /> },
     { url: "addQuestion", auth: true, component: <AllUser /> },
+    { url: "userList", componet: <UserList /> },
   ];
 
   //Bsc testnet
@@ -87,22 +88,21 @@ const Markup = () => {
           modalSize="compact"
           theme={darkTheme()}
         > */}
-          <Routes>
-            <Route element={<MainLayout />}>
-              {allroutes.map((data, i) => (
-                <Route
-                  key={i}
-                  exact
-                  path={`${data.url}`}
-                  element={data.component}
-                />
-              ))}
-            </Route>
-            <Route path="/login" element={<Login/>}/>
-          </Routes>
-        {/* </RainbowKitProvider>
+      <Routes>
+        <Route element={<MainLayout />}>
+          {allroutes.map((data, i) => (
+            <Route
+              key={i}
+              exact
+              path={`${data.url}`}
+              element={data.component}
+            />
+          ))}
+        </Route>
+        <Route path="/login" element={<Login />} />
+      </Routes>
+      {/* </RainbowKitProvider>
       </WagmiConfig> */}
-      <ScrollToTop />
     </>
   );
 };

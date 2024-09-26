@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { RiQuestionnaireFill } from "react-icons/ri";
+import { FaUserGraduate } from "react-icons/fa";
 export const MenuList = [
   {
     title: "Dashboard",
@@ -12,6 +13,11 @@ export const MenuList = [
     title: "Add Question",
     iconStyle: <RiQuestionnaireFill className="fs-3"/>,
     to: "addQuestion",
+  },
+  {
+    title:"User List",
+    to:"userList",
+    iconStyle:<FaUserGraduate className="fs-3"/>
   },
   {
     title: "Logout",
