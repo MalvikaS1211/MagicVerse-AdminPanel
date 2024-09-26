@@ -1,6 +1,6 @@
 import React from "react";
 
-function UserList() {
+function QuestionList() {
   return (
     <div className="row col-lg-12 mainDiv  table-responsive">
       <table class="table  table-hover" style={{ height: "fit-content" }}>
@@ -31,4 +31,4 @@ function UserList() {
   );
 }
 
-export default UserList;
+export default QuestionList;

@@ -20,6 +20,11 @@ export const MenuList = [
     iconStyle:<FaUserGraduate className="fs-3"/>
   },
   {
+    title:"Question List",
+    to:"questionList",
+    iconStyle:<RiQuestionnaireFill className="fs-3"/>
+  },
+  {
     title: "Logout",
     iconStyle: <i class="material-icons">logout</i>,
     to: "login",

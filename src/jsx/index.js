@@ -20,13 +20,15 @@ import { configureChains, createClient, mainnet, WagmiConfig } from "wagmi";
 import "@rainbow-me/rainbowkit/styles.css";
 import Login from "./pages/Login";
 import UserList from "./components/Users/UserList";
+import QuestionList from "./components/Users/QuestionList";
 
 const Markup = () => {
   const allroutes = [
     { url: "", component: <Home /> },
     { url: "dashboard", component: <Home /> },
     { url: "addQuestion", auth: true, component: <AllUser /> },
-    { url: "userList", componet: <UserList /> },
+    { url: "userList", component: <UserList /> },
+    { url: "QuestionList", component: <QuestionList /> },
   ];
 
   //Bsc testnet

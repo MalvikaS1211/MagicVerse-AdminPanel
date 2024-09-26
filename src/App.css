@@ -95,3 +95,24 @@
     border-bottom: 1px solid gray;
     height: 40px;
 }
+
+.mainDiv{
+  background: white;
+  height: 100vh;
+  padding: 15px;
+  border-radius: 10px;
+
+}
+.mainDiv table{
+  padding-bottom: 10px;
+  margin-bottom: 5px;
+
+}
+
+.mainDiv table tr{
+  margin-bottom: 3px;
+}
+
+.table.table-hover tr:hover {
+  background-color: #e5eee56e;
+}
