@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { loginAction } from "../../store/actions/AuthActions";
 import bg6 from "../../images/background/bg6.jpg";
+import { SignIn } from "../../services/api_function";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { setLogin } from "../redux/reducer";
 
 function Login(props) {
   const navigate = useNavigate();
@@ -10,9 +12,8 @@ function Login(props) {
   let errorsObj = { email: "", password: "" };
   const [errors, setErrors] = useState({ email: "", password: "" });
   const [password, setPassword] = useState("");
-  const dispatch = useDispatch();
-  
-  function onLogin(e) {
+  const dispatch=useDispatch()
+  async function onLogin(e) {
     e.preventDefault();
     let error = false;
     const errorObj = { ...errorsObj };
@@ -28,8 +29,12 @@ function Login(props) {
     if (error) {
       return;
     }
-
-    dispatch(loginAction(email, password, navigate));
+    const res = await SignIn(email,password);
+    if(res){
+      navigate('/dashboard');
+      toast.success("Successfully Login");
+      dispatch(setLogin(true))
+    }
   }
 
   return (

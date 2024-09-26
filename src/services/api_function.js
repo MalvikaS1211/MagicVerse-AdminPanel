@@ -14,7 +14,6 @@ import Question from "../jsx/components/Users/Question";
 export const url = "https://backoffice.inrx.io/api";
 export const url2 = "https://backoffice.inrx.io/api";
 export const localApi = "http://localhost:5009/api/";
-
 export async function SignIn(email, password) {
   try {
     const querySnapshot = await getDocs(collection(db, "adminLogin"));
@@ -95,3 +94,5 @@ export async function getContestId() {
   console.log(contestIds);
   return contestIds;
 }
+
+

@@ -1,19 +1,9 @@
 import React from "react";
 import { connect, useDispatch } from "react-redux";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import { isAuthenticated } from "../../../store/selectors/AuthSelectors";
 
-function withRouter(Component) {
-  function ComponentWithRouterProp(props) {
-    let location = useLocation();
-    let navigate = useNavigate();
-    let params = useParams();
-    return <Component {...props} router={{ location, navigate, params }} />;
-  }
-  return ComponentWithRouterProp;
-}
 
-function LogoutPage(props) {
+function LogoutPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   function onLogout() {
@@ -42,11 +32,4 @@ function LogoutPage(props) {
     </>
   );
 }
-const mapStateToProps = (state) => {
-  console.log("logot", state);
-  return {
-    isAuthenticated: state.AuthReducer.auth,
-  };
-};
-
-export default withRouter(connect(mapStateToProps)(LogoutPage));
+export default LogoutPage;

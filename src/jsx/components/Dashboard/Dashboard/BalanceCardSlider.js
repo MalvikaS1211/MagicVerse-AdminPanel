@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { FaUserGraduate } from "react-icons/fa";
+
 import "swiper/css";
 const BalanceCardSlider = () => {
   const [data, setData] = useState(null);
@@ -67,7 +69,9 @@ const BalanceCardSlider = () => {
               <div className="card-body">
                 <div className="d-flex gap-3">
                   <div className="circle_bg">
-                    <img src="/images/user.png" className="img_50" />
+                    {/* <img src="/images/user.png" className="img_50" /> */}
+                    <FaUserGraduate className="text-dark" style={{fontSize:'45px'}} />
+                    
                   </div>
                   <div className="-info">
                     <h4 className="count-num">{data.user ?? 0}</h4>
@@ -78,215 +82,7 @@ const BalanceCardSlider = () => {
             </div>
           </div>
 
-          <div className="col-lg-3">
-            <div className="card ">
-              <div className="card-body">
-                <div className="d-flex gap-3">
-                  <div className="circle_bg">
-                    <img src="/images/inrx2.png" className="img_50" />
-                  </div>
-                  <div className="-info">
-                    <h4 className="count-num">{data.inrxDeposite}</h4>
-                    <p className="text_gray mb-0">Deposit INRx</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-lg-3">
-            <div className="card ">
-              <div className="card-body">
-                <div className="d-flex gap-3">
-                  <div className="circle_bg">
-                    <img src="/images/rupee.png" className="img_50" />
-                  </div>
-                  <div className="-info">
-                    <h4 className="count-num">{data.inrDeposite}</h4>
-                    <p className="text_gray mb-0">Deposit INR</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-lg-3">
-            <div className="card ">
-              <div className="card-body">
-                <div className="d-flex gap-3">
-                  <div className="circle_bg">
-                    <img src="/images/inr-icon.svg" className="img_50" />
-                  </div>
-                  <div className="-info">
-                    <h4 className="count-num">XXXXXXXX</h4>
-                    <p className="text_gray mb-0">Pending Deposit INR </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-lg-3">
-            <div className="card ">
-              <div className="card-body">
-                <div className="d-flex gap-3">
-                  <div className="circle_bg">
-                    <img src="/images/inrx2.png" className="img_50" />
-                  </div>
-                  <div className="-info">
-                    <h4 className="count-num">{data.inrxWithdraw}</h4>
-                    <p className="text_gray mb-0">Withdrawal INRx</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-lg-3">
-            <div className="card ">
-              <div className="card-body">
-                <div className="d-flex gap-3">
-                  <div className="circle_bg">
-                    <img
-                      src="/images/rupee-withdrawal.png"
-                      className="img_50"
-                    />
-                  </div>
-                  <div className="-info">
-                    <h4 className="count-num">{data.inrxWithdraw}</h4>
-                    <p className="text_gray mb-0">Withdrawal INR</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-lg-3">
-            <div className="card ">
-              <div className="card-body">
-                <div className="d-flex gap-3">
-                  <div className="circle_bg">
-                    <img src="/images/inr-icon.svg" className="img_50" />
-                  </div>
-                  <div className="-info">
-                    <h4 className="count-num">XXXXXX</h4>
-                    <p className="text_gray mb-0">Pending INR Withdrawal</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-lg-3">
-            <div className="card ">
-              <div className="card-body">
-                <div className="d-flex gap-3">
-                  <div className="circle_bg">
-                    <img src="/images/stacked-user.png" className="img_50" />
-                  </div>
-                  <div className="-info">
-                    <h4 className="count-num">XXXXXXX</h4>
-                    <p className="text_gray mb-0"> Staked User</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-lg-3">
-            <div className="card ">
-              <div className="card-body">
-                <div className="d-flex gap-3">
-                  <div className="circle_bg">
-                    <img src="/images/staked.png" className="img_50" />
-                  </div>
-                  <div className="-info">
-                    <h4 className="count-num">XXXXXX</h4>
-                    <p className="text_gray mb-0">Staked</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-lg-3">
-            <div className="card ">
-              <div className="card-body">
-                <div className="d-flex gap-3">
-                  <div className="circle_bg">
-                    <img src="/images/claim.png" className="img_50" />
-                  </div>
-                  <div className="-info">
-                    <h4 className="count-num"> {data.usdtClaim?.toFixed(2)}</h4>
-                    <p className="text_gray mb-0">Claimed</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-lg-3">
-            <div className="card ">
-              <div className="card-body">
-                <div className="d-flex gap-3">
-                  <div className="circle_bg">
-                    <img src="/images/bonus.png" className="img_50" />
-                  </div>
-                  <div className="-info">
-                    <h4 className="count-num"> XXXXXX</h4>
-                    <p className="text_gray mb-0">Bonus Distributed</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-lg-3">
-            <div className="card ">
-              <div className="card-body">
-                <div className="d-flex gap-3">
-                  <div className="circle_bg">
-                    <img src="/images/used-bonus.png" className="img_50" />
-                  </div>
-                  <div className="-info">
-                    <h4 className="count-num"> XXXXXX</h4>
-                    <p className="text_gray mb-0">Bonus Used</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-lg-3">
-            <div className="card ">
-              <div className="card-body">
-                <div className="d-flex gap-3">
-                  <div className="circle_bg">
-                    <img src="/images/stake-referral.png" className="img_50" />
-                  </div>
-                  <div className="-info">
-                    <h4 className="count-num">XXXXXX</h4>
-                    <p className="text_gray mb-0">Stake Referral</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-lg-3">
-            <div className="card ">
-              <div className="card-body">
-                <div className="d-flex gap-3">
-                  <div className="circle_bg">
-                    <img
-                      src="/images/stake-commission.png"
-                      className="img_50"
-                    />
-                  </div>
-                  <div className="-info">
-                    <h4 className="count-num">XXXXXXX</h4>
-                    <p className="text_gray mb-0">Referral Commission</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          
         </div>
       ) : (
         <div>Loading...</div>

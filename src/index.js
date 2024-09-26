@@ -4,12 +4,13 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
-import { Provider } from "react-redux";
-import { store } from "./store/store";
+import { Provider } from 'react-redux';
+
 import ThemeContext from "./context/ThemeContext";
 import "react-notifications/lib/notifications.css";
 import { NotificationContainer } from "react-notifications";
 import "./App.css";
+import store from "./jsx/redux/store";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <>

@@ -13,7 +13,8 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { MenuList } from "./Menu";
 import { useScrollPosition } from "@n8tb1t/use-scroll-position";
 import { ThemeContext } from "../../../context/ThemeContext";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setLogin } from "../../redux/reducer";
 const reducer = (previousState, updatedState) => ({
   ...previousState,
   ...updatedState,
@@ -49,24 +50,26 @@ const SideBar = () => {
       setState({ activeSubmenu: "" });
     }
   };
-  const dispatch = useDispatch();
+  const login = useSelector((state) => state.login);
   const navigate = useNavigate();
-
   let path = window.location.pathname;
   path = path.split("/");
   path = path[path.length - 1];
+  const dispatch = useDispatch();
+  const checkUser = async () => {
+    try {
+      if (!login) {
+        navigate("/login");
+      }
+    } catch (error) {}
+  };
+  const Logout = () => {
+    dispatch(setLogin("/login"));
+  };
 
-  // useEffect(() => {
-  //   const checkUser = async () => {
-  //     navigate("/login");
-  //   };
-  //   checkUser();
-  // }, []);
-
-
-
-
-
+  useEffect(() => {
+    checkUser();
+  }, [login]);
 
   return (
     <div
@@ -114,8 +117,7 @@ const SideBar = () => {
                       to={data.to}
                       onClick={() => {
                         if (data.title == "Logout") {
-                          const action = data.onClick();
-                          dispatch(action);
+                          Logout();
                         }
                       }}
                     >
