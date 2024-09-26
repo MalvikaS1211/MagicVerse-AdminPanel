@@ -56,6 +56,18 @@ const SideBar = () => {
   path = path.split("/");
   path = path[path.length - 1];
 
+  // useEffect(() => {
+  //   const checkUser = async () => {
+  //     navigate("/login");
+  //   };
+  //   checkUser();
+  // }, []);
+
+
+
+
+
+
   return (
     <div
       className={`deznav  border-right ${iconHover} ${
@@ -101,9 +113,9 @@ const SideBar = () => {
                     <NavLink
                       to={data.to}
                       onClick={() => {
-                        if(data.title == "Logout"){
-                        const action = data.onClick();
-                        dispatch(action);
+                        if (data.title == "Logout") {
+                          const action = data.onClick();
+                          dispatch(action);
                         }
                       }}
                     >

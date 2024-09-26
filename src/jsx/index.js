@@ -20,12 +20,13 @@ import {
 import { bsc, polygon } from "wagmi/chains";
 import { configureChains, createClient, mainnet, WagmiConfig } from "wagmi";
 import "@rainbow-me/rainbowkit/styles.css";
+import Login from "./pages/Login";
 
 const Markup = () => {
   const allroutes = [
     { url: "", component: <Home /> },
     { url: "dashboard", component: <Home /> },
-    { url: "allUsers", auth: true, component: <AllUser /> },
+    { url: "addQuestion", auth: true, component: <AllUser /> },
   ];
 
   //Bsc testnet
@@ -98,6 +99,7 @@ const Markup = () => {
                 />
               ))}
             </Route>
+            <Route path="/login" element={<Login/>}/>
           </Routes>
         {/* </RainbowKitProvider>
       </WagmiConfig> */}
