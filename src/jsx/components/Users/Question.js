@@ -4,7 +4,7 @@ import {
   getContestId,
 } from "../../../services/api_function";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
-
+import toast from "react-hot-toast";
 
 function Question() {
   const [contestId, setContestId] = useState([]);
@@ -24,33 +24,12 @@ function Question() {
   });
 
   const handleChange = (e) => {
-    
     const { name, value, type, files } = e.target;
     setFormData({
       ...formData,
       [name]: type === "file" ? files[0] : value, // Handle file input
     });
-   
   };
-
-  //   const handleAddQuestion = () => {
-  //     const newQuestion = {
-  //       contestId: formData.contestId,
-  //       questionId: formData.questionId,
-  //       question: formData.question,
-  //       img: formData.img,
-  //       marksPerQuestion: formData.marksPerQuestion,
-  //       negativeMarks: formData.negativeMarks,
-  //       options: [
-  //         { 0: formData.optionA },
-  //         { 1: formData.optionB },
-  //         { 2: formData.optionC },
-  //         { 3: formData.optionD },
-  //       ],
-  //       correct: formData.correct,
-  //     };
-  //     setQuestions(newQuestion);
-  //   };
 
   const uploadImage = async (imageFile) => {
     if (!imageFile) return null; // If no image is provided, return null
@@ -65,10 +44,20 @@ function Question() {
     try {
       const imageUrl = await uploadImage(formData.img);
       const questionData = {
-        ...formData,
-        img: imageUrl,
+        contestId: formData.contestId,
+        id: formData.questionId,
+        correct_answer: formData.correct,
+        image_url: imageUrl,
+        marks: formData.marksPerQuestion,
+        negative: formData.negativeMarks,
+        options: [formData.optionA, formData.optionB, formData.optionC, formData.optionD],
+        question: formData.question,
       };
+
       const res = await createQuestionInContest(questionData);
+      if(res){
+        toast.success("Question Inserted SuccessFully")
+      }
       console.log(res);
     } catch (error) {
       console.error("Error submitting questions:", error);
@@ -93,7 +82,7 @@ function Question() {
       <div className="col-lg-3">
         <label htmlFor="contestId">Select Contest Id</label>
         <select name="contestId" onChange={handleChange}>
-          <option value="" disabled>
+          <option value="">
             Choose Contest
           </option>
           {contestId &&

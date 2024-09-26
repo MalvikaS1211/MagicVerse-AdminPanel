@@ -58,28 +58,13 @@ export async function createContest(formData) {
   }
 }
 
-export const createQuestionInContest = async (formData) => {
+export const createQuestionInContest = async (formData, constest) => {
   try {
     console.log(formData, "::::");
-    const contestRef = doc(db, "liveQuestion", formData.contestId);
+    const contestRef = doc(db, "liveQuestion",formData.contestId);
     await updateDoc(contestRef, {
-      questions: arrayUnion({
-        correct_answer: formData.correct,
-        id: formData.questionId,
-        image_url: formData.img,
-        marks: formData.marksPerQuestion,
-        negative: formData.negativeMarks,
-        options: [
-          formData.optionA,
-          formData.optionB,
-          formData.optionC,
-          formData.optionD,
-        ],
-        question: formData.question,
-        contestId: formData.contestId,
-      }),
+      questions: arrayUnion(formData),
     });
-    toast.success("Question Inserted Successfully");
     return true;
   } catch (error) {
     console.error("Error adding question to contest: ", error);
@@ -94,5 +79,3 @@ export async function getContestId() {
   console.log(contestIds);
   return contestIds;
 }
-
-

@@ -4,7 +4,6 @@ import "./index.css";
 import "./chart.css";
 import "./step.css";
 import Nav from "./layouts/nav";
-import Footer from "./layouts/Footer";
 import ScrollToTop from "./layouts/ScrollToTop";
 import Home from "./components/Dashboard/Home";
 import AllUser from "./components/Users/allUser";
@@ -124,7 +123,7 @@ function MainLayout() {
           <Outlet />
         </div>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

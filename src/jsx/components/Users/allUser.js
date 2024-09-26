@@ -10,6 +10,8 @@ import { fireBase, db } from "./Firebase";
 import { collection, getDocs } from "firebase/firestore";
 import Contest from "./Contest";
 import Question from "./Question";
+import Papa from "papaparse";
+import Csv from "./Csv";
 
 const HtmlTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -57,22 +59,21 @@ export const AllUser = () => {
     setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : prevPage));
   };
 
-  const handleSearch = async (e) => {
-    const query = e.target.value.trim().toLowerCase();
-    const sanitizedQuery = query.replace(/[\\|^$*+?.(){}[\]]/g, "");
-    setSearch(sanitizedQuery);
-    if (currentPage !== 1) {
-      setCurrentPage(1);
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      Papa.parse(file, {
+        complete: (result) => {
+          console.log(result.data); // Logs the CSV data to console
+        },
+        header: true, // if you want the first row as headers
+      });
     }
   };
 
-  const exportToExcel = (data, fileName) => {
-    const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.json_to_sheet(data);
-    XLSX.utils.book_append_sheet(wb, ws, "Data");
-    XLSX.writeFile(wb, `${fileName}.xlsx`);
+  const handleClick = () => {
+    document.getElementById("fileInput").click(); // Programmatically click the hidden input
   };
-  const tableRef = useRef(null);
 
   return (
     <Fragment>
@@ -84,7 +85,7 @@ export const AllUser = () => {
               id="form1"
               className="form-control"
               placeholder="Search here..."
-              onChange={handleSearch}
+              // onChange={handleSearch}
             />
           </div>
           <label class="form-label" for="form1"></label>
@@ -109,10 +110,20 @@ export const AllUser = () => {
               >
                 Add Question
               </Card.Title>
+              <Card.Title
+                className={`btn ${active == 3 ? "active1" : ""}`}
+                onClick={() => {
+                  setActive(3);
+                }}
+              >
+                Add CSV
+              </Card.Title>
             </Card.Header>
             <Card.Body>
               <div className="row col-lg-12">
-                {active == 1 ? <Contest /> : <Question />}
+                {active == 1 && <Contest />}
+                {active == 2 && <Question />}
+                {active == 3 && <Csv />}
               </div>
             </Card.Body>
           </Card>
