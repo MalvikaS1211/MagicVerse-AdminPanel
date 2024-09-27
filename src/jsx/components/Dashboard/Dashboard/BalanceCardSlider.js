@@ -3,69 +3,28 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaUserGraduate } from "react-icons/fa";
 import { RiQuestionAnswerFill } from "react-icons/ri";
 import { MdQuiz } from "react-icons/md";
-
-
-
 import "swiper/css";
+import { getDashboardData } from "../../../../services/api_function";
 const BalanceCardSlider = () => {
   const [data, setData] = useState(null);
-  const navigate = useNavigate();
-  const [filterRecord, setFilterRecord] = useState("All Record");
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        setData([]);
-      } catch (error) {
-        console.error("Error fetching data:", error);
+      const res = await getDashboardData();
+      if(res){
+        setData(res)
+      }else{
+        setData(null)
       }
-    };
-
-    fetchData();
-
-    return () => {};
-  }, [navigate, filterRecord]);
-
-  const handleDay = () => {};
+    }
+    fetchData()
+  }, []);
 
   return (
     <>
-      <div className="d-flex justify-content-end mb-5">
-        <div class="dropdown">
-          <a
-            class="action_btn text-black dropdown-toggle"
-            href="#"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            All Record
-          </a>
-
-          <ul class="dropdown-menu">
-            <li>
-              <Link
-                class="dropdown-item"
-                onClick={() => handleDay("All Record")}
-              >
-                All Record
-              </Link>
-            </li>
-            <li>
-              <Link class="dropdown-item" onClick={() => handleDay("Today")}>
-                Today
-              </Link>
-            </li>
-            <li>
-              <Link
-                class="dropdown-item"
-                onClick={() => handleDay("Yesterday")}
-              >
-                Yesterday
-              </Link>
-            </li>
-          </ul>
-        </div>
-      </div>
+      <div
+        className="d-flex justify-content-end mb-5"
+        style={{ opacity: "0" }}
+      ></div>
       {data ? (
         <div className="row">
           <div className="col-lg-3">
@@ -74,11 +33,13 @@ const BalanceCardSlider = () => {
                 <div className="d-flex gap-3">
                   <div className="circle_bg">
                     {/* <img src="/images/user.png" className="img_50" /> */}
-                    <FaUserGraduate className="text-dark" style={{fontSize:'45px'}} />
-                    
+                    <FaUserGraduate
+                      className="text-dark"
+                      style={{ fontSize: "45px" }}
+                    />
                   </div>
                   <div className="-info">
-                    <h4 className="count-num">{data.user ?? 0}</h4>
+                    <h4 className="count-num">{data.totalUsers ?? 0}</h4>
                     <p className="text_gray mb-0">Total Users</p>
                   </div>
                 </div>
@@ -92,11 +53,13 @@ const BalanceCardSlider = () => {
                 <div className="d-flex gap-3">
                   <div className="circle_bg">
                     {/* <img src="/images/user.png" className="img_50" /> */}
-                    <MdQuiz  className="text-dark" style={{fontSize:'45px'}} />
-                    
+                    <MdQuiz
+                      className="text-dark"
+                      style={{ fontSize: "45px" }}
+                    />
                   </div>
                   <div className="-info">
-                    <h4 className="count-num">{data.user ?? 0}</h4>
+                    <h4 className="count-num">{data.totalContests ?? 0}</h4>
                     <p className="text_gray mb-0">Total Contest</p>
                   </div>
                 </div>
@@ -109,18 +72,19 @@ const BalanceCardSlider = () => {
                 <div className="d-flex gap-3">
                   <div className="circle_bg">
                     {/* <img src="/images/user.png" className="img_50" /> */}
-                    <RiQuestionAnswerFill className="text-dark" style={{fontSize:'45px'}} />
-                    
+                    <RiQuestionAnswerFill
+                      className="text-dark"
+                      style={{ fontSize: "45px" }}
+                    />
                   </div>
                   <div className="-info">
-                    <h4 className="count-num">{data.user ?? 0}</h4>
+                    <h4 className="count-num">{data.totalQuestions ?? 0}</h4>
                     <p className="text_gray mb-0">Total Question</p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          
         </div>
       ) : (
         <div>Loading...</div>

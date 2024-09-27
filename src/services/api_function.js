@@ -82,7 +82,7 @@ export async function getContestId() {
 export async function fetchQuestion(contestId) {
   try {
     const contestRef = doc(db, "liveQuestion", contestId);
-    console.log(contestRef,contestId)
+    console.log(contestRef, contestId);
     const contestSnap = await getDoc(contestRef);
     if (contestSnap.exists()) {
       return contestSnap.data();
@@ -92,6 +92,31 @@ export async function fetchQuestion(contestId) {
     }
   } catch (error) {
     console.log("Error fetching document:", error);
+    return false;
+  }
+}
+
+export async function getDashboardData() {
+  try {
+    const usersSnapshot = await getDocs(collection(db, "users"));
+    const totalUsers = usersSnapshot.size; // Total users (document count)
+    const contestsSnapshot = await getDocs(collection(db, "liveQuestion"));
+    const totalContests = contestsSnapshot.size; // Total contests (document count)
+    let totalQuestions = 0;
+    contestsSnapshot.forEach((contestDoc) => {
+      const contestData = contestDoc.data();
+      if (contestData && contestData.questions) {
+        totalQuestions += contestData.questions.length;
+      }
+    });
+
+    return {
+      totalUsers,
+      totalContests,
+      totalQuestions,
+    };
+  } catch (error) {
+    console.error("Error fetching dashboard data:", error);
     return false;
   }
 }
