@@ -5,12 +5,15 @@ function QuestionList() {
   const [question, setQuestionList] = useState();
   const [allContest, setAllContest] = useState();
 
-  const getQuestionList = async () => {
+  const getQuestionList = async (item) => {
+    console.log(item, ":::::");
     try {
-      let contestId = "contest-1";
+      let contestId = item;
       const res = await fetchQuestion(contestId);
       if (res) {
         setQuestionList(res.questions);
+      } else {
+        setQuestionList([]);
       }
       console.log(res, "::::: res from getQuestionList");
     } catch (error) {
@@ -31,18 +34,32 @@ function QuestionList() {
   };
 
   useEffect(() => {
-    getQuestionList();
     getContest();
   }, []);
 
   return (
     <div className="row col-lg-12 mainDiv  table-responsive">
-      <div className="col-lg-12 mb-5" style={{ height: "fit-content" }}>
-        <select>
-          <option value="">Select Contest</option>
+      <div
+        className="col-lg-12 mb-5 contest"
+        style={{ height: "fit-content", display: "flex", gap: "10px" }}
+      >
+        <label htmlFor="">Select Content</label>
+        <select
+          onChange={(e) => {
+            const selectedContest = e.target.value;
+            if (selectedContest) {
+              getQuestionList(selectedContest);
+            }
+          }}
+        >
+          <option value="0">Select Contest</option>
           {allContest &&
             allContest.map((item) => {
-              return <option value={item}>{item}</option>;
+              return (
+                <option key={item} value={item}>
+                  {item}
+                </option>
+              );
             })}
         </select>
       </div>
@@ -58,6 +75,7 @@ function QuestionList() {
             <th scope="col">Correct Answer</th>
             <th scope="col">MarkPerQuestion</th>
             <th scope="col">Negative MarkPerQuestion</th>
+            <th scope="col">Image</th>
           </tr>
         </thead>
         <tbody>
@@ -65,15 +83,22 @@ function QuestionList() {
             question?.map((ques) => {
               return (
                 <tr>
-                  <th scope="row">{ques?.questionId}</th>
+                  <th scope="row">{ques?.id}</th>
                   <td>{ques?.question}</td>
-                  <td>{ques?.optionA}</td>
-                  <td>{ques?.optionB}</td>
-                  <td>{ques?.optionC}</td>
-                  <td>{ques?.optionD}</td>
+                  <td>{ques?.options[0]}</td>
+                  <td>{ques?.options[1]}</td>
+                  <td>{ques?.options[2]}</td>
+                  <td>{ques?.options[3]}</td>
                   <td>{ques?.correct_answer}</td>
-                  <td>{ques?.marksPerQuestion}</td>
-                  <td>{ques?.negativeMarks}</td>
+                  <td>{ques?.marks}</td>
+                  <td>{ques?.negative}</td>
+                  <td>
+                    {ques?.image_url ? (
+                      <img src={ques?.image_url} alt="" srcset=""  style={{height:'200px',width:'200px'}}/>
+                    ) : (
+                      "-"
+                    )}
+                  </td>
                 </tr>
               );
             })}
