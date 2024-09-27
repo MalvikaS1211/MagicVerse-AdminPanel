@@ -63,7 +63,6 @@ function Csv() {
           contestId: formData.contestId,
           id: row.id,
           correct_answer: row.correct_answer,
-          image_url: row.image_url,
           marks: row.marksPerQuestion,
           negative: row.negative,
           options: [row.optionA, row.optionB, row.optionC, row.optionD],

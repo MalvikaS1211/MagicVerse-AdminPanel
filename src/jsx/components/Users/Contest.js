@@ -10,7 +10,6 @@ function Contest() {
     buyAmount: "",
     description: "",
     endTime: "",
-    isPaid: "",
     duration: "",
     firstPrize: "",
     reschedule: "",
@@ -69,13 +68,13 @@ function Contest() {
       <div className="col-lg-3">
         <label htmlFor="endTime">End Time</label>
         <input
-          type="text"
+          type="datetime-local"
           name="endTime"
           placeholder="Enter End Time"
           onChange={handleChange}
         />
       </div>
-      <div className="col-lg-3">
+      {/* <div className="col-lg-3">
         <label htmlFor="isPaid">Is Paid</label>
         <input
           type="text"
@@ -83,13 +82,13 @@ function Contest() {
           placeholder="paid or not"
           onChange={handleChange}
         />
-      </div>
+      </div> */}
       <div className="col-lg-3">
         <label htmlFor="duration">Duration</label>
         <input
           type="text"
           name="duration"
-          placeholder="Enter quiz duration"
+          placeholder="Enter quiz duration in minutes"
           onChange={handleChange}
         />
       </div>
@@ -107,7 +106,7 @@ function Contest() {
         <input
           type="text"
           name="reschedule"
-          placeholder="reschedulable or not"
+          placeholder="true or false"
           onChange={handleChange}
         />
       </div>

@@ -72,19 +72,9 @@ const Airdrop = () => {
         const parsedDetails = JSON.parse(userDetails);
         const token = parsedDetails.token;
         const table = "get-airdrop";
-        const result = await dataList(
-          table,
-          currentPage,
-          search,
-          token
-        );
+        const result = await dataList(table, currentPage, search, token);
         setApiData(result?.data);
-
-
-      console.log("API Data:", result.data);
-
-       
-        // setcofig(result?.config);
+        console.log("API Data:", result.data);
         setFilteredData(result?.data);
         setTotalPages(result.totalPages);
         if (!result?.data[0]) {
@@ -169,13 +159,11 @@ const Airdrop = () => {
                 {/* <button onClick={() => exportToExcel(data, 'exported-data')}>Export to Excel</button> */}
                 <thead>
                   <tr>
-                  <th>S.No</th>
+                    <th>S.No</th>
                     <th>User Id</th>
                     <th>Amount</th>
                     <th>Type</th>
                     <th>Timestamp</th>
-               
-
                   </tr>
                 </thead>
                 <tbody>
@@ -205,9 +193,11 @@ const Airdrop = () => {
                           <td>{position}</td>
                           <td>{data?.user_id} </td>
                           <td>{data.amount}</td>
-                          <td>{data?.type} {data?.last_name}</td>
+                          <td>
+                            {data?.type} {data?.last_name}
+                          </td>
                           <td>{data?.createdAt}</td>
-                        
+
                           {/* <td>
                             <div>
                               <div class="btn-group">

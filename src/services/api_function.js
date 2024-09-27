@@ -43,7 +43,6 @@ export async function createContest(formData) {
       buy: formData.buyAmount,
       description: formData.description,
       endTime: formData.endTime,
-      isPaid: formData.isPaid,
       overall_time: formData.duration,
       prize: formData.firstPrize,
       reschedule: formData.reschedule,
@@ -61,7 +60,7 @@ export async function createContest(formData) {
 export const createQuestionInContest = async (formData, constest) => {
   try {
     console.log(formData, "::::");
-    const contestRef = doc(db, "liveQuestion",formData.contestId);
+    const contestRef = doc(db, "liveQuestion", formData.contestId);
     await updateDoc(contestRef, {
       questions: arrayUnion(formData),
     });
@@ -78,4 +77,21 @@ export async function getContestId() {
   const contestIds = contestSnap.docs.map((doc) => doc.id);
   console.log(contestIds);
   return contestIds;
+}
+
+export async function fetchQuestion(contestId) {
+  try {
+    const contestRef = doc(db, "liveQuestion", contestId);
+    console.log(contestRef,contestId)
+    const contestSnap = await getDoc(contestRef);
+    if (contestSnap.exists()) {
+      return contestSnap.data();
+    } else {
+      console.log("No such document!");
+      return null;
+    }
+  } catch (error) {
+    console.log("Error fetching document:", error);
+    return false;
+  }
 }
