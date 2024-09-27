@@ -120,3 +120,18 @@ export async function getDashboardData() {
     return false;
   }
 }
+
+
+export async function getUserList() {
+  try {
+    const usersSnapshot = await getDocs(collection(db, "users"));
+    const userList = usersSnapshot.docs.map((doc) => ({
+      id: doc.id, 
+      ...doc.data()
+    }));
+    return userList;
+  } catch (error) {
+    console.error("Error fetching user list:", error);
+    return false;
+  }
+}

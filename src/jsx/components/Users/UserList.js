@@ -1,6 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getUserList } from "../../../services/api_function";
 
 function UserList() {
+  const [userList, setuserList] = useState();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await getUserList();
+        if (res) {
+          setuserList(res);
+        }
+        console.log(res);
+      } catch (error) {
+        console.log(error,"in fetchUser")
+      }
+    };
+    fetchUser();
+  }, []);
+
   return (
     <div className="row col-lg-12 mainDiv  table-responsive">
       <table class="table  table-hover" style={{ height: "fit-content" }}>
