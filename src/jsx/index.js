@@ -21,6 +21,7 @@ import "@rainbow-me/rainbowkit/styles.css";
 import Login from "./pages/Login";
 import UserList from "./components/Users/UserList";
 import QuestionList from "./components/Users/QuestionList";
+import LeaderBoard from "./components/Users/LeaderBoard";
 
 const Markup = () => {
   const allroutes = [
@@ -29,6 +30,7 @@ const Markup = () => {
     { url: "addQuestion", auth: true, component: <AllUser /> },
     { url: "userList", component: <UserList /> },
     { url: "QuestionList", component: <QuestionList /> },
+    { url: "leaderBoard", component: <LeaderBoard /> },
   ];
 
   //Bsc testnet
