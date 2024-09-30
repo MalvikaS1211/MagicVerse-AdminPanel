@@ -18,7 +18,7 @@ function Login(props) {
     let error = false;
     const errorObj = { ...errorsObj };
     if (email === "") {
-      errorObj.email = "Email is Required";
+      errorObj.email = "username or email is Required";
       error = true;
     }
     if (password === "") {
@@ -66,9 +66,10 @@ function Login(props) {
                       <div className="logo-header">
                         <Link to={"#"} className="logo">
                           <img
-                            src="inrxlogo1.jpeg"
+                            src="/images/logo.png"
                             alt=""
                             className="width-230 mCS_img_loaded"
+                            style={{width:'150px'}}
                           />
                         </Link>
                       </div>
@@ -105,6 +106,7 @@ function Login(props) {
                                   className="form-control"
                                   value={email}
                                   onChange={(e) => setEmail(e.target.value)}
+                                  placeholder="Enter username"
                                 />
                                 {errors.email && (
                                   <div className="text-danger fs-12">
@@ -119,6 +121,7 @@ function Login(props) {
                                   className="form-control"
                                   value={password}
                                   onChange={(e) => setPassword(e.target.value)}
+                                  placeholder="enter password"
                                 />
                                 {errors.password && (
                                   <div className="text-danger fs-12">

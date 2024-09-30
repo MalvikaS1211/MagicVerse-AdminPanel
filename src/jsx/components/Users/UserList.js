@@ -13,7 +13,7 @@ function UserList() {
         }
         console.log(res);
       } catch (error) {
-        console.log(error,"in fetchUser")
+        console.log(error, "in fetchUser");
       }
     };
     fetchUser();
@@ -21,28 +21,35 @@ function UserList() {
 
   return (
     <div className="row col-lg-12 mainDiv  table-responsive">
+        <h2>User List</h2>
       <table class="table  table-hover" style={{ height: "fit-content" }}>
         <thead>
           <tr>
             <th scope="col">Name</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+            <th scope="col">Contact no</th>
+            <th scope="col">Gender</th>
+            <th scope="col">Country</th>
+            <th scope="col">State</th>
+            <th scope="col">City</th>
+            <th scope="col">DOB</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
+          {userList &&
+            userList.map((user) => {
+              return (
+                <tr>
+                  <td> {user.username}</td>
+                  <td> {user.mobile}</td>
+                  <td> {user.gender}</td>
+                  <td> {user.country}</td>
+                  <td> {user.state}</td>
+                  <td> {user.city}</td>
+                  <td> {user.dob}</td>
+                  
+                </tr>
+              );
+            })}
         </tbody>
       </table>
     </div>
