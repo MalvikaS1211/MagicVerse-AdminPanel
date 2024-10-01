@@ -15,11 +15,41 @@ function Contest() {
     reschedule: "",
     quizTitle: "",
     totalPrizeMoney: "",
-    totalSpot: "",
+    totalSpot: 0,
+    winnings: [],
   });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const csv = event.target.result;
+        parseCSV(csv);
+      };
+      reader.readAsText(file);
+    }
+  };
+
+  const parseCSV = (csv) => {
+    const lines = csv.split("\n");
+    const result = [];
+
+    lines.forEach((line) => {
+      const [rank, prize] = line.split(",");
+      if (rank && prize) {
+        result.push({ rank: rank.trim(), prize: prize.trim() });
+      }
+    });
+
+    setFormData((prevData) => ({
+      ...prevData,
+      winnings: result,
+    }));
   };
 
   const handleSubmit = async () => {
@@ -74,15 +104,6 @@ function Contest() {
           onChange={handleChange}
         />
       </div>
-      {/* <div className="col-lg-3">
-        <label htmlFor="isPaid">Is Paid</label>
-        <input
-          type="text"
-          name="isPaid"
-          placeholder="paid or not"
-          onChange={handleChange}
-        />
-      </div> */}
       <div className="col-lg-3">
         <label htmlFor="duration">Duration</label>
         <input
@@ -137,6 +158,16 @@ function Contest() {
           onChange={handleChange}
         />
       </div>
+      <div className="col-lg-3">
+        <label htmlFor="totalSpot">Winning distribuiton</label>
+        <input
+          type="file"
+          name="totalSpot"
+          placeholder="Total no of user"
+          onChange={handleFileChange}
+          className="pt-1"
+        />
+      </div>
       <div className="col-lg-3 d-flex justify-content-start position-relative">
         <button
           className="btn btn-info position-absolute"
@@ -145,6 +176,33 @@ function Contest() {
         >
           Submit
         </button>
+      </div>
+
+      <div className="col-lg-12 table-responsive">
+        {formData.winnings.length > 0 && (
+          <div className="col-lg-12 mt-4">
+            <h4>Winning Distribution</h4>
+            <table className="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Prize</th>
+                </tr>
+              </thead>
+              <tbody>
+                {formData.winnings.map((win, index) => {
+                  console.log(win)
+                  return (
+                    <tr key={index}>
+                      <td>{win.rank}</td>
+                      <td>{win.prize}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,9 +1,53 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getContestId } from "../../../services/api_function";
 
 function LeaderBoard() {
+  const [allContest, setAllContest] = useState();
+  const getContest = async () => {
+    try {
+      const res = await getContestId();
+      if (res) {
+        setAllContest(res);
+      }
+      console.log(res);
+    } catch (error) {
+      console.log(error, "In getContestId");
+    }
+  };
+
+  useEffect(() => {
+    getContest();
+  }, []);
+
   return (
     <div className="row col-lg-12 mainDiv  table-responsive">
-      <h2>User List</h2>
+      <h2>Leader Board</h2>
+
+      <div
+        className="col-lg-12 mb-5 contest"
+        style={{ height: "fit-content", display: "flex", gap: "10px" }}
+      >
+        <label htmlFor="">Select Content</label>
+        <select
+          onChange={(e) => {  
+            const selectedContest = e.target.value;
+            // if (selectedContest) {
+            //   getQuestionList(selectedContest);
+            // }
+          }}
+        >
+          <option value="0">Select Contest</option>
+          {allContest &&
+            allContest.map((item) => {
+              return (
+                <option key={item} value={item}>
+                  {item}
+                </option>
+              );
+            })}
+        </select>
+      </div>
+
       <table class="table  table-hover" style={{ height: "fit-content" }}>
         <thead>
           <tr>

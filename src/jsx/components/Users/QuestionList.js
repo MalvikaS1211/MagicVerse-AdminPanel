@@ -15,7 +15,6 @@ function QuestionList() {
       } else {
         setQuestionList([]);
       }
-      console.log(res, "::::: res from getQuestionList");
     } catch (error) {
       console.log(error, "In fetching Question");
     }

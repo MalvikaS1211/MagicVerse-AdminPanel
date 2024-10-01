@@ -40,15 +40,16 @@ export async function createContest(formData) {
       return;
     }
     await setDoc(contestRef, {
-      buy: formData.buyAmount,
+      buy: parseInt(formData.buyAmount),
       description: formData.description,
       endTime: formData.endTime,
-      overall_time: formData.duration,
+      overall_time: parseInt(formData.duration),
       prize: formData.firstPrize,
-      reschedule: formData.reschedule,
+      reschedule: formData.reschedule == true ? true : false,
       title: formData.quizTitle,
-      totalPrize: formData.totalPrizeMoney,
-      totalSpots: formData.totalSpot,
+      totalPrize: parseInt(formData.totalPrizeMoney),
+      totalSpots: parseInt(formData.totalSpot),
+      winnings: formData.winnings,
     });
     return true;
   } catch (error) {
@@ -121,13 +122,12 @@ export async function getDashboardData() {
   }
 }
 
-
 export async function getUserList() {
   try {
     const usersSnapshot = await getDocs(collection(db, "users"));
     const userList = usersSnapshot.docs.map((doc) => ({
-      id: doc.id, 
-      ...doc.data()
+      id: doc.id,
+      ...doc.data(),
     }));
     return userList;
   } catch (error) {
