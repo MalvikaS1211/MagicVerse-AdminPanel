@@ -48,8 +48,8 @@ function Question() {
         id: formData.questionId,
         correct_answer: formData.correct,
         image_url: imageUrl,
-        marks: formData.marksPerQuestion,
-        negative: formData.negativeMarks,
+        marks: parseInt(formData.marksPerQuestion),
+        negative: parseInt(formData.negativeMarks),
         options: [formData.optionA, formData.optionB, formData.optionC, formData.optionD],
         question: formData.question,
       };

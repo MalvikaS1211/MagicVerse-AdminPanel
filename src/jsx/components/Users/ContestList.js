@@ -118,6 +118,6 @@ function ContestList() {
       </div>
     </div>
   );
-}
+} 
 
 export default ContestList;

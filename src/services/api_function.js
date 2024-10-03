@@ -9,11 +9,20 @@ import {
   getDocs,
   setDoc,
   updateDoc,
+  serverTimestamp,
+  Timestamp,
 } from "firebase/firestore";
 import Question from "../jsx/components/Users/Question";
 export const url = "https://backoffice.inrx.io/api";
 export const url2 = "https://backoffice.inrx.io/api";
 export const localApi = "http://localhost:5009/api/";
+
+const formatDateTime = (dateString) => {
+  const date = new Date(dateString); // Create a Date object from the dateString
+  const timestampInMilliseconds = date.getTime();
+  return timestampInMilliseconds; // Return the timestamp
+};
+
 export async function SignIn(email, password) {
   try {
     const querySnapshot = await getDocs(collection(db, "adminLogin"));
@@ -33,23 +42,26 @@ export async function SignIn(email, password) {
 
 export async function createContest(formData) {
   try {
-    const contestRef = doc(db, "liveQuestion", formData.contestId);
+    const contestRef = doc(db, "live_quizzes", formData.contestId);
     const contestSnap = await getDoc(contestRef);
     if (contestSnap.exists()) {
       toast.error("Contest Id Already Exist");
       return;
     }
+    const date = new Date(formData.endTime);
+
     await setDoc(contestRef, {
       buy: parseInt(formData.buyAmount),
       description: formData.description,
-      endTime: formData.endTime,
+      endTime: date.getTime(),
       overall_time: parseInt(formData.duration),
-      prize: formData.firstPrize,
-      reschedule: formData.reschedule == true ? true : false,
+      prize: parseInt(formData.firstPrize),
+      reschedule: formData.reschedule == "true" ? true : false,
       title: formData.quizTitle,
       totalPrize: parseInt(formData.totalPrizeMoney),
       totalSpots: parseInt(formData.totalSpot),
       winnings: formData.winnings,
+      createdAt: serverTimestamp(),
     });
     return true;
   } catch (error) {
@@ -61,7 +73,7 @@ export async function createContest(formData) {
 export const createQuestionInContest = async (formData, constest) => {
   try {
     console.log(formData, "::::");
-    const contestRef = doc(db, "liveQuestion", formData.contestId);
+    const contestRef = doc(db, "live_quizzes", formData.contestId);
     await updateDoc(contestRef, {
       questions: arrayUnion(formData),
     });
@@ -73,7 +85,7 @@ export const createQuestionInContest = async (formData, constest) => {
 };
 
 export async function getContestId() {
-  const constest = collection(db, "liveQuestion");
+  const constest = collection(db, "live_quizzes");
   const contestSnap = await getDocs(constest);
   const contestIds = contestSnap.docs.map((doc) => doc.id);
   console.log(contestIds);
@@ -82,7 +94,7 @@ export async function getContestId() {
 
 export async function fetchQuestion(contestId) {
   try {
-    const contestRef = doc(db, "liveQuestion", contestId);
+    const contestRef = doc(db, "live_quizzes", contestId);
     console.log(contestRef, contestId);
     const contestSnap = await getDoc(contestRef);
     if (contestSnap.exists()) {
@@ -99,22 +111,40 @@ export async function fetchQuestion(contestId) {
 
 export async function getDashboardData() {
   try {
+    // Fetch users
     const usersSnapshot = await getDocs(collection(db, "users"));
     const totalUsers = usersSnapshot.size; // Total users (document count)
-    const contestsSnapshot = await getDocs(collection(db, "liveQuestion"));
+    const contestsSnapshot = await getDocs(collection(db, "live_quizzes"));
     const totalContests = contestsSnapshot.size; // Total contests (document count)
+
     let totalQuestions = 0;
-    contestsSnapshot.forEach((contestDoc) => {
+    let totalPaid = 0; // Initialize totalPaid
+    let totalDeposit = 0; // Initialize totalDeposit
+    for (const contestDoc of contestsSnapshot.docs) {
       const contestData = contestDoc.data();
+      const contestId = contestDoc.id; // Get the contest ID
+      if (contestData.paidUsersList && contestData.buy) {
+        const depositForContest = contestData.paidUsersList.length * parseFloat(contestData.buy);
+        totalDeposit += depositForContest; // Sum the deposits
+      }
+      const userResultsSnapshot = await getDocs(collection(doc(db, "live_quizzes", contestId), "userResult"));
+      console.log(userResultsSnapshot,":::",contestId,":::")
+      userResultsSnapshot.forEach((userResultDoc) => {
+        const payment = userResultDoc.data().payment || 0; // Default to 0 if payment doesn't exist
+        totalPaid += parseFloat(payment); // Sum the payment
+        console.log(payment, "::::"); // Log each payment
+      });
       if (contestData && contestData.questions) {
         totalQuestions += contestData.questions.length;
       }
-    });
+    }
 
     return {
       totalUsers,
       totalContests,
       totalQuestions,
+      totalPaid, // Return the total paid amount
+      totalDeposit, // Return the total deposit amount
     };
   } catch (error) {
     console.error("Error fetching dashboard data:", error);
@@ -138,7 +168,7 @@ export async function getUserList() {
 
 export async function getAllContest() {
   try {
-    const querySnapshot = await getDocs(collection(db, "liveQuestion"));
+    const querySnapshot = await getDocs(collection(db, "live_quizzes"));
     const contestList = [];
     querySnapshot.forEach((doc) => {
       contestList.push({ id: doc.id, ...doc.data() });

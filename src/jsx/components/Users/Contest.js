@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc, Timestamp } from "firebase/firestore";
 
 import toast from "react-hot-toast";
 import { createContest } from "../../../services/api_function";
@@ -20,7 +20,8 @@ function Contest() {
   });
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleFileChange = (e) => {
@@ -42,7 +43,7 @@ function Contest() {
     lines.forEach((line) => {
       const [rank, prize] = line.split(",");
       if (rank && prize) {
-        result.push({ rank: rank.trim(), prize: prize.trim() });
+        result.push({ rank: rank.trim(), prize: parseInt(prize.trim()) });
       }
     });
 
@@ -57,6 +58,7 @@ function Contest() {
       const res = await createContest(formData);
       if (res) {
         toast.success("SuccessFully Contest Created");
+        
       } else {
         toast.error("Failed to Create Contest");
       }
@@ -191,7 +193,7 @@ function Contest() {
               </thead>
               <tbody>
                 {formData.winnings.map((win, index) => {
-                  console.log(win)
+                  console.log(win);
                   return (
                     <tr key={index}>
                       <td>{win.rank}</td>
