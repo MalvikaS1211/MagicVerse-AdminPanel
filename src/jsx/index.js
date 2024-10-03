@@ -22,6 +22,8 @@ import Login from "./pages/Login";
 import UserList from "./components/Users/UserList";
 import QuestionList from "./components/Users/QuestionList";
 import LeaderBoard from "./components/Users/LeaderBoard";
+import ContestList from "./components/Users/ContestList";
+
 
 const Markup = () => {
   const allroutes = [
@@ -29,6 +31,7 @@ const Markup = () => {
     { url: "dashboard", component: <Home /> },
     { url: "addQuestion", auth: true, component: <AllUser /> },
     { url: "userList", component: <UserList /> },
+    { url: "contestList", component: <ContestList /> },
     { url: "QuestionList", component: <QuestionList /> },
     { url: "leaderBoard", component: <LeaderBoard /> },
   ];

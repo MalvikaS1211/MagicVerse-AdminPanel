@@ -3,6 +3,8 @@ import { useDispatch } from "react-redux";
 import { RiQuestionnaireFill } from "react-icons/ri";
 import { FaUserGraduate } from "react-icons/fa";
 import { FaRankingStar } from "react-icons/fa6";
+import { PiExamFill } from "react-icons/pi";
+
 
 export const MenuList = [
   {
@@ -30,6 +32,11 @@ export const MenuList = [
     title:"Leader Board",
     to:"leaderBoard",
     iconStyle:<FaRankingStar className="fs-3"/>
+  },
+  {
+    title:"Contest List",
+    to:"contestList",
+    iconStyle:<PiExamFill  className="fs-3"/>
   },
   {
     title: "Logout",

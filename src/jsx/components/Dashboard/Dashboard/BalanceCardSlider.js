@@ -10,13 +10,13 @@ const BalanceCardSlider = () => {
   useEffect(() => {
     const fetchData = async () => {
       const res = await getDashboardData();
-      if(res){
-        setData(res)
-      }else{
-        setData(null)
+      if (res) {
+        setData(res);
+      } else {
+        setData(null);
       }
-    }
-    fetchData()
+    };
+    fetchData();
   }, []);
 
   return (
@@ -66,7 +66,46 @@ const BalanceCardSlider = () => {
               </div>
             </div>
           </div>
-        
+
+          <div className="col-lg-3">
+            <div className="card ">
+              <div className="card-body">
+                <div className="d-flex gap-3">
+                  <div className="circle_bg">
+                    {/* <img src="/images/user.png" className="img_50" /> */}
+                    <MdQuiz
+                      className="text-dark"
+                      style={{ fontSize: "45px" }}
+                    />
+                  </div>
+                  <div className="-info">
+                    <h4 className="count-num">{data.deposit ?? 0}</h4>
+                    <p className="text_gray mb-0">Total Deposit</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-lg-3">
+            <div className="card ">
+              <div className="card-body">
+                <div className="d-flex gap-3">
+                  <div className="circle_bg">
+                    {/* <img src="/images/user.png" className="img_50" /> */}
+                    <MdQuiz
+                      className="text-dark"
+                      style={{ fontSize: "45px" }}
+                    />
+                  </div>
+                  <div className="-info">
+                    <h4 className="count-num">{data.totalPayment ?? 0}</h4>
+                    <p className="text_gray mb-0">Total Payment</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       ) : (
         <div>Loading...</div>
