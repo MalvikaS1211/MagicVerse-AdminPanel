@@ -135,3 +135,18 @@ export async function getUserList() {
     return false;
   }
 }
+
+export async function getAllContest() {
+  try {
+    const querySnapshot = await getDocs(collection(db, "liveQuestion"));
+    const contestList = [];
+    querySnapshot.forEach((doc) => {
+      contestList.push({ id: doc.id, ...doc.data() });
+    });
+    console.log(contestList, "::::");
+    return contestList;
+  } catch (error) {
+    console.log("Error fetching contests:", error);
+    toast.error("Failed to fetch contest list.");
+  }
+}
