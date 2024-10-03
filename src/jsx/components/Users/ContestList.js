@@ -6,7 +6,6 @@ import { AiFillDelete } from "react-icons/ai";
 
 function ContestList() {
   const [allContest, setAllContest] = useState();
-
   const fetchContest = async () => {
     try {
       const res = await getAllContest();

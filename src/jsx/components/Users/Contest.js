@@ -18,6 +18,7 @@ function Contest() {
     totalSpot: 0,
     winnings: [],
   });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -55,16 +56,34 @@ function Contest() {
 
   const handleSubmit = async () => {
     try {
+      setLoading(true);
+      // window.location.reload()
       const res = await createContest(formData);
       if (res) {
         toast.success("SuccessFully Contest Created");
+        setLoading(false);
+        setFormData({
+          contestId: "",
+          buyAmount: "",
+          description: "",
+          endTime: "",
+          duration: "",
+          firstPrize: "",
+          reschedule: "",
+          quizTitle: "",
+          totalPrizeMoney: "",
+          totalSpot: 0,
+          winnings: [],
+        });
         
       } else {
         toast.error("Failed to Create Contest");
+        setLoading(false);
       }
     } catch (error) {
       console.log(error);
       toast.error("Failed to Create Contest in Catch");
+      setLoading(false);
     }
   };
 
@@ -77,6 +96,7 @@ function Contest() {
           name="contestId"
           placeholder="Ex- contest-1"
           onChange={handleChange}
+          value={formData.contestId}
         />
       </div>
       <div className="col-lg-3">
@@ -86,6 +106,7 @@ function Contest() {
           name="buyAmount"
           placeholder="Enter contest price"
           onChange={handleChange}
+          value={formData.buyAmount}
         />
       </div>
       <div className="col-lg-3">
@@ -95,6 +116,7 @@ function Contest() {
           name="description"
           placeholder="Enter Description"
           onChange={handleChange}
+          value={formData.description}
         />
       </div>
       <div className="col-lg-3">
@@ -104,6 +126,7 @@ function Contest() {
           name="endTime"
           placeholder="Enter End Time"
           onChange={handleChange}
+          value={formData.endTime}
         />
       </div>
       <div className="col-lg-3">
@@ -113,6 +136,7 @@ function Contest() {
           name="duration"
           placeholder="Enter quiz duration in minutes"
           onChange={handleChange}
+          value={formData.name}
         />
       </div>
       <div className="col-lg-3">
@@ -122,6 +146,7 @@ function Contest() {
           name="firstPrize"
           placeholder="first prize amount"
           onChange={handleChange}
+          value={formData.firstPrize}
         />
       </div>
       <div className="col-lg-3">
@@ -131,6 +156,7 @@ function Contest() {
           name="reschedule"
           placeholder="true or false"
           onChange={handleChange}
+          value={formData.reschedule}
         />
       </div>
       <div className="col-lg-3">
@@ -140,6 +166,7 @@ function Contest() {
           name="quizTitle"
           placeholder="Enter Quiz Title"
           onChange={handleChange}
+          value={formData.quizTitle}
         />
       </div>
       <div className="col-lg-3">
@@ -149,6 +176,7 @@ function Contest() {
           name="totalPrizeMoney"
           placeholder="Enter Total Prize Amount"
           onChange={handleChange}
+          value={formData.totalPrizeMoney}
         />
       </div>
       <div className="col-lg-3">
@@ -158,6 +186,7 @@ function Contest() {
           name="totalSpot"
           placeholder="Total no of user"
           onChange={handleChange}
+          value={formData.totalSpot}
         />
       </div>
       <div className="col-lg-3">
@@ -168,6 +197,7 @@ function Contest() {
           placeholder="Total no of user"
           onChange={handleFileChange}
           className="pt-1"
+          // value={formData.winnings}
         />
       </div>
       <div className="col-lg-3 d-flex justify-content-start position-relative">
@@ -175,8 +205,15 @@ function Contest() {
           className="btn btn-info position-absolute"
           style={{ width: "fit-content", bottom: "3px" }}
           onClick={handleSubmit}
+          disabled={loading}
         >
-          Submit
+          {loading ? (
+            <div class="spinner-border spinner-border-sm" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          ) : (
+            "Submit"
+          )}
         </button>
       </div>
 
