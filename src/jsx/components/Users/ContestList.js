@@ -4,7 +4,6 @@ import { FaEye } from "react-icons/fa";
 import { FaEdit } from "react-icons/fa";
 import { AiFillDelete } from "react-icons/ai";
 
-
 function ContestList() {
   const [allContest, setAllContest] = useState();
 
@@ -53,20 +52,70 @@ function ContestList() {
                   </td>
                   <td>{item?.buy}</td>
                   <td>{item?.reschedule}</td>
-                  <td className="text-center" style={{cursor:'pointer'}}>
+                  <td className="text-center" style={{ cursor: "pointer" }}>
                     <FaEye className="fs-3" />
                   </td>
-                  <td style={{cursor:'pointer'}}>
+                  <td
+                    style={{ cursor: "pointer" }}
+                    data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop"
+                  >
                     <FaEdit className="fs-3" />
                   </td>
-                  <td style={{cursor:'pointer'}}>
-                    <AiFillDelete className="fs-3"/>
+                  <td style={{ cursor: "pointer" }}>
+                    <AiFillDelete className="fs-3" />
                   </td>
                 </tr>
               );
             })}
         </tbody>
       </table>
+
+      <div
+        class="modal fade"
+        id="staticBackdrop"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog col-lg-8">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel"></h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body contest">
+              <div className="col-lg-3">
+                <label htmlFor="contestId">Contest Id</label>
+                <input
+                  type="text"
+                  name="contestId"
+                  placeholder="Ex- contest-1"
+                />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" class="btn btn-primary">
+                Understood
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
