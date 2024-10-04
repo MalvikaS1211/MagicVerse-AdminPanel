@@ -34,6 +34,7 @@ const Markup = () => {
     { url: "contestList", component: <ContestList /> },
     { url: "QuestionList", component: <QuestionList /> },
     { url: "leaderBoard", component: <LeaderBoard /> },
+    { url: "tds", component: <LeaderBoard /> },
   ];
 
   //Bsc testnet

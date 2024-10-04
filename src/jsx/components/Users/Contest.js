@@ -55,12 +55,31 @@ function Contest() {
   };
 
   const handleSubmit = async () => {
+    // Check for empty fields
+    const requiredFields = [
+      "buyAmount",
+      "description",
+      "endTime",
+      "duration",
+      "firstPrize",
+      "reschedule",
+      "quizTitle",
+      "totalPrizeMoney",
+      "totalSpot",
+    ];
+  
+    for (let field of requiredFields) {
+      if (!formData[field]) {
+        toast.error(`Please fill out the ${field} field.`);
+        return; // Exit the function if any field is empty
+      }
+    }
+  
     try {
       setLoading(true);
-      // window.location.reload()
       const res = await createContest(formData);
       if (res) {
-        toast.success("SuccessFully Contest Created");
+        toast.success("Successfully Contest Created");
         setLoading(false);
         setFormData({
           contestId: "",
@@ -75,7 +94,6 @@ function Contest() {
           totalSpot: 0,
           winnings: [],
         });
-        
       } else {
         toast.error("Failed to Create Contest");
         setLoading(false);
@@ -86,6 +104,7 @@ function Contest() {
       setLoading(false);
     }
   };
+  
 
   return (
     <div className="row col-lg-12 contest">
@@ -151,14 +170,31 @@ function Contest() {
       </div>
       <div className="col-lg-3">
         <label htmlFor="reschedule">Reschedule</label>
-        <input
-          type="text"
-          name="reschedule"
-          placeholder="true or false"
-          onChange={handleChange}
-          value={formData.reschedule}
-        />
+        <div className="d-flex gap-2 justify-content-start align-content-center">
+          <span className="" style={{ height: "fit-content" }}>
+            True
+          </span>
+          <input
+            type="radio"
+            name="reschedule"
+            value="true"
+            onChange={handleChange}
+            checked={formData.reschedule === "true"}
+            style={{ height: "fit-content" ,position:'relative',top:'2px' }}
+          />
+          <span style={{ height: "fit-content" }}>False</span>
+          <input
+            type="radio"
+            name="reschedule"
+            value="false"
+            onChange={handleChange}
+            checked={formData.reschedule === "false"}
+            style={{ height: "fit-content",position:'relative',top:'2px' }}
+          />
+          {/* False */}
+        </div>
       </div>
+
       <div className="col-lg-3">
         <label htmlFor="quizTitle">Quiz Title</label>
         <input

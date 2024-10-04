@@ -12,6 +12,7 @@ import { toast } from "react-hot-toast";
 function ContestList() {
   const [allContest, setAllContest] = useState([]);
   const [active, setActiveItem] = useState(null);
+  const [win, setWin] = useState();
   const [formData, setFormData] = useState({
     contestId: "",
     buyAmount: "",
@@ -70,7 +71,7 @@ function ContestList() {
             <th scope="col">Contest EndTime</th>
             <th scope="col">Entry Fee</th>
             <th scope="col">Reschedule</th>
-            <th scope="col">Question</th>
+            <th scope="col">Winnings</th>
             <th scope="col">Edit</th>
             <th scope="col">Delete</th>
           </tr>
@@ -89,7 +90,15 @@ function ContestList() {
                 </td>
                 <td>{item?.buy}</td>
                 <td>{item?.reschedule ? "YES" : "NO"}</td>
-                <td className="text-center" style={{ cursor: "pointer" }}>
+                <td
+                  className="text-center"
+                  style={{ cursor: "pointer" }}
+                  data-bs-toggle="modal"
+                  data-bs-target="#staticBackdropTable"
+                  onClick={() => {
+                    setWin(item?.winnings);
+                  }}
+                >
                   <FaEye className="fs-3" />
                 </td>
                 <td
@@ -119,14 +128,17 @@ function ContestList() {
                 <td style={{ cursor: "pointer" }}>
                   <AiFillDelete
                     className="fs-3"
-                    onClick={() => {
-                      if (
-                        window.confirm(
-                          "Are you sure you want to delete this contest?"
-                        )
-                      ) {
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevents the click event from bubbling up
+                      const confirmDelete = window.confirm(
+                        "Are you sure you want to delete this contest?"
+                      );
+                      if (confirmDelete) {
                         deleteContestById(item?.id);
-                        fetchContest();
+                        fetchContest(); // Refresh the contest list after deletion
+                        toast.success("Contest deleted successfully");
+                      } else {
+                        toast.error("Delete cancelled");
                       }
                     }}
                   />
@@ -275,6 +287,50 @@ function ContestList() {
               >
                 Update
               </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* table*/}
+      <div
+        class="modal fade"
+        id="staticBackdropTable"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog col-lg-3">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                Winning Distribuition
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <table className="table table-bordered">
+                <tr>
+                  <th>Rank</th>
+                  <th>Prize</th>
+                </tr>
+                {win?.map((it) => {
+                  console.log(it,":::::=>")
+                  return (
+                    <tr>
+                      <td>{it?.rank}</td>
+                      <td>{it?.prize}</td>
+                    </tr>
+                  );
+                })}
+              </table>
             </div>
           </div>
         </div>

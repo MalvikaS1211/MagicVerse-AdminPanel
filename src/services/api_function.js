@@ -187,19 +187,11 @@ export async function getAllContest() {
 
 export async function deleteContestById(documentId) {
   try {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this contest?"
-    );
-    if (confirmDelete) {
-      const contestRef = doc(db, "live_quizzes", documentId);
-      await deleteDoc(contestRef);
-      // console.log("Contest successfully deleted!");
-      toast.success("Contest Deleted Successfully");
-      return true;
-    } else {
-      toast.error("Contest deletion canceled.");
-      return false;
-    }
+    const contestRef = doc(db, "live_quizzes", documentId);
+    await deleteDoc(contestRef);
+    // console.log("Contest successfully deleted!");
+    toast.success("Contest Deleted Successfully");
+    return true;
   } catch (error) {
     // console.log("Error deleting contest: ", error);
     toast.error("Failed to delete contest.");
@@ -221,7 +213,7 @@ export async function updateContestDetailsById(formData) {
       title: formData.quizTitle,
       totalPrize: parseInt(formData.totalPrizeMoney),
       totalSpots: parseInt(formData.totalSpot),
-      updatedAt: serverTimestamp(), // Set an 'updatedAt' field
+      createdAt: serverTimestamp(), // Set an 'updatedAt' field
     });
 
     toast.success("Contest updated successfully");

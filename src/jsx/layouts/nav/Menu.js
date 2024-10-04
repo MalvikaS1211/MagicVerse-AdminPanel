@@ -4,6 +4,8 @@ import { RiQuestionnaireFill } from "react-icons/ri";
 import { FaUserGraduate } from "react-icons/fa";
 import { FaRankingStar } from "react-icons/fa6";
 import { PiExamFill } from "react-icons/pi";
+import { FaIdCardAlt } from "react-icons/fa";
+
 
 
 export const MenuList = [
@@ -37,6 +39,11 @@ export const MenuList = [
     title:"Contest List",
     to:"contestList",
     iconStyle:<PiExamFill  className="fs-3"/>
+  },
+  {
+    title:"TDS",
+    to:"tds",
+    iconStyle:<FaIdCardAlt  className="fs-3"/>
   },
   {
     title: "Logout",
