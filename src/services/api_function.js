@@ -11,6 +11,7 @@ import {
   updateDoc,
   serverTimestamp,
   Timestamp,
+  deleteDoc,
 } from "firebase/firestore";
 import Question from "../jsx/components/Users/Question";
 export const url = "https://backoffice.inrx.io/api";
@@ -88,14 +89,14 @@ export async function getContestId() {
   const constest = collection(db, "live_quizzes");
   const contestSnap = await getDocs(constest);
   const contestIds = contestSnap.docs.map((doc) => doc.id);
-  console.log(contestIds);
+  // console.log(contestIds);
   return contestIds;
 }
 
 export async function fetchQuestion(contestId) {
   try {
     const contestRef = doc(db, "live_quizzes", contestId);
-    console.log(contestRef, contestId);
+    // console.log(contestRef, contestId);
     const contestSnap = await getDoc(contestRef);
     if (contestSnap.exists()) {
       return contestSnap.data();
@@ -124,15 +125,18 @@ export async function getDashboardData() {
       const contestData = contestDoc.data();
       const contestId = contestDoc.id; // Get the contest ID
       if (contestData.paidUsersList && contestData.buy) {
-        const depositForContest = contestData.paidUsersList.length * parseFloat(contestData.buy);
+        const depositForContest =
+          contestData.paidUsersList.length * parseFloat(contestData.buy);
         totalDeposit += depositForContest; // Sum the deposits
       }
-      const userResultsSnapshot = await getDocs(collection(doc(db, "live_quizzes", contestId), "userResult"));
-      console.log(userResultsSnapshot,":::",contestId,":::")
+      const userResultsSnapshot = await getDocs(
+        collection(doc(db, "live_quizzes", contestId), "userResult")
+      );
+      // console.log(userResultsSnapshot, ":::", contestId, ":::");
       userResultsSnapshot.forEach((userResultDoc) => {
         const payment = userResultDoc.data().payment || 0; // Default to 0 if payment doesn't exist
         totalPaid += parseFloat(payment); // Sum the payment
-        console.log(payment, "::::"); // Log each payment
+        // console.log(payment, "::::"); // Log each payment
       });
       if (contestData && contestData.questions) {
         totalQuestions += contestData.questions.length;
@@ -173,10 +177,58 @@ export async function getAllContest() {
     querySnapshot.forEach((doc) => {
       contestList.push({ id: doc.id, ...doc.data() });
     });
-    console.log(contestList, "::::");
+    // console.log(contestList, "::::");
     return contestList;
   } catch (error) {
     console.log("Error fetching contests:", error);
     toast.error("Failed to fetch contest list.");
+  }
+}
+
+export async function deleteContestById(documentId) {
+  try {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this contest?"
+    );
+    if (confirmDelete) {
+      const contestRef = doc(db, "live_quizzes", documentId);
+      await deleteDoc(contestRef);
+      // console.log("Contest successfully deleted!");
+      toast.success("Contest Deleted Successfully");
+      return true;
+    } else {
+      toast.error("Contest deletion canceled.");
+      return false;
+    }
+  } catch (error) {
+    // console.log("Error deleting contest: ", error);
+    toast.error("Failed to delete contest.");
+    return false;
+  }
+}
+
+export async function updateContestDetailsById(formData) {
+  try {
+    const contestRef = doc(db, "live_quizzes", formData.contestId);
+    const date = new Date(formData.endTime);
+
+    await updateDoc(contestRef, {
+      buy: parseInt(formData.buyAmount),
+      endTime: date.getTime(),
+      overall_time: parseInt(formData.duration),
+      prize: parseInt(formData.firstPrize),
+      reschedule: formData.reschedule === "true",
+      title: formData.quizTitle,
+      totalPrize: parseInt(formData.totalPrizeMoney),
+      totalSpots: parseInt(formData.totalSpot),
+      updatedAt: serverTimestamp(), // Set an 'updatedAt' field
+    });
+
+    toast.success("Contest updated successfully");
+    return true;
+  } catch (error) {
+    console.error("Error updating contest details: ", error);
+    toast.error("Failed to update contest.");
+    return false;
   }
 }
