@@ -100,7 +100,7 @@ const BalanceCardSlider = () => {
                   </div>
                   <div className="-info">
                     <h4 className="count-num">{data.totalPaid ?? 0}</h4>
-                    <p className="text_gray mb-0">Total Payment</p>
+                    <p className="text_gray mb-0">Total Withdrawal</p>
                   </div>
                 </div>
               </div>

@@ -3,25 +3,34 @@ import { getUserList } from "../../../services/api_function";
 
 function UserList() {
   const [userList, setuserList] = useState();
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res = await getUserList();
-        if (res) {
-          setuserList(res);
-        }
-        console.log(res);
-      } catch (error) {
-        console.log(error, "in fetchUser");
+  const fetchUser = async (search) => {
+    try {
+      const res = await getUserList(search);
+      if (res) {
+        setuserList(res);
       }
-    };
+      console.log(res);
+    } catch (error) {
+      console.log(error, "in fetchUser");
+    }
+  };
+  useEffect(() => {
     fetchUser();
   }, []);
 
   return (
     <div className="row col-lg-12 mainDiv  table-responsive">
-        <h2>User List</h2>
+      <div className="row justify-content-between mb-3">
+        <h2 style={{ width: "fit-content" }}>User List</h2>
+        <input
+          type="text"
+          placeholder="search from phone number"
+          style={{ width: "fit-content", height: "35px", borderRadius: "10px" }}
+          onChange={(e) => {
+            fetchUser(e.target.value);
+          }}
+        />
+      </div>
       <table class="table  table-hover" style={{ height: "fit-content" }}>
         <thead>
           <tr>
@@ -46,7 +55,6 @@ function UserList() {
                   <td> {user.state}</td>
                   <td> {user.city}</td>
                   <td> {user.dob}</td>
-                  
                 </tr>
               );
             })}

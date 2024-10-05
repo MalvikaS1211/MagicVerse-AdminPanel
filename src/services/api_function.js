@@ -12,6 +12,8 @@ import {
   serverTimestamp,
   Timestamp,
   deleteDoc,
+  query,
+  where,
 } from "firebase/firestore";
 import Question from "../jsx/components/Users/Question";
 export const url = "https://backoffice.inrx.io/api";
@@ -156,13 +158,23 @@ export async function getDashboardData() {
   }
 }
 
-export async function getUserList() {
+export async function getUserList(search) {
   try {
-    const usersSnapshot = await getDocs(collection(db, "users"));
+    let userQuery;
+    if (search) {
+      userQuery = query(
+        collection(db, "users"),
+        where("mobile", "==", search)
+      );
+    } else {
+      userQuery = collection(db, "users");
+    }
+    const usersSnapshot = await getDocs(userQuery);
     const userList = usersSnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
     }));
+
     return userList;
   } catch (error) {
     console.error("Error fetching user list:", error);
@@ -186,18 +198,25 @@ export async function getAllContest() {
 }
 
 export async function deleteContestById(documentId) {
+  const contestRef = doc(db, "live_quizzes", documentId);
+
   try {
-    const contestRef = doc(db, "live_quizzes", documentId);
+    // First, delete subcollections if any
+    const subcollections = await getDocs(collection(contestRef, "live_quizzes")); // Replace "userResult" if needed
+    subcollections.forEach(async (subDoc) => {
+      await deleteDoc(doc(contestRef, "live_quizzes", subDoc.id));
+    });
+
+    // Now delete the main document
     await deleteDoc(contestRef);
-    // console.log("Contest successfully deleted!");
-    toast.success("Contest Deleted Successfully");
+    console.log(`Document with ID ${documentId} and its subcollections deleted successfully.`);
     return true;
   } catch (error) {
-    // console.log("Error deleting contest: ", error);
-    toast.error("Failed to delete contest.");
+    console.error("Error deleting contest and its subcollections:", error);
     return false;
   }
 }
+
 
 export async function updateContestDetailsById(formData) {
   try {

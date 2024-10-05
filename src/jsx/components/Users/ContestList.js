@@ -35,11 +35,13 @@ function ContestList() {
     }));
   };
   const fetchContest = async () => {
+    console.log("infetchContest");
     try {
       const res = await getAllContest();
       setAllContest(res);
     } catch (error) {
       console.log(error, ":: in contestlist");
+      setAllContest([]);
     }
   };
 
@@ -68,6 +70,7 @@ function ContestList() {
             <th scope="col">Total Prize</th>
             <th scope="col">First Prize</th>
             <th scope="col">Total Spots</th>
+            <th scope="col">Duration</th>
             <th scope="col">Contest EndTime</th>
             <th scope="col">Entry Fee</th>
             <th scope="col">Reschedule</th>
@@ -84,6 +87,7 @@ function ContestList() {
                 <td>{item?.totalPrize}</td>
                 <td>{item?.prize}</td>
                 <td>{item?.totalSpots}</td>
+                <td>{item?.overall_time}</td>
                 <td>
                   {new Date(item.endTime).toLocaleDateString()}{" "}
                   {new Date(item.endTime).toLocaleTimeString()}
@@ -135,7 +139,9 @@ function ContestList() {
                       );
                       if (confirmDelete) {
                         deleteContestById(item?.id);
-                        fetchContest(); // Refresh the contest list after deletion
+                        setTimeout(() => {
+                          fetchContest();
+                        }, 2000);
                         toast.success("Contest deleted successfully");
                       } else {
                         toast.error("Delete cancelled");
@@ -322,7 +328,7 @@ function ContestList() {
                   <th>Prize</th>
                 </tr>
                 {win?.map((it) => {
-                  console.log(it,":::::=>")
+                  console.log(it, ":::::=>");
                   return (
                     <tr>
                       <td>{it?.rank}</td>
