@@ -119,3 +119,6 @@
 .table.table-hover tr:hover {
   background-color: #e5eee56e;
 }
+.table{
+  margin-bottom: 0px !important;
+}

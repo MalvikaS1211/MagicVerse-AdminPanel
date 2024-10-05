@@ -14,6 +14,8 @@ import {
   deleteDoc,
   query,
   where,
+  orderBy,
+  limit,
 } from "firebase/firestore";
 import Question from "../jsx/components/Users/Question";
 export const url = "https://backoffice.inrx.io/api";
@@ -162,10 +164,7 @@ export async function getUserList(search) {
   try {
     let userQuery;
     if (search) {
-      userQuery = query(
-        collection(db, "users"),
-        where("mobile", "==", search)
-      );
+      userQuery = query(collection(db, "users"), where("mobile", "==", search));
     } else {
       userQuery = collection(db, "users");
     }
@@ -202,21 +201,24 @@ export async function deleteContestById(documentId) {
 
   try {
     // First, delete subcollections if any
-    const subcollections = await getDocs(collection(contestRef, "live_quizzes")); // Replace "userResult" if needed
+    const subcollections = await getDocs(
+      collection(contestRef, "live_quizzes")
+    ); // Replace "userResult" if needed
     subcollections.forEach(async (subDoc) => {
       await deleteDoc(doc(contestRef, "live_quizzes", subDoc.id));
     });
 
     // Now delete the main document
     await deleteDoc(contestRef);
-    console.log(`Document with ID ${documentId} and its subcollections deleted successfully.`);
+    console.log(
+      `Document with ID ${documentId} and its subcollections deleted successfully.`
+    );
     return true;
   } catch (error) {
     console.error("Error deleting contest and its subcollections:", error);
     return false;
   }
 }
-
 
 export async function updateContestDetailsById(formData) {
   try {
@@ -243,3 +245,29 @@ export async function updateContestDetailsById(formData) {
     return false;
   }
 }
+
+export const getLeaderBoardDetails = async (contest) => {
+  try {
+    if (!contest) {
+      throw new Error("Contest ID is required");
+    }
+    const userResultsSnapshot = await getDocs(
+      collection(doc(db, "live_quizzes", contest), "userResult"),
+      orderBy("rank", "asc"),
+      limit(50)
+    );
+    if (userResultsSnapshot.empty) {
+      console.log("No user results found.");
+      return [];
+    } 
+    let userResults = [];
+    userResultsSnapshot.forEach(doc => {
+      userResults.push(doc.data());
+    });
+    console.log(userResults, "::: Retrieved user results");
+    return userResults;
+  } catch (error) {
+    console.error("Error fetching leaderboard details:", error);
+    return false;
+  }
+};

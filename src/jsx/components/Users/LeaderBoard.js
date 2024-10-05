@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getContestId } from "../../../services/api_function";
+import { getContestId, getLeaderBoardDetails } from "../../../services/api_function";
 
 function LeaderBoard() {
   const [allContest, setAllContest] = useState();
@@ -14,6 +14,16 @@ function LeaderBoard() {
       console.log(error, "In getContestId");
     }
   };
+
+
+  const fetchLeaderBoardDetails = async()=>{
+    try {
+      const res = await getLeaderBoardDetails()
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
 
   useEffect(() => {
     getContest();
@@ -31,9 +41,9 @@ function LeaderBoard() {
         <select
           onChange={(e) => {  
             const selectedContest = e.target.value;
-            // if (selectedContest) {
-            //   getQuestionList(selectedContest);
-            // }
+            if (selectedContest) {
+              fetchLeaderBoardDetails(selectedContest);
+            }
           }}
         >
           <option value="0">Select Contest</option>

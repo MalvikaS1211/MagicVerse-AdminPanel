@@ -4,9 +4,13 @@ import { FaUserGraduate } from "react-icons/fa";
 import { RiQuestionAnswerFill } from "react-icons/ri";
 import { MdQuiz } from "react-icons/md";
 import "swiper/css";
-import { getDashboardData } from "../../../../services/api_function";
+import {
+  getAllContest,
+  getDashboardData,
+} from "../../../../services/api_function";
 const BalanceCardSlider = () => {
   const [data, setData] = useState(null);
+  const [allContest, setAllContest] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       const res = await getDashboardData();
@@ -17,6 +21,20 @@ const BalanceCardSlider = () => {
       }
     };
     fetchData();
+  }, []);
+
+  const fetchContest = async () => {
+    console.log("infetchContest");
+    try {
+      const res = await getAllContest();
+      setAllContest(res);
+    } catch (error) {
+      console.log(error, ":: in contestlist");
+      setAllContest([]);
+    }
+  };
+  useEffect(() => {
+    fetchContest();
   }, []);
 
   return (
@@ -110,6 +128,39 @@ const BalanceCardSlider = () => {
       ) : (
         <div>Loading...</div>
       )}
+
+      <div
+        className="col-lg-6 table-responsive bg-white mt-5"
+        style={{ margin: "0px", padding: "0px" }}
+      >
+        <h2 style={{ paddingLeft: "10px" }}>Contest</h2>
+        <table
+          class="table table-bordered table-sm"
+          style={{ height: "100%", width: "100%" }}
+        >
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Total Spot</th>
+              <th scope="col">Spot Left</th>
+              <th scope="col">Total Prize</th>
+            </tr>
+          </thead>
+          <tbody>
+            {allContest.map((it) => {
+              console.log(it, ":::");
+              return (
+                <tr>
+                  <th scope="row">{it?.title}</th>
+                  <td>{it?.totalSpots}</td>
+                  <td>{it?.spotsLeft}</td>
+                  <td>{it?.totalPrize}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </>
   );
 };
