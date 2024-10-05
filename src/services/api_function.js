@@ -67,6 +67,8 @@ export async function createContest(formData) {
       totalSpots: parseInt(formData.totalSpot),
       winnings: formData.winnings,
       createdAt: serverTimestamp(),
+      totalMarks: parseInt(formData.totalMarks),
+      totalNoOfQuestion: parseInt(formData.totalQuestion),
     });
     return true;
   } catch (error) {
@@ -253,8 +255,8 @@ export const getLeaderBoardDetails = async (contest) => {
     }
     const userResultsQuery = query(
       collection(doc(db, "live_quizzes", contest), "userResult"),
-      orderBy("rank", "asc"),  // Sort by 'rank' in ascending order
-      limit(50)  // Limit the results to 50
+      orderBy("rank", "asc"), // Sort by 'rank' in ascending order
+      limit(50) // Limit the results to 50
     );
     const userResultsSnapshot = await getDocs(userResultsQuery);
     if (userResultsSnapshot.empty) {
@@ -262,7 +264,7 @@ export const getLeaderBoardDetails = async (contest) => {
       return [];
     }
     let userResults = [];
-    userResultsSnapshot.forEach(doc => {
+    userResultsSnapshot.forEach((doc) => {
       userResults.push(doc.data());
     });
     console.log(userResults, "::: Retrieved user results sorted by rank");

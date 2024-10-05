@@ -70,6 +70,8 @@ function ContestList() {
             <th scope="col">Total Prize</th>
             <th scope="col">First Prize</th>
             <th scope="col">Total Spots</th>
+            <th scope="col">Total Marks</th>
+            <th scope="col">Total No Of Question</th>
             <th scope="col">Duration</th>
             <th scope="col">Contest EndTime</th>
             <th scope="col">Entry Fee</th>
@@ -87,6 +89,8 @@ function ContestList() {
                 <td>{item?.totalPrize}</td>
                 <td>{item?.prize}</td>
                 <td>{item?.totalSpots}</td>
+                <td>{item?.totalMarks}</td>
+                <td>{item?.totalNoOfQuestion}</td>
                 <td>{item?.overall_time}</td>
                 <td>
                   {new Date(item.endTime).toLocaleDateString()}{" "}

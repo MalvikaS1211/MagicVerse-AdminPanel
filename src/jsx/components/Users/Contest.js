@@ -17,6 +17,8 @@ function Contest() {
     totalPrizeMoney: "",
     totalSpot: 0,
     winnings: [],
+    totalQuestion:'',
+    totalMarks:""
   });
   const [loading, setLoading] = useState(false);
 
@@ -121,7 +123,7 @@ function Contest() {
       <div className="col-lg-3">
         <label htmlFor="buyAmount">Buy Amount</label>
         <input
-          type="text"
+          type="number"
           name="buyAmount"
           placeholder="Enter contest price"
           onChange={handleChange}
@@ -151,17 +153,49 @@ function Contest() {
       <div className="col-lg-3">
         <label htmlFor="duration">Duration</label>
         <input
-          type="text"
+          type="number"
           name="duration"
           placeholder="Enter quiz duration in minutes"
           onChange={handleChange}
           value={formData.name}
         />
       </div>
+
+      <div className="col-lg-3">
+        <label htmlFor="duration">Total Question</label>
+        <input
+          type="number"
+          name="totalQuestion"
+          placeholder="Total no of question"
+          onChange={handleChange}
+          value={formData.totalQuestion}
+        />
+      </div>
+      <div className="col-lg-3">
+        <label htmlFor="duration">Total Marks</label>
+        <input
+          type="number"
+          name="totalMarks"
+          placeholder="Enter Total Marks"
+          onChange={handleChange}
+          value={formData.totalMarks}
+        />
+      </div>
+      <div className="col-lg-3">
+        <label htmlFor="duration">Duration</label>
+        <input
+          type="number"
+          name="duration"
+          placeholder="Enter quiz duration in minutes"
+          onChange={handleChange}
+          value={formData.name}
+        />
+      </div>
+
       <div className="col-lg-3">
         <label htmlFor="firstPrize">1st Prize</label>
         <input
-          type="text"
+          type="number"
           name="firstPrize"
           placeholder="first prize amount"
           onChange={handleChange}
@@ -208,7 +242,7 @@ function Contest() {
       <div className="col-lg-3">
         <label htmlFor="totalPrizeMoney">Total Prize Money</label>
         <input
-          type="text"
+          type="number"
           name="totalPrizeMoney"
           placeholder="Enter Total Prize Amount"
           onChange={handleChange}
@@ -218,7 +252,7 @@ function Contest() {
       <div className="col-lg-3">
         <label htmlFor="totalSpot">Total Spot</label>
         <input
-          type="text"
+          type="number"
           name="totalSpot"
           placeholder="Total no of user"
           onChange={handleChange}

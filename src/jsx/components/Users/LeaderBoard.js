@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { getContestId, getLeaderBoardDetails } from "../../../services/api_function";
+import {
+  getContestId,
+  getLeaderBoardDetails,
+} from "../../../services/api_function";
 
 function LeaderBoard() {
   const [allContest, setAllContest] = useState();
+  const [leaderboard, setLeaderBoard] = useState([]);
   const getContest = async () => {
     try {
       const res = await getContestId();
@@ -15,16 +19,17 @@ function LeaderBoard() {
     }
   };
 
-
-  const fetchLeaderBoardDetails = async(selectedContest)=>{
+  const fetchLeaderBoardDetails = async (selectedContest) => {
     try {
       const res = await getLeaderBoardDetails(selectedContest);
-      console.log(res,"::::")
+      setLeaderBoard(res);
+      console.log(res, "::::");
     } catch (error) {
       console.log(error);
+      setLeaderBoard([]);
       return false;
     }
-  }
+  };
 
   useEffect(() => {
     getContest();
@@ -40,7 +45,7 @@ function LeaderBoard() {
       >
         <label htmlFor="">Select Content</label>
         <select
-          onChange={(e) => {  
+          onChange={(e) => {
             const selectedContest = e.target.value;
             if (selectedContest) {
               fetchLeaderBoardDetails(selectedContest);
@@ -63,24 +68,24 @@ function LeaderBoard() {
         <thead>
           <tr>
             <th scope="col">Rank</th>
-            <th scope="col">Name</th>
-            <th scope="col">Gender</th>
-            <th scope="col">Country</th>
-            <th scope="col">State</th>
-            <th scope="col">City</th>
-            <th scope="col">DOB</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Marks Obtained</th>
+            <th scope="col">Question Attempt</th>
+            <th scope="col">Total Money won</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-          </tr>
+          {leaderboard.map((it) => {
+            return (
+              <tr>
+                <td>{it?.rank} </td>
+                <td>{it?.phoneNumber} </td>
+                <td>{it?.totalMarks} </td>
+                <td>{it?.totalQuestions}</td>
+                <td>{it?.payment}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
