@@ -251,20 +251,21 @@ export const getLeaderBoardDetails = async (contest) => {
     if (!contest) {
       throw new Error("Contest ID is required");
     }
-    const userResultsSnapshot = await getDocs(
+    const userResultsQuery = query(
       collection(doc(db, "live_quizzes", contest), "userResult"),
-      orderBy("rank", "asc"),
-      limit(50)
+      orderBy("rank", "asc"),  // Sort by 'rank' in ascending order
+      limit(50)  // Limit the results to 50
     );
+    const userResultsSnapshot = await getDocs(userResultsQuery);
     if (userResultsSnapshot.empty) {
       console.log("No user results found.");
       return [];
-    } 
+    }
     let userResults = [];
     userResultsSnapshot.forEach(doc => {
       userResults.push(doc.data());
     });
-    console.log(userResults, "::: Retrieved user results");
+    console.log(userResults, "::: Retrieved user results sorted by rank");
     return userResults;
   } catch (error) {
     console.error("Error fetching leaderboard details:", error);

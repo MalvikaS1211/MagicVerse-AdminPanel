@@ -16,9 +16,10 @@ function LeaderBoard() {
   };
 
 
-  const fetchLeaderBoardDetails = async()=>{
+  const fetchLeaderBoardDetails = async(selectedContest)=>{
     try {
-      const res = await getLeaderBoardDetails()
+      const res = await getLeaderBoardDetails(selectedContest);
+      console.log(res,"::::")
     } catch (error) {
       console.log(error);
       return false;
