@@ -291,7 +291,7 @@ function Contest() {
         {formData.winnings.length > 0 && (
           <div className="col-lg-12 mt-4">
             <h4>Winning Distribution</h4>
-            <table className="table table-bordered">
+            <table className="table">
               <thead>
                 <tr>
                   <th>Rank</th>

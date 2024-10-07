@@ -100,7 +100,7 @@
 
 .mainDiv{
   background: white;
-  height: 100vh;
+  height: fit-content;
   padding: 15px;
   border-radius: 10px;
   flex-direction: column;
@@ -121,4 +121,7 @@
 }
 .table{
   margin-bottom: 0px !important;
+}
+tr,th,td{
+  border: 1px solid #eeee !important;
 }

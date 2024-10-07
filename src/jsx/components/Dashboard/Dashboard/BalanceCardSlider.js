@@ -135,7 +135,7 @@ const BalanceCardSlider = () => {
       >
         <h2 style={{ paddingLeft: "10px" }}>Contest</h2>
         <table
-          class="table table-bordered table-sm"
+          class="table table-sm"
           style={{ height: "100%", width: "100%" }}
         >
           <thead>
