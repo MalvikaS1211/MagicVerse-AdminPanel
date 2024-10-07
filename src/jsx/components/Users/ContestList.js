@@ -66,7 +66,8 @@ function ContestList() {
       <table className="table table-hover" style={{ height: "fit-content" }}>
         <thead>
           <tr>
-            <th scope="col">Contest Name</th>
+          {/* <th>Contest Name</th> */}
+            <th scope="col">Exam Name</th>
             <th scope="col">Total Prize</th>
             <th scope="col">First Prize</th>
             <th scope="col">Total Spots</th>
@@ -91,7 +92,7 @@ function ContestList() {
                 <td>{item?.totalSpots}</td>
                 <td>{item?.totalMarks}</td>
                 <td>{item?.totalNoOfQuestion}</td>
-                <td>{item?.overall_time}</td>
+                <td>{item?.overall_time + " Minutes"}</td>
                 <td>
                   {new Date(item.endTime).toLocaleDateString()}{" "}
                   {new Date(item.endTime).toLocaleTimeString()}

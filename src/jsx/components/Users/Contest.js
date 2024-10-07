@@ -6,7 +6,7 @@ import { createContest } from "../../../services/api_function";
 
 function Contest() {
   const [formData, setFormData] = useState({
-    contestId: "",
+    // contestId: "",
     buyAmount: "",
     description: "",
     endTime: "",
@@ -84,7 +84,7 @@ function Contest() {
         toast.success("Successfully Contest Created");
         setLoading(false);
         setFormData({
-          contestId: "",
+          // contestId: "",
           buyAmount: "",
           description: "",
           endTime: "",
@@ -110,7 +110,7 @@ function Contest() {
 
   return (
     <div className="row col-lg-12 contest">
-      <div className="col-lg-3">
+      {/* <div className="col-lg-3">
         <label htmlFor="contestId">Contest Id</label>
         <input
           type="text"
@@ -119,7 +119,7 @@ function Contest() {
           onChange={handleChange}
           value={formData.contestId}
         />
-      </div>
+      </div> */}
       <div className="col-lg-3">
         <label htmlFor="buyAmount">Buy Amount</label>
         <input
@@ -150,16 +150,6 @@ function Contest() {
           value={formData.endTime}
         />
       </div>
-      <div className="col-lg-3">
-        <label htmlFor="duration">Duration</label>
-        <input
-          type="number"
-          name="duration"
-          placeholder="Enter quiz duration in minutes"
-          onChange={handleChange}
-          value={formData.name}
-        />
-      </div>
 
       <div className="col-lg-3">
         <label htmlFor="duration">Total Question</label>
@@ -188,7 +178,7 @@ function Contest() {
           name="duration"
           placeholder="Enter quiz duration in minutes"
           onChange={handleChange}
-          value={formData.name}
+          value={formData.duration}
         />
       </div>
 
@@ -270,9 +260,9 @@ function Contest() {
           // value={formData.winnings}
         />
       </div>
-      <div className="col-lg-3 d-flex justify-content-start position-relative">
+      <div className="col-lg-3 d-flex justify-content-start position-relative pt-5">
         <button
-          className="btn btn-info position-absolute"
+          className="btn btn-info"
           style={{ width: "fit-content", bottom: "3px" }}
           onClick={handleSubmit}
           disabled={loading}

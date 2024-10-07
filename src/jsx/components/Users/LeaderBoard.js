@@ -8,7 +8,8 @@ import { FaEye } from "react-icons/fa";
 function LeaderBoard() {
   const [allContest, setAllContest] = useState();
   const [leaderboard, setLeaderBoard] = useState([]);
-  const [tableData,setTableData]=useState()
+  const [tableData, setTableData] = useState();
+  const [unAttempt, setUnattempt] = useState();
   const getContest = async () => {
     try {
       const res = await getContestId();
@@ -71,11 +72,12 @@ function LeaderBoard() {
           <thead>
             <tr>
               <th scope="col">Rank</th>
+              <th scope="col">User Id</th>
               <th scope="col">Phone</th>
               <th scope="col">Total Marks</th>
               <th scope="col">Total No of Question</th>
               <th scope="col">Attempted Question</th>
-              <th scope="col">Unattempted Question</th>
+              {/* <th scope="col">Unattempted Question</th> */}
               <th scope="col">Corrected Question</th>
               <th scope="col">Marks Obtained</th>
               <th scope="col">Time Taken</th>
@@ -84,19 +86,21 @@ function LeaderBoard() {
           </thead>
           <tbody>
             {leaderboard?.map((it) => {
-              {/* console.log(
-                Object.keys(it?.answeredQuestions).length,
-                "attempted Question"
-              ); */}
               return (
                 <tr>
                   <td className="text-center">{it?.rank} </td>
+                  <td className="text-center">{it?.userId}</td>
                   <td className="text-center">{it?.phoneNumber ?? "N/A"} </td>
                   <td className="text-center">{it?.totalMarks} </td>
                   <td className="text-center">{it?.totalQuestions}</td>
-                  <td className="text-center"  onClick={() => {
-                        setTableData([it?.answeredQuestions])
-                      }}>
+                  <td
+                    className="text-center"
+                    onClick={() => {
+                      // console.log("attempted q, obj");
+                      setTableData(Object?.values(it?.answeredQuestions));
+                      setUnattempt(Object?.values(it?.unattemptedQuestions));
+                    }}
+                  >
                     {Object.keys(it?.answeredQuestions).length}{" "}
                     <FaEye
                       style={{
@@ -106,25 +110,20 @@ function LeaderBoard() {
                       }}
                       data-bs-toggle="modal"
                       data-bs-target="#staticBackdropTable"
-                     
                     />
                   </td>
-                  <td className="text-center">
-                    {Object.keys(it?.unattemptedQuestions).length}
-                    <FaEye
-                      style={{
-                        paddingLeft: "5px",
-                        fontSize: "25px",
-                        cursor: "pointer",
-                      }}
-                      data-bs-toggle="modal"
-                      data-bs-target="#staticBackdropTable"
-                      
-                    />
-                  </td>
+
                   <td className="text-center">{it?.correctAnswers}</td>
                   <td className="text-center">{it?.totalScore}</td>
-                  <td className="text-center">{it?.timeTaken + "Second"}</td>
+                  <td className="text-center">
+                    {Math.floor(it?.timeTaken / 60) > 0
+                      ? Math.floor(it.timeTaken / 60) +
+                        " min " +
+                        (it.timeTaken % 60) +
+                        " sec"
+                      : it.timeTaken + " sec"}
+                  </td>
+
                   <td className="text-center">{it?.payment}</td>
                 </tr>
               );
@@ -143,11 +142,11 @@ function LeaderBoard() {
         aria-labelledby="staticBackdropLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog col-lg-3">
+        <div class="modal-dialog col-lg-8">
           <div class="modal-content">
             <div class="modal-header">
               <h1 class="modal-title fs-5" id="staticBackdropLabel">
-                Winning Distribuition
+                Attempted Question
               </h1>
               <button
                 type="button"
@@ -159,25 +158,89 @@ function LeaderBoard() {
             <div class="modal-body">
               <table className="table">
                 <tr>
-                  <th>Rank</th>
-                  <th>Prize</th>
+                  <th>Question</th>
+                  <th>Option A</th>
+                  <th>Option B</th>
+                  <th>Option C</th>
+                  <th>Option D</th>
+                  <th>Selected Answer</th>
+                  <th>Correct Answer</th>
+                  <th>Is Correct</th>
+                  <th>Marks of Question</th>
                 </tr>
-              
+
                 <tbody>
-      {tableData && Object.values(tableData).map((it, index) => {
-        return (
-          <tr key={index}>
-            <td>{it.question || 'N/A'}</td>
-            <td>{it.selectedAnswer || 'N/A'}</td>
-            <td>{it.correctAnswer || 'N/A'}</td>
-            <td>{it.marks || 'N/A'}</td>
-            <td>{it.status || 'N/A'}</td>
-            <td>{it.isCorrect ? 'Yes' : 'No'}</td>
-          </tr>
-        );
-      })}
-    </tbody>
-                
+                  {tableData &&
+                    tableData.map((it, index) => {
+                      {
+                        /* console.log("check", it); */
+                      }
+                      return (
+                        <tr key={index}>
+                          <td>{it?.question || "N/A"}</td>
+                          <td>{it?.options[0] || "N/A"}</td>
+                          <td>{it?.options[1] || "N/A"}</td>
+                          <td>{it?.options[2] || "N/A"}</td>
+                          <td>{it?.options[3] || "N/A"}</td>
+                          <td>{it.selectedAnswer ?? "N/A"}</td>
+                          <td>{it?.correctAnswer}</td>
+                          <td>{it?.isCorrect ? "YES" : "NO"}</td>
+                          <td>{it?.marks}</td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                UnAttempted Question
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <table className="table">
+                <tr>
+                  <th>Question</th>
+                  <th>Option A</th>
+                  <th>Option B</th>
+                  <th>Option C</th>
+                  <th>Option D</th>
+                  <th>Selected Answer</th>
+                  <th>Correct Answer</th>
+                  <th>Is Correct</th>
+                  <th>Marks of Question</th>
+                </tr>
+
+                <tbody>
+                  {unAttempt &&
+                    unAttempt.map((it, index) => {
+                      {
+                        /* console.log("check", it); */
+                      }
+                      return (
+                        <tr key={index}>
+                          <td>{it?.question || "N/A"}</td>
+                          <td>{it?.options[0] || "N/A"}</td>
+                          <td>{it?.options[1] || "N/A"}</td>
+                          <td>{it?.options[2] || "N/A"}</td>
+                          <td>{it?.options[3] || "N/A"}</td>
+                          <td>{it.selectedAnswer ?? "N/A"}</td>
+                          <td>{it?.correctAnswer}</td>
+                          <td>{it?.isCorrect ? "YES" : "NO"}</td>
+                          <td>{it?.marks}</td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
               </table>
             </div>
           </div>

@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaUserGraduate } from "react-icons/fa";
 import { RiQuestionAnswerFill } from "react-icons/ri";
 import { MdQuiz } from "react-icons/md";
+import Box from "@mui/material/Box";
+import Slider from "@mui/material/Slider";
 import "swiper/css";
 import {
   getAllContest,
@@ -11,6 +13,47 @@ import {
 const BalanceCardSlider = () => {
   const [data, setData] = useState(null);
   const [allContest, setAllContest] = useState([]);
+
+  const [countdowns, setCountdowns] = useState({});
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const newCountdowns = {};
+      allContest.forEach((it) => {
+        const endTime = new Date(it.endTime).getTime();
+        const now = new Date().getTime();
+        const distance = endTime - now;
+        if (distance > 0) {
+          const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          const hours = Math.floor(
+            (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+          );
+          const minutes = Math.floor(
+            (distance % (1000 * 60 * 60)) / (1000 * 60)
+          );
+          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+          newCountdowns[it.id] = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        } else {
+          newCountdowns[it.id] = "Expired";
+        }
+      });
+
+      setCountdowns(newCountdowns);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [allContest]);
+
+  function formatPrize(amount) {
+    if (amount >= 1e7) {
+      return (amount / 1e7).toFixed(0) + " Crore";
+    } else if (amount >= 1e5) {
+      return (amount / 1e5).toFixed(0) + " Lakh";
+    } else if (amount >= 1e3) {
+      return (amount / 1e3).toFixed(0) + " Thousand";
+    }
+    return amount;
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       const res = await getDashboardData();
@@ -45,46 +88,48 @@ const BalanceCardSlider = () => {
       ></div>
       {data ? (
         <div className="row">
-          <div className="col-lg-3">
-            <div className="card ">
-              <div className="card-body">
-                <div className="d-flex gap-3">
-                  <div className="circle_bg">
-                    {/* <img src="/images/user.png" className="img_50" /> */}
-                    <FaUserGraduate
-                      className="text-dark"
-                      style={{ fontSize: "45px" }}
-                    />
-                  </div>
-                  <div className="-info">
-                    <h4 className="count-num">{data.totalUsers ?? 0}</h4>
-                    <p className="text_gray mb-0">Total Users</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-lg-3">
-            <div className="card ">
-              <div className="card-body">
-                <div className="d-flex gap-3">
-                  <div className="circle_bg">
-                    {/* <img src="/images/user.png" className="img_50" /> */}
-                    <MdQuiz
-                      className="text-dark"
-                      style={{ fontSize: "45px" }}
-                    />
-                  </div>
-                  <div className="-info">
-                    <h4 className="count-num">{data.totalContests ?? 0}</h4>
-                    <p className="text_gray mb-0">Total Contest</p>
+          <Link to="/userList" className="col-lg-3">
+            <div>
+              <div className="card ">
+                <div className="card-body">
+                  <div className="d-flex gap-3">
+                    <div className="circle_bg">
+                      {/* <img src="/images/user.png" className="img_50" /> */}
+                      <FaUserGraduate
+                        className="text-dark"
+                        style={{ fontSize: "45px" }}
+                      />
+                    </div>
+                    <div className="-info">
+                      <h4 className="count-num">{data.totalUsers ?? 0}</h4>
+                      <p className="text_gray mb-0">Total Users</p>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-
+          </Link>
+          <Link className="col-lg-3" to="/contestList">
+            <div>
+              <div className="card ">
+                <div className="card-body">
+                  <div className="d-flex gap-3">
+                    <div className="circle_bg">
+                      {/* <img src="/images/user.png" className="img_50" /> */}
+                      <MdQuiz
+                        className="text-dark"
+                        style={{ fontSize: "45px" }}
+                      />
+                    </div>
+                    <div className="-info">
+                      <h4 className="count-num">{data.totalContests ?? 0}</h4>
+                      <p className="text_gray mb-0">Total Contest</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Link>
           <div className="col-lg-3">
             <div className="card ">
               <div className="card-body">
@@ -129,37 +174,41 @@ const BalanceCardSlider = () => {
         <div>Loading...</div>
       )}
 
-      <div
-        className="col-lg-6 table-responsive bg-white mt-5"
-        style={{ margin: "0px", padding: "0px" }}
-      >
-        <h2 style={{ paddingLeft: "10px" }}>Contest</h2>
-        <table
-          class="table table-sm"
-          style={{ height: "100%", width: "100%" }}
-        >
-          <thead>
-            <tr>
-              <th scope="col">Name</th>
-              <th scope="col">Total Spot</th>
-              <th scope="col">Spot Left</th>
-              <th scope="col">Total Prize</th>
-            </tr>
-          </thead>
-          <tbody>
-            {allContest.map((it) => {
-              console.log(it, ":::");
-              return (
-                <tr>
-                  <th scope="row">{it?.title}</th>
-                  <td>{it?.totalSpots}</td>
-                  <td>{it?.spotsLeft}</td>
-                  <td>{it?.totalPrize}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+      <h3>Contest List</h3>
+      <div className="row col-lg-12 gap-3" style={{ paddingLeft: "15px" }}>
+        {allContest.map((it) => {
+          {
+            /* console.log(it, ":::"); */
+          }
+          return (
+            <div className="col-lg-3 contest-card">
+              <div className="div1">
+                <p className="exTitle">{it?.title}</p>
+                <p className="time">{countdowns[it.id]}</p>
+              </div>
+              <div className="div2">
+                <div className="money">
+                  <p className="m1">{formatPrize(it.totalPrize)}</p>
+                  <p className="m2">₹ {it?.buy}</p>
+                </div>
+                <div>
+                  <Slider
+                    size="small"
+                    defaultValue={it?.totalSpots-it?.spotsLeft}
+                    value={it?.totalSpots-it?.spotsLeft}
+                    aria-label="Small"
+                    valueLabelDisplay="auto"
+                    max={it?.totalSpots}
+                  />
+                </div>
+              </div>
+              <div className="div3">
+                <p>{it?.spotsLeft} spot left</p>
+                <p>{it?.totalSpots} spot</p>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </>
   );

@@ -34,6 +34,7 @@ function UserList() {
       <table class="table  table-hover" style={{ height: "fit-content" }}>
         <thead>
           <tr>
+            <th className="col text-center">S. no</th>
             <th scope="col">Name</th>
             <th scope="col">Contact no</th>
             <th scope="col">Gender</th>
@@ -45,9 +46,10 @@ function UserList() {
         </thead>
         <tbody>
           {userList &&
-            userList.map((user) => {
+            userList.map((user, i) => {
               return (
                 <tr>
+                  <td className="text-center">{i}</td>
                   <td> {user.username}</td>
                   <td> {user.mobile}</td>
                   <td> {user.gender}</td>

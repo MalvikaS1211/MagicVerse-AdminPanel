@@ -47,7 +47,7 @@ export async function SignIn(email, password) {
 
 export async function createContest(formData) {
   try {
-    const contestRef = doc(db, "live_quizzes", formData.contestId);
+    const contestRef = doc(db, "live_quizzes", formData.quizTitle);
     const contestSnap = await getDoc(contestRef);
     if (contestSnap.exists()) {
       toast.error("Contest Id Already Exist");
@@ -258,7 +258,9 @@ export const getLeaderBoardDetails = async (contest) => {
       orderBy("rank", "asc"), // Sort by 'rank' in ascending order
       limit(50) // Limit the results to 50
     );
+    console.log("live_quizzes",contest,"userResult","::::=>>")
     const userResultsSnapshot = await getDocs(userResultsQuery);
+    console.log(userResultsSnapshot,":::::")
     if (userResultsSnapshot.empty) {
       console.log("No user results found.");
       return [];
