@@ -203,7 +203,7 @@ const BalanceCardSlider = () => {
                 </div>
               </div>
               <div className="div3">
-                <p>{it?.spotsLeft} spot left</p>
+                <p>{it?.spotsLeft ?? it?.totalSpots} spot left</p>
                 <p>{it?.totalSpots} spot</p>
               </div>
             </div>

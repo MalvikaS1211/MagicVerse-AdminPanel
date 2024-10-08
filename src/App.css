@@ -51,9 +51,7 @@
   gap: 10px;
 }
 
-.qustn-btn .btn {
-  /* border: 1px solid black; */
-}
+
 .qustn-btn .btn:hover {
   background-color: #e5eee5 !important;
 }
@@ -63,7 +61,6 @@
 }
 .qustn-btn .active1 {
   background-color: #e5eee5 !important;
-  /* border: 2px solid rgb(250 162 38); */
   border: none;
 }
 
@@ -86,7 +83,6 @@ select {
 .contest label {
   background-color: #e5eee5;
   padding: 8px;
-  /* border: 2px solid rgba(0, 0, 0, 0.315); */
   width: fit-content;
   border-radius: 5px;
   color: black;
@@ -158,7 +154,6 @@ td {
   padding-right: 10px;
   border-radius: 5px;
   font-weight: 500;
-  /* color: white; */
 }
 .money {
   display: flex;
@@ -174,7 +169,6 @@ td {
   width: fit-content;
   background-color: #e5eee5;
   border-radius: 5px;
-  /* padding: 5px; */
   font-size: 14px;
   padding-left: 10px;
   padding-right: 10px;
