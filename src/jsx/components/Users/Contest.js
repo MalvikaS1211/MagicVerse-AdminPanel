@@ -196,7 +196,7 @@ function Contest() {
         <label htmlFor="reschedule">Reschedule</label>
         <div className="d-flex gap-2 justify-content-start align-content-center">
           <span className="" style={{ height: "fit-content" }}>
-            True
+            false
           </span>
           <input
             type="radio"

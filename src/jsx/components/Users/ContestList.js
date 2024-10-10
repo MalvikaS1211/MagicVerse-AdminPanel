@@ -8,6 +8,7 @@ import { FaEye } from "react-icons/fa";
 import { FaEdit } from "react-icons/fa";
 import { AiFillDelete } from "react-icons/ai";
 import { toast } from "react-hot-toast";
+import moment from "moment";
 
 function ContestList() {
   const [allContest, setAllContest] = useState([]);
@@ -66,7 +67,7 @@ function ContestList() {
       <table className="table table-hover" style={{ height: "fit-content" }}>
         <thead>
           <tr>
-          {/* <th>Contest Name</th> */}
+            {/* <th>Contest Name</th> */}
             <th scope="col">Exam Name</th>
             <th scope="col">Total Prize</th>
             <th scope="col">First Prize</th>
@@ -116,13 +117,15 @@ function ContestList() {
                   data-bs-target="#staticBackdrop"
                   onClick={() => {
                     setActiveItem(item);
+                    console.log(
+                      moment(item?.endTime).format("YYYY-MM-DD HH:mm"),
+                      item?.endTime
+                    );
                     setFormData({
                       contestId: item?.id,
                       buyAmount: item?.buy,
                       description: item?.description || "",
-                      endTime: new Date(item?.endTime)
-                        .toISOString()
-                        .slice(0, 16), // Format for datetime-local input
+                      endTime: moment(item?.endTime).format("YYYY-MM-DD HH:mm"),
                       duration: item?.overall_time,
                       firstPrize: item?.prize,
                       reschedule: item?.reschedule ? "true" : "false",

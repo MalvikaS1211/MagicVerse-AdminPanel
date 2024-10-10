@@ -252,7 +252,7 @@ export const getLeaderBoardDetails = async (contest) => {
   try {
     if (!contest) {
       throw new Error("Contest ID is required");
-    }
+    } 
     const userResultsQuery = query(
       collection(doc(db, "live_quizzes", contest), "userResult"),
       orderBy("rank", "asc"), // Sort by 'rank' in ascending order
