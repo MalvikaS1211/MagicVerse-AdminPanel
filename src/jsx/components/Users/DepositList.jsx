@@ -70,7 +70,7 @@ function DepositList() {
         <table class="table  table-hover" style={{ height: "fit-content" }}>
           <thead>
             <tr>
-              <th>S.no</th>
+              <th scope="col">S.no</th>
               <th scope="col">User Id</th>
               <th scope="col">Phone</th>
               <th scope="col">Amount</th>
