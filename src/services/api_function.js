@@ -28,6 +28,29 @@ const formatDateTime = (dateString) => {
   return timestampInMilliseconds; // Return the timestamp
 };
 
+const getUserDetails = async (userIds) => {
+  const userDetails = [];
+  try {
+    const usersRef = collection(db, "users");
+    const userFetchPromises = userIds.map(async (userId) => {
+      const userDocRef = doc(usersRef, userId);
+      const userDocSnapshot = await getDoc(userDocRef);
+      if (userDocSnapshot.exists()) {
+        return { id: userDocSnapshot.id, ...userDocSnapshot.data() }; // Add user ID to user data
+      } else {
+        console.warn(`User with ID ${userId} does not exist.`);
+        return null; // Return null for non-existing users
+      }
+    });
+    const results = await Promise.all(userFetchPromises);
+    userDetails.push(...results.filter((user) => user !== null));
+  } catch (error) {
+    console.error("Error fetching user details:", error);
+  }
+
+  return userDetails;
+};
+
 export async function SignIn(email, password) {
   try {
     const querySnapshot = await getDocs(collection(db, "adminLogin"));
@@ -252,15 +275,13 @@ export const getLeaderBoardDetails = async (contest) => {
   try {
     if (!contest) {
       throw new Error("Contest ID is required");
-    } 
+    }
     const userResultsQuery = query(
       collection(doc(db, "live_quizzes", contest), "userResult"),
-      orderBy("rank", "asc"), // Sort by 'rank' in ascending order
-      limit(50) // Limit the results to 50
+      orderBy("rank", "asc"),
+      limit(50)
     );
-    console.log("live_quizzes",contest,"userResult","::::=>>")
     const userResultsSnapshot = await getDocs(userResultsQuery);
-    console.log(userResultsSnapshot,":::::")
     if (userResultsSnapshot.empty) {
       console.log("No user results found.");
       return [];
@@ -269,10 +290,31 @@ export const getLeaderBoardDetails = async (contest) => {
     userResultsSnapshot.forEach((doc) => {
       userResults.push(doc.data());
     });
-    console.log(userResults, "::: Retrieved user results sorted by rank");
     return userResults;
   } catch (error) {
     console.error("Error fetching leaderboard details:", error);
+    return false;
+  }
+};
+
+export const getDepositList = async (contest) => {
+  try {
+    const contestDocRef = doc(db, "live_quizzes", contest);
+    const contestDocSnapshot = await getDoc(contestDocRef);
+    if (contestDocSnapshot.exists()) {
+      const contestData = contestDocSnapshot.data();
+      const paidUserList = contestData.paidUsersList || [];
+      const contestEntryFee = contestData.buy;
+      console.log(contestEntryFee, "contestEntryFee");
+      const userD = await getUserDetails(paidUserList);
+      console.log(userD, "::::: paid user list");
+      return { leader: userD, entryFee: contestEntryFee };
+    } else {
+      console.log("No such contest document!");
+      return [];
+    }
+  } catch (error) {
+    console.log("Error fetching deposit list:", error);
     return false;
   }
 };

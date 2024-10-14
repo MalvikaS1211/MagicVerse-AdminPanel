@@ -24,6 +24,7 @@ import QuestionList from "./components/Users/QuestionList";
 import LeaderBoard from "./components/Users/LeaderBoard";
 import ContestList from "./components/Users/ContestList";
 import Tds from "./components/Users/Tds";
+import DepositList from "./components/Users/DepositList";
 
 const Markup = () => {
   const allroutes = [
@@ -35,6 +36,9 @@ const Markup = () => {
     { url: "QuestionList", component: <QuestionList /> },
     { url: "leaderBoard", component: <LeaderBoard /> },
     { url: "tds", component: <Tds /> },
+    { url: "depositList", component: <DepositList /> },
+    
+
   ];
 
   //Bsc testnet

@@ -5,6 +5,7 @@ import { FaUserGraduate } from "react-icons/fa";
 import { FaRankingStar } from "react-icons/fa6";
 import { PiExamFill } from "react-icons/pi";
 import { FaIdCardAlt } from "react-icons/fa";
+import { PiHandDepositFill } from "react-icons/pi";
 
 
 
@@ -29,6 +30,11 @@ export const MenuList = [
     title:"Question List",
     to:"questionList",
     iconStyle:<RiQuestionnaireFill className="fs-3"/>
+  },
+  {
+    title:"Deposit List",
+    to:"depositList",
+    iconStyle:<PiHandDepositFill className="fs-3"/>
   },
   {
     title:"Leader Board",
