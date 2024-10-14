@@ -65,7 +65,7 @@ function DepositList() {
                 );
               })}
           </select>
-        </div>
+        </div> 
 
         <table class="table  table-hover" style={{ height: "fit-content" }}>
           <thead>
@@ -91,7 +91,7 @@ function DepositList() {
                 );
               })}
           </tbody>
-        </table>
+        </table>                                                                   
       </div>
     </>
   );
