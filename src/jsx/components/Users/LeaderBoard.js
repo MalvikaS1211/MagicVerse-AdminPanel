@@ -42,7 +42,6 @@ function LeaderBoard() {
     <>
       <div className="row col-lg-12 mainDiv  table-responsive">
         <h2>Leader Board</h2>
-
         <div
           className="col-lg-12 mb-5 contest"
           style={{ height: "fit-content", display: "flex", gap: "10px" }}
@@ -96,7 +95,6 @@ function LeaderBoard() {
                   <td
                     className="text-center"
                     onClick={() => {
-                      // console.log("attempted q, obj");
                       setTableData(Object?.values(it?.answeredQuestions));
                       setUnattempt(Object?.values(it?.unattemptedQuestions));
                     }}
@@ -131,8 +129,6 @@ function LeaderBoard() {
           </tbody>
         </table>
       </div>
-
-      {/* {modal} */}
       <div
         class="modal fade"
         id="staticBackdropTable"

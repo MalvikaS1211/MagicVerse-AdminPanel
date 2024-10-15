@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getUserList } from "../../../services/api_function";
+import moment from "moment";
 
 function UserList() {
   const [userList, setuserList] = useState();
@@ -42,6 +43,7 @@ function UserList() {
             <th scope="col">State</th>
             <th scope="col">City</th>
             <th scope="col">DOB</th>
+            <th scope="col">Time</th>
           </tr>
         </thead>
         <tbody>
@@ -57,6 +59,12 @@ function UserList() {
                   <td> {user.state}</td>
                   <td> {user.city}</td>
                   <td> {user.dob}</td>
+                  <td>
+                    {" "}
+                    {moment(user?.createdAt?.seconds * 1000).format(
+                      "DD/MM/YYYY hh:mm:ss A"
+                    )}
+                  </td>
                 </tr>
               );
             })}

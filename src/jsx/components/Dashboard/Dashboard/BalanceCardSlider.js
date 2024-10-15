@@ -80,6 +80,8 @@ const BalanceCardSlider = () => {
     fetchContest();
   }, []);
 
+
+
   return (
     <>
       <div
@@ -88,7 +90,10 @@ const BalanceCardSlider = () => {
       ></div>
       {data ? (
         <div className="row">
-          <Link to="/userList" className="col-lg-3">
+          <Link
+            to="/userList"
+            className="col-lg-3"
+          >
             <div>
               <div className="card ">
                 <div className="card-body">
@@ -106,6 +111,7 @@ const BalanceCardSlider = () => {
                     </div>
                   </div>
                 </div>
+                <div className="card-border"></div>
               </div>
             </div>
           </Link>
@@ -194,8 +200,8 @@ const BalanceCardSlider = () => {
                 <div>
                   <Slider
                     size="small"
-                    defaultValue={it?.totalSpots-it?.spotsLeft}
-                    value={it?.totalSpots-it?.spotsLeft}
+                    defaultValue={it?.totalSpots - it?.spotsLeft}
+                    value={it?.totalSpots - it?.spotsLeft}
                     aria-label="Small"
                     valueLabelDisplay="auto"
                     max={it?.totalSpots}
