@@ -50,7 +50,7 @@ function ContestList() {
     try {
       const res = await updateContestDetailsById(formData);
       if (res) {
-        fetchContest(); // Refresh the contest list after update
+        fetchContest(); 
       }
     } catch (error) {
       console.log(error);

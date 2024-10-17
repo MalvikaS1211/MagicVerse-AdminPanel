@@ -22,6 +22,7 @@ export const url = "https://backoffice.inrx.io/api";
 export const url2 = "https://backoffice.inrx.io/api";
 export const localApi = "http://localhost:5009/api/";
 
+
 const formatDateTime = (dateString) => {
   const date = new Date(dateString); // Create a Date object from the dateString
   const timestampInMilliseconds = date.getTime();
@@ -318,3 +319,5 @@ export const getDepositList = async (contest) => {
     return false;
   }
 };
+
+

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchQuestion, getContestId } from "../../../services/api_function";
+import { fetchQuestion, getContestId} from "../../../services/api_function";
 
 function QuestionList() {
   const [question, setQuestionList] = useState();
@@ -93,7 +93,7 @@ function QuestionList() {
                   <td>{ques?.negative}</td>
                   <td>
                     {ques?.image_url ? (
-                      <img src={ques?.image_url} alt="" srcset=""  style={{height:'200px',width:'200px'}}/>
+                      <img src={ques?.image_url} alt="" srcset=""  style={{height:'100px',width:'100px'}}/>
                     ) : (
                       "-"
                     )}
@@ -107,4 +107,4 @@ function QuestionList() {
   );
 }
 
-export default QuestionList;
+export default QuestionList;                              

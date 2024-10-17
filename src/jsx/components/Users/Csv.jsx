@@ -1,25 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { getContestId } from "../../../services/api_function";
 import Papa from "papaparse";
-import { createQuestionInContest } from "../../../services/api_function"; // Assuming it's in the same service file
-import { toast } from "react-hot-toast"; // For notifications
+import { createQuestionInContest } from "../../../services/api_function";
+import { toast } from "react-hot-toast";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { storage } from "./Firebase";
 
 function Csv() {
   const [contestId, setContestId] = useState([]);
   const [csvData, setCsvData] = useState([]);
-  const [formData, setFormData] = useState({
-    contestId: "",
-    questionId: "",
-    correct: "",
-    img: "",
-    marksPerQuestion: "",
-    negativeMarks: "",
-    optionA: "",
-    optionB: "",
-    optionC: "",
-    optionD: "",
-    question: "",
-  });
+  const [formData, setFormData] = useState({ contestId: "" });
+  const [imageFiles, setImageFiles] = useState({});
 
   const getConstestID = async () => {
     try {
@@ -35,11 +26,8 @@ function Csv() {
   }, []);
 
   const handleChange = (e) => {
-    const { name, value, type, files } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === "file" ? files[0] : value, // Handle file input
-    });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleCsvUpload = (event) => {
@@ -47,7 +35,6 @@ function Csv() {
     if (file) {
       Papa.parse(file, {
         complete: (result) => {
-          console.log(result.data);
           setCsvData(result.data);
         },
         header: true,
@@ -55,10 +42,35 @@ function Csv() {
     }
   };
 
+  const handleImageUpload = (file, questionId) => {
+    const storageRef = ref(storage, `images/${questionId}`);
+    return uploadBytes(storageRef, file).then(async () => {
+      return await getDownloadURL(storageRef);
+    });
+  };
+
+  const handleImageChange = (e, rowIndex) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImageFiles((prev) => ({
+        ...prev,
+        [rowIndex]: file,
+      }));
+    }
+  };
+
   const handleSubmit = async () => {
     try {
+      if (!formData.contestId) {
+        return toast.error("Please Select Contest");
+      }
       for (let i = 0; i < csvData.length; i++) {
         const row = csvData[i];
+        const file = imageFiles[i];
+        let downloadURL = "";
+        if (file) {
+          downloadURL = await handleImageUpload(file, row.id);
+        }
         const questionData = {
           contestId: formData.contestId,
           id: row.id,
@@ -67,12 +79,14 @@ function Csv() {
           negative: parseInt(row.negative),
           options: [row.optionA, row.optionB, row.optionC, row.optionD],
           question: row.question,
+          image_url: downloadURL,
         };
-        console.log(questionData, ":qqq");
+
         const result = await createQuestionInContest(
           questionData,
           formData.contestId
         );
+
         if (result) {
           toast.success(`Question ${questionData.id} added successfully`);
         } else {
@@ -89,21 +103,15 @@ function Csv() {
       <div className="col-lg-3">
         <label htmlFor="contestId">Select Contest Id</label>
         <select name="contestId" onChange={handleChange}>
-          <option value="">
-            Choose Contest
-          </option>
+          <option value="">Choose Contest</option>
           {contestId &&
-            contestId.map((item) => {
-              return (
-                <option key={item} value={item}>
-                  {item}
-                </option>
-              );
-            })}
+            contestId.map((item) => (
+              <option key={item} value={item}>
+                {item}
+              </option>
+            ))}
         </select>
       </div>
-
-      {/* CSV Upload Section */}
 
       <div className="col-lg-3">
         <label htmlFor="csvUpload">Upload CSV</label>
@@ -116,34 +124,38 @@ function Csv() {
         />
       </div>
 
-      {/* Display extracted CSV data */}
       <div className="col-lg-12 mt-5">
-        {csvData && csvData.length > 0 && (
+        {csvData.length > 0 && (
           <table className="csvTable">
             <thead>
               <tr>
                 {Object.keys(csvData[0]).map((key, index) => (
-                  <th key={index}>{key}</th>
+                  <th key={index} className="p-2">
+                    {key}
+                  </th>
                 ))}
+                <th>Upload Image</th>
               </tr>
             </thead>
             <tbody>
               {csvData
-                .map((row) => {
-                  const trimmedRow = {};
-                  Object.keys(row).forEach((key) => {
-                    trimmedRow[key.trim()] = row[key].trim(); // Trim both key and value
-                  });
-                  return trimmedRow;
-                })
                 .filter((row) =>
                   Object.values(row).some((value) => value.trim() !== "")
-                ) 
+                ) // Filter out empty rows
                 .map((row, rowIndex) => (
                   <tr key={rowIndex}>
                     {Object.values(row).map((value, colIndex) => (
-                      <td key={colIndex}>{value}</td>
-                    ))}
+                      <td key={colIndex} className="p-2">
+                        {value}
+                      </td>
+                    ))} 
+                    <td className="p-2">
+                      <input
+                        type="file"
+                        onChange={(e) => handleImageChange(e, rowIndex)}
+                        style={{ paddingTop: "5px" }}
+                      />
+                    </td>
                   </tr>
                 ))}
             </tbody>
@@ -151,13 +163,16 @@ function Csv() {
         )}
       </div>
 
-      {/* Submit Button */}
       <div className="col-lg-3 mt-3">
-      {csvData.length > 0 && 
-        <button className="btn btn-primary" onClick={handleSubmit} style={{background:'blue'}}>
-          Submit Questions
-        </button>
-      }
+        {csvData.length > 0 && (
+          <button
+            className="btn btn-primary"
+            onClick={handleSubmit}
+            style={{ background: "blue" }}
+          >
+            Submit Questions
+          </button>
+        )}
       </div>
     </div>
   );
