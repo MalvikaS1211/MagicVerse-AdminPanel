@@ -63,7 +63,6 @@ function Contest() {
       "description",
       "endTime",
       "duration",
-      "firstPrize",
       "reschedule",
       "quizTitle",
       "totalPrizeMoney",
@@ -182,7 +181,7 @@ function Contest() {
         />
       </div>
 
-      <div className="col-lg-3">
+      {/* <div className="col-lg-3">
         <label htmlFor="firstPrize">1st Prize</label>
         <input
           type="number"
@@ -191,7 +190,7 @@ function Contest() {
           onChange={handleChange}
           value={formData.firstPrize}
         />
-      </div>
+      </div> */}
       <div className="col-lg-3">
         <label htmlFor="reschedule">Reschedule</label>
         <div className="d-flex gap-2 justify-content-start align-content-center">
@@ -249,7 +248,7 @@ function Contest() {
           value={formData.totalSpot}
         />
       </div>
-      <div className="col-lg-3">
+      {/* <div className="col-lg-3">
         <label htmlFor="totalSpot">Winning distribuiton</label>
         <input
           type="file"
@@ -259,7 +258,7 @@ function Contest() {
           className="pt-1"
           // value={formData.winnings}
         />
-      </div>
+      </div> */}
       <div className="col-lg-3 d-flex justify-content-start position-relative pt-5">
         <button
           className="btn btn-info"
@@ -276,7 +275,7 @@ function Contest() {
           )}
         </button>
       </div>
-
+{/* 
       <div className="col-lg-12 table-responsive">
         {formData.winnings.length > 0 && (
           <div className="col-lg-12 mt-4">
@@ -302,7 +301,7 @@ function Contest() {
             </table>
           </div>
         )}
-      </div>
+      </div> */}
     </div>
   );
 }

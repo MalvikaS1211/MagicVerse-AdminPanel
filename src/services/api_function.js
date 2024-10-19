@@ -84,7 +84,7 @@ export async function createContest(formData) {
       description: formData.description,
       endTime: date.getTime(),
       overall_time: parseInt(formData.duration),
-      prize: parseInt(formData.firstPrize),
+      // prize: parseInt(formData.firstPrize),
       reschedule: formData.reschedule == "true" ? true : false,
       title: formData.quizTitle,
       totalPrize: parseInt(formData.totalPrizeMoney),
@@ -93,6 +93,7 @@ export async function createContest(formData) {
       createdAt: serverTimestamp(),
       totalMarks: parseInt(formData.totalMarks),
       totalNoOfQuestion: parseInt(formData.totalQuestion),
+      totalNoOfPayment : parseInt(0)
     });
     return true;
   } catch (error) {
