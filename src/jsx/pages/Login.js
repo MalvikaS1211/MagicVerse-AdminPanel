@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import bg6 from "../../images/background/bg6.jpg";
-import { SignIn } from "../../services/api_function";
+import { adminLogin } from "../../services/api_function";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { setLogin } from "../redux/reducer";
@@ -29,11 +29,13 @@ function Login(props) {
     if (error) {
       return;
     }
-    const res = await SignIn(email,password);
-    if(res){
+    const res = await adminLogin(email,password);
+    if(res.status===200){
       navigate('/dashboard');
       toast.success("Successfully Login");
       dispatch(setLogin(true))
+    } else{
+      toast.error(res.message)
     }
   }
 
@@ -66,7 +68,7 @@ function Login(props) {
                       <div className="logo-header">
                         <Link to={"#"} className="logo">
                           <img
-                            src="/images/logo.png"
+                            src="/images/dsc circle.png"
                             alt=""
                             className="width-230 mCS_img_loaded"
                             style={{width:'150px'}}

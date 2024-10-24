@@ -20,7 +20,11 @@ import {
 import Question from "../jsx/components/Users/Question";
 export const url = "https://backoffice.inrx.io/api";
 export const url2 = "https://backoffice.inrx.io/api";
-export const localApi = "http://localhost:5009/api/";
+
+export const URLApi = "http://localhost:8080/admin/";
+// export const URLApi = "http://localhost:8080/admin/";
+
+
 
 
 const formatDateTime = (dateString) => {
@@ -28,6 +32,32 @@ const formatDateTime = (dateString) => {
   const timestampInMilliseconds = date.getTime();
   return timestampInMilliseconds; // Return the timestamp
 };
+
+
+export async function adminLogin(email, password) {
+  try {
+    const requestBody = {
+      email: email,
+      password: password,
+    };
+
+    const response = await axios.post(`${URLApi}/adminlogin`, requestBody, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    console.log(response.data,"response.data")
+    const token = response.data.token;
+
+    if (token) {
+      localStorage.setItem('adminToken', token); // Store token with the key 'adminToken'
+      console.log("Token stored successfully in localStorage");
+    }
+    return response.data;
+  } catch (error) {
+    console.log("Error login Admin:", error);
+  }
+}
 
 const getUserDetails = async (userIds) => {
   const userDetails = [];
@@ -51,23 +81,6 @@ const getUserDetails = async (userIds) => {
 
   return userDetails;
 };
-
-export async function SignIn(email, password) {
-  try {
-    const querySnapshot = await getDocs(collection(db, "adminLogin"));
-    const data = querySnapshot.docs.map((doc) => {
-      return doc.data();
-    });
-
-    if (data[0].username == email && data[0].password == password) {
-      return true;
-    }
-    return false;
-  } catch (error) {
-    console.error("Error fetching adminLogin data:", error);
-    return false;
-  }
-}
 
 export async function createContest(formData) {
   try {

@@ -129,7 +129,7 @@ const BalanceCardSlider = () => {
                     </div>
                     <div className="-info">
                       <h4 className="count-num">{data.totalContests ?? 0}</h4>
-                      <p className="text_gray mb-0">Total Contest</p>
+                      <p className="text_gray mb-0">Total Stake</p>
                     </div>
                   </div>
                 </div>
@@ -149,7 +149,7 @@ const BalanceCardSlider = () => {
                   </div>
                   <div className="-info">
                     <h4 className="count-num">{data.totalDeposit ?? 0}</h4>
-                    <p className="text_gray mb-0">Total Deposit</p>
+                    <p className="text_gray mb-0">Total Unstake</p>
                   </div>
                 </div>
               </div>
@@ -179,43 +179,6 @@ const BalanceCardSlider = () => {
       ) : (
         <div>Loading...</div>
       )}
-
-      <h3>Contest List</h3>
-      <div className="row col-lg-12 gap-3" style={{ paddingLeft: "15px" }}>
-        {allContest.map((it) => {
-          {
-            /* console.log(it, ":::"); */
-          }
-          return (
-            <div className="col-lg-3 contest-card">
-              <div className="div1">
-                <p className="exTitle">{it?.title}</p>
-                <p className="time">{countdowns[it.id]}</p>
-              </div>
-              <div className="div2">
-                <div className="money">
-                  <p className="m1">{formatPrize(it.totalPrize)}</p>
-                  <p className="m2">₹ {it?.buy}</p>
-                </div>
-                <div>
-                  <Slider
-                    size="small"
-                    defaultValue={it?.totalSpots - it?.spotsLeft}
-                    value={it?.totalSpots - it?.spotsLeft}
-                    aria-label="Small"
-                    valueLabelDisplay="auto"
-                    max={it?.totalSpots}
-                  />
-                </div>
-              </div>
-              <div className="div3">
-                <p>{it?.spotsLeft ?? it?.totalSpots} spot left</p>
-                <p>{it?.totalSpots} spot</p>
-              </div>
-            </div>
-          );
-        })}
-      </div>
     </>
   );
 };

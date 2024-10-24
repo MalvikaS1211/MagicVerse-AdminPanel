@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Routes, Route, Outlet } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { Routes, Route, Outlet, useNavigate } from "react-router-dom";
 import "./index.css";
 import "./chart.css";
 import "./step.css";
@@ -25,17 +25,35 @@ import LeaderBoard from "./components/Users/LeaderBoard";
 import ContestList from "./components/Users/ContestList";
 import Tds from "./components/Users/Tds";
 import DepositList from "./components/Users/DepositList";
+import { useDispatch } from "react-redux";
+import { setLogin } from "./redux/reducer";
+import DaoUsers from "./components/Users/DaoUsers";
 
 const Markup = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const adminToken = localStorage.getItem("adminToken");
+
+  useEffect(()=>{
+    if (adminToken) {
+      dispatch(setLogin(true))
+      navigate('/dashboard');
+      console.log("Admin Token found:", adminToken);
+    } else {
+      dispatch(setLogin(false))
+      console.log("No admin token found.");
+    }
+  },[adminToken])
   const allroutes = [
     { url: "", component: <Home /> },
     { url: "dashboard", component: <Home /> },
     { url: "addQuestion", auth: true, component: <AllUser /> },
     { url: "userList", component: <UserList /> },
     { url: "contestList", component: <ContestList /> },
-    { url: "QuestionList", component: <QuestionList /> },
-    { url: "leaderBoard", component: <LeaderBoard /> },
-    { url: "tds", component: <Tds /> },
+    // { url: "QuestionList", component: <QuestionList /> },
+    // { url: "leaderBoard", component: <LeaderBoard /> },
+    { url: "daousers", component: <DaoUsers /> },
     { url: "depositList", component: <DepositList /> },
     
 
