@@ -27,6 +27,11 @@ export const MenuList = [
     iconStyle:<FaUserGraduate className="fs-3"/>
   },
   {
+    title:"Unstake Users",
+    to:"unstake",
+    iconStyle:<PiHandDepositFill className="fs-3"/>
+  },
+  {
     title:"Deposit List",
     to:"depositList",
     iconStyle:<PiHandDepositFill className="fs-3"/>

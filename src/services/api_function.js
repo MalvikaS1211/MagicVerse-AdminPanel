@@ -59,6 +59,80 @@ export async function adminLogin(email, password) {
   }
 }
 
+export async function daoUsersAdd(address, token) {
+  try {
+    const requestBody = {
+      address: address,
+    };
+
+    const response = await axios.post(`${URLApi}/addDAOUser`, requestBody, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.log("Error login Admin:", error);
+  }
+}
+
+export async function getDAOUserList(token) {
+  try {
+
+    const response = await axios.get(`${URLApi}/getDAOUserList`, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.log("Error getDAOUserList Admin:", error);
+  }
+}
+
+export async function getUserRewardData(walletAddress) {
+  try {
+    const response = await axios.get(`${url}/getUserRewardData`, {
+      params: {
+        userAddress: walletAddress,
+      },
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error fetching stake data:", error);
+    // Handle the error appropriately here
+  }
+}
+
+export async function getAllUnstakes(page,limit, filter, token) {
+  try {
+
+    const response = await axios.get(`${URLApi}/getAllUnstakes`, {
+      params: {
+        page: page,
+        limit: limit,
+        address: filter
+      },
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.log("Error getDAOUserList Admin:", error);
+  }
+}
+
+
+
+
 const getUserDetails = async (userIds) => {
   const userDetails = [];
   try {

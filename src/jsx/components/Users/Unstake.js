@@ -12,7 +12,7 @@ import Contest from "./Contest";
 import Question from "./Question";
 import Papa from "papaparse";
 import Csv from "./Csv";
-import { daoUsersAdd, getDAOUserList } from "../../../services/api_function";
+import { daoUsersAdd, getAllUnstakes, getDAOUserList } from "../../../services/api_function";
 import toast from "react-hot-toast";
 
 const HtmlTooltip = styled(({ className, ...props }) => (
@@ -26,7 +26,7 @@ const HtmlTooltip = styled(({ className, ...props }) => (
   },
 }));
 
-export const DaoUsers = () => {
+export const Unstake = () => {
   const [apiData, setApiData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -35,28 +35,12 @@ export const DaoUsers = () => {
   const [recordStatus, setRecordStatus] = useState("Loading...");
   const [isFetch, setIsFetch] = useState(false);
 
-
-  async function createDaoAddress() {
-    const userDetails = localStorage.getItem("adminToken");
-    // const parsedDetails = JSON.parse(userDetails);
-    const token = userDetails;
-    const res = await daoUsersAdd(daoAddress, token);
-
-    if(res.status === 200){
-        toast.success(res?.message);
-        setIsFetch(!isFetch)
-
-    }else{
-        toast.error(res?.message);
-    }
-  }
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const userDetails = localStorage.getItem("adminToken");
         const token = userDetails;
-        const result = await getDAOUserList(token);
+        const result = await getAllUnstakes(token);
         console.log(result);
         setApiData(result?.data);
         if (!result.data[0]) {
@@ -122,25 +106,10 @@ export const DaoUsers = () => {
         <Col lg={12}>
           <Card>
             <Card.Header>
-              <Card.Title>DAO USERS</Card.Title>
+              <Card.Title>UNSTAKE USERS</Card.Title>
             </Card.Header>
             <Card.Body>
-            <div className="form-label m-2">Address</div>
-            <div className="pb-3 d-flex gap-2" >
-            <div className="input-group" style={{ maxWidth: "300px" }}>
-                <input
-                type="search"
-                id="form1"
-                className="form-control"
-                placeholder="Enter Dao Address"
-                // value={daoAddress}
-                onChange={(e)=>{console.log(e,"MANTHAN"); setDaoAddress(e.target.value)}}
-                />
-            </div>
-            <button className="btn btn-success" onClick={()=>{createDaoAddress()}}>ADD</button>
 
-            <label className="form-label" for="form1"></label>
-            </div>
               <Table responsive>
                 {/* <button onClick={() => exportToExcel(data, 'exported-data')}>Export to Excel</button> */}
                 <thead>
@@ -217,4 +186,4 @@ export const DaoUsers = () => {
   );
 };
 
-export default DaoUsers;
+export default Unstake;
