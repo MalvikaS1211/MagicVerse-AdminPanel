@@ -22,7 +22,7 @@ export const url = "https://backoffice.inrx.io/api";
 export const url2 = "https://backoffice.inrx.io/api";
 
 // export const URLApi = "http://localhost:8000/admin/";
-export const URLApi = "http://3.98.126.210/admin/";
+export const URLApi = "http://3.98.126.210/dsc_admin/";
 
 
 
