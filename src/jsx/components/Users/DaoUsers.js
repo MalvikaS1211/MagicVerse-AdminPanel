@@ -59,7 +59,7 @@ export const DaoUsers = () => {
         const result = await getDAOUserList(token);
         console.log(result);
         setApiData(result?.data);
-        if (!result.data[0]) {
+        if (!result?.data?.[0]) {
           setRecordStatus("No Record");
         }
         // setTotalPages(result.totalPages);
@@ -155,7 +155,7 @@ export const DaoUsers = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {!apiData[0] ? (
+                  {!apiData?.[0] ? (
                     <tr>
                       <td className="text-light text-center" colSpan="7">
                         {/* {recordStatus} */}

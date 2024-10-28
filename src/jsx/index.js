@@ -5,7 +5,7 @@ import "./chart.css";
 import "./step.css";
 import Nav from "./layouts/nav";
 import Home from "./components/Dashboard/Home";
-import AllUser from "./components/Users/allUser";
+import AllUser, { Alluser } from "./components/Users/allUser";
 import { ThemeContext } from "../context/ThemeContext";
 import { Toaster } from "react-hot-toast";
 import { publicProvider } from "wagmi/providers/public";
@@ -39,7 +39,7 @@ const Markup = () => {
   useEffect(()=>{
     if (adminToken) {
       dispatch(setLogin(true))
-      navigate('/dashboard');
+      navigate('/admin/dashboard');
       console.log("Admin Token found:", adminToken);
     } else {
       dispatch(setLogin(false))
@@ -48,14 +48,14 @@ const Markup = () => {
   },[adminToken])
   const allroutes = [
     { url: "", component: <Home /> },
-    { url: "dashboard", component: <Home /> },
-    { url: "addQuestion", auth: true, component: <AllUser /> },
-    { url: "userList", component: <UserList /> },
-    { url: "unstake", component: <Unstake /> },
+    { url: "admin/dashboard", component: <Home /> },
+    // { url: "addQuestion", auth: true, component: <AllUser /> },
+    { url: "admin/userList", component: <Alluser /> },
+    { url: "admin/unstake", component: <Unstake /> },
     // { url: "QuestionList", component: <QuestionList /> },
     // { url: "leaderBoard", component: <LeaderBoard /> },
-    { url: "daousers", component: <DaoUsers /> },
-    { url: "depositList", component: <DepositList /> },
+    { url: "admin/daousers", component: <DaoUsers /> },
+    { url: "admin/depositList", component: <DepositList /> },
     
 
   ];
@@ -130,7 +130,7 @@ const Markup = () => {
             />
           ))}
         </Route>
-        <Route path="/login" element={<Login />} />
+        <Route path="/admin/login" element={<Login />} />
       </Routes>
       {/* </RainbowKitProvider>
       </WagmiConfig> */}

@@ -12,6 +12,8 @@ import Contest from "./Contest";
 import Question from "./Question";
 import Papa from "papaparse";
 import Csv from "./Csv";
+import { daoUsersAdd, getAllStakeUsers, getAllUnstakes, getDAOUserList } from "../../../services/api_function";
+import toast from "react-hot-toast";
 
 const HtmlTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -24,30 +26,39 @@ const HtmlTooltip = styled(({ className, ...props }) => (
   },
 }));
 
-export const AllUser = () => {
+export const Alluser = () => {
   const [apiData, setApiData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [search, setSearch] = useState("");
-  const [adminData, setAdminData] = useState([]);
-  const [active, setActive] = useState(1);
+  const [daoAddress, setDaoAddress] = useState("");
+  const [recordStatus, setRecordStatus] = useState("Loading...");
+  const [isFetch, setIsFetch] = useState(false);
 
   useEffect(() => {
-    const fetchAdminData = async () => {
+    const fetchData = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "adminLogin"));
-        const data = querySnapshot.docs.map((doc) => {
-          return doc.data();
-        });
-        console.log(data);
-        setAdminData(data);
+        const userDetails = localStorage.getItem("adminToken");
+        const token = userDetails;
+        const result = await getAllStakeUsers(currentPage,10, search,token);
+        console.log(result,"RELLLLLLL");
+        setApiData(result?.data);
+        if (!result?.data?.[0]) {
+          setRecordStatus("No Record");
+        }
+        setTotalPages(result?.pagination?.totalPages);
+        // if (result.status == 404) {
+        //   navigate("/login");
+        //   localStorage.removeItem("userDetails");
+        // }
       } catch (error) {
-        console.error("Error fetching adminLogin data:", error);
+        console.error("Error fetching data:", error);
       }
     };
 
-    fetchAdminData();
-  }, []);
+    fetchData();
+  }, [currentPage,search,isFetch]);
+
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) =>
@@ -78,52 +89,119 @@ export const AllUser = () => {
   return (
     <Fragment>
       <Row>
-        <div className="display_end" style={{ opacity: "0" }}>
+        <div className="display_end">
           <div className="input-group" style={{ maxWidth: "300px" }}>
             <input
               type="search"
               id="form1"
               className="form-control"
               placeholder="Search here..."
-              // onChange={handleSearch}
+            //   onChange={handleSearch}
             />
           </div>
-          <label class="form-label" for="form1"></label>
+          <label className="form-label" for="form1"></label>
         </div>
 
         <Col lg={12}>
           <Card>
-            <Card.Header className="qustn-btn">
-              <Card.Title
-                className={`btn ${active == 1 ? "active1" : ""}`}
-                onClick={() => {
-                  setActive(1);
-                }}
-              >
-                Add Contest
-              </Card.Title>
-              <Card.Title
-                className={`btn ${active == 2 ? "active1" : ""}`}
-                onClick={() => {
-                  setActive(2);
-                }}
-              >
-                Add Question
-              </Card.Title>
-              <Card.Title
-                className={`btn ${active == 3 ? "active1" : ""}`}
-                onClick={() => {
-                  setActive(3);
-                }}
-              >
-                Add CSV
-              </Card.Title>
+            <Card.Header>
+              <Card.Title>All USERS</Card.Title>
             </Card.Header>
             <Card.Body>
-              <div className="row col-lg-12">
-                {active == 1 && <Contest />}
-                {active == 2 && <Question />}
-                {active == 3 && <Csv />}
+
+              <Table responsive>
+                {/* <button onClick={() => exportToExcel(data, 'exported-data')}>Export to Excel</button> */}
+                <thead>
+                  <tr>
+                    <th>S.No.</th>
+                    <th>User</th>
+                    <th>referral</th>
+                    <th>Rank</th>
+                    <th>Node Group Name</th>
+                    <th>Total Stake</th>
+                    <th>Stake</th>
+                    <th>{"       "}Team Business { "      " } </th>
+                    <th>Total Unstake</th>
+                    <th>Profit Income</th>
+                    <th>Total Referrals</th>
+
+                    <th>Date & Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {!apiData?.[0] ? (
+                    <tr>
+                      <td className="text-light text-center" colSpan="7">
+                        {/* {recordStatus} */}
+                      </td>
+                    </tr>
+                  ) : (
+                    apiData?.map((data, index) => (
+                      <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td>{data?.userAddress?.slice(0,5)}...{data?.userAddress?.slice(-4)}</td>
+                        <td>{data?.referralAddress?.slice(0,5)}...{data?.referralAddress?.slice(-4)}</td>
+                        <td>{data?.stakeRank || "--"}</td>
+                        <td>{data?.nodeGroupName || "--"}</td>
+                        <td>${data?.totalStake}</td>
+                        <td>
+                          <div>{data?.totalCoinAmount} DSC</div>
+                          <div>{data?.totalTokenAmount} USDT </div>
+                        </td>
+
+                        <td>
+                          <div className="d-flex justify-content-between align-items-center">
+                            <div>{"  "}${data?.teamBusiness} {"  "}</div>
+                            <div className="text-end">
+                              <div>{"  "}{data?.teamBusinesswithCoin.dsc} DSC {"  "}</div>
+                              <div>{"  "}{data?.teamBusinesswithCoin.usdt} USDT {"   "}</div>
+
+                            </div>
+                          </div>
+                        </td>
+                        <td>${data?.totalUnStake}</td>
+                        <td>${data?.totalProfitIncome}</td>
+                        <td>{data?.totalReferrals}</td>
+
+                        <td>{new Date(data?.createdAt).toLocaleString()}</td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </Table>
+
+              <div className="d-flex justify-content-between">
+                <span>
+                  {/* Page{" "} */}
+                  <strong>{/* {currentPage} of {totalPages} */}</strong>
+                </span>
+              </div>
+              <div
+                className="text-center mb-3 col-lg-6"
+                style={{ margin: "auto" }}
+              >
+                <div className=" filter-pagination mt-3 ">
+                  <button
+                    className="previous-button btn border m-2"
+                    onClick={handlePreviousPage}
+                    disabled={currentPage === 1}
+                  >
+                    Previous
+                  </button>
+
+                  <button
+                    type="button"
+                    className="next-button btn btn-success pointer border m-2"
+                    onClick={handleNextPage}
+                    disabled={currentPage === totalPages}
+                  >
+                    Next
+                  </button>
+
+                  <span>
+                    Page {currentPage} of {totalPages}
+                  </span>
+                </div>
               </div>
             </Card.Body>
           </Card>
@@ -133,4 +211,4 @@ export const AllUser = () => {
   );
 };
 
-export default AllUser;
+export default Alluser;

@@ -14,7 +14,7 @@ export const MenuList = [
     title: "Dashboard",
     classsChange: "mm-collapse",
     iconStyle: <i className="material-icons">grid_view</i>,
-    to: "dashboard",
+    to: "admin/dashboard",
   },
   // {
   //   title: "Add Question",
@@ -23,27 +23,27 @@ export const MenuList = [
   // },
   {
     title:"User List",
-    to:"userList",
+    to:"admin/userList",
     iconStyle:<FaUserGraduate className="fs-3"/>
   },
   {
     title:"Unstake Users",
-    to:"unstake",
+    to:"admin/unstake",
     iconStyle:<PiHandDepositFill className="fs-3"/>
   },
-  {
-    title:"Deposit List",
-    to:"depositList",
-    iconStyle:<PiHandDepositFill className="fs-3"/>
-  },
+  // {
+  //   title:"Deposit List",
+  //   to:"depositList",
+  //   iconStyle:<PiHandDepositFill className="fs-3"/>
+  // },
   {
     title:"Dao Users",
-    to:"daousers",
+    to:"admin/daousers",
     iconStyle:<PiHandDepositFill className="fs-3"/>
   },
   {
     title: "Logout",
     iconStyle: <i class="material-icons">logout</i>,
-    to: "login",
+    to: "admin/login",
   },
 ];

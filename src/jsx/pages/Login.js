@@ -31,7 +31,7 @@ function Login(props) {
     }
     const res = await adminLogin(email,password);
     if(res.status===200){
-      navigate('/dashboard');
+      navigate('/admin/dashboard');
       toast.success("Successfully Login");
       dispatch(setLogin(true))
     } else{
@@ -68,7 +68,7 @@ function Login(props) {
                       <div className="logo-header">
                         <Link to={"#"} className="logo">
                           <img
-                            src="/images/dsc circle.png"
+                            src="/images/logo.png"
                             alt=""
                             className="width-230 mCS_img_loaded"
                             style={{width:'150px'}}

@@ -40,10 +40,10 @@ export const Unstake = () => {
       try {
         const userDetails = localStorage.getItem("adminToken");
         const token = userDetails;
-        const result = await getAllUnstakes(token);
-        console.log(result);
+        const result = await getAllUnstakes(currentPage,10, search,token);
+        // console.log(result,"RELLLLLLL");
         setApiData(result?.data);
-        if (!result.data[0]) {
+        if (!result?.data?.[0]) {
           setRecordStatus("No Record");
         }
         // setTotalPages(result.totalPages);
@@ -57,7 +57,7 @@ export const Unstake = () => {
     };
 
     fetchData();
-  }, [isFetch]);
+  }, [currentPage, isFetch]);
 
 
   const handleNextPage = () => {
@@ -116,15 +116,15 @@ export const Unstake = () => {
                   <tr>
                     <th>S.No.</th>
                     <th>User</th>
-                    <th>type</th>
-                    <th>Amount</th>
-                    <th>Rewad DSC</th>
-                    <th>Rewad USDT</th>
+                    <th>Unstake Amount</th>
+                    <th>Unstake DSC</th>
+                    <th>Unstake USDT</th>
+                    <th>WithDraw</th>
                     <th>Date & Time</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {!apiData[0] ? (
+                  {!apiData?.[0] ? (
                     <tr>
                       <td className="text-light text-center" colSpan="7">
                         {/* {recordStatus} */}
@@ -134,12 +134,12 @@ export const Unstake = () => {
                     apiData?.map((data, index) => (
                       <tr key={index}>
                         <td>{index + 1}</td>
-                        <td>{data?.address?.slice(0,6)}...{data?.address?.slice(-6)}</td>
-                        <td>{data?.type}</td>
-                        <td>${data?.rewardAmount}</td>
-                        <td>{data?.rewardwithCoin?.dsc} DSC</td>
-                        <td>{data?.rewardwithCoin?.usdt} USDT</td>
-                        <td>{new Date(data?.createdAt).toLocaleString()}</td>
+                        <td>{data?.stakeId?.userAddress?.slice(0,6)}...{data?.stakeId?.userAddress?.slice(-6)}</td>
+                        <td>${data?.unstakeAmount}</td>
+                        <td>{data?.stakingId?.coinAmount} DSC</td>
+                        <td>{data?.stakingId?.tokenAmount} USDT</td>
+                        <td>{data?.isUnstakeCompleted ? "Success": "Pending"}</td>
+                        <td>{new Date(data?.unstakeTimestamp).toLocaleString()}</td>
                       </tr>
                     ))
                   )}
@@ -152,13 +152,13 @@ export const Unstake = () => {
                   <strong>{/* {currentPage} of {totalPages} */}</strong>
                 </span>
               </div>
-              {/* <div
+              <div
                 className="text-center mb-3 col-lg-6"
                 style={{ margin: "auto" }}
               >
-                <div className="filter-pagination mt-3">
+                <div className=" filter-pagination mt-3 ">
                   <button
-                    className="previous-button"
+                    className="previous-button btn border m-2"
                     onClick={handlePreviousPage}
                     disabled={currentPage === 1}
                   >
@@ -166,7 +166,8 @@ export const Unstake = () => {
                   </button>
 
                   <button
-                    className="next-button"
+                    type="button"
+                    className="next-button btn btn-success pointer border m-2"
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}
                   >
@@ -177,7 +178,7 @@ export const Unstake = () => {
                     Page {currentPage} of {totalPages}
                   </span>
                 </div>
-              </div> */}
+              </div>
             </Card.Body>
           </Card>
         </Col>

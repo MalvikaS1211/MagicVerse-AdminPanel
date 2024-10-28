@@ -9,56 +9,20 @@ import "swiper/css";
 import {
   getAllContest,
   getDashboardData,
+  getStakeSummary,
 } from "../../../../services/api_function";
+
 const BalanceCardSlider = () => {
   const [data, setData] = useState(null);
   const [allContest, setAllContest] = useState([]);
 
-  const [countdowns, setCountdowns] = useState({});
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const newCountdowns = {};
-      allContest.forEach((it) => {
-        const endTime = new Date(it.endTime).getTime();
-        const now = new Date().getTime();
-        const distance = endTime - now;
-        if (distance > 0) {
-          const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-          const hours = Math.floor(
-            (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-          );
-          const minutes = Math.floor(
-            (distance % (1000 * 60 * 60)) / (1000 * 60)
-          );
-          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-          newCountdowns[it.id] = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-        } else {
-          newCountdowns[it.id] = "Expired";
-        }
-      });
-
-      setCountdowns(newCountdowns);
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [allContest]);
-
-  function formatPrize(amount) {
-    if (amount >= 1e7) {
-      return (amount / 1e7).toFixed(0) + " Crore";
-    } else if (amount >= 1e5) {
-      return (amount / 1e5).toFixed(0) + " Lakh";
-    } else if (amount >= 1e3) {
-      return (amount / 1e3).toFixed(0) + " Thousand";
-    }
-    return amount;
-  }
-
   useEffect(() => {
     const fetchData = async () => {
-      const res = await getDashboardData();
-      if (res) {
-        setData(res);
+      const token = localStorage.getItem("adminToken");
+      const res = await getStakeSummary(token);
+      console.log(res,"res")
+      if (res?.status === 200) {
+        setData(res.data);
       } else {
         setData(null);
       }
@@ -106,7 +70,7 @@ const BalanceCardSlider = () => {
                       />
                     </div>
                     <div className="-info">
-                      <h4 className="count-num">{data.totalUsers ?? 0}</h4>
+                      <h4 className="count-num">{data?.totalUsers ?? 0}</h4>
                       <p className="text_gray mb-0">Total Users</p>
                     </div>
                   </div>
@@ -128,7 +92,7 @@ const BalanceCardSlider = () => {
                       />
                     </div>
                     <div className="-info">
-                      <h4 className="count-num">{data.totalContests ?? 0}</h4>
+                      <h4 className="count-num">${data?.totalStake ?? 0}</h4>
                       <p className="text_gray mb-0">Total Stake</p>
                     </div>
                   </div>
@@ -148,8 +112,47 @@ const BalanceCardSlider = () => {
                     />
                   </div>
                   <div className="-info">
-                    <h4 className="count-num">{data.totalDeposit ?? 0}</h4>
+                    <h4 className="count-num">${data?.totalUnstakedTokens ?? 0}</h4>
                     <p className="text_gray mb-0">Total Unstake</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-lg-3">
+            <div className="card ">
+              <div className="card-body">
+                <div className="d-flex gap-3">
+                  <div className="circle_bg">
+                    {/* <img src="/images/user.png" className="img_50" /> */}
+                    <MdQuiz
+                      className="text-dark"
+                      style={{ fontSize: "45px" }}
+                    />
+                  </div>
+                  <div className="-info">
+                    <h4 className="count-num">{data.totalDSCCoin ?? 0} DSC</h4>
+                    <p className="text_gray mb-0">Total DSC STAKE</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-lg-3">
+            <div className="card ">
+              <div className="card-body">
+                <div className="d-flex gap-3">
+                  <div className="circle_bg">
+                    {/* <img src="/images/user.png" className="img_50" /> */}
+                    <MdQuiz
+                      className="text-dark"
+                      style={{ fontSize: "45px" }}
+                    />
+                  </div>
+                  <div className="-info">
+                    <h4 className="count-num">{data.totalUSDTCoin ?? 0} USDT</h4>
+                    <p className="text_gray mb-0">Total USDT STAKE</p>
                   </div>
                 </div>
               </div>

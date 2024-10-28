@@ -7,6 +7,7 @@ function LogoutPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   function onLogout() {
+    localStorage.removeItem("adminToken");
     dispatch(navigate);
   }
   return (

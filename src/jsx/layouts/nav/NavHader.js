@@ -30,7 +30,7 @@ const NavHader = () => {
     useContext(ThemeContext);
   return (
     <div className="nav-header">
-      <Link to="/dashboard" className="brand-logo">
+      <Link to="/admin/dashboard" className="brand-logo">
         {/* //for mobile */}
         <img src="/images/logo.png" className="logo-color" alt="" />
         {/* for // Desktop */}

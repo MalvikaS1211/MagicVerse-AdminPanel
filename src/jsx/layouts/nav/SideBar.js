@@ -54,17 +54,19 @@ const SideBar = () => {
   const navigate = useNavigate();
   let path = window.location.pathname;
   path = path.split("/");
+  console.log(path,"path1234567")
   path = path[path.length - 1];
   const dispatch = useDispatch();
   const checkUser = async () => {
-    console.log("in checkUser",login.login)
+    console.log(path,"in checkUser",login.login)
     try {
       if (!(login.login)) {
-        navigate("/login");
+        navigate("/admin/login");
       }
     } catch (error) {}
   };
   const Logout = () => {
+    localStorage.removeItem("adminToken");
     dispatch(setLogin(false));
   };
 

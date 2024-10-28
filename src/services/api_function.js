@@ -21,8 +21,8 @@ import Question from "../jsx/components/Users/Question";
 export const url = "https://backoffice.inrx.io/api";
 export const url2 = "https://backoffice.inrx.io/api";
 
-export const URLApi = "http://localhost:8080/admin/";
-// export const URLApi = "http://localhost:8080/admin/";
+// export const URLApi = "http://localhost:8000/admin/";
+export const URLApi = "http://3.98.126.210/admin/";
 
 
 
@@ -130,7 +130,40 @@ export async function getAllUnstakes(page,limit, filter, token) {
   }
 }
 
+export async function getAllStakeUsers(page,limit, filter, token) {
+  try {
 
+    const response = await axios.get(`${URLApi}/getAllStakeUsers`, {
+      params: {
+        page: page,
+        limit: limit,
+        address: filter
+      },
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.log("Error getDAOUserList Admin:", error);
+  }
+}
+
+export async function getStakeSummary(token) {
+  try {
+
+    const response = await axios.get(`${URLApi}/getStakeSummary`, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.log("Error getDAOUserList Admin:", error);
+  }
+}
 
 
 const getUserDetails = async (userIds) => {
