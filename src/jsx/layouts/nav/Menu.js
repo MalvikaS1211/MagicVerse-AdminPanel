@@ -26,6 +26,12 @@ export const MenuList = [
     to:"admin/userList",
     iconStyle:<FaUserGraduate className="fs-3"/>
   },
+
+  {
+    title:"Reward List",
+    to:"admin/rewardList",
+    iconStyle:<FaRankingStar className="fs-3"/>
+  },
   {
     title:"Unstake Users",
     to:"admin/unstake",

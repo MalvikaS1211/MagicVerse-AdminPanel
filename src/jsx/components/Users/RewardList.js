@@ -12,7 +12,7 @@ import Contest from "./Contest";
 import Question from "./Question";
 import Papa from "papaparse";
 import Csv from "./Csv";
-import { daoUsersAdd, getAllStakeUsers, getAllUnstakes, getDAOUserList } from "../../../services/api_function";
+import { getAllRewardList } from "../../../services/api_function";
 import toast from "react-hot-toast";
 
 const HtmlTooltip = styled(({ className, ...props }) => (
@@ -26,7 +26,7 @@ const HtmlTooltip = styled(({ className, ...props }) => (
   },
 }));
 
-export const Alluser = () => {
+export const RewardList = () => {
   const [apiData, setApiData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -34,6 +34,7 @@ export const Alluser = () => {
   const [daoAddress, setDaoAddress] = useState("");
   const [recordStatus, setRecordStatus] = useState("Loading...");
   const [isFetch, setIsFetch] = useState(false);
+
 
   const handleSearch = async (e) => {
     const query = e.target.value.trim().toLowerCase();
@@ -49,7 +50,7 @@ export const Alluser = () => {
       try {
         const userDetails = localStorage.getItem("adminToken");
         const token = userDetails;
-        const result = await getAllStakeUsers(currentPage,10, search,token);
+        const result = await getAllRewardList(currentPage,10, search,token);
         console.log(result,"RELLLLLLL");
         setApiData(result?.data);
         if (!result?.data?.[0]) {
@@ -79,22 +80,6 @@ export const Alluser = () => {
     setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : prevPage));
   };
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      Papa.parse(file, {
-        complete: (result) => {
-          console.log(result.data); // Logs the CSV data to console
-        },
-        header: true, // if you want the first row as headers
-      });
-    }
-  };
-
-  const handleClick = () => {
-    document.getElementById("fileInput").click(); // Programmatically click the hidden input
-  };
-
   return (
     <Fragment>
       <Row>
@@ -114,7 +99,7 @@ export const Alluser = () => {
         <Col lg={12}>
           <Card>
             <Card.Header>
-              <Card.Title>All USERS</Card.Title>
+              <Card.Title>Reward List</Card.Title>
             </Card.Header>
             <Card.Body>
 
@@ -123,17 +108,10 @@ export const Alluser = () => {
                 <thead>
                   <tr>
                     <th>S.No.</th>
-                    <th>User</th>
-                    <th>referral</th>
-                    <th>Rank</th>
-                    <th>Node Group Name</th>
-                    <th>Total Stake</th>
-                    <th>Stake</th>
-                    <th>{"       "}Team Business { "      " } </th>
-                    <th>Total Unstake</th>
-                    <th>Profit Income</th>
-                    <th>Total Referrals</th>
-
+                    <th>From Address</th>
+                    <th>To Address</th>
+                    <th>Type</th>
+                    <th>Reward</th>
                     <th>Date & Time</th>
                   </tr>
                 </thead>
@@ -148,29 +126,13 @@ export const Alluser = () => {
                     apiData?.map((data, index) => (
                       <tr key={index}>
                         <td>{index + 1}</td>
-                        <td>{data?.userAddress?.slice(0,5)}...{data?.userAddress?.slice(-4)}</td>
-                        <td>{data?.referralAddress?.slice(0,5)}...{data?.referralAddress?.slice(-4)}</td>
-                        <td>{data?.stakeRank || "--"}</td>
-                        <td>{data?.nodeGroupName || "--"}</td>
-                        <td>${data?.totalStake}</td>
+                        <td>{data?.fromAddress?.slice(0,5)}...{data?.fromAddress?.slice(-4)}</td>
+                        <td>{data?.toAddress?.slice(0,5)}...{data?.toAddress?.slice(-4)}</td>
+                        <td>{data?.type || "--"}</td>
                         <td>
-                          <div>{data?.totalCoinAmount} DSC</div>
-                          <div>{data?.totalTokenAmount} USDT </div>
+                          <div>{data?.reward?.dsc} DSC</div>
+                          <div>{data?.reward?.usdt} USDT </div>
                         </td>
-
-                        <td>
-                          <div className="d-flex justify-content-between align-items-center">
-                            <div>{"  "}${data?.teamBusiness} {"  "}</div>
-                            <div className="text-end">
-                              <div>{"  "}{data?.teamBusinesswithCoin.dsc} DSC {"  "}</div>
-                              <div>{"  "}{data?.teamBusinesswithCoin.usdt} USDT {"   "}</div>
-
-                            </div>
-                          </div>
-                        </td>
-                        <td>${data?.totalUnStake}</td>
-                        <td>${data?.totalProfitIncome}</td>
-                        <td>{data?.totalReferrals}</td>
 
                         <td>{new Date(data?.createdAt).toLocaleString()}</td>
                       </tr>
@@ -220,4 +182,4 @@ export const Alluser = () => {
   );
 };
 
-export default Alluser;
+export default RewardList;

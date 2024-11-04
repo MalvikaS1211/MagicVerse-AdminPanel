@@ -36,6 +36,15 @@ export const DaoUsers = () => {
   const [isFetch, setIsFetch] = useState(false);
 
 
+  const handleSearch = async (e) => {
+    const query = e.target.value.trim().toLowerCase();
+    const sanitizedQuery = query.replace(/[\\|^$*+?.(){}[\]]/g, "");
+    setSearch(sanitizedQuery);
+    if (currentPage !== 1) {
+      setCurrentPage(1);
+    }
+  };
+
   async function createDaoAddress() {
     const userDetails = localStorage.getItem("adminToken");
     // const parsedDetails = JSON.parse(userDetails);

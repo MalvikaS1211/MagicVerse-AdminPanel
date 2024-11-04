@@ -150,6 +150,26 @@ export async function getAllStakeUsers(page,limit, filter, token) {
   }
 }
 
+export async function getAllRewardList(page,limit, filter, token) {
+  try {
+
+    const response = await axios.get(`${URLApi}/getAllRewardList`, {
+      params: {
+        page: page,
+        limit: limit,
+        address: filter
+      },
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.log("Error getDAOUserList Admin:", error);
+  }
+}
+
 export async function getStakeSummary(token) {
   try {
 
