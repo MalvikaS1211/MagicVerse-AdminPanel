@@ -28,6 +28,12 @@ export const MenuList = [
   },
 
   {
+    title:"Stake List",
+    to:"admin/stakeList",
+    iconStyle:<RiQuestionnaireFill className="fs-3"/>
+  },
+
+  {
     title:"Reward List",
     to:"admin/rewardList",
     iconStyle:<FaRankingStar className="fs-3"/>

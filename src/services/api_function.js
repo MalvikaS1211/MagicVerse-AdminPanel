@@ -461,4 +461,25 @@ export const getDepositList = async (contest) => {
   }
 };
 
+export async function getAllStakeUserList(page,limit, filter,type, token) {
+  try {
+
+    const response = await axios.get(`${URLApi}/getAllStakeUserList`, {
+      params: {
+        page: page,
+        limit: limit,
+        userAddress: filter,
+        type: type
+      },
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.log("Error getDAOUserList Admin:", error);
+  }
+}
+
 

@@ -30,6 +30,7 @@ import { setLogin } from "./redux/reducer";
 import DaoUsers from "./components/Users/DaoUsers";
 import Unstake from "./components/Users/Unstake";
 import RewardList from "./components/Users/RewardList";
+import StakeList from "./components/Users/StakeList";
 
 const Markup = () => {
   const dispatch = useDispatch();
@@ -52,6 +53,8 @@ const Markup = () => {
     { url: "admin/dashboard", component: <Home /> },
     // { url: "addQuestion", auth: true, component: <AllUser /> },
     { url: "admin/userList", component: <Alluser /> },
+    { url: "admin/stakeList", component: <StakeList /> },
+
     { url: "admin/rewardList", component: <RewardList /> },
 
     { url: "admin/unstake", component: <Unstake /> },
