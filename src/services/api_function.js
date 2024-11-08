@@ -22,7 +22,7 @@ export const url = "https://backoffice.inrx.io/api";
 export const url2 = "https://backoffice.inrx.io/api";
 
 // export const URLApi = "http://localhost:8000/admin/";
-export const URLApi = "https://dappcircle.dscscan.io/dsc_admin";
+export const URLApi = "https://dappcircle.io/dsc_admin";
 
 
 
