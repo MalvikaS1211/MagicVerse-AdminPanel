@@ -236,3 +236,17 @@ export async function getStakeSetting(token) {
     console.log("Error getDAOUserList Admin:", error);
   }
 }
+
+export async function getTop3IdData(token) {
+  try {
+    const response = await axios.get(`${URLApi}/getTop3IdData`, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.log("Error getDAOUserList Admin:", error);
+  }
+}

@@ -781,6 +781,15 @@ button.react-calendar__tile.react-calendar__tile--active.react-calendar__tile--r
   align-items: center;
   justify-content: center;
 }
+.circle_bg2 {
+  border-radius: 50px;
+  color: #fff;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .img_50 {
   width: 40px;
