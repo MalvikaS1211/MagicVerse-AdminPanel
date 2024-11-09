@@ -7,14 +7,12 @@ import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 import "swiper/css";
 import {
-  getAllContest,
-  getDashboardData,
+  cutAfterDecimal,
   getStakeSummary,
 } from "../../../../services/api_function";
 
 const BalanceCardSlider = () => {
   const [data, setData] = useState(null);
-  const [allContest, setAllContest] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,21 +27,6 @@ const BalanceCardSlider = () => {
     };
     fetchData();
   }, []);
-
-  const fetchContest = async () => {
-    console.log("infetchContest");
-    try {
-      const res = await getAllContest();
-      setAllContest(res);
-    } catch (error) {
-      console.log(error, ":: in contestlist");
-      setAllContest([]);
-    }
-  };
-  useEffect(() => {
-    fetchContest();
-  }, []);
-
 
 
   return (
@@ -92,7 +75,7 @@ const BalanceCardSlider = () => {
                       />
                     </div>
                     <div className="-info">
-                      <h4 className="count-num">${data?.totalStake ?? 0}</h4>
+                      <h4 className="count-num">${cutAfterDecimal(data?.totalStake,4) ?? 0}</h4>
                       <p className="text_gray mb-0">Total Stake</p>
                     </div>
                   </div>
@@ -112,7 +95,7 @@ const BalanceCardSlider = () => {
                     />
                   </div>
                   <div className="-info">
-                    <h4 className="count-num">${data?.totalUnstakedTokens ?? 0}</h4>
+                    <h4 className="count-num">${cutAfterDecimal(data?.totalUnstakedTokens,4) ?? 0}</h4>
                     <p className="text_gray mb-0">Total Unstake</p>
                   </div>
                 </div>
@@ -131,7 +114,7 @@ const BalanceCardSlider = () => {
                     />
                   </div>
                   <div className="-info">
-                    <h4 className="count-num">{data.totalDSCCoin ?? 0} DSC</h4>
+                    <h4 className="count-num">{cutAfterDecimal(data.totalDSCCoin,4) ?? 0} DSC</h4>
                     <p className="text_gray mb-0">Total DSC STAKE</p>
                   </div>
                 </div>
@@ -151,7 +134,7 @@ const BalanceCardSlider = () => {
                     />
                   </div>
                   <div className="-info">
-                    <h4 className="count-num">{data.totalUSDTCoin ?? 0} USDT</h4>
+                    <h4 className="count-num">{cutAfterDecimal(data.totalUSDTCoin,4) ?? 0} USDT</h4>
                     <p className="text_gray mb-0">Total USDT STAKE</p>
                   </div>
                 </div>

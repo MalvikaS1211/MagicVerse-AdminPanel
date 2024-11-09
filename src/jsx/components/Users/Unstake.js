@@ -1,17 +1,9 @@
 import React, { Fragment, useEffect, useState, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import * as XLSX from "xlsx";
 import { Row, Col, Card, Table } from "react-bootstrap";
-import { COLUMNS } from "../../components/table/FilteringTable/Columns";
-import MOCK_DATA from "../../components/table/FilteringTable/MOCK_DATA_2.json";
 import { styled } from "@mui/material/styles";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
-import { fireBase, db } from "./Firebase";
-import { collection, getDocs } from "firebase/firestore";
-import Contest from "./Contest";
-import Question from "./Question";
 import Papa from "papaparse";
-import Csv from "./Csv";
 import { daoUsersAdd, getAllUnstakes, getDAOUserList } from "../../../services/api_function";
 import toast from "react-hot-toast";
 

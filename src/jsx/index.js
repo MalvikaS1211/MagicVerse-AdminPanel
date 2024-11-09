@@ -5,7 +5,7 @@ import "./chart.css";
 import "./step.css";
 import Nav from "./layouts/nav";
 import Home from "./components/Dashboard/Home";
-import AllUser, { Alluser } from "./components/Users/allUser";
+import { Alluser } from "./components/Users/allUser";
 import { ThemeContext } from "../context/ThemeContext";
 import { Toaster } from "react-hot-toast";
 import { publicProvider } from "wagmi/providers/public";
@@ -19,18 +19,13 @@ import { bsc, polygon } from "wagmi/chains";
 import { configureChains, createClient, mainnet, WagmiConfig } from "wagmi";
 import "@rainbow-me/rainbowkit/styles.css";
 import Login from "./pages/Login";
-import UserList from "./components/Users/UserList";
-import QuestionList from "./components/Users/QuestionList";
-import LeaderBoard from "./components/Users/LeaderBoard";
-import ContestList from "./components/Users/ContestList";
-import Tds from "./components/Users/Tds";
-import DepositList from "./components/Users/DepositList";
 import { useDispatch } from "react-redux";
 import { setLogin } from "./redux/reducer";
 import DaoUsers from "./components/Users/DaoUsers";
 import Unstake from "./components/Users/Unstake";
 import RewardList from "./components/Users/RewardList";
 import StakeList from "./components/Users/StakeList";
+import Setting from "./components/Users/Setting";
 
 const Markup = () => {
   const dispatch = useDispatch();
@@ -51,17 +46,14 @@ const Markup = () => {
   const allroutes = [
     { url: "", component: <Home /> },
     { url: "admin/dashboard", component: <Home /> },
-    // { url: "addQuestion", auth: true, component: <AllUser /> },
     { url: "admin/userList", component: <Alluser /> },
     { url: "admin/stakeList", component: <StakeList /> },
 
     { url: "admin/rewardList", component: <RewardList /> },
 
     { url: "admin/unstake", component: <Unstake /> },
-    // { url: "QuestionList", component: <QuestionList /> },
-    // { url: "leaderBoard", component: <LeaderBoard /> },
     { url: "admin/daousers", component: <DaoUsers /> },
-    { url: "admin/depositList", component: <DepositList /> },
+    { url: "admin/setting", component: <Setting /> },
     
 
   ];

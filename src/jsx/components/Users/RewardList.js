@@ -2,17 +2,9 @@ import React, { Fragment, useEffect, useState, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import * as XLSX from "xlsx";
 import { Row, Col, Card, Table } from "react-bootstrap";
-import { COLUMNS } from "../../components/table/FilteringTable/Columns";
-import MOCK_DATA from "../../components/table/FilteringTable/MOCK_DATA_2.json";
 import { styled } from "@mui/material/styles";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
-import { fireBase, db } from "./Firebase";
-import { collection, getDocs } from "firebase/firestore";
-import Contest from "./Contest";
-import Question from "./Question";
-import Papa from "papaparse";
-import Csv from "./Csv";
-import { getAllRewardList } from "../../../services/api_function";
+import { cutAfterDecimal, getAllRewardList } from "../../../services/api_function";
 import toast from "react-hot-toast";
 
 const HtmlTooltip = styled(({ className, ...props }) => (
@@ -108,8 +100,8 @@ export const RewardList = () => {
                 <thead>
                   <tr>
                     <th>S.No.</th>
-                    <th>From Address</th>
                     <th>To Address</th>
+                    <th>From Address</th>
                     <th>Type</th>
                     <th>Reward</th>
                     <th>Date & Time</th>
@@ -130,8 +122,8 @@ export const RewardList = () => {
                         <td>{data?.toAddress?.slice(0,5)}...{data?.toAddress?.slice(-4)}</td>
                         <td>{data?.type || "--"}</td>
                         <td>
-                          <div>{data?.reward?.dsc} DSC</div>
-                          <div>{data?.reward?.usdt} USDT </div>
+                          <div>{cutAfterDecimal(data?.reward?.dsc,4)} DSC</div>
+                          <div>{cutAfterDecimal(data?.reward?.usdt,4)} USDT </div>
                         </td>
 
                         <td>{new Date(data?.createdAt).toLocaleString()}</td>

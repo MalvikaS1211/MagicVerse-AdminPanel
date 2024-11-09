@@ -6,13 +6,8 @@ import { COLUMNS } from "../../components/table/FilteringTable/Columns";
 import MOCK_DATA from "../../components/table/FilteringTable/MOCK_DATA_2.json";
 import { styled } from "@mui/material/styles";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
-import { fireBase, db } from "./Firebase";
-import { collection, getDocs } from "firebase/firestore";
-import Contest from "./Contest";
-import Question from "./Question";
-import Papa from "papaparse";
-import Csv from "./Csv";
-import { getAllRewardList, getAllStakeUserList } from "../../../services/api_function";
+
+import { cutAfterDecimal, getAllRewardList, getAllStakeUserList } from "../../../services/api_function";
 import toast from "react-hot-toast";
 
 const HtmlTooltip = styled(({ className, ...props }) => (
@@ -131,10 +126,10 @@ export const StakeList = () => {
                         <td>{index + 1}</td>
                         <td>{data?.address?.slice(0,5)}...{data?.address?.slice(-4)}</td>
                         <td>{data?.isUnStake ? "UNSTAKE" : "STAKE" || "--"}</td>
-                        <td> ${data?.stakeAmount || 0 }</td>
+                        <td> ${cutAfterDecimal(data?.stakeAmount,4) || 0 }</td>
                         <td>
-                          <div>{data?.coinAmount} DSC</div>
-                          <div>{data?.tokenAmount} USDT </div>
+                          <div>{cutAfterDecimal(data?.coinAmount,4)} DSC</div>
+                          <div>{cutAfterDecimal(data?.tokenAmount,4)} USDT </div>
                         </td>
                         <td> ${data?.generatedIncome || 0 }</td>
 

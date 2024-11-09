@@ -6,6 +6,7 @@ import { FaRankingStar } from "react-icons/fa6";
 import { PiExamFill } from "react-icons/pi";
 import { FaIdCardAlt } from "react-icons/fa";
 import { PiHandDepositFill } from "react-icons/pi";
+import { IoIosSettings } from "react-icons/io";
 
 
 
@@ -52,6 +53,11 @@ export const MenuList = [
     title:"Dao Users",
     to:"admin/daousers",
     iconStyle:<PiHandDepositFill className="fs-3"/>
+  },
+  {
+    title:"Setting",
+    to:"admin/setting",
+    iconStyle:<IoIosSettings className="fs-3"/>
   },
   {
     title: "Logout",

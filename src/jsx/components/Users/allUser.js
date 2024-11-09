@@ -1,18 +1,10 @@
 import React, { Fragment, useEffect, useState, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import * as XLSX from "xlsx";
 import { Row, Col, Card, Table } from "react-bootstrap";
-import { COLUMNS } from "../../components/table/FilteringTable/Columns";
-import MOCK_DATA from "../../components/table/FilteringTable/MOCK_DATA_2.json";
 import { styled } from "@mui/material/styles";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
-import { fireBase, db } from "./Firebase";
-import { collection, getDocs } from "firebase/firestore";
-import Contest from "./Contest";
-import Question from "./Question";
 import Papa from "papaparse";
-import Csv from "./Csv";
-import { daoUsersAdd, getAllStakeUsers, getAllUnstakes, getDAOUserList } from "../../../services/api_function";
+import { cutAfterDecimal, daoUsersAdd, getAllStakeUsers, getAllUnstakes, getDAOUserList } from "../../../services/api_function";
 import toast from "react-hot-toast";
 
 const HtmlTooltip = styled(({ className, ...props }) => (
@@ -152,24 +144,24 @@ export const Alluser = () => {
                         <td>{data?.referralAddress?.slice(0,5)}...{data?.referralAddress?.slice(-4)}</td>
                         <td>{data?.stakeRank || "--"}</td>
                         <td>{data?.nodeGroupName || "--"}</td>
-                        <td>${data?.totalStake}</td>
+                        <td>${cutAfterDecimal(data?.totalStake,2)}</td>
                         <td>
-                          <div>{data?.totalCoinAmount} DSC</div>
-                          <div>{data?.totalTokenAmount} USDT </div>
+                          <div>{cutAfterDecimal(data?.totalCoinAmount,2)} DSC</div>
+                          <div>{cutAfterDecimal(data?.totalTokenAmount,2)} USDT </div>
                         </td>
 
                         <td>
                           <div className="d-flex justify-content-between align-items-center">
                             <div>{"  "}${data?.teamBusiness} {"  "}</div>
                             <div className="text-end">
-                              <div>{"  "}{data?.teamBusinesswithCoin.dsc} DSC {"  "}</div>
-                              <div>{"  "}{data?.teamBusinesswithCoin.usdt} USDT {"   "}</div>
+                              <div>{"  "}{cutAfterDecimal(data?.teamBusinesswithCoin.dsc,2)} DSC {"  "}</div>
+                              <div>{"  "}{cutAfterDecimal(data?.teamBusinesswithCoin.usdt,2)} USDT {"   "}</div>
 
                             </div>
                           </div>
                         </td>
-                        <td>${data?.totalUnStake}</td>
-                        <td>${data?.totalProfitIncome}</td>
+                        <td>${cutAfterDecimal(data?.totalUnStake,2)}</td>
+                        <td>${cutAfterDecimal(data?.totalProfitIncome,2)}</td>
                         <td>{data?.totalReferrals}</td>
 
                         <td>{new Date(data?.createdAt).toLocaleString()}</td>
