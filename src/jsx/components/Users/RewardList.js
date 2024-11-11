@@ -26,6 +26,7 @@ export const RewardList = () => {
   const [daoAddress, setDaoAddress] = useState("");
   const [recordStatus, setRecordStatus] = useState("Loading...");
   const [isFetch, setIsFetch] = useState(false);
+  const [rewardType, setRewardType] = useState("Referral");
 
 
   const handleSearch = async (e) => {
@@ -42,7 +43,7 @@ export const RewardList = () => {
       try {
         const userDetails = localStorage.getItem("adminToken");
         const token = userDetails;
-        const result = await getAllRewardList(currentPage,10, search,token);
+        const result = await getAllRewardList(rewardType,currentPage,15, search,token);
         console.log(result,"RELLLLLLL");
         setApiData(result?.data);
         if (!result?.data?.[0]) {
@@ -59,7 +60,7 @@ export const RewardList = () => {
     };
 
     fetchData();
-  }, [currentPage,search,isFetch]);
+  }, [currentPage,search,isFetch,rewardType]);
 
 
   const handleNextPage = () => {
@@ -72,10 +73,16 @@ export const RewardList = () => {
     setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : prevPage));
   };
 
+    // Handle change event when a new option is selected
+    const handleSelectChange = (event) => {
+        setRewardType(event.target.value);
+      };
+
   return (
     <Fragment>
       <Row>
         <div className="display_end">
+    
           <div className="input-group" style={{ maxWidth: "300px" }}>
             <input
               type="search"
@@ -92,6 +99,16 @@ export const RewardList = () => {
           <Card>
             <Card.Header>
               <Card.Title>Reward List</Card.Title>
+              <div>
+                 <select class="form-select" aria-label="Default select example"
+                    value={rewardType}
+                    onChange={handleSelectChange}
+                    >
+                    <option selected value="Referral">Referral</option>
+                    <option value="Dao">Dao</option>
+                    <option value="SystemReward">SystemReward</option>
+                </select>
+            </div>
             </Card.Header>
             <Card.Body>
 
@@ -102,7 +119,10 @@ export const RewardList = () => {
                     <th>S.No.</th>
                     <th>To Address</th>
                     <th>From Address</th>
+                    <th>Rank</th>
                     <th>Type</th>
+                    <th>Stake From user($)</th>
+                    <th>Stake From user</th>
                     <th>Reward</th>
                     <th>Date & Time</th>
                   </tr>
@@ -120,7 +140,14 @@ export const RewardList = () => {
                         <td>{index + 1}</td>
                         <td>{data?.fromAddress?.slice(0,5)}...{data?.fromAddress?.slice(-4)}</td>
                         <td>{data?.toAddress?.slice(0,5)}...{data?.toAddress?.slice(-4)}</td>
+                        <td>{data?.stakeId?.stakeRank || "--"}</td>
                         <td>{data?.type || "--"}</td>
+                        <td>${data?.stakingId?.stakeAmount || "0"}</td>
+                        <td>
+                          <div>{cutAfterDecimal(data?.stakingId?.coinAmount,4)} DSC</div>
+                          <div>{cutAfterDecimal(data?.stakingId?.tokenAmount,4)} USDT </div>
+                        </td>
+
                         <td>
                           <div>{cutAfterDecimal(data?.reward?.dsc,4)} DSC</div>
                           <div>{cutAfterDecimal(data?.reward?.usdt,4)} USDT </div>

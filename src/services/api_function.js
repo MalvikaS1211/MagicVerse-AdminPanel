@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 export const url = "https://backoffice.inrx.io/api";
 export const url2 = "https://backoffice.inrx.io/api";
 
-// export const URLApi = "http://localhost:8000/admin/";
+// export const URLApi = "http://localhost:8000/dsc_admin";
 export const URLApi = "https://dappcircle.io/dsc_admin";
 
 
@@ -153,11 +153,12 @@ export async function getAllStakeUsers(page,limit, filter, token) {
   }
 }
 
-export async function getAllRewardList(page,limit, filter, token) {
+export async function getAllRewardList(type,page,limit, filter, token) {
   try {
 
     const response = await axios.get(`${URLApi}/getAllRewardList`, {
       params: {
+        type:type,
         page: page,
         limit: limit,
         address: filter
