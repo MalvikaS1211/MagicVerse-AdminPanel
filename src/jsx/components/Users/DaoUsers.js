@@ -4,7 +4,7 @@ import { Row, Col, Card, Table } from "react-bootstrap";
 import { styled } from "@mui/material/styles";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import Papa from "papaparse";
-import { daoUsersAdd, getDAOUserList } from "../../../services/api_function";
+import { cutAfterDecimal, daoUsersAdd, getDAOUserList } from "../../../services/api_function";
 import toast from "react-hot-toast";
 
 const HtmlTooltip = styled(({ className, ...props }) => (
@@ -147,9 +147,14 @@ export const DaoUsers = () => {
                 <thead>
                   <tr>
                     <th>S.No.</th>
-                    <th>User</th>
-                    <th>type</th>
-                    <th>Amount</th>
+                    <th>Dao Address</th>
+                    <th>Referral Address</th>
+                    <th>Type</th>
+                    <th>Rank</th>
+                    <th>Stake</th>
+                    <th>Team Business</th>
+                    <th>Total Referrals</th>
+                    <th>Reward Amount($)</th>
                     <th>Rewad DSC</th>
                     <th>Rewad USDT</th>
                     <th>Date & Time</th>
@@ -167,10 +172,15 @@ export const DaoUsers = () => {
                       <tr key={index}>
                         <td>{index + 1}</td>
                         <td>{data?.address?.slice(0,6)}...{data?.address?.slice(-6)}</td>
+                        <td>{data?.stakeUserData?.referralAddress?.slice(0,6)}...{data?.stakeUserData?.referralAddress?.slice(-6)}</td>
                         <td>{data?.type}</td>
-                        <td>${data?.rewardAmount}</td>
-                        <td>{data?.rewardwithCoin?.dsc} DSC</td>
-                        <td>{data?.rewardwithCoin?.usdt} USDT</td>
+                        <td>{data?.stakeUserData?.stakeRank}</td>
+                        <td>${cutAfterDecimal(data?.stakeUserData?.teamBusiness,2)}</td>
+                        <td>{data?.stakeUserData?.totalReferrals}</td>
+                        <td>${cutAfterDecimal(data?.stakeUserData?.totalStake,2)}</td>
+                        <td>${cutAfterDecimal(data?.rewardAmount,2)}</td>
+                        <td>{cutAfterDecimal(data?.rewardwithCoin?.dsc,2)} DSC</td>
+                        <td>{cutAfterDecimal(data?.rewardwithCoin?.usdt,2)} USDT</td>
                         <td>{new Date(data?.createdAt).toLocaleString()}</td>
                       </tr>
                     ))
