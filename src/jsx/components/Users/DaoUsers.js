@@ -175,6 +175,7 @@ export const DaoUsers = () => {
                         <td>{data?.stakeUserData?.referralAddress?.slice(0,6)}...{data?.stakeUserData?.referralAddress?.slice(-6)}</td>
                         <td>{data?.type}</td>
                         <td>{data?.stakeUserData?.stakeRank}</td>
+                        <td>{cutAfterDecimal(data?.stakeUserData?.totalStake,2)}</td>
                         <td>${cutAfterDecimal(data?.stakeUserData?.teamBusiness,2)}</td>
                         <td>{data?.stakeUserData?.totalReferrals}</td>
                         <td>${cutAfterDecimal(data?.stakeUserData?.totalStake,2)}</td>
