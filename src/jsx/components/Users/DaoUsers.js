@@ -2,21 +2,23 @@ import React, { Fragment, useEffect, useState, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Row, Col, Card, Table } from "react-bootstrap";
 import { styled } from "@mui/material/styles";
-import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+// import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import Papa from "papaparse";
 import { cutAfterDecimal, daoUsersAdd, getDAOUserList } from "../../../services/api_function";
 import toast from "react-hot-toast";
+import { Tooltip, IconButton } from '@mui/material';
+import { FaRegCopy } from "react-icons/fa";
 
-const HtmlTooltip = styled(({ className, ...props }) => (
-  <Tooltip {...props} classes={{ popper: className }} />
-))(({ theme }) => ({
-  [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: "#dadde9",
-    fontSize: "12px",
-    fontWeight: 400,
-    border: "1px solid #25262B",
-  },
-}));
+// const HtmlTooltip = styled(({ className, ...props }) => (
+//   <Tooltip {...props} classes={{ popper: className }} />
+// ))(({ theme }) => ({
+//   [`& .${tooltipClasses.tooltip}`]: {
+//     backgroundColor: "#dadde9",
+//     fontSize: "12px",
+//     fontWeight: 400,
+//     border: "1px solid #25262B",
+//   },
+// }));
 
 export const DaoUsers = () => {
   const [apiData, setApiData] = useState([]);
@@ -26,6 +28,15 @@ export const DaoUsers = () => {
   const [daoAddress, setDaoAddress] = useState("");
   const [recordStatus, setRecordStatus] = useState("Loading...");
   const [isFetch, setIsFetch] = useState(false);
+
+
+  const [tooltipText, setTooltipText] = useState("Copy address");
+
+  const handleCopy = (address) => {
+    navigator.clipboard.writeText(address);
+    setTooltipText("Copied!");
+    setTimeout(() => setTooltipText("Copy address"), 2000); // Reset tooltip text after 2 seconds
+  };
 
 
   const handleSearch = async (e) => {
@@ -171,14 +182,28 @@ export const DaoUsers = () => {
                     apiData?.map((data, index) => (
                       <tr key={index}>
                         <td>{index + 1}</td>
-                        <td>{data?.address?.slice(0,6)}...{data?.address?.slice(-6)}</td>
-                        <td>{data?.stakeUserData?.referralAddress?.slice(0,6)}...{data?.stakeUserData?.referralAddress?.slice(-6)}</td>
+                        <td>
+                          {data?.address?.slice(0,6)}...{data?.address?.slice(-6)}
+                          <Tooltip title={tooltipText} arrow>
+                          <IconButton onClick={()=>handleCopy(data?.address)} size="small" style={{ marginLeft: 4 }}>
+                          <FaRegCopy />
+                          </IconButton>
+                        </Tooltip>
+                        </td>
+                        <td>
+                         {data?.stakeUserData?.referralAddress?.slice(0,6)}...{data?.stakeUserData?.referralAddress?.slice(-6)}
+                         <Tooltip title={tooltipText} arrow>
+                          <IconButton onClick={()=>handleCopy(data?.stakeUserData?.referralAddress)} size="small" style={{ marginLeft: 4 }}>
+                          <FaRegCopy />
+                          </IconButton>
+                        </Tooltip>
+                         </td>
                         <td>{data?.type}</td>
                         <td>{data?.stakeUserData?.stakeRank}</td>
                         <td>{cutAfterDecimal(data?.stakeUserData?.totalStake,2)}</td>
                         <td>${cutAfterDecimal(data?.stakeUserData?.teamBusiness,2)}</td>
                         <td>{data?.stakeUserData?.totalReferrals}</td>
-                        <td>${cutAfterDecimal(data?.stakeUserData?.totalStake,2)}</td>
+                        {/* <td>${cutAfterDecimal(data?.stakeUserData?.totalStake,2)}</td> */}
                         <td>${cutAfterDecimal(data?.rewardAmount,2)}</td>
                         <td>{cutAfterDecimal(data?.rewardwithCoin?.dsc,2)} DSC</td>
                         <td>{cutAfterDecimal(data?.rewardwithCoin?.usdt,2)} USDT</td>

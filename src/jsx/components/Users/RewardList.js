@@ -3,20 +3,22 @@ import { useNavigate } from "react-router-dom";
 import * as XLSX from "xlsx";
 import { Row, Col, Card, Table } from "react-bootstrap";
 import { styled } from "@mui/material/styles";
-import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+// import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { cutAfterDecimal, getAllRewardList } from "../../../services/api_function";
 import toast from "react-hot-toast";
+import { Tooltip, IconButton } from '@mui/material';
+import { FaRegCopy } from "react-icons/fa";
 
-const HtmlTooltip = styled(({ className, ...props }) => (
-  <Tooltip {...props} classes={{ popper: className }} />
-))(({ theme }) => ({
-  [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: "#dadde9",
-    fontSize: "12px",
-    fontWeight: 400,
-    border: "1px solid #25262B",
-  },
-}));
+// const HtmlTooltip = styled(({ className, ...props }) => (
+//   <Tooltip {...props} classes={{ popper: className }} />
+// ))(({ theme }) => ({
+//   [`& .${tooltipClasses.tooltip}`]: {
+//     backgroundColor: "#dadde9",
+//     fontSize: "12px",
+//     fontWeight: 400,
+//     border: "1px solid #25262B",
+//   },
+// }));
 
 export const RewardList = () => {
   const [apiData, setApiData] = useState([]);
@@ -28,6 +30,13 @@ export const RewardList = () => {
   const [isFetch, setIsFetch] = useState(false);
   const [rewardType, setRewardType] = useState("Referral");
 
+  const [tooltipText, setTooltipText] = useState("Copy address");
+
+  const handleCopy = (address) => {
+    navigator.clipboard.writeText(address);
+    setTooltipText("Copied!");
+    setTimeout(() => setTooltipText("Copy address"), 2000); // Reset tooltip text after 2 seconds
+  };
 
   const handleSearch = async (e) => {
     const query = e.target.value.trim().toLowerCase();
@@ -138,8 +147,22 @@ export const RewardList = () => {
                     apiData?.map((data, index) => (
                       <tr key={index}>
                         <td>{index + 1}</td>
-                        <td>{data?.fromAddress?.slice(0,5)}...{data?.fromAddress?.slice(-4)}</td>
-                        <td>{data?.toAddress?.slice(0,5)}...{data?.toAddress?.slice(-4)}</td>
+                        <td>
+                          {data?.fromAddress?.slice(0,5)}...{data?.fromAddress?.slice(-4)}
+                          <Tooltip title={tooltipText} arrow>
+                          <IconButton onClick={()=>handleCopy(data?.fromAddress)} size="small" style={{ marginLeft: 4 }}>
+                          <FaRegCopy />
+                          </IconButton>
+                        </Tooltip>
+                          </td>
+                        <td>
+                         {data?.toAddress?.slice(0,5)}...{data?.toAddress?.slice(-4)}
+                         <Tooltip title={tooltipText} arrow>
+                          <IconButton onClick={()=>handleCopy(data?.toAddress)} size="small" style={{ marginLeft: 4 }}>
+                          <FaRegCopy />
+                          </IconButton>
+                        </Tooltip>
+                        </td>
                         <td>{data?.stakeId?.stakeRank || "--"}</td>
                         <td>{data?.type || "--"}</td>
                         <td>${data?.stakingId?.stakeAmount || "0"}</td>
@@ -153,7 +176,7 @@ export const RewardList = () => {
                           <div>{cutAfterDecimal(data?.reward?.usdt,4)} USDT </div>
                         </td>
 
-                        <td>{new Date(data?.createdAt).toLocaleString()}</td>
+                        <td>{new Date(data?.timestamp).toLocaleString()}</td>
                       </tr>
                     ))
                   )}
