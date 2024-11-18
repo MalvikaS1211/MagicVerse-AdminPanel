@@ -1,32 +1,109 @@
-import Web3 from "web3";
-import { transfer_abi, transfer_addres } from "../../../config/config";
-export const web3 = new Web3(new Web3(window.ethereum));
+// import Web3 from "web3";
 
-export const contract = new web3.eth.Contract(farming_abi, contract_address);
+import { readContract, waitForTransaction, writeContract } from "@wagmi/core";
+import { toast } from "react-hot-toast";
+import { MULTI_SEND_ABI, MULTI_SEND_ADDRESS, MULTI_SEND_ADDRESS_USDT, TOKEN_ABI, TOKEN_ADDRESS_USDT } from "../../../../config/config";
 
-export async function connectWallet(cb) {
-  console.log("called");
-  if (window.ethereum) {
-    try {
-      console.log("In try connectWallet ");
-      await window.ethereum.request({ method: "eth_requestAccounts" });
 
-      const accounts = await window.ethereum.request({
-        method: "eth_accounts",
-      });
-      console.log("MetaMask Accounts:", accounts);
+// export const web3 = new Web3(new Web3(window.ethereum));
 
-      if (accounts.length > 0) {
-        cb(accounts[0]);
-      } else {
-        console.error("No accounts available");
-      }
-    } catch (error) {
-      console.error("Error connecting or retrieving accounts:", error);
-    }
-  } else {
-    console.log(
-      "Non-Ethereum browser detected. You should consider trying MetaMask!"
-    );
-  }
+// export const contract = new web3.eth.Contract(farming_abi, contract_address);
+
+// export async function connectWallet(cb) {
+//   console.log("called");
+//   if (window.ethereum) {
+//     try {
+//       console.log("In try connectWallet ");
+//       await window.ethereum.request({ method: "eth_requestAccounts" });
+
+//       const accounts = await window.ethereum.request({
+//         method: "eth_accounts",
+//       });
+//       console.log("MetaMask Accounts:", accounts);
+
+//       if (accounts.length > 0) {
+//         cb(accounts[0]);
+//       } else {
+//         console.error("No accounts available");
+//       }
+//     } catch (error) {
+//       console.error("Error connecting or retrieving accounts:", error);
+//     }
+//   } else {
+//     console.log(
+//       "Non-Ethereum browser detected. You should consider trying MetaMask!"
+//     );
+//   }
+// }
+
+const multiSendDSC = {
+  abi: MULTI_SEND_ABI,
+  address: MULTI_SEND_ADDRESS,
+};
+
+const multiSendUSDT = {
+  abi: MULTI_SEND_ABI,
+  address: MULTI_SEND_ADDRESS_USDT,
+};
+
+export async function getTokenAllowance(walletAddress) {
+  const result = await readContract({
+    abi: TOKEN_ABI,
+    address: TOKEN_ADDRESS_USDT,
+    functionName: "allowance",
+    args: [walletAddress, MULTI_SEND_ADDRESS_USDT],
+  });
+  return Number(result);
+}
+
+export async function approveContract(tokenAmount) {
+  const result = await writeContract({
+    // mode: "recklesslyUnprepared",
+    abi: TOKEN_ABI,
+    address: TOKEN_ADDRESS_USDT,
+    functionName: "approve",
+    args: [MULTI_SEND_ADDRESS_USDT, tokenAmount],
+  });
+  const res = waitForTransaction(result);
+  const data = await toast.promise(res, {
+    loading: "Token Approve is pending...",
+    success: "Token Approve successfully!",
+    error: (error) => error.message ?? "Token Approve request failed.",
+  });
+  return data;
+}
+
+
+export async function multisendCoin(address,_balances, totalBalance){
+  const result = await writeContract({
+    ...multiSendDSC,
+    functionName: "multisendCoin",
+    args:[address, _balances, totalBalance],
+    value: totalBalance //parseEther(totalBalance),
+
+  });
+  const res = waitForTransaction(result);
+  const data = await toast.promise(res, {
+    loading: "Txn is pending...",
+    success: "Txn successfully!",
+    error: (error) => error.message ?? "Txn request failed.",
+  });
+  return data;
+}
+
+export async function multisendToken(address,_balances, totalBalance){
+  const result = await writeContract({
+    ...multiSendUSDT,
+    functionName: "multisendToken",
+    args:[address, _balances, totalBalance,TOKEN_ADDRESS_USDT],
+    // value: totalBalance //parseEther(totalBalance),
+
+  });
+  const res = waitForTransaction(result);
+  const data = await toast.promise(res, {
+    loading: "Txn is pending...",
+    success: "Txn successfully!",
+    error: (error) => error.message ?? "Txn request failed.",
+  });
+  return data;
 }

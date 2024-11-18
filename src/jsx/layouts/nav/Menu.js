@@ -44,6 +44,26 @@ export const MenuList = [
     to:"admin/unstake",
     iconStyle:<PiHandDepositFill className="fs-3"/>
   },
+  {
+    title:"Unstake Withdraw",
+    // to:"admin/unstake",
+    iconStyle:<PiHandDepositFill className="fs-3"/>,
+    content: [
+        
+      {
+          title: 'Approved',
+          to: 'admin/unstake-approve',
+      },
+      {
+        title: 'Pending',
+        to: 'admin/unstake-pending',
+      },
+      // {
+      //     title: 'Rejected',
+      //     to: 'admin/unstake-reject',
+      // }
+    ]
+  },
   // {
   //   title:"Deposit List",
   //   to:"depositList",

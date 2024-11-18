@@ -6,7 +6,18 @@ export const url2 = "https://backoffice.inrx.io/api";
 // export const URLApi = "http://localhost:8000/dsc_admin";
 export const URLApi = "https://dappcircle.io/dsc_admin";
 
+const dscPriceUrl = "https://dscscan.io/node-api/get-dsc-live-price";
 
+export const getDscprice = async () => {
+  try {
+    const response = await axios.get(dscPriceUrl);
+    console.log(response.data.data[0].token0Price * 30, "dsc priceresponse",response);
+    const dscpriceIndollar = response.data.data[0].token0Price * 30;
+    return dscpriceIndollar;
+  } catch (err) {
+    console.log(err,"error")
+  }
+};
 export function cutAfterDecimal(number, pos, dl, ac) {
   if (Number(number)) {
     if (dl) {
@@ -249,5 +260,50 @@ export async function getTop3IdData(token) {
     return response.data;
   } catch (error) {
     console.log("Error getDAOUserList Admin:", error);
+  }
+}
+
+export async function getUserUnstakeWithdrawal(page,limit, filter,type, token) {
+  try {
+
+    const response = await axios.get(`${URLApi}/getUserUnstakeWithdrawal`, {
+      params: {
+        page: page,
+        limit: limit,
+        address: filter,
+        type: type
+      },
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.log("Error getDAOUserList Admin:", error);
+  }
+}
+
+export async function updateMultisend(id, userAddresses, withdrawDscAmounts, multisendResponse, type, islivePriceStatus, token ) {
+  try {
+    const requestBody = {
+      id:id, 
+      userAddresses:userAddresses, 
+      withdrawDscAmounts:withdrawDscAmounts, 
+      multisendResponse:multisendResponse, 
+      islivePriceStatus:islivePriceStatus,
+      type:type,
+    };
+    const response = await axios.post(`${URLApi}/updateMultisend`, JSON.stringify(requestBody), {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+
+      },
+    });
+    console.log(response.data,"response.data")
+    return response.data;
+  } catch (error) {
+    console.log("Error updateMultisend:", error);
   }
 }

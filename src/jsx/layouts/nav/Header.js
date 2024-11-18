@@ -1,5 +1,22 @@
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useAccount, useChainId } from "wagmi";
+import { setWallet } from "../../redux/reducer";
 const Header = ({ onNote }) => {
+  const {address, connector, isConnected, status, isDisconnected } = useAccount();
+  const chainId = useChainId()
+  const dispatch = useDispatch();
+  const obj = {
+    walletAddress: address,
+    chainId: chainId,
+    isConnected: isConnected,
+    isDisconnected: isDisconnected,
+    connector:connector,
+    status: status,
+  };
+  dispatch(setWallet({ ...obj }));
+
   const [rightSelect, setRightSelect] = useState("Eng");
   const [path,setPath]=useState()
   //For fix header
@@ -28,7 +45,17 @@ const Header = ({ onNote }) => {
                 {/* {path && path[1]} */}
               </div>
             </div>
-            <div className="navbar-nav header-right"></div>
+            <div className="navbar-nav header-right">
+            </div>
+            <div>
+              <ConnectButton
+                chainStatus="icon"
+            accountStatus={{
+              smallScreen: "avatar",
+              largeScreen: "full",
+            }}
+              />
+            </div>
           </div>
         </nav>
       </div>
