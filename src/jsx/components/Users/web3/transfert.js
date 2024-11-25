@@ -75,11 +75,13 @@ export async function approveContract(tokenAmount) {
 
 
 export async function multisendCoin(address,_balances, totalBalance){
+  const value = Number(totalBalance)?.toLocaleString("fullwide", { useGrouping: false })
+  console.log(value,"NNNNN",_balances,totalBalance,"totalBalance")
   const result = await writeContract({
     ...multiSendDSC,
     functionName: "multisendCoin",
-    args:[address, _balances, totalBalance],
-    value: totalBalance //parseEther(totalBalance),
+    args:[address, _balances, value],
+    value: value //parseEther(totalBalance),
 
   });
   const res = waitForTransaction(result);
@@ -92,10 +94,12 @@ export async function multisendCoin(address,_balances, totalBalance){
 }
 
 export async function multisendToken(address,_balances, totalBalance){
+  const value = Number(totalBalance)?.toLocaleString("fullwide", { useGrouping: false })
+
   const result = await writeContract({
     ...multiSendUSDT,
     functionName: "multisendToken",
-    args:[address, _balances, totalBalance,TOKEN_ADDRESS_USDT],
+    args:[address, _balances, value,TOKEN_ADDRESS_USDT],
     // value: totalBalance //parseEther(totalBalance),
 
   });

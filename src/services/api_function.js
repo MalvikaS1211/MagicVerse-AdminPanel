@@ -307,3 +307,67 @@ export async function updateMultisend(id, userAddresses, withdrawDscAmounts, mul
     console.log("Error updateMultisend:", error);
   }
 }
+
+export async function getAfter14DaysAllUserReward(page,limit, token) {
+  try {
+
+    const response = await axios.get(`${URLApi}/getAfter14DaysAllUserReward`, {
+      params: {
+        page: page,
+        limit: limit,
+        // address: filter,
+      },
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.log("Error getDAOUserList Admin:", error);
+  }
+}
+
+export async function getUserAffilateWithdrawal(page,limit, filter,type, token) {
+  try {
+
+    const response = await axios.get(`${URLApi}/getUserAffilateWithdrawal`, {
+      params: {
+        page: page,
+        limit: limit,
+        address: filter,
+        type: type
+      },
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.log("Error getDAOUserList Admin:", error);
+  }
+}
+
+export async function updateAffilateMultisend(id, userAddresses, withdrawDscAmounts, multisendResponse, type, token ) {
+  try {
+    const requestBody = {
+      id:id, 
+      userAddresses:userAddresses, 
+      withdrawDscAmounts:withdrawDscAmounts, 
+      multisendResponse:multisendResponse, 
+      type:type,
+    };
+    const response = await axios.post(`${URLApi}/updateAffilateMultisend`, JSON.stringify(requestBody), {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+
+      },
+    });
+    console.log(response.data,"response.data")
+    return response.data;
+  } catch (error) {
+    console.log("Error updateMultisend:", error);
+  }
+}

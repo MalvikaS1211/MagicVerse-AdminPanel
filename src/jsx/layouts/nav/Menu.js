@@ -39,6 +39,13 @@ export const MenuList = [
     to:"admin/rewardList",
     iconStyle:<FaRankingStar className="fs-3"/>
   },
+
+  {
+    title:"Dao Users",
+    to:"admin/daousers",
+    iconStyle:<PiHandDepositFill className="fs-3"/>
+  },
+
   {
     title:"Unstake Users",
     to:"admin/unstake",
@@ -64,16 +71,28 @@ export const MenuList = [
       // }
     ]
   },
+  {
+    title:"Affilate Withdraw",
+    // to:"admin/unstake",
+    iconStyle:<PiHandDepositFill className="fs-3"/>,
+    content: [
+        
+      {
+          title: 'Approved',
+          to: 'admin/affilate-approve',
+      },
+      {
+        title: 'Pending',
+        to: 'admin/affilate-pending',
+      },
+    ]
+  },
   // {
   //   title:"Deposit List",
   //   to:"depositList",
   //   iconStyle:<PiHandDepositFill className="fs-3"/>
   // },
-  {
-    title:"Dao Users",
-    to:"admin/daousers",
-    iconStyle:<PiHandDepositFill className="fs-3"/>
-  },
+
   {
     title:"Setting",
     to:"admin/setting",

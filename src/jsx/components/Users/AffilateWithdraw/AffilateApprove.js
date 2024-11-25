@@ -4,7 +4,7 @@ import { Row, Col, Card, Table, Toast } from "react-bootstrap";
 import { styled } from "@mui/material/styles";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import Papa from "papaparse";
-import { cutAfterDecimal, getDscprice, getStakeSetting, getUserUnstakeWithdrawal, updateMultisend, updateStakeSetting } from "../../../../services/api_function";
+import { cutAfterDecimal, getDscprice, getStakeSetting, getUserAffilateWithdrawal, getUserUnstakeWithdrawal, updateMultisend, updateStakeSetting } from "../../../../services/api_function";
 import toast from "react-hot-toast";
 import { multisendCoin } from "../web3/transfert";
 
@@ -19,7 +19,7 @@ const HtmlTooltip = styled(({ className, ...props }) => (
   },
 }));
 
-export const UnstakeApprove = () => {
+export const AffilateApprove = () => {
   const [apiData, setApiData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -35,7 +35,7 @@ export const UnstakeApprove = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await getUserUnstakeWithdrawal(currentPage,10, search,"approve",token);
+        const result = await getUserAffilateWithdrawal(currentPage,10, search,"approve",token);
         // console.log(result,"RELLLLLLL");
         setApiData(result?.data);
         if (!result?.data?.[0]) {
@@ -154,7 +154,7 @@ export const UnstakeApprove = () => {
         <Col lg={12}>
           <Card>
             <Card.Header>
-              <Card.Title>UNSTAKE APPROVE WITHDRAW</Card.Title>
+              <Card.Title>AFFILATE APPROVE WITHDRAW</Card.Title>
               {/* <div className="d-flex align-items-center">          
               <div class="form-check form-switch mt-2 mb-2">
                 <input
@@ -182,14 +182,13 @@ export const UnstakeApprove = () => {
                         <th>S.No.</th>
                         <th>User</th>
                         <th>Withdraw Amount($)</th>
-                        <th>Only DSC($)</th>
-                        <th>Only USDT($)</th>
                         <th>Withdraw DSC</th>
                         <th>Withdraw USDT</th>
                         <th>WithDraw</th>
                         <th>WithDraw DSC Status</th>
                         <th>WithDraw USDT Status</th>
                         <th>Date & Time</th>
+                        {/* <th>Action Approve</th> */}
                         {/* <th>Action Reject</th> */}
                     </tr>
                     </thead>
@@ -203,28 +202,16 @@ export const UnstakeApprove = () => {
                     ) : (
                         apiData?.map((data, index) => (
                         <tr key={index}>
+                        
                             <td>{index + 1}</td>
                             <td>
                             {data?.userAddress?.slice(0, 6)}...
                             {data?.userAddress?.slice(-6)}
                             </td>
-                            <td>${data?.withdrawAmount}</td>
-                            <td>
-                            $
-                            {(data.isTransfer.usdt && data.isTransfer.dsc
-                                ? data?.withdrawAmount / 2
-                                : !data.isTransfer.usdt && data.isTransfer.dsc ? data?.withdrawAmount :0
-                            ).toFixed(2)}
-                            </td>
-                            <td>
-                            $
-                            {(data.isTransfer.usdt && data.isTransfer.dsc
-                                ? data?.withdrawAmount / 2
-                                : data.isTransfer.usdt && !data.isTransfer.dsc ? data?.withdrawAmount :0
-                            ).toFixed(2)}
-                            </td>
-                            <td>{data?.stakingId?.coinAmount} DSC</td>
-                            <td>{data?.stakingId?.tokenAmount} USDT</td>
+                            <td>${cutAfterDecimal(data?.withdrawAmount,4)}</td>
+
+                            <td>{cutAfterDecimal(data?.iswithdrawDSC,4) || 0} DSC</td>
+                            <td>{cutAfterDecimal(data?.iswithdrawUSDT,4) || 0} USDT</td>
                             <td
                             className={`fw-bold ${
                                 data?.status === 'Pending'
@@ -263,28 +250,7 @@ export const UnstakeApprove = () => {
                             </div>
                             </td>
                             <td>{new Date(data?.withdrawTimestamp).toLocaleString()}</td>
-                            <td>
-                            {/* <div className="d-flex gap-2">
-                                {data.isTransfer.dsc && (
-                                <button
-                                    type="button"
-                                    className="btn btn-danger"
-                                    // onClick={() => handleDscReject(data._id)}
-                                >
-                                    Reject DSC
-                                </button>
-                                )}
-                                {data.isTransfer.usdt && (
-                                <button
-                                    type="button"
-                                    className="btn btn-danger"
-                                    // onClick={() => handleUsdtReject(data._id)}
-                                >
-                                    Reject USDT
-                                </button>
-                                )}
-                            </div> */}
-                            </td>
+
                         </tr>
                         ))
                     )}
@@ -333,4 +299,4 @@ export const UnstakeApprove = () => {
   );
 };
 
-export default UnstakeApprove;
+export default AffilateApprove;

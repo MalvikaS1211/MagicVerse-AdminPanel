@@ -4,7 +4,7 @@ import { Row, Col, Card, Table, Toast } from "react-bootstrap";
 import { styled } from "@mui/material/styles";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import Papa from "papaparse";
-import { cutAfterDecimal, daoUsersAdd, getAllUnstakes, getDAOUserList, getDscprice, getStakeSetting, getUserUnstakeWithdrawal, updateMultisend, updateStakeSetting } from "../../../../services/api_function";
+import { cutAfterDecimal, daoUsersAdd, getAfter14DaysAllUserReward, getAllUnstakes, getDAOUserList, getDscprice, getStakeSetting, getUserUnstakeWithdrawal, updateMultisend, updateStakeSetting } from "../../../../services/api_function";
 import toast from "react-hot-toast";
 import { approveContract, getTokenAllowance, multisendCoin, multisendToken } from "../web3/transfert";
 import { useSelector } from "react-redux";
@@ -63,6 +63,8 @@ console.log(selectedItems,"selectedItems",chainId)
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // const data2312=  await getAfter14DaysAllUserReward(currentPage,20,token);
+        // console.log(data2312,"data2312")
         const result = await getUserUnstakeWithdrawal(currentPage,10, search,"pending",token);
         // console.log(result,"RELLLLLLL");
         setApiData(result?.data);
@@ -176,7 +178,7 @@ console.log(selectedItems,"selectedItems",chainId)
             console.log(selectedData,"selectedData",livePriceEnable)
             // Extract user addresses and withdraw DSC amounts
             const userAddresses = selectedData.map((data) => data?.stakeId?.userAddress);
-            const withdrawDscAmounts = selectedData.map((data) => (livePriceEnable?.livePriceDsc? cutAfterDecimal((data?.withdrawAmount / priceDsc)*1e18,2)  : cutAfterDecimal(data?.stakingId?.coinAmount *1e18,2)) || 0); //data?.stakingId?.coinAmount
+            const withdrawDscAmounts = selectedData.map((data) => (livePriceEnable?.livePriceDsc? data?.isTransfer?.usdt && data?.isTransfer?.dsc ? (((data?.withdrawAmount/2) / priceDsc)*1e18)?.toLocaleString("fullwide", { useGrouping: false }): (((data?.withdrawAmount) / priceDsc)*1e18)?.toLocaleString("fullwide", { useGrouping: false })  : (data?.stakingId?.coinAmount *1e18)?.toLocaleString("fullwide", { useGrouping: false })) || 0); //data?.stakingId?.coinAmount
             console.log(withdrawDscAmounts,"withdrawDscAmounts")
             // Calculate total withdraw DSC amount
             const totalWithdrawDsc = withdrawDscAmounts.reduce((sum, amount) => Number(sum) + Number(amount), 0).toString();
@@ -206,7 +208,7 @@ console.log(selectedItems,"selectedItems",chainId)
             console.log(selectedData,"selectedData",livePriceEnable)
             // Extract user addresses and withdraw DSC amounts
             const userAddresses = selectedData.map((data) => data?.stakeId?.userAddress);
-            const withdrawDscAmounts = selectedData.map((data) =>  data?.stakingId?.tokenAmount *1e18)
+            const withdrawDscAmounts = selectedData.map((data) =>  ((data?.stakingId?.tokenAmount *1e18)?.toLocaleString("fullwide", { useGrouping: false })))
             console.log(withdrawDscAmounts,"withdrawDscAmounts")
             // Calculate total withdraw DSC amount
             const totalWithdrawUsdt = withdrawDscAmounts.reduce((sum, amount) => Number(sum) + Number(amount), 0).toString();

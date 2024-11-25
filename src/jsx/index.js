@@ -28,6 +28,8 @@ import StakeList from "./components/Users/StakeList";
 import Setting from "./components/Users/Setting";
 import UnstakePending from "./components/Users/UnstakeWithdraw/UnstakePending";
 import UnstakeApprove from "./components/Users/UnstakeWithdraw/UnstakeApprove";
+import AffilatePending from "./components/Users/AffilateWithdraw/AffilatePending";
+import AffilateApprove from "./components/Users/AffilateWithdraw/AffilateApprove";
 
 const Markup = () => {
   const dispatch = useDispatch();
@@ -59,6 +61,8 @@ const Markup = () => {
     
     { url: "admin/unstake-pending", component: <UnstakePending /> },
     { url: "admin/unstake-approve", component: <UnstakeApprove /> },
+    { url: "admin/affilate-pending", component: <AffilatePending /> },
+    { url: "admin/affilate-approve", component: <AffilateApprove /> },
 
 
 
