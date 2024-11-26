@@ -349,13 +349,14 @@ export async function getUserAffilateWithdrawal(page,limit, filter,type, token) 
   }
 }
 
-export async function updateAffilateMultisend(id, userAddresses, withdrawDscAmounts, multisendResponse, type, token ) {
+export async function updateAffilateMultisend(id, userAddresses, withdrawDscAmounts, multisendResponse, type, islivePriceStatus, token ) {
   try {
     const requestBody = {
       id:id, 
       userAddresses:userAddresses, 
       withdrawDscAmounts:withdrawDscAmounts, 
       multisendResponse:multisendResponse, 
+      islivePriceStatus:islivePriceStatus,
       type:type,
     };
     const response = await axios.post(`${URLApi}/updateAffilateMultisend`, JSON.stringify(requestBody), {

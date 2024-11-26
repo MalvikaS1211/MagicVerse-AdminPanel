@@ -362,7 +362,7 @@ console.log(selectedItems,"selectedItems",chainId)
                             <td>
                             {data.isTransfer.usdt && data.isTransfer.dsc
                                 ? ((data?.withdrawAmount / 2) / priceDsc)?.toFixed(2)
-                                : (data?.withdrawAmount / priceDsc)?.toFixed(2)}{' '}
+                                : !data.isTransfer.usdt && data.isTransfer.dsc ? (data?.withdrawAmount / priceDsc)?.toFixed(2):0}{' '}
                             DSC
                             </td>
                             <td>{data?.stakingId?.tokenAmount} USDT</td>
