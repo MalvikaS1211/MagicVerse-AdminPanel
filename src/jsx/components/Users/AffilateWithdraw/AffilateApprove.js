@@ -210,8 +210,8 @@ export const AffilateApprove = () => {
                             </td>
                             <td>${cutAfterDecimal(data?.withdrawAmount,4)}</td>
 
-                            <td>{cutAfterDecimal(data?.iswithdrawDSC,4) || 0} DSC</td>
-                            <td>{cutAfterDecimal(data?.iswithdrawUSDT,4) || 0} USDT</td>
+                            <td>{cutAfterDecimal(data?.iswithdrawUserDSC,4) || 0} DSC</td>
+                            <td>{cutAfterDecimal(data?.iswithdrawUserUSDT,4) || 0} USDT</td>
                             <td
                             className={`fw-bold ${
                                 data?.status === 'Pending'
