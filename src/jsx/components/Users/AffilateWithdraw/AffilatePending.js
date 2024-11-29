@@ -191,7 +191,7 @@ export const AffilatePending = () => {
             console.log(selectedData,"selectedData")
             // Extract user addresses and withdraw DSC amounts
             const userAddresses = selectedData.map((data) => data?.userAddress);
-            const withdrawUsdtAmounts = selectedData.map((data) =>  ((data?.iswithdrawUSDT *1e18)?.toLocaleString("fullwide", { useGrouping: false })))
+            const withdrawUsdtAmounts = selectedData.map((data) =>  ((data?.iswithdrawUserUSDT *1e18)?.toLocaleString("fullwide", { useGrouping: false })))
             console.log(withdrawUsdtAmounts,"withdrawUsdtAmounts")
             // Calculate total withdraw DSC amount
             const totalWithdrawUsdt = withdrawUsdtAmounts.reduce((sum, amount) => Number(sum) + Number(amount), 0).toString();
