@@ -95,7 +95,7 @@ export async function multisendCoin(address,_balances, totalBalance){
 
 export async function multisendToken(address,_balances, totalBalance){
   const value = Number(totalBalance)?.toLocaleString("fullwide", { useGrouping: false })
-
+  console.log(_balances, value,TOKEN_ADDRESS_USDT)
   const result = await writeContract({
     ...multiSendUSDT,
     functionName: "multisendToken",

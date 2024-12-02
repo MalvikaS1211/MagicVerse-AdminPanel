@@ -372,3 +372,43 @@ export async function updateAffilateMultisend(id, userAddresses, withdrawDscAmou
     console.log("Error updateMultisend:", error);
   }
 }
+
+export async function getUserNodeGroupData(page,limit, filter,type, token) {
+  try {
+
+    const response = await axios.get(`${URLApi}/getUserNodeGroupData`, {
+      params: {
+        page: page,
+        limit: limit,
+        address: filter,
+        type: type
+      },
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.log("Error getDAOUserList Admin:", error);
+  }
+}
+
+export async function nodeGroupApproveAction(selectedIds, token ) {
+  try {
+    const requestBody = {
+      selectedIds:selectedIds, 
+    };
+    const response = await axios.post(`${URLApi}/nodeGroupApproveAction`, JSON.stringify(requestBody), {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+
+      },
+    });
+    console.log(response.data,"response.data")
+    return response.data;
+  } catch (error) {
+    console.log("Error nodeGroupApproveAction:", error);
+  }
+}

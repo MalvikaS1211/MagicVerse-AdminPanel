@@ -153,7 +153,7 @@ export const AffilatePending = () => {
             await switchNetworkAsync?.(1555);
           }
             if(selectedItems.length === 0){
-                toast.error("select unstake Withdraw!")
+                toast.error("select Affilate Withdraw!")
                 return
             }
           // Filter selected rows from apiData
@@ -201,12 +201,15 @@ export const AffilatePending = () => {
               );
 
               if (tokenAllowance < Number(totalWithdrawUsdt)){
+                console.log(withdrawUsdtAmounts,totalWithdrawUsdt,"withdrawUsdtAmounts,totalWithdrawUsdt")
+
                 const tokenApprove = await approveContract(TOKEN_ADDRESS_USDT);
                 const multisend = await multisendToken(userAddresses,withdrawUsdtAmounts,totalWithdrawUsdt);
                 console.log(multisend,"multisend")
                 const data = await updateAffilateMultisend(selectedItems, userAddresses, withdrawUsdtAmounts, multisend.transactionHash, "USDT",livePriceEnable?.livePriceDsc, token )
                 console.log(data,"data")
               }else{
+                console.log(withdrawUsdtAmounts,totalWithdrawUsdt,"withdrawUsdtAmounts,totalWithdrawUsdt")
                 const multisend = await multisendToken(userAddresses,withdrawUsdtAmounts,totalWithdrawUsdt);
                 console.log(multisend,"multisend")
                 const data = await updateAffilateMultisend(selectedItems, userAddresses, withdrawUsdtAmounts, multisend.transactionHash, "USDT", livePriceEnable?.livePriceDsc, token )

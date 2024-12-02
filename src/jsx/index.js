@@ -30,6 +30,8 @@ import UnstakePending from "./components/Users/UnstakeWithdraw/UnstakePending";
 import UnstakeApprove from "./components/Users/UnstakeWithdraw/UnstakeApprove";
 import AffilatePending from "./components/Users/AffilateWithdraw/AffilatePending";
 import AffilateApprove from "./components/Users/AffilateWithdraw/AffilateApprove";
+import NodeApprove from "./components/Users/NodeGroup/NodeApprove";
+import NodePending from "./components/Users/NodeGroup/NodePending";
 
 const Markup = () => {
   const dispatch = useDispatch();
@@ -63,8 +65,8 @@ const Markup = () => {
     { url: "admin/unstake-approve", component: <UnstakeApprove /> },
     { url: "admin/affilate-pending", component: <AffilatePending /> },
     { url: "admin/affilate-approve", component: <AffilateApprove /> },
-
-
+    { url: "admin/node-approve", component: <NodeApprove /> },
+    { url: "admin/node-pending", component: <NodePending /> },
 
   ];
 

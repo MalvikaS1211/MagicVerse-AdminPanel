@@ -87,6 +87,22 @@ export const MenuList = [
       },
     ]
   },
+  {
+    title:"Node Group",
+    // to:"admin/unstake",
+    iconStyle:<PiHandDepositFill className="fs-3"/>,
+    content: [
+        
+      {
+          title: 'Approved',
+          to: 'admin/node-approve',
+      },
+      {
+        title: 'Pending',
+        to: 'admin/node-pending',
+      },
+    ]
+  },
   // {
   //   title:"Deposit List",
   //   to:"depositList",
