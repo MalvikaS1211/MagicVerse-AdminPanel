@@ -116,7 +116,7 @@ export const StakeList = () => {
                     <th>Stake Amount ($)</th>
                     <th>stake</th>
                     <th>Staking Income</th>
-
+                    <th>Status</th>
                     <th>Date & Time</th>
                   </tr>
                 </thead>
@@ -146,6 +146,7 @@ export const StakeList = () => {
                           <div>{cutAfterDecimal(data?.tokenAmount,4)} USDT </div>
                         </td>
                         <td> ${data?.generatedIncome || 0 }</td>
+                        <td className={(data?.isBothTxn?.dsc === true & data?.isBothTxn?.usdt === true )? "text-warning fw-bold": "text-success fw-bold"}> {(data?.isBothTxn?.dsc === true & data?.isBothTxn?.usdt === true )? "PENDING":"SUCCESS"  }</td>
 
                         <td>{new Date(data?.createTimestamp).toLocaleString()}</td>
                       </tr>
