@@ -349,6 +349,50 @@ const BalanceCardSlider = () => {
                     />
                   </div>
                   <div className="-info">
+                    <h4 className="count-num">
+                      {cutAfterDecimal(data.totalUnstakedDSC, 4) ?? 0} DSC
+                    </h4>
+                    <p className="text_gray mb-0">Total DSC UNSTAKE</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-lg-3">
+            <div className="card ">
+              <div className="card-body">
+                <div className="d-flex gap-3">
+                  <div className="circle_bg">
+                    {/* <img src="/images/user.png" className="img_50" /> */}
+                    <MdQuiz
+                      className="text-dark"
+                      style={{ fontSize: "45px" }}
+                    />
+                  </div>
+                  <div className="-info">
+                    <h4 className="count-num">
+                      {cutAfterDecimal(data.totalUnstakedUSDT, 4) ?? 0} USDT
+                    </h4>
+                    <p className="text_gray mb-0">Total USDT UNSTAKE</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-lg-3">
+            <div className="card ">
+              <div className="card-body">
+                <div className="d-flex gap-3">
+                  <div className="circle_bg">
+                    {/* <img src="/images/user.png" className="img_50" /> */}
+                    <MdQuiz
+                      className="text-dark"
+                      style={{ fontSize: "45px" }}
+                    />
+                  </div>
+                  <div className="-info">
                     <h4 className="count-num">{data.totalPaid ?? 0}</h4>
                     <p className="text_gray mb-0">Total Withdrawal</p>
                   </div>

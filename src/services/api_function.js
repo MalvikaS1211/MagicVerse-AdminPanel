@@ -91,10 +91,13 @@ export async function daoUsersAdd(address, token) {
   }
 }
 
-export async function getDAOUserList(token) {
+export async function getDAOUserList(walletAddress,token) {
   try {
 
     const response = await axios.get(`${URLApi}/getDAOUserList`, {
+      params: {
+        address: walletAddress,
+      },
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`,

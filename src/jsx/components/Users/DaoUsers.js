@@ -8,6 +8,7 @@ import { cutAfterDecimal, daoUsersAdd, getDAOUserList } from "../../../services/
 import toast from "react-hot-toast";
 import { Tooltip, IconButton } from '@mui/material';
 import { FaRegCopy } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 // const HtmlTooltip = styled(({ className, ...props }) => (
 //   <Tooltip {...props} classes={{ popper: className }} />
@@ -21,6 +22,8 @@ import { FaRegCopy } from "react-icons/fa";
 // }));
 
 export const DaoUsers = () => {
+  const {wallet} = useSelector((state) => state.login);
+  const { walletAddress,chainId } = wallet ;
   const [apiData, setApiData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -68,7 +71,7 @@ export const DaoUsers = () => {
       try {
         const userDetails = localStorage.getItem("adminToken");
         const token = userDetails;
-        const result = await getDAOUserList(token);
+        const result = await getDAOUserList(search,token);
         console.log(result);
         setApiData(result?.data);
         if (!result?.data?.[0]) {
@@ -85,7 +88,7 @@ export const DaoUsers = () => {
     };
 
     fetchData();
-  }, [isFetch]);
+  }, [search,isFetch]);
 
 
   const handleNextPage = () => {
@@ -125,7 +128,7 @@ export const DaoUsers = () => {
               id="form1"
               className="form-control"
               placeholder="Search here..."
-            //   onChange={handleSearch}
+              onChange={handleSearch}
             />
           </div>
           <label className="form-label" for="form1"></label>

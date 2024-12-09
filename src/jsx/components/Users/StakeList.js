@@ -5,7 +5,8 @@ import { Row, Col, Card, Table } from "react-bootstrap";
 import { COLUMNS } from "../../components/table/FilteringTable/Columns";
 import MOCK_DATA from "../../components/table/FilteringTable/MOCK_DATA_2.json";
 import { styled } from "@mui/material/styles";
-import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+import { Tooltip, IconButton, tooltipClasses } from '@mui/material';
+import { FaRegCopy } from "react-icons/fa";
 
 import { cutAfterDecimal, getAllRewardList, getAllStakeUserList } from "../../../services/api_function";
 import toast from "react-hot-toast";
@@ -29,7 +30,13 @@ export const StakeList = () => {
   const [recordStatus, setRecordStatus] = useState("Loading...");
   const [isFetch, setIsFetch] = useState(false);
   const [type, setType] = useState("all");
+  const [tooltipText, setTooltipText] = useState("Copy address");
 
+  const handleCopy = (address) => {
+    navigator.clipboard.writeText(address);
+    setTooltipText("Copied!");
+    setTimeout(() => setTooltipText("Copy address"), 2000); // Reset tooltip text after 2 seconds
+  };
 
 
   const handleSearch = async (e) => {
@@ -124,7 +131,14 @@ export const StakeList = () => {
                     apiData?.map((data, index) => (
                       <tr key={index}>
                         <td>{index + 1}</td>
-                        <td>{data?.address?.slice(0,5)}...{data?.address?.slice(-4)}</td>
+                        <td>
+                        {data?.address?.slice(0,5)}...{data?.address?.slice(-4)}
+                        <Tooltip title={tooltipText} arrow>
+                          <IconButton onClick={()=>handleCopy(data?.address)} size="small" style={{ marginLeft: 4 }}>
+                          <FaRegCopy />
+                          </IconButton>
+                        </Tooltip>
+                        </td>
                         <td>{data?.isUnStake ? "UNSTAKE" : "STAKE" || "--"}</td>
                         <td> ${cutAfterDecimal(data?.stakeAmount,4) || 0 }</td>
                         <td>
