@@ -32,6 +32,8 @@ import AffilatePending from "./components/Users/AffilateWithdraw/AffilatePending
 import AffilateApprove from "./components/Users/AffilateWithdraw/AffilateApprove";
 import NodeApprove from "./components/Users/NodeGroup/NodeApprove";
 import NodePending from "./components/Users/NodeGroup/NodePending";
+import DaoPending from "./components/Users/DaoWithdraw/DaoPending";
+import DaoApprove from "./components/Users/DaoWithdraw/DaoApprove";
 
 const Markup = () => {
   const dispatch = useDispatch();
@@ -65,6 +67,10 @@ const Markup = () => {
     { url: "admin/unstake-approve", component: <UnstakeApprove /> },
     { url: "admin/affilate-pending", component: <AffilatePending /> },
     { url: "admin/affilate-approve", component: <AffilateApprove /> },
+
+    { url: "admin/dao-pending", component: <DaoPending /> },
+    { url: "admin/dao-approve", component: <DaoApprove /> },
+
     { url: "admin/node-approve", component: <NodeApprove /> },
     { url: "admin/node-pending", component: <NodePending /> },
 

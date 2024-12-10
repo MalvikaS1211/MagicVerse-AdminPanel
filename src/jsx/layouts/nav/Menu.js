@@ -87,6 +87,22 @@ export const MenuList = [
       },
     ]
   },
+
+  {
+    title:"Dao Withdraw",
+    iconStyle:<PiHandDepositFill className="fs-3"/>,
+    content: [
+        
+      {
+          title: 'Approved',
+          to: 'admin/dao-approve',
+      },
+      {
+        title: 'Pending',
+        to: 'admin/dao-pending',
+      },
+    ]
+  },
   {
     title:"Node Group",
     // to:"admin/unstake",

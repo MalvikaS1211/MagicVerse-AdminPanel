@@ -4,7 +4,7 @@ import { Row, Col, Card, Table, Toast } from "react-bootstrap";
 import { styled } from "@mui/material/styles";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import Papa from "papaparse";
-import { cutAfterDecimal, daoUsersAdd, getAfter14DaysAllUserReward, getAllUnstakes, getDAOUserList, getDscprice, getStakeSetting, getUserAffilateWithdrawal, getUserUnstakeWithdrawal, updateAffilateMultisend, updateMultisend, updateStakeSetting } from "../../../../services/api_function";
+import { cutAfterDecimal, getDscprice, getStakeSetting, getUserDaoWithdrawal, updateAffilateMultisend, updateStakeSetting } from "../../../../services/api_function";
 import toast from "react-hot-toast";
 import { approveContract, getTokenAllowance, multisendCoin, multisendToken } from "../web3/transfert";
 import { useSelector } from "react-redux";
@@ -22,7 +22,7 @@ const HtmlTooltip = styled(({ className, ...props }) => (
   },
 }));
 
-export const AffilatePending = () => {
+export const DaoPending = () => {
     const {
         chains,
         switchNetworkAsync,
@@ -64,7 +64,7 @@ export const AffilatePending = () => {
       try {
         // const data2312=  await getAfter14DaysAllUserReward(currentPage,20,token);
         // console.log(data2312,"data2312")
-        const result = await getUserAffilateWithdrawal(currentPage,10, search,"pending",token);
+        const result = await getUserDaoWithdrawal(currentPage,10, search,"pending",token);
         // console.log(result,"RELLLLLLL");
         setApiData(result?.data);
         if (!result?.data?.[0]) {
@@ -153,7 +153,7 @@ export const AffilatePending = () => {
             await switchNetworkAsync?.(1555);
           }
             if(selectedItems.length === 0){
-                toast.error("select Affilate Withdraw!")
+                toast.error("select Dao Withdraw!")
                 return
             }
           // Filter selected rows from apiData
@@ -161,7 +161,7 @@ export const AffilatePending = () => {
             console.log(selectedData,"selectedData")
             // Extract user addresses and withdraw DSC amounts
             const userAddresses = selectedData.map((data) => data?.stakeId?.userAddress);
-            const withdrawDscAmounts = selectedData.map((data) =>  livePriceEnable?.livePriceDsc ? (data?.isTransfer?.usdt && data?.isTransfer?.dsc ? ((((data?.withdrawAmount-data?.iswithdrawUserUSDT) / priceDsc)*1e18)?.toLocaleString("fullwide", { useGrouping: false })):((((data?.withdrawAmount) / priceDsc)*1e18)?.toLocaleString("fullwide", { useGrouping: false }))) :((data?.iswithdrawDSC *1e18)?.toLocaleString("fullwide", { useGrouping: false })));
+            const withdrawDscAmounts = selectedData.map((data) =>  livePriceEnable?.livePriceDsc ? (data?.isTransfer?.usdt && data?.isTransfer?.dsc ? ((((data?.withdrawAmount - data?.iswithdrawUserUSDT) / priceDsc)*1e18)?.toLocaleString("fullwide", { useGrouping: false })):((((data?.withdrawAmount) / priceDsc)*1e18)?.toLocaleString("fullwide", { useGrouping: false }))) :((data?.iswithdrawDSC *1e18)?.toLocaleString("fullwide", { useGrouping: false })));
             console.log(withdrawDscAmounts,"withdrawDscAmounts")
             // Calculate total withdraw DSC amount
             const totalWithdrawDsc = withdrawDscAmounts.reduce((sum, amount) => Number(sum) + Number(amount), 0).toString();
@@ -183,7 +183,7 @@ export const AffilatePending = () => {
             await switchNetworkAsync?.(56);
           }
         if(selectedItems.length === 0){
-            toast.error("select Affilate Withdraw!")
+            toast.error("select Dao Withdraw!")
             return
         }
           // Filter selected rows from apiData
@@ -274,7 +274,7 @@ export const AffilatePending = () => {
         <Col lg={12}>
           <Card>
             <Card.Header>
-              <Card.Title>AFFILATE PENDING WITHDRAW</Card.Title>
+              <Card.Title>DAO PENDING WITHDRAW</Card.Title>
               <div className="d-flex align-items-center">          
               <div class="form-check form-switch mt-2 mb-2">
                 <input
@@ -364,18 +364,17 @@ export const AffilatePending = () => {
                             <td>{cutAfterDecimal(data?.iswithdrawUserDSC,4) || 0} DSC</td>
                             <td>${(data?.iswithdrawUserDSC * priceDsc)?.toFixed(2)}</td>
                             <td>
-                            <div>
-                            {data.isTransfer.usdt && data.isTransfer.dsc
-                                ? ((data?.withdrawAmount-data?.iswithdrawUserUSDT) / priceDsc)?.toFixed(2)
+                           <div>
+                           {data.isTransfer.usdt && data.isTransfer.dsc
+                                ? ((data?.withdrawAmount - data?.iswithdrawUserUSDT) / priceDsc)?.toFixed(2)
                                 : !data.isTransfer.usdt && data.isTransfer.dsc ? (data?.withdrawAmount / priceDsc)?.toFixed(2):0}{' '}
                             DSC
-                            </div>
-                            <div>
-                            ${data.isTransfer.usdt && data.isTransfer.dsc
-                                ? ((data?.withdrawAmount-data?.iswithdrawUserUSDT))?.toFixed(2)
+                           </div>
+                           <div>
+                           ${data.isTransfer.usdt && data.isTransfer.dsc
+                                ? ((data?.withdrawAmount - data?.iswithdrawUserUSDT))?.toFixed(2)
                                 : !data.isTransfer.usdt && data.isTransfer.dsc ? (data?.withdrawAmount)?.toFixed(2):0}{' '}
-                            
-                            </div>
+                           </div>
                             </td>
                             <td>{cutAfterDecimal(data?.iswithdrawUserUSDT,4) || 0} USDT</td>
 
@@ -466,4 +465,4 @@ export const AffilatePending = () => {
   );
 };
 
-export default AffilatePending;
+export default DaoPending;

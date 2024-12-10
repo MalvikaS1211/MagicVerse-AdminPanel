@@ -352,6 +352,27 @@ export async function getUserAffilateWithdrawal(page,limit, filter,type, token) 
   }
 }
 
+export async function getUserDaoWithdrawal(page,limit, filter,type, token) {
+  try {
+
+    const response = await axios.get(`${URLApi}/getUserDaoWithdrawal`, {
+      params: {
+        page: page,
+        limit: limit,
+        address: filter,
+        type: type
+      },
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.log("Error getDAOUserList Admin:", error);
+  }
+}
+
 export async function updateAffilateMultisend(id, userAddresses, withdrawDscAmounts, multisendResponse, type, islivePriceStatus, token ) {
   try {
     const requestBody = {
