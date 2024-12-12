@@ -4,7 +4,7 @@ import { Row, Col, Card, Table } from "react-bootstrap";
 import { styled } from "@mui/material/styles";
 // import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import Papa from "papaparse";
-import { cutAfterDecimal, daoUsersAdd, getAllStakeUsers, getAllUnstakes, getDAOUserList } from "../../../services/api_function";
+import { cutAfterDecimal, getAllStakeUsers } from "../../../services/api_function";
 import toast from "react-hot-toast";
 import { Tooltip, IconButton } from '@mui/material';
 import { FaRegCopy } from "react-icons/fa";

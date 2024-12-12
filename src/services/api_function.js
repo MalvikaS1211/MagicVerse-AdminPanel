@@ -1,23 +1,9 @@
 import axios from "axios";
 import toast from "react-hot-toast";
-export const url = "https://backoffice.inrx.io/api";
-export const url2 = "https://backoffice.inrx.io/api";
+export const URL = "http://localhost:8080/api";
+export const URLApi = "http://localhost:8080/admin";
+// export const URLApi = "https://corecrowd.io/admin";
 
-// export const URLApi = "http://localhost:8000/dsc_admin";
-export const URLApi = "https://dappcircle.io/dsc_admin";
-
-const dscPriceUrl = "https://dscscan.io/node-api/get-dsc-live-price";
-
-export const getDscprice = async () => {
-  try {
-    const response = await axios.get(dscPriceUrl);
-    console.log(response.data.data[0].token0Price * 30, "dsc priceresponse",response);
-    const dscpriceIndollar = response.data.data[0].token0Price * 30;
-    return dscpriceIndollar;
-  } catch (err) {
-    console.log(err,"error")
-  }
-};
 export function cutAfterDecimal(number, pos, dl, ac) {
   if (Number(number)) {
     if (dl) {
@@ -73,6 +59,70 @@ export async function adminLogin(email, password) {
   }
 }
 
+export function replyTicket(
+  ticketId,
+  replymessage,
+  replyfile,
+  closed,
+  subject,
+  token
+) {
+  const formData = new FormData();
+  if(replyfile){
+  formData.append("reply", replyfile, replyfile.name);
+  }
+  // formData.append("mobile", mobile);
+  // formData.append("tokenId", sessionId);
+  formData.append("closed", closed);
+  formData.append("message", replymessage);
+  formData.append("subject", subject);
+  formData.append("ticketId", ticketId);
+
+  return axios
+    .post(URL + "/reply-tickets", formData, {
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      }
+    } )
+    .then((res) => res)
+    .catch((e) => {
+      console.log(e);
+    });
+}
+
+export const getAllChatsList = async(token)=>{
+  try {
+    const res = await axios.get(`${URLApi}/support-chats`,{
+      headers:{
+        "Authorization":`Bearer ${token}`
+      }
+    })
+    return res;
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export function raisedTicketList(address, token) {
+  return fetch(URL + "/tickets-list", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "allow-access-control-origin": "*",
+      "Authorization": `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      address: address,
+      page: 1,
+      limit: 10,
+    }),
+  })
+    .then((res) => res.json())
+    .catch((e) => {
+      console.log(e, "Error in raisedTicketList()::apis.tsx");
+    });
+}
+
 export async function daoUsersAdd(address, token) {
   try {
     const requestBody = {
@@ -109,43 +159,6 @@ export async function getDAOUserList(walletAddress,token) {
   }
 }
 
-export async function getUserRewardData(walletAddress) {
-  try {
-    const response = await axios.get(`${url}/getUserRewardData`, {
-      params: {
-        userAddress: walletAddress,
-      },
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    return response.data;
-  } catch (error) {
-    console.log("Error fetching stake data:", error);
-    // Handle the error appropriately here
-  }
-}
-
-export async function getAllUnstakes(page,limit, filter, token) {
-  try {
-
-    const response = await axios.get(`${URLApi}/getAllUnstakes`, {
-      params: {
-        page: page,
-        limit: limit,
-        address: filter
-      },
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.log("Error getDAOUserList Admin:", error);
-  }
-}
 
 export async function getAllStakeUsers(page,limit, filter, token) {
   try {
@@ -167,26 +180,6 @@ export async function getAllStakeUsers(page,limit, filter, token) {
   }
 }
 
-export async function getAllRewardList(type,page,limit, filter, token) {
-  try {
-
-    const response = await axios.get(`${URLApi}/getAllRewardList`, {
-      params: {
-        type:type,
-        page: page,
-        limit: limit,
-        address: filter
-      },
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.log("Error getDAOUserList Admin:", error);
-  }
-}
 
 export async function getStakeSummary(token) {
   try {
@@ -203,26 +196,6 @@ export async function getStakeSummary(token) {
   }
 }
 
-export async function getAllStakeUserList(page,limit, filter,type, token) {
-  try {
-
-    const response = await axios.get(`${URLApi}/getAllStakeUserList`, {
-      params: {
-        page: page,
-        limit: limit,
-        userAddress: filter,
-        type: type
-      },
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.log("Error getDAOUserList Admin:", error);
-  }
-}
 
 export async function updateStakeSetting(newSettings, token) {
   try {
@@ -263,137 +236,6 @@ export async function getTop3IdData(token) {
     return response.data;
   } catch (error) {
     console.log("Error getDAOUserList Admin:", error);
-  }
-}
-
-export async function getUserUnstakeWithdrawal(page,limit, filter,type, token) {
-  try {
-
-    const response = await axios.get(`${URLApi}/getUserUnstakeWithdrawal`, {
-      params: {
-        page: page,
-        limit: limit,
-        address: filter,
-        type: type
-      },
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.log("Error getDAOUserList Admin:", error);
-  }
-}
-
-export async function updateMultisend(id, userAddresses, withdrawDscAmounts, multisendResponse, type, islivePriceStatus, token ) {
-  try {
-    const requestBody = {
-      id:id, 
-      userAddresses:userAddresses, 
-      withdrawDscAmounts:withdrawDscAmounts, 
-      multisendResponse:multisendResponse, 
-      islivePriceStatus:islivePriceStatus,
-      type:type,
-    };
-    const response = await axios.post(`${URLApi}/updateMultisend`, JSON.stringify(requestBody), {
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-
-      },
-    });
-    console.log(response.data,"response.data")
-    return response.data;
-  } catch (error) {
-    console.log("Error updateMultisend:", error);
-  }
-}
-
-export async function getAfter14DaysAllUserReward(page,limit, token) {
-  try {
-
-    const response = await axios.get(`${URLApi}/getAfter14DaysAllUserReward`, {
-      params: {
-        page: page,
-        limit: limit,
-        // address: filter,
-      },
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.log("Error getDAOUserList Admin:", error);
-  }
-}
-
-export async function getUserAffilateWithdrawal(page,limit, filter,type, token) {
-  try {
-
-    const response = await axios.get(`${URLApi}/getUserAffilateWithdrawal`, {
-      params: {
-        page: page,
-        limit: limit,
-        address: filter,
-        type: type
-      },
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.log("Error getDAOUserList Admin:", error);
-  }
-}
-
-export async function getUserDaoWithdrawal(page,limit, filter,type, token) {
-  try {
-
-    const response = await axios.get(`${URLApi}/getUserDaoWithdrawal`, {
-      params: {
-        page: page,
-        limit: limit,
-        address: filter,
-        type: type
-      },
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.log("Error getDAOUserList Admin:", error);
-  }
-}
-
-export async function updateAffilateMultisend(id, userAddresses, withdrawDscAmounts, multisendResponse, type, islivePriceStatus, token ) {
-  try {
-    const requestBody = {
-      id:id, 
-      userAddresses:userAddresses, 
-      withdrawDscAmounts:withdrawDscAmounts, 
-      multisendResponse:multisendResponse, 
-      islivePriceStatus:islivePriceStatus,
-      type:type,
-    };
-    const response = await axios.post(`${URLApi}/updateAffilateMultisend`, JSON.stringify(requestBody), {
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-
-      },
-    });
-    console.log(response.data,"response.data")
-    return response.data;
-  } catch (error) {
-    console.log("Error updateMultisend:", error);
   }
 }
 

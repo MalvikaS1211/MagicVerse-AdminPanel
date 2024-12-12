@@ -71,7 +71,7 @@ function Login(props) {
                             src="../images/logo.png"
                             alt=""
                             className="width-230 mCS_img_loaded"
-                            style={{width:'150px'}}
+                            style={{width:'150spx'}}
                           />
                         </Link>
                       </div>

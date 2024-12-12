@@ -36,8 +36,8 @@ const NavHader = () => {
         {/* //for mobile */}
         <img src={logo1} className="logo-color" alt="" />
         {/* for // Desktop */}
-        <img src={logo1} className="logo-abbr" alt="" width="100" />
-        {/* <img src="../../images/logo.png" class="brand-title" alt="" /> */}
+        <img src={logo1}  alt="" width="100" />
+        {/* <img src="../../images/logo.png" class="brand-title" alt="" />   //className="logo-abbr" */}
       </Link>
 
       <div

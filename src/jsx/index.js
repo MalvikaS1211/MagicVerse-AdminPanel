@@ -22,18 +22,13 @@ import Login from "./pages/Login";
 import { useDispatch } from "react-redux";
 import { setLogin } from "./redux/reducer";
 import DaoUsers from "./components/Users/DaoUsers";
-import Unstake from "./components/Users/Unstake";
-import RewardList from "./components/Users/RewardList";
-import StakeList from "./components/Users/StakeList";
 import Setting from "./components/Users/Setting";
-import UnstakePending from "./components/Users/UnstakeWithdraw/UnstakePending";
-import UnstakeApprove from "./components/Users/UnstakeWithdraw/UnstakeApprove";
-import AffilatePending from "./components/Users/AffilateWithdraw/AffilatePending";
-import AffilateApprove from "./components/Users/AffilateWithdraw/AffilateApprove";
+
 import NodeApprove from "./components/Users/NodeGroup/NodeApprove";
 import NodePending from "./components/Users/NodeGroup/NodePending";
-import DaoPending from "./components/Users/DaoWithdraw/DaoPending";
-import DaoApprove from "./components/Users/DaoWithdraw/DaoApprove";
+
+import Support from "./components/Users/Support/Support";
+import SupportCharts from "./components/Users/Support/SupportCharts";
 
 const Markup = () => {
   const dispatch = useDispatch();
@@ -55,24 +50,15 @@ const Markup = () => {
     { url: "", component: <Home /> },
     { url: "admin/dashboard", component: <Home /> },
     { url: "admin/userList", component: <Alluser /> },
-    { url: "admin/stakeList", component: <StakeList /> },
 
-    { url: "admin/rewardList", component: <RewardList /> },
-
-    { url: "admin/unstake", component: <Unstake /> },
     { url: "admin/daousers", component: <DaoUsers /> },
     { url: "admin/setting", component: <Setting /> },
-    
-    { url: "admin/unstake-pending", component: <UnstakePending /> },
-    { url: "admin/unstake-approve", component: <UnstakeApprove /> },
-    { url: "admin/affilate-pending", component: <AffilatePending /> },
-    { url: "admin/affilate-approve", component: <AffilateApprove /> },
-
-    { url: "admin/dao-pending", component: <DaoPending /> },
-    { url: "admin/dao-approve", component: <DaoApprove /> },
 
     { url: "admin/node-approve", component: <NodeApprove /> },
     { url: "admin/node-pending", component: <NodePending /> },
+
+    { url: "admin/support-chats", component: <SupportCharts /> },
+    { url: "admin/allusers/support", component: <Support /> },
 
   ];
 
@@ -103,36 +89,9 @@ const Markup = () => {
     testnet: true,
   };
 
-  var dscnetwork = {
-    id: 1555,
-    name: "DSC Scan",
-    network: "DSC Scan",
-    iconUrl: 'https://dscscan.io/images/dscscanlogo.png',
-    nativeCurrency: {
-      decimals: 18,
-      name: "DSC",
-      symbol: "DSC",
-    },
-    rpcUrls: {
-      default: { http: ["https://rpc01.dscscan.io"] },
-      public: { http: ["https://rpc01.dscscan.io"] },
-    },
-    blockExplorers: {
-      etherscan: { name: "dscscan", url: "https://dscscan.io" },
-      default: { name: "dscscan", url: "https://dscscan.io" },
-    },
-    // contracts: {
-    //   multicall3: {
-    //     address: "0xca11bde05977b3631167028862be2a173976ca11",
-    //     blockCreated: 17422483,
-    //   },
-    // },
-    testnet: false,
-  };
-
   const { chains, publicClient } = configureChains(
 
-    [bsc,dscnetwork],
+    [bsc],
     [publicProvider()],
     [jsonRpcProvider({
       rpc: (chain) => ({

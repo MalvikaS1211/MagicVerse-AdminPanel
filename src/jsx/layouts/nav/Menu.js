@@ -7,6 +7,7 @@ import { PiExamFill } from "react-icons/pi";
 import { FaIdCardAlt } from "react-icons/fa";
 import { PiHandDepositFill } from "react-icons/pi";
 import { IoIosSettings } from "react-icons/io";
+import { SlSupport } from "react-icons/sl";
 
 
 
@@ -17,27 +18,11 @@ export const MenuList = [
     iconStyle: <i className="material-icons">grid_view</i>,
     to: "admin/dashboard",
   },
-  // {
-  //   title: "Add Question",
-  //   iconStyle: <RiQuestionnaireFill className="fs-3"/>,
-  //   to: "addQuestion",
-  // },
+
   {
     title:"User List",
     to:"admin/userList",
     iconStyle:<FaUserGraduate className="fs-3"/>
-  },
-
-  {
-    title:"Stake List",
-    to:"admin/stakeList",
-    iconStyle:<RiQuestionnaireFill className="fs-3"/>
-  },
-
-  {
-    title:"Reward List",
-    to:"admin/rewardList",
-    iconStyle:<FaRankingStar className="fs-3"/>
   },
 
   {
@@ -46,63 +31,6 @@ export const MenuList = [
     iconStyle:<PiHandDepositFill className="fs-3"/>
   },
 
-  {
-    title:"Unstake Users",
-    to:"admin/unstake",
-    iconStyle:<PiHandDepositFill className="fs-3"/>
-  },
-  {
-    title:"Unstake Withdraw",
-    // to:"admin/unstake",
-    iconStyle:<PiHandDepositFill className="fs-3"/>,
-    content: [
-        
-      {
-          title: 'Approved',
-          to: 'admin/unstake-approve',
-      },
-      {
-        title: 'Pending',
-        to: 'admin/unstake-pending',
-      },
-      // {
-      //     title: 'Rejected',
-      //     to: 'admin/unstake-reject',
-      // }
-    ]
-  },
-  {
-    title:"Affilate Withdraw",
-    // to:"admin/unstake",
-    iconStyle:<PiHandDepositFill className="fs-3"/>,
-    content: [
-        
-      {
-          title: 'Approved',
-          to: 'admin/affilate-approve',
-      },
-      {
-        title: 'Pending',
-        to: 'admin/affilate-pending',
-      },
-    ]
-  },
-
-  {
-    title:"Dao Withdraw",
-    iconStyle:<PiHandDepositFill className="fs-3"/>,
-    content: [
-        
-      {
-          title: 'Approved',
-          to: 'admin/dao-approve',
-      },
-      {
-        title: 'Pending',
-        to: 'admin/dao-pending',
-      },
-    ]
-  },
   {
     title:"Node Group",
     // to:"admin/unstake",
@@ -124,6 +52,12 @@ export const MenuList = [
   //   to:"depositList",
   //   iconStyle:<PiHandDepositFill className="fs-3"/>
   // },
+
+  {
+    title: "Support",
+    iconStyle: <SlSupport  className="fs-3"/>,
+    to: "admin/support-chats",
+  },
 
   {
     title:"Setting",

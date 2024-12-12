@@ -3,7 +3,6 @@ import loadable from "@loadable/component";
 import pMinDelay from "p-min-delay";
 import { ThemeContext } from "../../../context/ThemeContext";
 import BalanceCardSlider from "./Dashboard/BalanceCardSlider";
-import { getStakeSetting, updateStakeSetting } from "../../../services/api_function";
 import toast from "react-hot-toast";
 
 const pickerData = [

@@ -4,6 +4,9 @@ const initialState = {
   login: false, 
   wallet:{
 
+  },
+  userTask:{
+
   }
 };
 
@@ -17,8 +20,11 @@ const loginSlice = createSlice({
     setWallet: (state, action) => {
       state.wallet = action.payload;
     },
+    setUserTask: (state, action) => {
+      state.userTask = action.payload;
+    },
   },
 });
 
-export const { setLogin,setWallet } = loginSlice.actions;
+export const { setLogin,setWallet,setUserTask } = loginSlice.actions;
 export default loginSlice.reducer;
