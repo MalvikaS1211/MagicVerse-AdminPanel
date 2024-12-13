@@ -1,13 +1,20 @@
 import React, { Fragment, useEffect, useState, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Row, Col, Card, Table } from "react-bootstrap";
+import { Row, Col, Card, Table, Form, Button } from "react-bootstrap";
 import { styled } from "@mui/material/styles";
 // import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+import axios from "axios";
 import Papa from "papaparse";
-import { cutAfterDecimal, getAllStakeUsers } from "../../../services/api_function";
+import {
+  cutAfterDecimal,
+  getAllStakeUsers,
+  URLApi,
+} from "../../../services/api_function";
 import toast from "react-hot-toast";
-import { Tooltip, IconButton } from '@mui/material';
+import { Tooltip, IconButton } from "@mui/material";
 import { FaRegCopy } from "react-icons/fa";
+import moment from "moment";
+import { getusdt, stakeUsdtByAdmin } from "./web3/transfert";
 
 // const HtmlTooltip = styled(({ className, ...props }) => (
 //   <Tooltip {...props} classes={{ popper: className }} />
@@ -28,6 +35,7 @@ export const Alluser = () => {
   const [daoAddress, setDaoAddress] = useState("");
   const [recordStatus, setRecordStatus] = useState("Loading...");
   const [isFetch, setIsFetch] = useState(false);
+  const [licenseList, setLicenseList] = useState([]);
 
   const [tooltipText, setTooltipText] = useState("Copy address");
 
@@ -46,31 +54,40 @@ export const Alluser = () => {
     }
   };
 
+  const [token, setToken] = useState();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const userDetails = localStorage.getItem("adminToken");
+        setToken(userDetails);
         const token = userDetails;
-        const result = await getAllStakeUsers(currentPage,10, search,token);
-        console.log(result,"RELLLLLLL");
-        setApiData(result?.data);
-        if (!result?.data?.[0]) {
-          setRecordStatus("No Record");
-        }
-        setTotalPages(result?.pagination?.totalPages);
-        // if (result.status == 404) {
-        //   navigate("/login");
-        //   localStorage.removeItem("userDetails");
-        // }
+        const response = await axios.post(
+          `${URLApi}/get-license-purchases`,
+          {
+            page: 1,
+            limit: 10000000,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        console.log(response.data);
+        setIsdeposit(response.data.isDepositStopped);
+        let alllicensesList = response.data.allLicenses;
+        alllicensesList.shift();
+        setLicenseList(alllicensesList);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.log(error);
       }
     };
 
+    // Call the fetchData function on component mount
     fetchData();
-  }, [currentPage,search,isFetch]);
-
-
+  }, []);
   const handleNextPage = () => {
     setCurrentPage((prevPage) =>
       prevPage < totalPages ? prevPage + 1 : prevPage
@@ -97,11 +114,130 @@ export const Alluser = () => {
     document.getElementById("fileInput").click(); // Programmatically click the hidden input
   };
 
+  const handleIsDeposit = async (status) => {
+    try {
+      const response = await axios.post(
+        `${URLApi}/stop-deposit`, // Replace with your actual API URL
+        {
+          depositStatus: status,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const [stringInput, setStringInput] = useState("");
+  const [numberInput, setNumberInput] = useState("");
+  const [licenseType, setLicenseType] = useState("");
+  const [isdeposit, setIsdeposit] = useState(false);
+  // Handle input changes
+  const handleStringChange = (e) => setStringInput(e.target.value);
+  const handleNumberChange = (e) => setNumberInput(e.target.value);
+  const handleLicenseChange = (e) => setLicenseType(Number(e.target.value));
+
+  const handleSubmit = async () => {
+    try {
+      console.log({ stringInput, numberInput });
+      if (licenseType !== 1 && licenseType !== 2) {
+        return toast.error("Invalid License type!");
+      }
+      const formattedNumber = Number(numberInput * 1e18);
+      console.log("Amount:", formattedNumber);
+      console.log("licenseType", licenseType);
+      const result = await stakeUsdtByAdmin(
+        formattedNumber,
+        licenseType,
+        stringInput
+      );
+
+      toast.success("Transaction successful!");
+    } catch (error) {
+      console.log("Error submitting data:", error);
+      toast.error("Error!");
+    }
+  };
   return (
     <Fragment>
+      <Row className="mb-4">
+        <Col lg={7}>
+          <Card>
+            <Card.Body>
+              <Form>
+                <Form.Group controlId="formStringInput">
+                  <Form.Label>User</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="User"
+                    value={stringInput}
+                    onChange={handleStringChange}
+                  />
+                </Form.Group>
+
+                <Form.Group controlId="formNumberInput" className="mt-3">
+                  <Form.Label>Amount</Form.Label>
+                  <Form.Control
+                    type="number"
+                    placeholder="Enter Amount"
+                    value={numberInput}
+                    onChange={handleNumberChange}
+                  />
+                </Form.Group>
+
+                <Form.Group controlId="formSelectLicenseType" className="mt-3">
+                  <Form.Label>License Type</Form.Label>
+                  <Form.Select
+                    value={licenseType}
+                    onChange={handleLicenseChange}
+                  >
+                    <option value="0">Select any License Type</option>
+                    <option value="1">Radiant</option>
+                    <option value="2">Quantum</option>
+                  </Form.Select>
+                </Form.Group>
+
+                <Button
+                  variant="primary"
+                  className="mt-3"
+                  onClick={handleSubmit}
+                >
+                  Submit
+                </Button>
+              </Form>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col lg={5} className="deposit-btn-containet">
+          <Card
+            className="d-flex justify-content-center"
+            style={{ width: "18rem" }}
+          >
+            <Card.Body>
+              <Card.Title></Card.Title>
+              <Card.Text></Card.Text>
+              <Button
+                className="next-button btn btn-success pointer border m-2 "
+                variant="secondry"
+                onClick={() => {
+                  handleIsDeposit(isdeposit ? false : true);
+                }}
+                style={{ width: "100%" }}
+                // disabled={isdeposit}
+              >
+                {isdeposit ? "Active deposit" : "Stop Deposit"}
+              </Button>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
       <Row>
         <div className="display_end">
-          <div className="input-group" style={{ maxWidth: "300px" }}>
+          <div className="input-group " style={{ maxWidth: "300px" }}>
             <input
               type="search"
               id="form1"
@@ -119,7 +255,6 @@ export const Alluser = () => {
               <Card.Title>All USERS</Card.Title>
             </Card.Header>
             <Card.Body>
-
               <Table responsive>
                 {/* <button onClick={() => exportToExcel(data, 'exported-data')}>Export to Excel</button> */}
                 <thead>
@@ -127,68 +262,100 @@ export const Alluser = () => {
                     <th>S.No.</th>
                     <th>User</th>
                     <th>referral</th>
-                    <th>Rank</th>
-                    <th>Node Group Name</th>
-                    <th>Total Stake</th>
-                    <th>Stake</th>
-                    <th>{"       "}Team Business { "      " } </th>
-                    <th>Total Unstake</th>
-                    <th>Profit Income</th>
-                    <th>Total Referrals</th>
-
+                    <th>Quantum Deposite</th>
+                    <th>Radiant Deposit</th>
+                    <th>Tx Hash</th>
                     <th>Date & Time</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {!apiData?.[0] ? (
+                  {!licenseList?.[0] ? (
                     <tr>
                       <td className="text-light text-center" colSpan="7">
                         {/* {recordStatus} */}
                       </td>
                     </tr>
                   ) : (
-                    apiData?.map((data, index) => (
+                    licenseList?.map((license, index) => (
                       <tr key={index}>
                         <td>{index + 1}</td>
                         <td>
-                        {data?.userAddress?.slice(0,5)}...{data?.userAddress?.slice(-4)}
-                        <Tooltip title={tooltipText} arrow>
-                          <IconButton onClick={()=>handleCopy(data?.userAddress)} size="small" style={{ marginLeft: 4 }}>
-                          <FaRegCopy />
-                          </IconButton>
-                        </Tooltip>
+                          {license?.user?.slice(0, 5)}...
+                          {license?.user?.slice(-4)}
+                          <Tooltip title={tooltipText} arrow>
+                            <IconButton
+                              onClick={() => handleCopy(license?.user)}
+                              size="small"
+                              style={{ marginLeft: 4 }}
+                            >
+                              <FaRegCopy />
+                            </IconButton>
+                          </Tooltip>
                         </td>
                         <td>
-                        {data?.referralAddress?.slice(0,5)}...{data?.referralAddress?.slice(-4)}
-                        <Tooltip title={tooltipText} arrow>
-                          <IconButton onClick={()=>handleCopy(data?.referralAddress)} size="small" style={{ marginLeft: 4 }}>
-                          <FaRegCopy />
-                          </IconButton>
-                        </Tooltip>
+                          {license?.referal?.slice(0, 5)}...
+                          {license?.referal?.slice(-4)}
+                          <Tooltip title={tooltipText} arrow>
+                            <IconButton
+                              onClick={() => handleCopy(license?.referal)}
+                              size="small"
+                              style={{ marginLeft: 4 }}
+                            >
+                              <FaRegCopy />
+                            </IconButton>
+                          </Tooltip>
                         </td>
-                        <td>{data?.stakeRank || "--"}</td>
-                        <td>{data?.nodeGroupName || "--"}</td>
-                        <td>${cutAfterDecimal(data?.totalStake,2)}</td>
+                        {/* <td>{license?.stakeRank || "--"}</td> */}
+                        {/* <td>{license?.nodeGroupName || "--"}</td> */}
                         <td>
-                          <div>{cutAfterDecimal(data?.totalCoinAmount,2)} DSC</div>
-                          <div>{cutAfterDecimal(data?.totalTokenAmount,2)} USDT </div>
+                          ${cutAfterDecimal(license?.totalDepositQuantum, 2)}
                         </td>
-
-                        <td >
-                          <div className="d-flex justify-content-between align-items-center">
-                            <div>{"  "}${cutAfterDecimal(data?.teamBusiness,2)} {"  "}</div>
-                            <div className="text-end">
-                              <div>{"  "}{cutAfterDecimal(data?.teamBusinesswithCoin.dsc,2)} DSC {"  "}</div>
-                              <div>{"  "}{cutAfterDecimal(data?.teamBusinesswithCoin.usdt,2)} USDT {"   "}</div>
-
-                            </div>
+                        <td>
+                          <div>
+                            {cutAfterDecimal(license?.totalDepositQuantum, 2)}{" "}
+                            DSC
+                          </div>
+                          <div>
+                            {cutAfterDecimal(license?.totalDepositRadiant, 2)}{" "}
+                            USDT{" "}
                           </div>
                         </td>
-                        <td>${cutAfterDecimal(data?.totalUnStake,2)}</td>
-                        <td>${cutAfterDecimal(data?.totalProfitIncome,2)}</td>
-                        <td>{data?.totalReferrals}</td>
 
-                        <td>{new Date(data?.timestamp).toLocaleString()}</td>
+                        {/* <td>
+                          <div className="d-flex justify-content-between align-items-center">
+                            <div>
+                              {"  "}${cutAfterDecimal(license?.teamBusiness, 2)}{" "}
+                              {"  "}
+                            </div>
+                            <div className="text-end">
+                              <div>
+                                {"  "}
+                                {cutAfterDecimal(
+                                  license?.teamBusinesswithCoin.dsc,
+                                  2
+                                )}{" "}
+                                DSC {"  "}
+                              </div>
+                              <div>
+                                {"  "}
+                                {cutAfterDecimal(
+                                  license?.teamBusinesswithCoin.usdt,
+                                  2
+                                )}{" "}
+                                USDT {"   "}
+                              </div>
+                            </div>
+                          </div>
+                        </td> */}
+                        {/* <td>${cutAfterDecimal(license?.totalUnStake, 2)}</td>
+                        <td>${cutAfterDecimal(license?.totalProfitIncome, 2)}</td> */}
+                        <td>{license?.transactionHash}</td>
+
+                        <td>
+                          {moment
+                            .unix(license?.timestamp)
+                            .format("DD/MM/YYYY HH:mm:ss")}
+                        </td>
                       </tr>
                     ))
                   )}

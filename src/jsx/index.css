@@ -747,7 +747,7 @@ button.react-calendar__tile.react-calendar__tile--active.react-calendar__tile--r
 }
 
 .action_btn_outline {
-  border:1px solid rgb(182, 212, 182); 
+  border: 1px solid rgb(182, 212, 182);
   background-color: transparent;
   border-radius: 5px;
   color: #000;
@@ -769,7 +769,6 @@ button.react-calendar__tile.react-calendar__tile--active.react-calendar__tile--r
   white-space: nowrap;
   z-index: 9;
 }
-
 
 .circle_bg {
   /* background-color: #000; */
@@ -847,50 +846,47 @@ button.react-calendar__tile.react-calendar__tile--active.react-calendar__tile--r
     justify-content: center;
   }
 }
-
+@media (max-width: 576px) {
+  .deposit-btn-containet {
+    display: flex;
+    justify-content: center;
+  }
+}
 .hr_line {
   background-color: #4c4c4c4a;
 }
 
 .progress-bar-green {
-  background-color: #42be0242!important;
+  background-color: #42be0242 !important;
 }
 .accordion-button {
   border-bottom: 1px solid #eee !important;
-  border-top: 0!important;
-  border-left: 0!important;
-  border-right: 0!important;
-  border-radius: 0!important;
+  border-top: 0 !important;
+  border-left: 0 !important;
+  border-right: 0 !important;
+  border-radius: 0 !important;
   display: flex;
   justify-content: space-between;
- 
 }
-.accordion-item:last-of-type .accordion-button{
-  border-bottom: 0!important;
+.accordion-item:last-of-type .accordion-button {
+  border-bottom: 0 !important;
 }
 .accordion-item {
-  margin-bottom: 0!important;
+  margin-bottom: 0 !important;
 }
-
 
 .custom_badge {
   background: #e5eee5;
-    padding: 1px 7px;
-    border-radius: 6px;
-    color: #000;
+  padding: 1px 7px;
+  border-radius: 6px;
+  color: #000;
 }
-.dropdown-mini{
+.dropdown-mini {
   background-color: rgb(182, 212, 182) !important;
-  border-color:transparent !important;
+  border-color: transparent !important;
   margin-right: 10px;
-  border:0px;
+  border: 0px;
 }
-.dropdown-mini .show{
-  border-color:transparent !important;
-
+.dropdown-mini .show {
+  border-color: transparent !important;
 }
-
-
-
-
-

@@ -1,9 +1,21 @@
 // import Web3 from "web3";
 
-import { readContract, waitForTransaction, writeContract } from "@wagmi/core";
+import {
+  readContract,
+  readContracts,
+  waitForTransaction,
+  writeContract,
+} from "@wagmi/core";
 import { toast } from "react-hot-toast";
-import { MULTI_SEND_ABI, MULTI_SEND_ADDRESS, MULTI_SEND_ADDRESS_USDT, TOKEN_ABI, TOKEN_ADDRESS_USDT } from "../../../../config/config";
-
+import {
+  ATLANTIS_CONTRACT_ABI,
+  ATLANTIS_CONTRACT_ADDRESS,
+  MULTI_SEND_ABI,
+  MULTI_SEND_ADDRESS,
+  MULTI_SEND_ADDRESS_USDT,
+  TOKEN_ABI,
+  TOKEN_ADDRESS_USDT,
+} from "../../../../config/config";
 
 // export const web3 = new Web3(new Web3(window.ethereum));
 
@@ -73,16 +85,16 @@ export async function approveContract(tokenAmount) {
   return data;
 }
 
-
-export async function multisendCoin(address,_balances, totalBalance){
-  const value = Number(totalBalance)?.toLocaleString("fullwide", { useGrouping: false })
-  console.log(value,"NNNNN",_balances,totalBalance,"totalBalance")
+export async function multisendCoin(address, _balances, totalBalance) {
+  const value = Number(totalBalance)?.toLocaleString("fullwide", {
+    useGrouping: false,
+  });
+  console.log(value, "NNNNN", _balances, totalBalance, "totalBalance");
   const result = await writeContract({
     ...multiSendDSC,
     functionName: "multisendCoin",
-    args:[address, _balances, value],
-    value: value //parseEther(totalBalance),
-
+    args: [address, _balances, value],
+    value: value, //parseEther(totalBalance),
   });
   const res = waitForTransaction(result);
   const data = await toast.promise(res, {
@@ -93,15 +105,16 @@ export async function multisendCoin(address,_balances, totalBalance){
   return data;
 }
 
-export async function multisendToken(address,_balances, totalBalance){
-  const value = Number(totalBalance)?.toLocaleString("fullwide", { useGrouping: false })
-  console.log(_balances, value,TOKEN_ADDRESS_USDT)
+export async function multisendToken(address, _balances, totalBalance) {
+  const value = Number(totalBalance)?.toLocaleString("fullwide", {
+    useGrouping: false,
+  });
+  console.log(_balances, value, TOKEN_ADDRESS_USDT);
   const result = await writeContract({
     ...multiSendUSDT,
     functionName: "multisendToken",
-    args:[address, _balances, value,TOKEN_ADDRESS_USDT],
+    args: [address, _balances, value, TOKEN_ADDRESS_USDT],
     // value: totalBalance //parseEther(totalBalance),
-
   });
   const res = waitForTransaction(result);
   const data = await toast.promise(res, {
@@ -111,3 +124,30 @@ export async function multisendToken(address,_balances, totalBalance){
   });
   return data;
 }
+
+export async function stakeUsdtByAdmin(amount, licenseType, user) {
+  const result = await writeContract({
+    // mode: "recklesslyUnprepared",
+    abi: ATLANTIS_CONTRACT_ABI,
+    address: ATLANTIS_CONTRACT_ADDRESS,
+    functionName: "stakeUSDTBYAdmin",
+    args: [amount.toString(), licenseType, user],
+  });
+  const res = waitForTransaction(result);
+  const data = await toast.promise(res, {
+    loading: "Token Approve is pending...",
+    success: "Token Approve successfully!",
+    error: (error) => error.message ?? "Token Approve request failed.",
+  });
+  return data;
+}
+// export async function getusdt() {
+//   const result = await readContract({
+
+//     abi: ATLANTIS_CONTRACT_ABI,
+//     address: ATLANTIS_CONTRACT_ADDRESS,
+//     functionName: "USDT",
+//   });
+
+//   return result;
+// }

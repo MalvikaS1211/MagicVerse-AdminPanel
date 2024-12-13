@@ -9,8 +9,6 @@ import { PiHandDepositFill } from "react-icons/pi";
 import { IoIosSettings } from "react-icons/io";
 import { SlSupport } from "react-icons/sl";
 
-
-
 export const MenuList = [
   {
     title: "Dashboard",
@@ -20,32 +18,31 @@ export const MenuList = [
   },
 
   {
-    title:"User List",
-    to:"admin/userList",
-    iconStyle:<FaUserGraduate className="fs-3"/>
+    title: "User List",
+    to: "admin/userList",
+    iconStyle: <FaUserGraduate className="fs-3" />,
   },
 
   {
-    title:"Dao Users",
-    to:"admin/daousers",
-    iconStyle:<PiHandDepositFill className="fs-3"/>
+    title: "ROI Percentage",
+    to: "admin/roipercentage",
+    iconStyle: <PiHandDepositFill className="fs-3" />,
   },
 
   {
-    title:"Node Group",
+    title: "Node Group",
     // to:"admin/unstake",
-    iconStyle:<PiHandDepositFill className="fs-3"/>,
+    iconStyle: <PiHandDepositFill className="fs-3" />,
     content: [
-        
       {
-          title: 'Approved',
-          to: 'admin/node-approve',
+        title: "Approved",
+        to: "admin/node-approve",
       },
       {
-        title: 'Pending',
-        to: 'admin/node-pending',
+        title: "Pending",
+        to: "admin/node-pending",
       },
-    ]
+    ],
   },
   // {
   //   title:"Deposit List",
@@ -55,14 +52,14 @@ export const MenuList = [
 
   {
     title: "Support",
-    iconStyle: <SlSupport  className="fs-3"/>,
+    iconStyle: <SlSupport className="fs-3" />,
     to: "admin/support-chats",
   },
 
   {
-    title:"Setting",
-    to:"admin/setting",
-    iconStyle:<IoIosSettings className="fs-3"/>
+    title: "Setting",
+    to: "admin/setting",
+    iconStyle: <IoIosSettings className="fs-3" />,
   },
   {
     title: "Logout",

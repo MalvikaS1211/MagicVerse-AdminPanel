@@ -12,7 +12,7 @@ function Login(props) {
   let errorsObj = { email: "", password: "" };
   const [errors, setErrors] = useState({ email: "", password: "" });
   const [password, setPassword] = useState("");
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   async function onLogin(e) {
     e.preventDefault();
     let error = false;
@@ -29,13 +29,15 @@ function Login(props) {
     if (error) {
       return;
     }
-    const res = await adminLogin(email,password);
-    if(res.status===200){
-      navigate('/admin/dashboard');
+    const res = await adminLogin(email, password);
+    console.log({ res });
+    console.log({ res });
+    if (res?.status === 200) {
+      navigate("/admin/dashboard");
       toast.success("Successfully Login");
-      dispatch(setLogin(true))
-    } else{
-      toast.error(res.message)
+      dispatch(setLogin(true));
+    } else {
+      toast.error(res.message);
     }
   }
 
@@ -71,7 +73,7 @@ function Login(props) {
                             src="../images/logo.png"
                             alt=""
                             className="width-230 mCS_img_loaded"
-                            style={{width:'150spx'}}
+                            style={{ width: "150spx" }}
                           />
                         </Link>
                       </div>

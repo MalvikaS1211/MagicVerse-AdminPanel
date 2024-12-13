@@ -15,7 +15,7 @@ import {
   getDefaultWallets,
   RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
-import { bsc, bscTestnet } from "wagmi/chains";
+import { bsc, bscTestnet, opBNBTestnet } from "wagmi/chains";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import "@rainbow-me/rainbowkit/styles.css";
 import Login from "./pages/Login";
@@ -36,22 +36,22 @@ const Markup = () => {
 
   const adminToken = localStorage.getItem("adminToken");
 
-  useEffect(()=>{
+  useEffect(() => {
     if (adminToken) {
-      dispatch(setLogin(true))
-      navigate('/admin/dashboard');
+      dispatch(setLogin(true));
+      navigate("/admin/dashboard");
       console.log("Admin Token found:", adminToken);
     } else {
-      dispatch(setLogin(false))
+      dispatch(setLogin(false));
       console.log("No admin token found.");
     }
-  },[adminToken])
+  }, [adminToken]);
   const allroutes = [
     { url: "", component: <Home /> },
     { url: "admin/dashboard", component: <Home /> },
     { url: "admin/userList", component: <Alluser /> },
 
-    { url: "admin/daousers", component: <DaoUsers /> },
+    { url: "admin/roipercentage", component: <DaoUsers /> },
     { url: "admin/setting", component: <Setting /> },
 
     { url: "admin/node-approve", component: <NodeApprove /> },
@@ -59,7 +59,6 @@ const Markup = () => {
 
     { url: "admin/support-chats", component: <SupportCharts /> },
     { url: "admin/allusers/support", component: <Support /> },
-
   ];
 
   //Bsc testnet
@@ -90,17 +89,17 @@ const Markup = () => {
   };
 
   const { chains, publicClient } = configureChains(
-
-    [bsc],
+    [opBNBTestnet],
     [publicProvider()],
-    [jsonRpcProvider({
-      rpc: (chain) => ({
-        http: `${chain.rpcUrls.default.http[0]}`,
+    [
+      jsonRpcProvider({
+        rpc: (chain) => ({
+          http: `${chain.rpcUrls.default.http[0]}`,
+        }),
       }),
-    }),],
-    
+    ]
   );
-  const projectId = '24fb23164e7f77e68afeff05da5f7026';
+  const projectId = "24fb23164e7f77e68afeff05da5f7026";
   const { connectors } = getDefaultWallets({
     appName: "My RainbowKit App",
     projectId,
@@ -110,7 +109,7 @@ const Markup = () => {
   const wagmiClient = createConfig({
     autoConnect: true,
     connectors,
-    publicClient
+    publicClient,
     // provider,
     // webSocketProvider,
   });
@@ -124,20 +123,20 @@ const Markup = () => {
           modalSize="compact"
           theme={darkTheme()}
         >
-      <Routes>
-        <Route element={<MainLayout />}>
-          {allroutes.map((data, i) => (
-            <Route
-              key={i}
-              exact
-              path={`${data.url}`}
-              element={data.component}
-            />
-          ))}
-        </Route>
-        <Route path="/admin/login" element={<Login />} />
-      </Routes>
-      </RainbowKitProvider>
+          <Routes>
+            <Route element={<MainLayout />}>
+              {allroutes.map((data, i) => (
+                <Route
+                  key={i}
+                  exact
+                  path={`${data.url}`}
+                  element={data.component}
+                />
+              ))}
+            </Route>
+            <Route path="/admin/login" element={<Login />} />
+          </Routes>
+        </RainbowKitProvider>
       </WagmiConfig>
     </>
   );

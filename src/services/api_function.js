@@ -1,7 +1,8 @@
 import axios from "axios";
 import toast from "react-hot-toast";
 export const URL = "http://localhost:8080/api";
-export const URLApi = "http://localhost:8080/admin";
+export const URLApi = "https://atlantisrb.com/api/admin";
+
 // export const URLApi = "https://corecrowd.io/admin";
 
 export function cutAfterDecimal(number, pos, dl, ac) {
@@ -33,7 +34,6 @@ const formatDateTime = (dateString) => {
   return timestampInMilliseconds; // Return the timestamp
 };
 
-
 export async function adminLogin(email, password) {
   try {
     const requestBody = {
@@ -41,16 +41,18 @@ export async function adminLogin(email, password) {
       password: password,
     };
 
-    const response = await axios.post(`${URLApi}/adminlogin`, requestBody, {
+    const response = await axios.post(`${URLApi}/login`, requestBody, {
       headers: {
         "Content-Type": "application/json",
       },
     });
-    console.log(response.data,"response.data")
+
+    console.log(response);
+    console.log(response.data, "response.data");
     const token = response.data.token;
 
     if (token) {
-      localStorage.setItem('adminToken', token); // Store token with the key 'adminToken'
+      localStorage.setItem("adminToken", token); // Store token with the key 'adminToken'
       console.log("Token stored successfully in localStorage");
     }
     return response.data;
@@ -68,8 +70,8 @@ export function replyTicket(
   token
 ) {
   const formData = new FormData();
-  if(replyfile){
-  formData.append("reply", replyfile, replyfile.name);
+  if (replyfile) {
+    formData.append("reply", replyfile, replyfile.name);
   }
   // formData.append("mobile", mobile);
   // formData.append("tokenId", sessionId);
@@ -81,27 +83,27 @@ export function replyTicket(
   return axios
     .post(URL + "/reply-tickets", formData, {
       headers: {
-        "Authorization": `Bearer ${token}`,
-      }
-    } )
+        Authorization: `Bearer ${token}`,
+      },
+    })
     .then((res) => res)
     .catch((e) => {
       console.log(e);
     });
 }
 
-export const getAllChatsList = async(token)=>{
+export const getAllChatsList = async (token) => {
   try {
-    const res = await axios.get(`${URLApi}/support-chats`,{
-      headers:{
-        "Authorization":`Bearer ${token}`
-      }
-    })
+    const res = await axios.get(`${URLApi}/support-chats`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return res;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};
 
 export function raisedTicketList(address, token) {
   return fetch(URL + "/tickets-list", {
@@ -109,7 +111,7 @@ export function raisedTicketList(address, token) {
     headers: {
       "Content-Type": "application/json",
       "allow-access-control-origin": "*",
-      "Authorization": `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
       address: address,
@@ -132,7 +134,7 @@ export async function daoUsersAdd(address, token) {
     const response = await axios.post(`${URLApi}/addDAOUser`, requestBody, {
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
     return response.data;
@@ -141,16 +143,15 @@ export async function daoUsersAdd(address, token) {
   }
 }
 
-export async function getDAOUserList(walletAddress,token) {
+export async function getDAOUserList(walletAddress, token) {
   try {
-
     const response = await axios.get(`${URLApi}/getDAOUserList`, {
       params: {
         address: walletAddress,
       },
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
     return response.data;
@@ -159,19 +160,17 @@ export async function getDAOUserList(walletAddress,token) {
   }
 }
 
-
-export async function getAllStakeUsers(page,limit, filter, token) {
+export async function getAllStakeUsers(page, limit, filter, token) {
   try {
-
     const response = await axios.get(`${URLApi}/getAllStakeUsers`, {
       params: {
         page: page,
         limit: limit,
-        address: filter
+        address: filter,
       },
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
     return response.data;
@@ -179,15 +178,13 @@ export async function getAllStakeUsers(page,limit, filter, token) {
     console.log("Error getDAOUserList Admin:", error);
   }
 }
-
 
 export async function getStakeSummary(token) {
   try {
-
     const response = await axios.get(`${URLApi}/getStakeSummary`, {
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
     return response.data;
@@ -196,15 +193,18 @@ export async function getStakeSummary(token) {
   }
 }
 
-
 export async function updateStakeSetting(newSettings, token) {
   try {
-    const response = await axios.post(`${URLApi}/updateStakeSetting`, newSettings, {
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-      },
-    });
+    const response = await axios.post(
+      `${URLApi}/updateStakeSetting`,
+      newSettings,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.log("Error login Admin:", error);
@@ -216,7 +216,7 @@ export async function getStakeSetting(token) {
     const response = await axios.get(`${URLApi}/getStakeSetting`, {
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
     return response.data;
@@ -230,7 +230,7 @@ export async function getTop3IdData(token) {
     const response = await axios.get(`${URLApi}/getTop3IdData`, {
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
     return response.data;
@@ -239,19 +239,18 @@ export async function getTop3IdData(token) {
   }
 }
 
-export async function getUserNodeGroupData(page,limit, filter,type, token) {
+export async function getUserNodeGroupData(page, limit, filter, type, token) {
   try {
-
     const response = await axios.get(`${URLApi}/getUserNodeGroupData`, {
       params: {
         page: page,
         limit: limit,
         address: filter,
-        type: type
+        type: type,
       },
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
     return response.data;
@@ -260,19 +259,22 @@ export async function getUserNodeGroupData(page,limit, filter,type, token) {
   }
 }
 
-export async function nodeGroupApproveAction(selectedIds, token ) {
+export async function nodeGroupApproveAction(selectedIds, token) {
   try {
     const requestBody = {
-      selectedIds:selectedIds, 
+      selectedIds: selectedIds,
     };
-    const response = await axios.post(`${URLApi}/nodeGroupApproveAction`, JSON.stringify(requestBody), {
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-
-      },
-    });
-    console.log(response.data,"response.data")
+    const response = await axios.post(
+      `${URLApi}/nodeGroupApproveAction`,
+      JSON.stringify(requestBody),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log(response.data, "response.data");
     return response.data;
   } catch (error) {
     console.log("Error nodeGroupApproveAction:", error);
