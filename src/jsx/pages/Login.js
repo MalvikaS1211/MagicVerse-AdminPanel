@@ -70,10 +70,10 @@ function Login(props) {
                       <div className="logo-header">
                         <Link to={"#"} className="logo">
                           <img
-                            src="../images/logo.png"
+                            src="../images/atlantis-logo.png"
                             alt=""
-                            className="width-230 mCS_img_loaded"
-                            style={{ width: "150spx" }}
+                            className=" mCS_img_loaded"
+                            style={{ width: "120px" }}
                           />
                         </Link>
                       </div>

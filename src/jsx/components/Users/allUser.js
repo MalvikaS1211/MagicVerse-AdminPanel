@@ -312,10 +312,6 @@ export const Alluser = () => {
                         </td>
                         <td>
                           <div>
-                            {cutAfterDecimal(license?.totalDepositQuantum, 2)}{" "}
-                            DSC
-                          </div>
-                          <div>
                             {cutAfterDecimal(license?.totalDepositRadiant, 2)}{" "}
                             USDT{" "}
                           </div>

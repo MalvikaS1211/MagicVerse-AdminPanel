@@ -29,38 +29,38 @@ export const MenuList = [
     iconStyle: <PiHandDepositFill className="fs-3" />,
   },
 
-  {
-    title: "Node Group",
-    // to:"admin/unstake",
-    iconStyle: <PiHandDepositFill className="fs-3" />,
-    content: [
-      {
-        title: "Approved",
-        to: "admin/node-approve",
-      },
-      {
-        title: "Pending",
-        to: "admin/node-pending",
-      },
-    ],
-  },
+  // {
+  //   title: "Node Group",
+  //   // to:"admin/unstake",
+  //   iconStyle: <PiHandDepositFill className="fs-3" />,
+  //   content: [
+  //     {
+  //       title: "Approved",
+  //       to: "admin/node-approve",
+  //     },
+  //     {
+  //       title: "Pending",
+  //       to: "admin/node-pending",
+  //     },
+  //   ],
+  // },
   // {
   //   title:"Deposit List",
   //   to:"depositList",
   //   iconStyle:<PiHandDepositFill className="fs-3"/>
   // },
 
-  {
-    title: "Support",
-    iconStyle: <SlSupport className="fs-3" />,
-    to: "admin/support-chats",
-  },
+  // {
+  //   title: "Support",
+  //   iconStyle: <SlSupport className="fs-3" />,
+  //   to: "admin/support-chats",
+  // },
 
-  {
-    title: "Setting",
-    to: "admin/setting",
-    iconStyle: <IoIosSettings className="fs-3" />,
-  },
+  // {
+  //   title: "Setting",
+  //   to: "admin/setting",
+  //   iconStyle: <IoIosSettings className="fs-3" />,
+  // },
   {
     title: "Logout",
     iconStyle: <i class="material-icons">logout</i>,

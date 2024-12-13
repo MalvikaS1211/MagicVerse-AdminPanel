@@ -571,7 +571,7 @@ export const TOKEN_ABI = [
 ];
 
 export const ATLANTIS_CONTRACT_ADDRESS =
-  "0xf219F91e5d12c77E9e0962EACD28441aEd9e7500";
+  "0xD556E2711E2085456A0E138c74BbB85b5E7f9F42";
 export const ATLANTIS_CONTRACT_ABI = [
   {
     inputs: [
@@ -601,6 +601,12 @@ export const ATLANTIS_CONTRACT_ABI = [
         internalType: "address",
         name: "user",
         type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "totalAmount",
+        type: "uint256",
       },
     ],
     name: "LevelIncomeClaimDetail",
@@ -1146,21 +1152,6 @@ export const ATLANTIS_CONTRACT_ABI = [
     type: "function",
   },
   {
-    inputs: [
-      { internalType: "address[]", name: "recipients", type: "address[]" },
-      { internalType: "uint256[]", name: "amounts", type: "uint256[]" },
-      {
-        internalType: "contract IERC20",
-        name: "tokenAddress",
-        type: "address",
-      },
-    ],
-    name: "multisendReward",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
     inputs: [],
     name: "operator",
     outputs: [{ internalType: "address", name: "", type: "address" }],
@@ -1215,20 +1206,6 @@ export const ATLANTIS_CONTRACT_ABI = [
     name: "rescueBalance",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "address", name: "userAddress", type: "address" }],
-    name: "returnUserQuantumLength",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "address", name: "userAddress", type: "address" }],
-    name: "returnUserRadiantLength",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
     type: "function",
   },
   {

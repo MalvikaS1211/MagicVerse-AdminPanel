@@ -40,10 +40,10 @@ const BalanceCardSlider = () => {
 
   return (
     <>
-  <label className="form-label h3">Funds Collect</label>
-    <div className="row">
-      <div className="col-lg-6">
-      <div className="card ">
+      <label className="form-label h3">Funds Collect</label>
+      <div className="row">
+        <div className="col-lg-6">
+          <div className="card ">
             <div className="card-body">
               <div className="d-flex gap-3">
                 <div className="circle_bg2">
@@ -56,28 +56,27 @@ const BalanceCardSlider = () => {
                 </div>
                 <div className="-info">
                   <h4 className="count-num">
-                    {cutAfterDecimal(data2?.balance?.nativeBalanceDSC70, 4) ??
+                    {/* {cutAfterDecimal(data2?.balance?.nativeBalanceDSC70, 4) ??
                       0}{" "}
-                    DSC
+                    DSC */}
                   </h4>
                   <h4 className="count-num">
-                    {cutAfterDecimal(data2?.balance?.tokenBalance70, 4) ??
-                      0}{" "}
+                    {cutAfterDecimal(data2?.balance?.tokenBalance70, 4) ?? 0}{" "}
                     USDT
                   </h4>
 
                   <p className="text_gray mb-0">
                     {" "}
-                    {data2?.balance?.address70?.slice(0, 5)}...
+                    {data2?.balance?.address70?.slice(0, 5)}
                     {data2?.balance?.address70?.slice(-5)}
                   </p>
                 </div>
               </div>
             </div>
           </div>
-      </div>
-      <div className="col-lg-6">
-      <div className="card ">
+        </div>
+        <div className="col-lg-6">
+          <div className="card ">
             <div className="card-body">
               <div className="d-flex gap-3">
                 <div className="circle_bg2">
@@ -90,27 +89,26 @@ const BalanceCardSlider = () => {
                 </div>
                 <div className="-info">
                   <h4 className="count-num">
-                    {cutAfterDecimal(data2?.balance?.nativeBalanceDSC30, 4) ??
+                    {/* {cutAfterDecimal(data2?.balance?.nativeBalanceDSC30, 4) ??
                       0}{" "}
-                    DSC
+                    DSC */}
                   </h4>
                   <h4 className="count-num">
-                    {cutAfterDecimal(data2?.balance?.tokenBalance30, 4) ??
-                      0}{" "}
+                    {cutAfterDecimal(data2?.balance?.tokenBalance30, 4) ?? 0}{" "}
                     USDT
                   </h4>
 
                   <p className="text_gray mb-0">
                     {" "}
-                    {data2?.balance?.address30?.slice(0, 5)}...
+                    {data2?.balance?.address30?.slice(0, 5)}
                     {data2?.balance?.address30?.slice(-5)}
                   </p>
                 </div>
               </div>
             </div>
           </div>
+        </div>
       </div>
-    </div>
       <label className="form-label h3">TOP 3 Id's</label>
       <div className="row">
         <div className="col-lg-4">
@@ -127,9 +125,9 @@ const BalanceCardSlider = () => {
                 </div>
                 <div className="-info">
                   <h4 className="count-num">
-                    {cutAfterDecimal(data2?.firstId?.systemIdIncome?.dsc, 4) ??
+                    {/* {cutAfterDecimal(data2?.firstId?.systemIdIncome?.dsc, 4) ??
                       0}{" "}
-                    DSC
+                    DSC */}
                   </h4>
                   <h4 className="count-num">
                     {cutAfterDecimal(data2?.firstId?.systemIdIncome?.usdt, 4) ??
@@ -139,7 +137,7 @@ const BalanceCardSlider = () => {
 
                   <p className="text_gray mb-0">
                     {" "}
-                    {data2?.firstId?.userAddress?.slice(0, 5)}...
+                    {data2?.firstId?.userAddress?.slice(0, 5)}
                     {data2?.firstId?.userAddress?.slice(-5)}
                   </p>
                 </div>
@@ -162,9 +160,9 @@ const BalanceCardSlider = () => {
                 </div>
                 <div className="-info">
                   <h4 className="count-num">
-                    {cutAfterDecimal(data2?.secondId?.systemIdIncome?.dsc, 4) ??
+                    {/* {cutAfterDecimal(data2?.secondId?.systemIdIncome?.dsc, 4) ??
                       0}{" "}
-                    DSC
+                    DSC */}
                   </h4>
                   <h4 className="count-num">
                     {cutAfterDecimal(
@@ -176,7 +174,7 @@ const BalanceCardSlider = () => {
 
                   <p className="text_gray mb-0">
                     {" "}
-                    {data2?.secondId?.userAddress?.slice(0, 5)}...
+                    {data2?.secondId?.userAddress?.slice(0, 5)}
                     {data2?.secondId?.userAddress?.slice(-5)}
                   </p>
                 </div>
@@ -199,9 +197,9 @@ const BalanceCardSlider = () => {
                 </div>
                 <div className="-info">
                   <h4 className="count-num">
-                    {cutAfterDecimal(data2?.thirdId?.systemIdIncome?.dsc, 4) ??
+                    {/* {cutAfterDecimal(data2?.thirdId?.systemIdIncome?.dsc, 4) ??
                       0}{" "}
-                    DSC
+                    DSC */}
                   </h4>
                   <h4 className="count-num">
                     {cutAfterDecimal(data2?.thirdId?.systemIdIncome?.usdt, 4) ??
@@ -211,7 +209,7 @@ const BalanceCardSlider = () => {
 
                   <p className="text_gray mb-0">
                     {" "}
-                    {data2?.thirdId?.userAddress?.slice(0, 5)}...
+                    {data2?.thirdId?.userAddress?.slice(0, 5)}
                     {data2?.thirdId?.userAddress?.slice(-5)}
                   </p>
                 </div>

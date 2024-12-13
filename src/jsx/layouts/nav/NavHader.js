@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { ThemeContext } from "../../../context/ThemeContext";
 
 //images
-import logo1 from "../../../images/logo.png";
+import logo1 from "../../../images/atlantis-logo.png";
 
 // import logo1 from "./../../../images/logo/logo.png";
 import logotext1 from "./../../../images/logo/logo-text.png";
@@ -36,7 +36,7 @@ const NavHader = () => {
         {/* //for mobile */}
         <img src={logo1} className="logo-color" alt="" />
         {/* for // Desktop */}
-        <img src={logo1}  alt="" width="100" />
+        <img src={logo1} alt="" width="100" />
         {/* <img src="../../images/logo.png" class="brand-title" alt="" />   //className="logo-abbr" */}
       </Link>
 
