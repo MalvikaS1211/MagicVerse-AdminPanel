@@ -141,13 +141,65 @@ export async function stakeUsdtByAdmin(amount, licenseType, user) {
   });
   return data;
 }
-// export async function getusdt() {
-//   const result = await readContract({
+export async function getOperator() {
+  const result = await readContract({
+    abi: ATLANTIS_CONTRACT_ABI,
+    address: ATLANTIS_CONTRACT_ADDRESS,
+    functionName: "operator",
+  });
 
-//     abi: ATLANTIS_CONTRACT_ABI,
-//     address: ATLANTIS_CONTRACT_ADDRESS,
-//     functionName: "USDT",
-//   });
+  return result;
+}
 
-//   return result;
-// }
+export async function getIsUserExist(user) {
+  console.log(user, "in getIsUserExist");
+  const result = await readContract({
+    abi: ATLANTIS_CONTRACT_ABI,
+    address: ATLANTIS_CONTRACT_ADDRESS,
+    functionName: "isUserExist",
+    args: [user],
+  });
+  console.log(result, "in getIsUserExist");
+  return result;
+}
+
+export async function getpriceOperator() {
+  const result = await readContract({
+    abi: ATLANTIS_CONTRACT_ABI,
+    address: ATLANTIS_CONTRACT_ADDRESS,
+    functionName: "priceOperator",
+  });
+
+  return result;
+}
+export async function updateRadiantRewardPercent(percent) {
+  const result = await writeContract({
+    abi: ATLANTIS_CONTRACT_ABI,
+    address: ATLANTIS_CONTRACT_ADDRESS,
+    functionName: "updateRadiantRewardPercent",
+    args: [percent],
+  });
+  const res = waitForTransaction(result);
+  const data = await toast.promise(res, {
+    loading: "Update radiant reward percent is pending...",
+    success: " Radiant reward update successfully!",
+    error: (error) => error.message ?? "request failed.",
+  });
+  return data;
+}
+
+export async function quantumRewardPercent(percent) {
+  const result = await writeContract({
+    abi: ATLANTIS_CONTRACT_ABI,
+    address: ATLANTIS_CONTRACT_ADDRESS,
+    functionName: "updateQuantumRewardPercent",
+    args: [percent],
+  });
+  const res = waitForTransaction(result);
+  const data = await toast.promise(res, {
+    loading: "Update quantum reward percent is pending...",
+    success: " Quantum reward update successfully!",
+    error: (error) => error.message ?? "request failed.",
+  });
+  return data;
+}

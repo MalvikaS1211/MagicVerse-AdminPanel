@@ -14,18 +14,12 @@ import toast from "react-hot-toast";
 import { Tooltip, IconButton } from "@mui/material";
 import { FaRegCopy } from "react-icons/fa";
 import { useSelector } from "react-redux";
-
-// const HtmlTooltip = styled(({ className, ...props }) => (
-//   <Tooltip {...props} classes={{ popper: className }} />
-// ))(({ theme }) => ({
-//   [`& .${tooltipClasses.tooltip}`]: {
-//     backgroundColor: "#dadde9",
-//     fontSize: "12px",
-//     fontWeight: 400,
-//     border: "1px solid #25262B",
-//   },
-// }));
-
+import {
+  updateRadiantRewardPercent,
+  getpriceOperator,
+  quantumRewardPercent,
+} from "./web3/transfert";
+import { useAccount } from "wagmi";
 export const DaoUsers = () => {
   const { wallet } = useSelector((state) => state.login);
   const { walletAddress, chainId } = wallet;
@@ -37,12 +31,13 @@ export const DaoUsers = () => {
   const [recordStatus, setRecordStatus] = useState("Loading...");
   const [isFetch, setIsFetch] = useState(false);
 
+  const { address } = useAccount();
   const [tooltipText, setTooltipText] = useState("Copy address");
 
   const handleCopy = (address) => {
     navigator.clipboard.writeText(address);
     setTooltipText("Copied!");
-    setTimeout(() => setTooltipText("Copy address"), 2000); // Reset tooltip text after 2 seconds
+    setTimeout(() => setTooltipText("Copy address"), 2000);
   };
 
   const handleSearch = async (e) => {
@@ -121,22 +116,78 @@ export const DaoUsers = () => {
   const [Radiant, setRadiant] = useState("");
   const [Quantum, setQuantum] = useState("");
 
-  // Handle input changes
-
   const handleRadiant = (e) => setRadiant(e.target.value);
   const handleQuantum = (e) => setQuantum(e.target.value);
-  const handleSubmit = async () => {
+
+  // const handleSubmitRadiant = async () => {
+  //   try {
+  //     const priceOperator = await getpriceOperator();
+
+  //     const RadiantUpdated = Radiant * 365 * 100000;
+  //     console.log(RadiantUpdated, "RadiantUpdated:::;");
+  //     if (priceOperator === address) {
+  //       const result = await updateRadiantRewardPercent(RadiantUpdated);
+  //       toast.success("Transaction successful!");
+  //     } else {
+  //       toast.error(
+  //         `Invalid price operator:Your price operator address is ${priceOperator}`
+  //       );
+  //     }
+  //   } catch (error) {
+  //     console.log("Error submitting data:", error);
+  //     toast.error("Error!");
+  //   }
+  // };
+  // const handleSubmitQuantum = async () => {
+  //   try {
+  //     const priceOperator = await getpriceOperator();
+
+  //     const QuantumUpdated = Quantum * 365 * 100000;
+  //     console.log(QuantumUpdated, "QuantumUpdated:::;");
+  //     if (priceOperator === address) {
+  //       const result = await quantumRewardPercent(QuantumUpdated);
+  //       toast.success("Transaction successful!");
+  //     } else {
+  //       toast.error(
+  //         `Invalid price operator:Your price operator address is ${priceOperator}`
+  //       );
+  //     }
+  //   } catch (error) {
+  //     console.log("Error submitting data:", error);
+  //     toast.error("Error!");
+  //   }
+  // };
+  const handleSubmitReward = async (
+    rewardValue,
+    updateRewardFunction,
+    rewardType
+  ) => {
     try {
-      console.log({ Radiant, Quantum });
+      const priceOperator = await getpriceOperator();
 
-      // const result = await stakeUsdtByAdmin(Radiant, Quantum);
+      const updatedReward = rewardValue * 365 * 100000;
+      console.log(`${rewardType}Updated:`, updatedReward);
 
-      toast.success("Transaction successful!");
+      if (priceOperator == address) {
+        const result = await updateRewardFunction(updatedReward);
+        toast.success(`${rewardType} transaction successful!`);
+      } else {
+        toast.error(
+          `Invalid price operator: Your price operator address is ${priceOperator}`
+        );
+      }
     } catch (error) {
-      console.log("Error submitting data:", error);
+      console.log(`Error submitting ${rewardType} data:`, error);
       toast.error("Error!");
     }
   };
+  const handleSubmitRadiant = () => {
+    handleSubmitReward(Radiant, updateRadiantRewardPercent, "Radiant");
+  };
+  const handleSubmitQuantum = () => {
+    handleSubmitReward(Quantum, quantumRewardPercent, "Quantum");
+  };
+
   return (
     <Fragment>
       <Row className="mb-4">
@@ -155,7 +206,9 @@ export const DaoUsers = () => {
                       onChange={handleRadiant}
                       className="me-2"
                     />
-                    <Button variant="primary">Submit</Button>
+                    <Button variant="primary" onClick={handleSubmitRadiant}>
+                      Submit
+                    </Button>
                   </div>
                 </Form.Group>
 
@@ -170,7 +223,9 @@ export const DaoUsers = () => {
                       onChange={handleQuantum}
                       className="me-2"
                     />
-                    <Button variant="primary">Submit</Button>
+                    <Button variant="primary" onClick={handleSubmitQuantum}>
+                      Submit
+                    </Button>
                   </div>
                 </Form.Group>
               </Form>

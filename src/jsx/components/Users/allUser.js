@@ -14,8 +14,13 @@ import toast from "react-hot-toast";
 import { Tooltip, IconButton } from "@mui/material";
 import { FaRegCopy } from "react-icons/fa";
 import moment from "moment";
-import { getusdt, stakeUsdtByAdmin } from "./web3/transfert";
-
+import {
+  getIsUserExist,
+  getOperator,
+  getusdt,
+  stakeUsdtByAdmin,
+} from "./web3/transfert";
+import { useAccount } from "wagmi";
 // const HtmlTooltip = styled(({ className, ...props }) => (
 //   <Tooltip {...props} classes={{ popper: className }} />
 // ))(({ theme }) => ({
@@ -57,6 +62,12 @@ export const Alluser = () => {
   const [token, setToken] = useState();
 
   useEffect(() => {
+    getOperator().then((opetater) => {
+      console.log("Operator:", opetater);
+    });
+    // getIsUserExist().then((user) => {
+    //   console.log("User:", user);
+    // });
     const fetchData = async () => {
       try {
         const userDetails = localStorage.getItem("adminToken");
@@ -136,27 +147,47 @@ export const Alluser = () => {
   const [numberInput, setNumberInput] = useState("");
   const [licenseType, setLicenseType] = useState("");
   const [isdeposit, setIsdeposit] = useState(false);
+  const [isUserExist, setIsUserExist] = useState(false);
   // Handle input changes
-  const handleStringChange = (e) => setStringInput(e.target.value);
+  // const handleStringChange = (e) => setStringInput(e.target.value);
   const handleNumberChange = (e) => setNumberInput(e.target.value);
   const handleLicenseChange = (e) => setLicenseType(Number(e.target.value));
+
+  const { address } = useAccount();
+  console.log("account address", address);
+
+  const handleStringChange = async (e) => {
+    const value = e.target.value;
+    setStringInput(value);
+  };
 
   const handleSubmit = async () => {
     try {
       console.log({ stringInput, numberInput });
+
       if (licenseType !== 1 && licenseType !== 2) {
         return toast.error("Invalid License type!");
       }
-      const formattedNumber = Number(numberInput * 1e18);
-      console.log("Amount:", formattedNumber);
-      console.log("licenseType", licenseType);
-      const result = await stakeUsdtByAdmin(
-        formattedNumber,
-        licenseType,
-        stringInput
-      );
+      const resFromIsUserExist = await getIsUserExist(stringInput);
+      console.log(resFromIsUserExist, "::::::");
+      if (!resFromIsUserExist) {
+        return toast.error("Invalid user! Cannot proceed.");
+      }
 
-      toast.success("Transaction successful!");
+      const formattedNumber = Number(numberInput * 1e18);
+
+      const operator = await getOperator();
+
+      if (operator == address) {
+        const result = await stakeUsdtByAdmin(
+          formattedNumber,
+          licenseType,
+          stringInput
+        );
+        toast.success("Transaction successful!");
+      } else {
+        toast.error(`Invalid operator:Your operator address is ${operator}`);
+      }
     } catch (error) {
       console.log("Error submitting data:", error);
       toast.error("Error!");
