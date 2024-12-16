@@ -103,21 +103,21 @@ export const Alluser = () => {
     if (file) {
       Papa.parse(file, {
         complete: (result) => {
-          console.log(result.data); // Logs the CSV data to console
+          console.log(result.data);
         },
-        header: true, // if you want the first row as headers
+        header: true,
       });
     }
   };
 
   const handleClick = () => {
-    document.getElementById("fileInput").click(); // Programmatically click the hidden input
+    document.getElementById("fileInput").click();
   };
 
   const handleIsDeposit = async (status) => {
     try {
       const response = await axios.post(
-        `${URLApi}/stop-deposit`, // Replace with your actual API URL
+        `${URLApi}/stop-deposit`,
         {
           depositStatus: status,
         },

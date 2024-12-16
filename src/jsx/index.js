@@ -89,7 +89,7 @@ const Markup = () => {
   };
 
   const { chains, publicClient } = configureChains(
-    [opBNBTestnet],
+    [bsc],
     [publicProvider()],
     [
       jsonRpcProvider({
