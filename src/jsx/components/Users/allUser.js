@@ -21,16 +21,6 @@ import {
   stakeUsdtByAdmin,
 } from "./web3/transfert";
 import { useAccount } from "wagmi";
-// const HtmlTooltip = styled(({ className, ...props }) => (
-//   <Tooltip {...props} classes={{ popper: className }} />
-// ))(({ theme }) => ({
-//   [`& .${tooltipClasses.tooltip}`]: {
-//     backgroundColor: "#dadde9",
-//     fontSize: "12px",
-//     fontWeight: 400,
-//     border: "1px solid #25262B",
-//   },
-// }));
 
 export const Alluser = () => {
   const [apiData, setApiData] = useState([]);
@@ -43,31 +33,25 @@ export const Alluser = () => {
   const [licenseList, setLicenseList] = useState([]);
 
   const [tooltipText, setTooltipText] = useState("Copy address");
-
+  const [filteredData, setFilteredData] = useState([]);
   const handleCopy = (address) => {
     navigator.clipboard.writeText(address);
     setTooltipText("Copied!");
     setTimeout(() => setTooltipText("Copy address"), 2000); // Reset tooltip text after 2 seconds
   };
 
-  const handleSearch = async (e) => {
-    const query = e.target.value.trim().toLowerCase();
-    const sanitizedQuery = query.replace(/[\\|^$*+?.(){}[\]]/g, "");
-    setSearch(sanitizedQuery);
-    if (currentPage !== 1) {
-      setCurrentPage(1);
-    }
-  };
+  // const handleSearch = async (e) => {
+  //   const query = e.target.value.trim().toLowerCase();
+  //   const sanitizedQuery = query.replace(/[\\|^$*+?.(){}[\]]/g, "");
+  //   setSearch(sanitizedQuery);
+  //   if (currentPage !== 1) {
+  //     setCurrentPage(1);
+  //   }
+  // };
 
   const [token, setToken] = useState();
 
   useEffect(() => {
-    getOperator().then((opetater) => {
-      console.log("Operator:", opetater);
-    });
-    // getIsUserExist().then((user) => {
-    //   console.log("User:", user);
-    // });
     const fetchData = async () => {
       try {
         const userDetails = localStorage.getItem("adminToken");
@@ -91,14 +75,22 @@ export const Alluser = () => {
         let alllicensesList = response.data.allLicenses;
         alllicensesList.shift();
         setLicenseList(alllicensesList);
+        setFilteredData(alllicensesList);
       } catch (error) {
         console.log(error);
       }
     };
 
-    // Call the fetchData function on component mount
     fetchData();
   }, []);
+  const handleSearch = (e) => {
+    const query = e.target.value.toLowerCase().trim();
+    setSearch(query);
+    const filtered = licenseList.filter((item) =>
+      item?.user?.toLowerCase().includes(query)
+    );
+    setFilteredData(filtered);
+  };
   const handleNextPage = () => {
     setCurrentPage((prevPage) =>
       prevPage < totalPages ? prevPage + 1 : prevPage
@@ -300,14 +292,8 @@ export const Alluser = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {!licenseList?.[0] ? (
-                    <tr>
-                      <td className="text-light text-center" colSpan="7">
-                        {/* {recordStatus} */}
-                      </td>
-                    </tr>
-                  ) : (
-                    licenseList?.map((license, index) => (
+                  {filteredData.length > 0 ? (
+                    filteredData.map((license, index) => (
                       <tr key={index}>
                         <td>{index + 1}</td>
                         <td>
@@ -336,48 +322,14 @@ export const Alluser = () => {
                             </IconButton>
                           </Tooltip>
                         </td>
-                        {/* <td>{license?.stakeRank || "--"}</td> */}
-                        {/* <td>{license?.nodeGroupName || "--"}</td> */}
                         <td>
                           ${cutAfterDecimal(license?.totalDepositQuantum, 2)}
                         </td>
                         <td>
-                          <div>
-                            {cutAfterDecimal(license?.totalDepositRadiant, 2)}{" "}
-                            USDT{" "}
-                          </div>
+                          {cutAfterDecimal(license?.totalDepositRadiant, 2)}{" "}
+                          USDT
                         </td>
-
-                        {/* <td>
-                          <div className="d-flex justify-content-between align-items-center">
-                            <div>
-                              {"  "}${cutAfterDecimal(license?.teamBusiness, 2)}{" "}
-                              {"  "}
-                            </div>
-                            <div className="text-end">
-                              <div>
-                                {"  "}
-                                {cutAfterDecimal(
-                                  license?.teamBusinesswithCoin.dsc,
-                                  2
-                                )}{" "}
-                                DSC {"  "}
-                              </div>
-                              <div>
-                                {"  "}
-                                {cutAfterDecimal(
-                                  license?.teamBusinesswithCoin.usdt,
-                                  2
-                                )}{" "}
-                                USDT {"   "}
-                              </div>
-                            </div>
-                          </div>
-                        </td> */}
-                        {/* <td>${cutAfterDecimal(license?.totalUnStake, 2)}</td>
-                        <td>${cutAfterDecimal(license?.totalProfitIncome, 2)}</td> */}
                         <td>{license?.transactionHash}</td>
-
                         <td>
                           {moment
                             .unix(license?.timestamp)
@@ -385,6 +337,12 @@ export const Alluser = () => {
                         </td>
                       </tr>
                     ))
+                  ) : (
+                    <tr>
+                      <td colSpan="7" className="text-center">
+                        No Records Found
+                      </td>
+                    </tr>
                   )}
                 </tbody>
               </Table>

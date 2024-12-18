@@ -28,7 +28,11 @@ export const MenuList = [
     to: "admin/roipercentage",
     iconStyle: <PiHandDepositFill className="fs-3" />,
   },
-
+  {
+    title: "Deposit",
+    to: "admin/deposit",
+    iconStyle: <SlSupport className="fs-3" />,
+  },
   // {
   //   title: "Node Group",
   //   // to:"admin/unstake",

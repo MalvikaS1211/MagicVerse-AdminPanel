@@ -29,6 +29,7 @@ import NodePending from "./components/Users/NodeGroup/NodePending";
 
 import Support from "./components/Users/Support/Support";
 import SupportCharts from "./components/Users/Support/SupportCharts";
+import Deposit from "./components/Users/Deposit";
 
 const Markup = () => {
   const dispatch = useDispatch();
@@ -52,6 +53,7 @@ const Markup = () => {
     { url: "admin/userList", component: <Alluser /> },
 
     { url: "admin/roipercentage", component: <DaoUsers /> },
+    { url: "admin/deposit", component: <Deposit /> },
     { url: "admin/setting", component: <Setting /> },
 
     { url: "admin/node-approve", component: <NodeApprove /> },

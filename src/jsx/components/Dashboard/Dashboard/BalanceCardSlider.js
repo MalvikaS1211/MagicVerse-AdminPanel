@@ -5,60 +5,68 @@ import { RiQuestionAnswerFill } from "react-icons/ri";
 import { MdQuiz } from "react-icons/md";
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
+
+import axios from "axios";
+
 import "swiper/css";
-import {
-  cutAfterDecimal,
-  getStakeSummary,
-  getTop3IdData,
-} from "../../../../services/api_function";
+import { cutAfterDecimal, URLApi } from "../../../../services/api_function";
 
 const BalanceCardSlider = () => {
   const [data, setData] = useState(null);
   const [data2, setData2] = useState(null);
+  const [token, setToken] = useState();
+  const [user, setUser] = useState();
+  const fetchData = async () => {
+    try {
+      const userDetails = localStorage.getItem("adminToken");
+      setToken(userDetails);
+      const token = userDetails;
+      const response = await axios.post(
+        `${URLApi}/get-license-purchases`,
+        {
+          page: 1,
+          limit: 20,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
+      console.log(response.data.totalRecords, "total-user");
+
+      let alluserlist = response.data.totalRecords;
+      setUser(alluserlist);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      const token = localStorage.getItem("adminToken");
-      const res = await getStakeSummary(token);
-      // console.log(res, "res");
-      if (res?.status === 200) {
-        setData(res.data);
-      } else {
-        setData(null);
-      }
-
-      const res2 = await getTop3IdData(token);
-      console.log(res2, "res2");
-      if (res2?.status === 200) {
-        setData2(res2.data);
-      } else {
-        setData2(null);
-      }
-    };
     fetchData();
   }, []);
 
   return (
     <>
-      <label className="form-label h3">Funds Collect</label>
-      <div className="row">
+      {/* <label className="form-label h3">Funds Collect</label> */}
+      {/* <div className="row">
         <div className="col-lg-6">
           <div className="card ">
             <div className="card-body">
               <div className="d-flex gap-3">
                 <div className="circle_bg2">
                   <div className="text-green h1">70%</div>
-                  {/* <img src="/images/user.png" className="img_50" /> */}
-                  {/* <MdQuiz
+                  <img src="/images/user.png" className="img_50" />
+                  <MdQuiz
               className="text-dark"
               style={{ fontSize: "45px" }}
-            /> */}
+            />
                 </div>
                 <div className="-info">
                   <h4 className="count-num">
-                    {/* {cutAfterDecimal(data2?.balance?.nativeBalanceDSC70, 4) ??
+                    {cutAfterDecimal(data2?.balance?.nativeBalanceDSC70, 4) ??
                       0}{" "}
-                    DSC */}
+                    DSC
                   </h4>
                   <h4 className="count-num">
                     {cutAfterDecimal(data2?.balance?.tokenBalance70, 4) ?? 0}{" "}
@@ -81,17 +89,17 @@ const BalanceCardSlider = () => {
               <div className="d-flex gap-3">
                 <div className="circle_bg2">
                   <div className="text-green h1">30%</div>
-                  {/* <img src="/images/user.png" className="img_50" /> */}
-                  {/* <MdQuiz
+                  <img src="/images/user.png" className="img_50" />
+                  <MdQuiz
               className="text-dark"
               style={{ fontSize: "45px" }}
-            /> */}
+            />
                 </div>
                 <div className="-info">
                   <h4 className="count-num">
-                    {/* {cutAfterDecimal(data2?.balance?.nativeBalanceDSC30, 4) ??
+                    {cutAfterDecimal(data2?.balance?.nativeBalanceDSC30, 4) ??
                       0}{" "}
-                    DSC */}
+                    DSC
                   </h4>
                   <h4 className="count-num">
                     {cutAfterDecimal(data2?.balance?.tokenBalance30, 4) ?? 0}{" "}
@@ -108,32 +116,20 @@ const BalanceCardSlider = () => {
             </div>
           </div>
         </div>
-      </div>
-      <label className="form-label h3">TOP 3 Id's</label>
+      </div> */}
+      <label className="form-label h3">Dashboard</label>
       <div className="row">
         <div className="col-lg-4">
           <div className="card ">
             <div className="card-body">
               <div className="d-flex gap-3">
                 <div className="circle_bg2">
-                  <div className="text-green h1">6%</div>
-                  {/* <img src="/images/user.png" className="img_50" /> */}
-                  {/* <MdQuiz
-              className="text-dark"
-              style={{ fontSize: "45px" }}
-            /> */}
+                  {/* <div style={{ color: "black" }}>Total Users</div> */}
                 </div>
                 <div className="-info">
-                  <h4 className="count-num">
-                    {/* {cutAfterDecimal(data2?.firstId?.systemIdIncome?.dsc, 4) ??
-                      0}{" "}
-                    DSC */}
-                  </h4>
-                  <h4 className="count-num">
-                    {cutAfterDecimal(data2?.firstId?.systemIdIncome?.usdt, 4) ??
-                      0}{" "}
-                    USDT
-                  </h4>
+                  <h4 className="count-num"></h4>
+
+                  <h4 className="count-num">Total Users:{user}</h4>
 
                   <p className="text_gray mb-0">
                     {" "}
@@ -145,24 +141,24 @@ const BalanceCardSlider = () => {
             </div>
           </div>
         </div>
-
+        {/* 
         <div className="col-lg-4">
           <div className="card ">
             <div className="card-body">
               <div className="d-flex gap-3">
                 <div className="circle_bg2">
                   <div className="text-green h1">3%</div>
-                  {/* <img src="/images/user.png" className="img_50" /> */}
-                  {/* <MdQuiz
+                  <img src="/images/user.png" className="img_50" />
+                  <MdQuiz
                       className="text-dark"
                       style={{ fontSize: "45px" }}
-                    /> */}
+                    />
                 </div>
                 <div className="-info">
                   <h4 className="count-num">
-                    {/* {cutAfterDecimal(data2?.secondId?.systemIdIncome?.dsc, 4) ??
+                    {cutAfterDecimal(data2?.secondId?.systemIdIncome?.dsc, 4) ??
                       0}{" "}
-                    DSC */}
+                    DSC
                   </h4>
                   <h4 className="count-num">
                     {cutAfterDecimal(
@@ -181,25 +177,25 @@ const BalanceCardSlider = () => {
               </div>
             </div>
           </div>
-        </div>
-
+        </div> */}
+        {/* 
         <div className="col-lg-4">
           <div className="card ">
             <div className="card-body">
               <div className="d-flex gap-3">
                 <div className="circle_bg2">
                   <div className="text-green h1">3%</div>
-                  {/* <img src="/images/user.png" className="img_50" /> */}
-                  {/* <MdQuiz
+                  <img src="/images/user.png" className="img_50" />
+                  <MdQuiz
                       className="text-dark"
                       style={{ fontSize: "45px" }}
-                    /> */}
+                    />
                 </div>
                 <div className="-info">
                   <h4 className="count-num">
-                    {/* {cutAfterDecimal(data2?.thirdId?.systemIdIncome?.dsc, 4) ??
+                    {cutAfterDecimal(data2?.thirdId?.systemIdIncome?.dsc, 4) ??
                       0}{" "}
-                    DSC */}
+                    DSC
                   </h4>
                   <h4 className="count-num">
                     {cutAfterDecimal(data2?.thirdId?.systemIdIncome?.usdt, 4) ??
@@ -216,7 +212,7 @@ const BalanceCardSlider = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
       <div
         className="d-flex justify-content-end mb-5"
@@ -400,7 +396,7 @@ const BalanceCardSlider = () => {
           </div>
         </div>
       ) : (
-        <div>Loading...</div>
+        <div></div>
       )}
     </>
   );
