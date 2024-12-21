@@ -53,11 +53,11 @@ export const Deposit = () => {
           },
         }
       );
-      console.log(response.data.meta, ":::::::123");
+
       let allDepositList = response.data.data;
       setTotalPages(response.data.meta.totalPages);
       setDepositList(allDepositList);
-      console.log(response.data.meta?.totalPages, "pagepage");
+
       // setFilteredData(allDepositList);
     } catch (error) {
       console.log(error);
@@ -95,7 +95,6 @@ export const Deposit = () => {
     hour12: false,
   });
 
-  console.log(formattedDate, "8888");
   return (
     <Fragment>
       <Row>

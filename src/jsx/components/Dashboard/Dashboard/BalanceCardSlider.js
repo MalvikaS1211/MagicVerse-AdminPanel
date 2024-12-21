@@ -117,31 +117,32 @@ const BalanceCardSlider = () => {
           </div>
         </div>
       </div> */}
-      <label className="form-label h3">Dashboard</label>
-      <div className="row">
-        <div className="col-lg-4">
-          <div className="card ">
-            <div className="card-body">
-              <div className="d-flex gap-3">
-                <div className="circle_bg2">
-                  {/* <div style={{ color: "black" }}>Total Users</div> */}
-                </div>
-                <div className="-info">
-                  <h4 className="count-num"></h4>
+      <div className="col-xl-12" style={{ paddingTop: "10px" }}>
+        <label className="form-label h3">Dashboard</label>
+        <div className="row">
+          <div className="col-lg-4">
+            <div className="card ">
+              <div className="card-body">
+                <div className="d-flex gap-3">
+                  <div>
+                    <FaUserGraduate style={{ width: "160%", height: "100%" }} />
+                  </div>
+                  <div className="-info">
+                    <h4 className="count-num" style={{ fontSize: "20px" }}>
+                      Total Users : {user}
+                    </h4>
 
-                  <h4 className="count-num">Total Users:{user}</h4>
-
-                  <p className="text_gray mb-0">
-                    {" "}
-                    {data2?.firstId?.userAddress?.slice(0, 5)}
-                    {data2?.firstId?.userAddress?.slice(-5)}
-                  </p>
+                    <p className="text_gray mb-0">
+                      {" "}
+                      {data2?.firstId?.userAddress?.slice(0, 5)}
+                      {data2?.firstId?.userAddress?.slice(-5)}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        {/* 
+          {/* 
         <div className="col-lg-4">
           <div className="card ">
             <div className="card-body">
@@ -178,7 +179,7 @@ const BalanceCardSlider = () => {
             </div>
           </div>
         </div> */}
-        {/* 
+          {/* 
         <div className="col-lg-4">
           <div className="card ">
             <div className="card-body">
@@ -213,6 +214,7 @@ const BalanceCardSlider = () => {
             </div>
           </div>
         </div> */}
+        </div>
       </div>
       <div
         className="d-flex justify-content-end mb-5"

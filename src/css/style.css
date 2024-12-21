@@ -21,7 +21,6 @@
 @import url(./../vendor/perfect-scrollbar/css/perfect-scrollbar.css);
 @import url(./../vendor/metismenu/css/metisMenu.min.css);
 
-
 *,
 *::before,
 *::after {
@@ -231,7 +230,7 @@ kbd,
 samp {
   font-family: var(--bs-font-monospace);
   font-size: 1em;
-  direction: ltr ;
+  direction: ltr;
   unicode-bidi: bidi-override;
 }
 
@@ -295,8 +294,6 @@ th {
   text-align: inherit;
   text-align: -webkit-match-parent;
 }
-
-
 
 button {
   border-radius: 0;
@@ -3399,8 +3396,8 @@ fieldset:disabled .btn {
   --bs-position: start;
 }
 .dropdown-menu-start[data-bs-popper] {
-  right: auto ;
-  left: 0 ;
+  right: auto;
+  left: 0;
 }
 
 .dropdown-menu-end {
@@ -51256,4 +51253,9 @@ label[data-shrink=false]+.MuiInputBase-formControl .css-nxo287-MuiInputBase-inpu
 }
 .css-p0rm37 {
   color: white !important;
+}
+@media (max-width: 767px) {
+  .logo-show {
+    display: none;
+  }
 }
