@@ -8,6 +8,9 @@ import { FaIdCardAlt } from "react-icons/fa";
 import { PiHandDepositFill } from "react-icons/pi";
 import { IoIosSettings } from "react-icons/io";
 import { SlSupport } from "react-icons/sl";
+import { RiMoneyDollarCircleLine } from "react-icons/ri";
+import { FaHandshake } from "react-icons/fa";
+import { GiLevelEndFlag } from "react-icons/gi";
 
 export const MenuList = [
   {
@@ -33,6 +36,32 @@ export const MenuList = [
     to: "admin/deposit",
     iconStyle: <SlSupport className="fs-3" />,
   },
+  {
+    title: "ROI Withdraw",
+    to: "admin/roiWithdraw",
+    iconStyle: <RiMoneyDollarCircleLine className="fs-3" />,
+  },
+  // {
+  //   title: "Rejected Withdrawal",
+  //   to: "admin/rejected-withdrawal",
+  //   iconStyle: <PiHandDepositFill className="fs-3" />,
+  // },
+  // {
+  //   title: "Approved Withdrawal",
+  //   to: "admin/approved-withdrawal",
+  //   iconStyle: <GiLevelEndFlag className="fs-3" />,
+  // },
+  // {
+  //   title: "Team Profit Trade Withdraw",
+  //   to: "admin/team-profit-trade",
+  //   iconStyle: <FaHandshake className="fs-3" />,
+  // },
+
+  // {
+  //   title: "Level Reward Withdraw",
+  //   to: "admin/level-reward",
+  //   iconStyle: <GiLevelEndFlag className="fs-3" />,
+  // },
   // {
   //   title: "Node Group",
   //   // to:"admin/unstake",

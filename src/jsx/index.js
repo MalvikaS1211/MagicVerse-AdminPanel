@@ -30,6 +30,12 @@ import NodePending from "./components/Users/NodeGroup/NodePending";
 import Support from "./components/Users/Support/Support";
 import SupportCharts from "./components/Users/Support/SupportCharts";
 import Deposit from "./components/Users/Deposit";
+import ROIWithdraw from "./components/Users/ROIWithdraw";
+import TeamProfitTrade from "./components/Users/TeamProfitTrade";
+import LevelReward from "./components/Users/LevelReward";
+import RejectedWithdrawal from "./components/Users/RejectedWithdrawal";
+import AprrovalWithDrawal from "./components/Users/AprrovalWithDrawal";
+import RoiviewData from "./components/Users/roiviewData";
 
 const Markup = () => {
   const dispatch = useDispatch();
@@ -61,6 +67,12 @@ const Markup = () => {
 
     { url: "admin/support-chats", component: <SupportCharts /> },
     { url: "admin/allusers/support", component: <Support /> },
+    { url: "admin/roiWithdraw", component: <ROIWithdraw /> },
+    // { url: "admin/team-profit-trade", component: <TeamProfitTrade /> },
+    // { url: "admin/level-reward", component: <LevelReward /> },
+    { url: "admin/rejected-withdrawal", component: <RejectedWithdrawal /> },
+    { url: "admin/approved-withdrawal", component: <AprrovalWithDrawal /> },
+    { url: "admin/roiviewdata", component: <RoiviewData /> },
   ];
 
   //Bsc testnet

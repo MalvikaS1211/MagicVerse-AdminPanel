@@ -2,6 +2,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 export const URL = "http://localhost:8080/api";
 export const URLApi = "https://atlantisrb.com/api/admin";
+// export const URLApi = "http://192.168.1.36:8000/api/admin";
 
 // export const URLApi = "https://corecrowd.io/admin";
 
