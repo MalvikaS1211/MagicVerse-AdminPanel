@@ -1,8 +1,8 @@
 import axios from "axios";
 import toast from "react-hot-toast";
 export const URL = "http://localhost:8080/api";
-export const URLApi = "https://atlantisrb.com/api/admin";
-// export const URLApi = "http://192.168.1.36:8000/api/admin";
+// export const URLApi = "https://atlantisrb.com/api/admin";
+export const URLApi = "http://192.168.1.121:1414/api";
 
 // export const URLApi = "https://corecrowd.io/admin";
 
@@ -42,7 +42,7 @@ export async function adminLogin(email, password) {
       password: password,
     };
 
-    const response = await axios.post(`${URLApi}/login`, requestBody, {
+    const response = await axios.post(`${URLApi}/adminLogin`, requestBody, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -52,10 +52,10 @@ export async function adminLogin(email, password) {
     console.log(response.data, "response.data");
     const token = response.data.token;
 
-    if (token) {
-      localStorage.setItem("adminToken", token); // Store token with the key 'adminToken'
-      console.log("Token stored successfully in localStorage");
-    }
+    // if (token) {
+    //   localStorage.setItem("adminToken", token); // Store token with the key 'adminToken'
+    //   console.log("Token stored successfully in localStorage");
+    // }
     return response.data;
   } catch (error) {
     console.log("Error login Admin:", error);
@@ -279,5 +279,25 @@ export async function nodeGroupApproveAction(selectedIds, token) {
     return response.data;
   } catch (error) {
     console.log("Error nodeGroupApproveAction:", error);
+  }
+}
+
+export async function getRoiPercentfn(address, percent) {
+  try {
+    const response = await axios.post(
+      `${URLApi}/getRoiPercent`,
+      {
+        page: 1,
+        limit: 20,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    console.log(error);
   }
 }

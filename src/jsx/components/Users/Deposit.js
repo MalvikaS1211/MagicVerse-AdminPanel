@@ -28,6 +28,10 @@ export const Deposit = () => {
   const [depositList, setDepositList] = useState([]);
   const [tooltipText, setTooltipText] = useState("Copy address");
   const [filteredData, setFilteredData] = useState([]);
+  const [reload, setReload] = useState(false);
+
+  const itemPerpage = 20;
+
   const handleCopy = (address) => {
     navigator.clipboard.writeText(address);
     setTooltipText("Copied!");
@@ -42,30 +46,31 @@ export const Deposit = () => {
       setToken(userDetails);
       const token = userDetails;
       const response = await axios.post(
-        `${URLApi}/get-deposit`,
+        `${URLApi}/getUserDepositList`,
         {
           page: currentPage,
-          limit: 20,
+          limit: itemPerpage,
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            // Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
         }
       );
 
       let allDepositList = response.data.data;
-      setTotalPages(response.data.meta.totalPages);
       setDepositList(allDepositList);
-
-      // setFilteredData(allDepositList);
+      setTotalPages(response.data.total);
     } catch (error) {
       console.log(error);
     }
   };
+
   useEffect(() => {
     fetchData();
-  }, [currentPage]);
+  }, [currentPage, reload]);
+
   const handleSearch = (e) => {
     const query = e.target.value.toLowerCase().trim();
     setSearch(query);
@@ -114,7 +119,7 @@ export const Deposit = () => {
         <Col lg={12}>
           <Card>
             <Card.Header>
-              <Card.Title>DEPOSIT</Card.Title>
+              <Card.Title>Deposit</Card.Title>
             </Card.Header>
             <Card.Body>
               <Table responsive>
@@ -123,7 +128,7 @@ export const Deposit = () => {
                     <th>S.No.</th>
                     <th>User</th>
                     <th>Amount</th>
-                    <th>License Type</th>
+                    {/* <th>License Type</th> */}
                     <th>Tx Hash</th>
                     <th>Date & Time</th>
                   </tr>
@@ -146,13 +151,13 @@ export const Deposit = () => {
                             </IconButton>
                           </Tooltip>
                         </td>
-                        <td>{(Number(deposit?.amount) / 1e18)?.toFixed(2)}</td>
+                        <td>{deposit?.amount.toFixed(2)}</td>
 
-                        <td>{deposit?.LicenceType}</td>
-                        <td>{deposit?.transactionHash}</td>
+                        {/* <td>{deposit?.LicenceType}</td> */}
+                        <td>{deposit?.txHash}</td>
                         <td>
-                          {moment(deposit?.createdAt).format(
-                            "DD/MM/YYYY hh:mm:ss"
+                          {moment(deposit.createdAt).format(
+                            "M/D/YYYY h:mm:ss A"
                           )}
                         </td>
                       </tr>

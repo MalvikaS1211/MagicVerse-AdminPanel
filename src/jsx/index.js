@@ -15,13 +15,13 @@ import {
   getDefaultWallets,
   RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
-import { bsc, bscTestnet, opBNBTestnet } from "wagmi/chains";
+import { bsc, bscTestnet, opBNBTestnet, coreDao } from "wagmi/chains";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import "@rainbow-me/rainbowkit/styles.css";
 import Login from "./pages/Login";
 import { useDispatch } from "react-redux";
 import { setLogin } from "./redux/reducer";
-import DaoUsers from "./components/Users/DaoUsers";
+import ROIPercentage from "./components/Users/ROIPercentage";
 import Setting from "./components/Users/Setting";
 
 import NodeApprove from "./components/Users/NodeGroup/NodeApprove";
@@ -58,7 +58,7 @@ const Markup = () => {
     { url: "admin/dashboard", component: <Home /> },
     { url: "admin/userList", component: <Alluser /> },
 
-    { url: "admin/roipercentage", component: <DaoUsers /> },
+    { url: "admin/roipercentage", component: <ROIPercentage /> },
     { url: "admin/deposit", component: <Deposit /> },
     { url: "admin/setting", component: <Setting /> },
 
@@ -103,7 +103,7 @@ const Markup = () => {
   };
 
   const { chains, publicClient } = configureChains(
-    [bsc],
+    [coreDao],
     [publicProvider()],
     [
       jsonRpcProvider({

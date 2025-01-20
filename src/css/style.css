@@ -11153,6 +11153,8 @@ label {
   padding-left: 2.5rem;
   padding-right: 3rem;
   font-weight: 700;
+  display: flex ;
+  justify-content: center;
 }
 @media only screen and (max-width: 87.5rem) {
   .nav-header .brand-logo {

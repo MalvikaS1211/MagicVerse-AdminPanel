@@ -30,8 +30,8 @@ function Login(props) {
       return;
     }
     const res = await adminLogin(email, password);
-    console.log({ res });
-    console.log({ res });
+    console.log(res, "login API");
+
     if (res?.status === 200) {
       navigate("/admin/dashboard");
       toast.success("Successfully Login");
@@ -70,7 +70,7 @@ function Login(props) {
                       <div className="logo-header">
                         <Link to={"#"} className="logo">
                           <img
-                            src="../images/atlantis-logo.png"
+                            src="../images/Core_Exchange_Logo_favicon.png"
                             alt=""
                             className=" mCS_img_loaded"
                             style={{ width: "120px" }}
@@ -101,7 +101,7 @@ function Login(props) {
                                 <div className="dz-separator bg-primary style-liner"></div>
                               </div>
                               <p>
-                                Enter your e-mail address and your password.{" "}
+                                Enter your E-mail address and your password.{" "}
                               </p>
                               <div className="form-group mb-3">
                                 {/* <input name="dzName" required="" className="form-control" placeholder="User Name" type="text" /> */}
@@ -110,7 +110,7 @@ function Login(props) {
                                   className="form-control"
                                   value={email}
                                   onChange={(e) => setEmail(e.target.value)}
-                                  placeholder="Enter username"
+                                  placeholder="Enter Username"
                                 />
                                 {errors.email && (
                                   <div className="text-danger fs-12">
@@ -125,7 +125,7 @@ function Login(props) {
                                   className="form-control"
                                   value={password}
                                   onChange={(e) => setPassword(e.target.value)}
-                                  placeholder="enter password"
+                                  placeholder="Enter Password"
                                 />
                                 {errors.password && (
                                   <div className="text-danger fs-12">

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { ThemeContext } from "../../../context/ThemeContext";
 
 //images
-import logo1 from "../../../images/atlantis-logo.png";
+import logo1 from "../../../images/Core_Exchange_Logo_favicon.png";
 
 // import logo1 from "./../../../images/logo/logo.png";
 import logotext1 from "./../../../images/logo/logo-text.png";
@@ -34,9 +34,19 @@ const NavHader = () => {
     <div className="nav-header">
       <Link to="/admin/dashboard" className="brand-logo">
         {/* //for mobile */}
-        <img src={logo1} className="logo-color" alt="" />
+        <img
+          src={logo1}
+          className="logo-color"
+          alt=""
+          style={{ width: "60%" }}
+        />
         {/* for // Desktop */}
-        <img src={logo1} alt="" className="logo-show" width="100" />
+        <img
+          src={logo1}
+          alt=""
+          className="logo-show"
+          style={{ width: "25%" }}
+        />
         {/* <img src="../../images/logo.png" class="brand-title" alt="" />   //className="logo-abbr" */}
       </Link>
 

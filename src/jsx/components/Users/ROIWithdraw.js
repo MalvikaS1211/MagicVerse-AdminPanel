@@ -22,14 +22,15 @@ import {
 import { useAccount } from "wagmi";
 
 export const ROIWithdraw = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
   const [search, setSearch] = useState("");
-  const [RoiWithdrawList, setRoiWithdrawList] = useState([]);
+  const [WithdrawList, setWithdrawList] = useState([]);
   const [tooltipText, setTooltipText] = useState("Copy address");
   const [filteredData, setFilteredData] = useState([]);
   const [reload, setReload] = useState(false);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const itemPerpage = 20;
   const handleCopy = (address) => {
     navigator.clipboard.writeText(address);
     setTooltipText("Copied!");
@@ -40,24 +41,23 @@ export const ROIWithdraw = () => {
   const fetchData = async () => {
     try {
       const response = await axios.post(
-        `${URLApi}/get-admin-pendingWithdrawal`,
+        `${URLApi}/getWithdrawList`,
         {
           page: currentPage,
-          limit: 20,
+          limit: itemPerpage,
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            // Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
         }
       );
 
-      let allRoiWithdrawList = response.data.data;
-      console.log(allRoiWithdrawList, "res");
-      // setTotalPages(response.data.meta.totalPages);
-      setRoiWithdrawList(allRoiWithdrawList);
-
-      // setFilteredData(allRoiWithdrawList);
+      let allWithdrawList = response.data.data;
+      console.log(allWithdrawList, "allWithdrawList");
+      setTotalPages(response.data.total);
+      setWithdrawList(allWithdrawList);
     } catch (error) {
       console.log(error);
     }
@@ -65,14 +65,7 @@ export const ROIWithdraw = () => {
   useEffect(() => {
     fetchData();
   }, [currentPage, reload]);
-  // const handleSearch = (e) => {
-  //   const query = e.target.value.toLowerCase().trim();
-  //   setSearch(query);
-  //   const filtered = RoiWithdrawList.filter((item) =>
-  //     item?.user?.toLowerCase().includes(query)
-  //   );
-  //   setFilteredData(filtered);
-  // };
+
   const handleNextPage = () => {
     setCurrentPage((prevPage) =>
       prevPage < totalPages ? prevPage + 1 : prevPage
@@ -95,52 +88,6 @@ export const ROIWithdraw = () => {
   });
   console.log(token, "token");
 
-  const handleApprove = async ({ id, user, licenseType, claimType }) => {
-    try {
-      const response = await axios.post(
-        `${URLApi}/rejectWithdrawal`,
-        {
-          id: id, // Ensure 'id' is defined in your function or context
-          user: user, // Ensure 'user' is provided
-          licenseType: licenseType, // Ensure 'licenseType' is passed correctly
-          claimType: claimType, // Ensure 'claimType' is passed correctly
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // Ensure 'token' is valid and not null
-          },
-        }
-      );
-      console.log("Response:", response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleReject = async ({ id, user, licenseType, claimType }) => {
-    try {
-      console.log(id, user, licenseType, claimType);
-      const response = await axios.post(
-        `${URLApi}/rejectWithdrawal`,
-        {
-          id,
-          user,
-          licenseType,
-          claimType,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      console.log(response.data, "::::::::::::::::::");
-      setReload(!reload);
-    } catch (error) {
-      console.log(error);
-    }
-  };
   return (
     <Fragment>
       <Row>
@@ -160,23 +107,27 @@ export const ROIWithdraw = () => {
         <Col lg={12}>
           <Card>
             <Card.Header>
-              <Card.Title>ROI Withdraw</Card.Title>
+              <Card.Title>Withdraw List</Card.Title>
             </Card.Header>
             <Card.Body>
               <Table responsive>
                 <thead>
                   <tr>
                     <th>S.No.</th>
-                    <th>User Address</th>
+                    <th>User</th>
                     <th>Amount</th>
-                    <th>Admin Fee</th>
-                    <th>Action</th>
-                    {/* <th>Reject</th> */}
+                    <th>Split Balance</th>
+                    <th>Topup Balance</th>
+                    <th>Wallet</th>
+
+                    <th>Tx Hash</th>
+                    <th>Block</th>
+                    <th>Date and Time</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {RoiWithdrawList?.length > 0 ? (
-                    RoiWithdrawList?.map((withdraw, index) => (
+                  {WithdrawList?.length > 0 ? (
+                    WithdrawList?.map((withdraw, index) => (
                       <tr key={index}>
                         <td>{(currentPage - 1) * 20 + index + 1}</td>
                         <td>
@@ -192,32 +143,19 @@ export const ROIWithdraw = () => {
                             </IconButton>
                           </Tooltip>
                         </td>
-                        <td>{withdraw?.totalAmount}</td>
+                        <td>{withdraw?.amount?.toFixed(2)}</td>
+                        <td>{withdraw?.splitBalance?.toFixed(2)}</td>
+                        <td>{withdraw?.topupBalance?.toFixed(2)}</td>
+                        <td>{withdraw?.wallet?.toFixed(2)}</td>
+                        <td>{withdraw?.txHash}</td>
+                        <td>{withdraw?.block}</td>
                         <td>
-                          {withdraw?.totalAmount - withdraw?.claimedAmount}
-                        </td>
-
-                        <td>
-                          <button className="next-button btn btn-success pointer border m-2">
-                            <Link to={`/admin/roiviewdata?id=${withdraw?._id}`}>
-                              View
-                            </Link>
-                          </button>
+                          {moment(withdraw.createdAt).format(
+                            "M/D/YYYY h:mm:ss A"
+                          )}
                         </td>
                         {/* <td>
-                          <button
-                            className="next-button btn btn-danger pointer border m-2"
-                            onClick={() =>
-                              handleReject({
-                                id: withdraw?._id,
-                                user: withdraw?.user,
-                                licenseType: withdraw?.licenceType,
-                                claimType: withdraw?.claimType,
-                              })
-                            }
-                          >
-                            Reject
-                          </button>
+                          {withdraw?.totalAmount - withdraw?.claimedAmount}
                         </td> */}
                       </tr>
                     ))

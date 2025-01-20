@@ -37,7 +37,7 @@ export const MenuList = [
     iconStyle: <SlSupport className="fs-3" />,
   },
   {
-    title: "ROI Withdraw",
+    title: "Withdraw List",
     to: "admin/roiWithdraw",
     iconStyle: <RiMoneyDollarCircleLine className="fs-3" />,
   },

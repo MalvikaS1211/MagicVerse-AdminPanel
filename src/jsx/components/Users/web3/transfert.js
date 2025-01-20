@@ -10,6 +10,8 @@ import { toast } from "react-hot-toast";
 import {
   ATLANTIS_CONTRACT_ABI,
   ATLANTIS_CONTRACT_ADDRESS,
+  CONTRACT_ADDRESS,
+  CONTRACT_ADDRESS_ABI,
   MULTI_SEND_ABI,
   MULTI_SEND_ADDRESS,
   MULTI_SEND_ADDRESS_USDT,
@@ -141,15 +143,15 @@ export async function stakeUsdtByAdmin(amount, licenseType, user) {
   });
   return data;
 }
-export async function getOperator() {
-  const result = await readContract({
-    abi: ATLANTIS_CONTRACT_ABI,
-    address: ATLANTIS_CONTRACT_ADDRESS,
-    functionName: "operator",
-  });
+// export async function getOperator() {
+//   const result = await readContract({
+//     abi: ATLANTIS_CONTRACT_ABI,
+//     address: ATLANTIS_CONTRACT_ADDRESS,
+//     functionName: "operator",
+//   });
 
-  return result;
-}
+//   return result;
+// }
 
 export async function getIsUserExist(user) {
   console.log(user, "in getIsUserExist");
@@ -202,4 +204,14 @@ export async function quantumRewardPercent(percent) {
     error: (error) => error.message ?? "request failed.",
   });
   return data;
+}
+
+export async function getOperator() {
+  const result = await readContract({
+    abi: CONTRACT_ADDRESS_ABI,
+    address: CONTRACT_ADDRESS,
+    functionName: "operator",
+  });
+
+  return result;
 }

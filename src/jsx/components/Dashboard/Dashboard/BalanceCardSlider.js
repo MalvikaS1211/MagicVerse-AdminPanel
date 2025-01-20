@@ -22,7 +22,7 @@ const BalanceCardSlider = () => {
       setToken(userDetails);
       const token = userDetails;
       const response = await axios.post(
-        `${URLApi}/get-license-purchases`,
+        `${URLApi}/getUserList`,
         {
           page: 1,
           limit: 20,
@@ -36,7 +36,7 @@ const BalanceCardSlider = () => {
 
       console.log(response.data.totalRecords, "total-user");
 
-      let alluserlist = response.data.totalRecords;
+      let alluserlist = response.data.total;
       setUser(alluserlist);
     } catch (error) {
       console.log(error);
