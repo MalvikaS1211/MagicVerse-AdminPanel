@@ -2,9 +2,9 @@ import axios from "axios";
 import toast from "react-hot-toast";
 export const URL = "http://localhost:8080/api";
 // export const URLApi = "https://atlantisrb.com/api/admin";
-export const URLApi = "http://192.168.1.121:1414/api";
+// export const URLApi = "http://192.168.1.121:1414/api";
 
-// export const URLApi = "https://corecrowd.io/admin";
+export const URLApi = "https://core-exchange.com/api";
 
 export function cutAfterDecimal(number, pos, dl, ac) {
   if (Number(number)) {

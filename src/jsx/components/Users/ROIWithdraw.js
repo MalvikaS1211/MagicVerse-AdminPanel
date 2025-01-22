@@ -31,6 +31,7 @@ export const ROIWithdraw = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const itemPerpage = 20;
+
   const handleCopy = (address) => {
     navigator.clipboard.writeText(address);
     setTooltipText("Copied!");
@@ -38,6 +39,7 @@ export const ROIWithdraw = () => {
   };
 
   const token = localStorage.getItem("adminToken");
+
   const fetchData = async () => {
     try {
       const response = await axios.post(
@@ -48,20 +50,19 @@ export const ROIWithdraw = () => {
         },
         {
           headers: {
-            // Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
         }
       );
 
       let allWithdrawList = response.data.data;
-      console.log(allWithdrawList, "allWithdrawList");
       setTotalPages(response.data.total);
       setWithdrawList(allWithdrawList);
     } catch (error) {
       console.log(error);
     }
   };
+
   useEffect(() => {
     fetchData();
   }, [currentPage, reload]);
@@ -75,34 +76,29 @@ export const ROIWithdraw = () => {
   const handlePreviousPage = () => {
     setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : prevPage));
   };
-  const now = new Date();
 
-  const formattedDate = now.toLocaleString("en-GB", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: false,
-  });
-  console.log(token, "token");
+  const handleSearch = (e) => {
+    const query = e.target.value;
+    setSearch(query);
+  };
 
   return (
     <Fragment>
       <Row>
-        <div className="display_end">
+        {/* <div className="display_end">
           <div className="input-group " style={{ maxWidth: "300px" }}>
             <input
               type="search"
               id="form1"
               className="form-control"
               placeholder="Search here..."
-              // onChange={handleSearch}
+              autoComplete="off"
+              value={search}
+              onChange={handleSearch}
             />
           </div>
-          <label className="form-label" for="form1"></label>
-        </div>
+          <label className="form-label" htmlFor="form1"></label>
+        </div> */}
 
         <Col lg={12}>
           <Card>
@@ -115,11 +111,9 @@ export const ROIWithdraw = () => {
                   <tr>
                     <th>S.No.</th>
                     <th>User</th>
-                    <th>Amount</th>
                     <th>Split Balance</th>
                     <th>Topup Balance</th>
                     <th>Wallet</th>
-
                     <th>Tx Hash</th>
                     <th>Block</th>
                     <th>Date and Time</th>
@@ -133,7 +127,7 @@ export const ROIWithdraw = () => {
                         <td>
                           {withdraw?.user?.slice(0, 5)}...
                           {withdraw?.user?.slice(-4)}
-                          <Tooltip title="Copy User Address" arrow>
+                          <Tooltip title={tooltipText} arrow>
                             <IconButton
                               onClick={() => handleCopy(withdraw?.user)}
                               size="small"
@@ -143,20 +137,18 @@ export const ROIWithdraw = () => {
                             </IconButton>
                           </Tooltip>
                         </td>
-                        <td>{withdraw?.amount?.toFixed(2)}</td>
                         <td>{withdraw?.splitBalance?.toFixed(2)}</td>
                         <td>{withdraw?.topupBalance?.toFixed(2)}</td>
                         <td>{withdraw?.wallet?.toFixed(2)}</td>
                         <td>{withdraw?.txHash}</td>
                         <td>{withdraw?.block}</td>
                         <td>
-                          {moment(withdraw.createdAt).format(
-                            "M/D/YYYY h:mm:ss A"
-                          )}
+                          {withdraw?.timestamp
+                            ? new Date(
+                                Number(withdraw?.timestamp) * 1000
+                              ).toLocaleString()
+                            : "N/A"}
                         </td>
-                        {/* <td>
-                          {withdraw?.totalAmount - withdraw?.claimedAmount}
-                        </td> */}
                       </tr>
                     ))
                   ) : (
@@ -173,7 +165,7 @@ export const ROIWithdraw = () => {
                 className="text-center mb-3 col-lg-6"
                 style={{ margin: "auto" }}
               >
-                <div className=" filter-pagination mt-3 ">
+                <div className=" filter-pagination mt-3">
                   <button
                     className="previous-button btn border m-2"
                     onClick={handlePreviousPage}

@@ -53,30 +53,6 @@ export const ROIPercentage = () => {
     }
   };
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const userDetails = localStorage.getItem("adminToken");
-  //       const token = userDetails;
-  //       const result = await getDAOUserList(search, token);
-  //       console.log(result);
-  //       setApiData(result?.data);
-  //       if (!result?.data?.[0]) {
-  //         setRecordStatus("No Record");
-  //       }
-  //       // setTotalPages(result.totalPages);
-  //       // if (result.status == 404) {
-  //       //   navigate("/login");
-  //       //   localStorage.removeItem("userDetails");
-  //       // }
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [search, isFetch]);
-
   const handleNextPage = () => {
     setCurrentPage((prevPage) =>
       prevPage < totalPages ? prevPage + 1 : prevPage
@@ -120,6 +96,7 @@ export const ROIPercentage = () => {
                   <div className="d-flex align-items-center">
                     <Form.Control
                       type="text"
+                      autoComplete="off"
                       placeholder="Enter ROI Percentage"
                       value={RoiPercentage}
                       onChange={handleRoiPercentage}
@@ -140,7 +117,7 @@ export const ROIPercentage = () => {
       </Row>
 
       <Row>
-        <div className="display_end">
+        {/* <div className="display_end">
           <div className="input-group" style={{ maxWidth: "300px" }}>
             <input
               type="search"
@@ -151,7 +128,7 @@ export const ROIPercentage = () => {
             />
           </div>
           <label className="form-label" for="form1"></label>
-        </div>
+        </div> */}
 
         <Col lg={12}>
           <Card>

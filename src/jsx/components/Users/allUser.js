@@ -1,95 +1,64 @@
-import React, { Fragment, useEffect, useState, useMemo, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import { Row, Col, Card, Table, Form, Button } from "react-bootstrap";
-import { styled } from "@mui/material/styles";
-// import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
-import axios from "axios";
-import Papa from "papaparse";
-import {
-  cutAfterDecimal,
-  getAllStakeUsers,
-  URLApi,
-} from "../../../services/api_function";
-import toast from "react-hot-toast";
+import React, { Fragment, useEffect, useState } from "react";
+import { Row, Col, Card, Table } from "react-bootstrap";
 import { Tooltip, IconButton } from "@mui/material";
 import { FaRegCopy } from "react-icons/fa";
 import moment from "moment";
-import {
-  getIsUserExist,
-  getOperator,
-  getusdt,
-  stakeUsdtByAdmin,
-} from "./web3/transfert";
-import { useAccount } from "wagmi";
+import axios from "axios";
+import { cutAfterDecimal, URLApi } from "../../../services/api_function";
 
 export const Alluser = () => {
-  const [apiData, setApiData] = useState([]);
+  const [usersList, setUsersList] = useState([]);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [search, setSearch] = useState("");
-  const [daoAddress, setDaoAddress] = useState("");
-  const [recordStatus, setRecordStatus] = useState("Loading...");
-  const [isFetch, setIsFetch] = useState(false);
-  const [licenseList, setLicenseList] = useState([]);
+
+  const itemPerPage = 20;
+
   const [tooltipText, setTooltipText] = useState("Copy address");
-  const [usersList, setUsersList] = useState([]);
-  const itemPerpage = 20;
+  const [searchValue, setSearchValue] = useState("");
 
   const handleCopy = (address) => {
     navigator.clipboard.writeText(address);
     setTooltipText("Copied!");
-    setTimeout(() => setTooltipText("Copy address"), 2000); // Reset tooltip text after 2 seconds
+    setTimeout(() => setTooltipText("Copy address"), 2000);
   };
 
-  // const handleSearch = async (e) => {
-  //   const query = e.target.value.trim().toLowerCase();
-  //   const sanitizedQuery = query.replace(/[\\|^$*+?.(){}[\]]/g, "");
-  //   setSearch(sanitizedQuery);
-  //   if (currentPage !== 1) {
-  //     setCurrentPage(1);
-  //   }
-  // };
-
-  const [token, setToken] = useState();
-
+  // Fetch user list
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userDetails = localStorage.getItem("adminToken");
-        // setToken(userDetails);
-        // const token = userDetails;
         const response = await axios.post(
           `${URLApi}/getUserList`,
           {
             page: currentPage,
-            limit: itemPerpage,
+            limit: itemPerPage,
+            search: searchValue,
           },
           {
             headers: {
-              // Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
             },
           }
         );
-
-        console.log(response.data.data, "getUserList");
+        console.log(response, "response --------");
         setUsersList(response.data.data);
+
         setTotalPages(response.data.total);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
 
     fetchData();
-  }, []);
+  }, [currentPage, searchValue]);
+
   const handleSearch = (e) => {
-    const query = e.target.value.toLowerCase().trim();
-    setSearch(query);
-    const filtered = licenseList.filter((item) =>
-      item?.user?.toLowerCase().includes(query)
-    );
-    // setFilteredData(filtered);
+    const query = e.target.value;
+    setSearchValue(query);
+    setCurrentPage(1);
   };
+  console.log(searchValue, "search----------Value");
+
   const handleNextPage = () => {
     setCurrentPage((prevPage) =>
       prevPage < totalPages ? prevPage + 1 : prevPage
@@ -99,9 +68,6 @@ export const Alluser = () => {
   const handlePreviousPage = () => {
     setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : prevPage));
   };
-
-  const { address } = useAccount();
-  console.log("account address", address);
 
   return (
     <Fragment>
@@ -114,10 +80,12 @@ export const Alluser = () => {
               id="form1"
               className="form-control"
               placeholder="Search here..."
+              autoComplete="off"
+              value={searchValue}
               onChange={handleSearch}
             />
           </div>
-          <label className="form-label" for="form1"></label>
+          <label className="form-label" htmlFor="form1"></label>
         </div>
 
         <Col lg={12}>
@@ -127,14 +95,12 @@ export const Alluser = () => {
             </Card.Header>
             <Card.Body>
               <Table responsive>
-                {/* <button onClick={() => exportToExcel(data, 'exported-data')}>Export to Excel</button> */}
                 <thead>
                   <tr>
                     <th>S.No.</th>
                     <th>User</th>
-                    <th>referral</th>
+                    <th>Referral</th>
                     <th>Deposit Wallet</th>
-                    {/* <th>Radiant Deposit</th> */}
                     <th>Tx Hash</th>
                     <th>Date & Time</th>
                   </tr>
@@ -143,7 +109,7 @@ export const Alluser = () => {
                   {usersList?.length > 0 ? (
                     usersList?.map((user, index) => (
                       <tr key={index}>
-                        <td>{(currentPage - 1) * 20 + index + 1}</td>
+                        <td>{(currentPage - 1) * itemPerPage + index + 1}</td>
                         <td>
                           {user?.user?.slice(0, 5)}...
                           {user?.user?.slice(-4)}
@@ -171,9 +137,6 @@ export const Alluser = () => {
                           </Tooltip>
                         </td>
                         <td>{cutAfterDecimal(user?.depositWallet, 2)}</td>
-                        {/* <td>
-                          {cutAfterDecimal(user?.totalDepositRadiant, 2)} USDT
-                        </td> */}
                         <td>{user?.txHash}</td>
                         <td>
                           {moment(user.createdAt).format("M/D/YYYY h:mm:ss A")}
@@ -190,12 +153,11 @@ export const Alluser = () => {
                 </tbody>
               </Table>
 
-              <div className="d-flex justify-content-between"></div>
               <div
                 className="text-center mb-3 col-lg-6"
                 style={{ margin: "auto" }}
               >
-                <div className=" filter-pagination mt-3 ">
+                <div className="filter-pagination mt-3">
                   <button
                     className="previous-button btn border m-2"
                     onClick={handlePreviousPage}
