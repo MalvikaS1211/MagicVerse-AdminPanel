@@ -5,10 +5,7 @@ import { Row, Col, Card, Table, Form, Button } from "react-bootstrap";
 import { styled } from "@mui/material/styles";
 // import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 
-import {
-  getRoiPercentfn,
-  getUserPackages,
-} from "../../../services/api_function";
+import { getUserPackages } from "../../../services/api_function";
 import toast from "react-hot-toast";
 import { Tooltip, IconButton } from "@mui/material";
 import { FaRegCopy } from "react-icons/fa";
@@ -137,9 +134,9 @@ export const PackageHistory = () => {
               >
                 <div className=" filter-pagination mt-3 ">
                   <button
-                    className="previous-button btn border m-2"
+                    className="next-button btn btn-success pointer border m-2"
                     onClick={handlePreviousPage}
-                    disabled={currentPage === 1}
+                    disabled={currentPage <= 1}
                   >
                     Previous
                   </button>

@@ -15,34 +15,6 @@ function Login(props) {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
 
-  async function onLogin(e) {
-    e.preventDefault();
-    let error = false;
-    const errorObj = { ...errorsObj };
-    if (email === "") {
-      errorObj.email = "Username or Email is Required";
-      error = true;
-    }
-    if (password === "") {
-      errorObj.password = "Password is Required";
-      error = true;
-    }
-    setErrors(errorObj);
-    if (error) {
-      return;
-    }
-    const res = await getLoginCredential(email, password);
-    console.log(res, "login API");
-
-    if (res?.success) {
-      toast.success("Successfully Login !");
-      navigate("/admin/dashboard");
-      // dispatch(setLogin(true));
-    } else {
-      toast.error(res?.message || "Login failed. Please try again.");
-    }
-  }
-
   const adminLogin = async () => {
     try {
       let error = false;
@@ -64,6 +36,7 @@ function Login(props) {
 
       if (res?.success) {
         toast.success("Successfully Login !");
+        dispatch(setLogin(true));
         navigate("/admin/dashboard");
       } else {
         toast.error(res?.message || "Login failed. Please try again.");

@@ -142,7 +142,7 @@ export const NFTCreationList = () => {
               >
                 <div className=" filter-pagination mt-3 ">
                   <button
-                    className="previous-button btn border m-2"
+                    className="next-button btn btn-success pointer border m-2"
                     onClick={handlePreviousPage}
                     disabled={currentPage === 1}
                   >

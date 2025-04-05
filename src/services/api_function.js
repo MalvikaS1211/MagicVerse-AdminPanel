@@ -1,8 +1,8 @@
 import axios from "axios";
 import toast from "react-hot-toast";
-export const URLApi = "https://magicverse.org/api";
+// export const URLApi = "https://magicverse.org/api";
 // export const URLApi = "http://192.168.1.10:8081/api";
-// export const URLApi = "http://192.168.1.161:8081/api";
+export const URLApi = "http://192.168.1.161:8081/api";
 // export const URLApi = "http://localhost:8081/api";
 
 export function cutAfterDecimal(number, pos, dl, ac) {
@@ -276,50 +276,6 @@ export async function nodeGroupApproveAction(selectedIds, token) {
   }
 }
 
-export async function getRoiPercentfn(address, percent) {
-  try {
-    const response = await axios.post(
-      `${URLApi}/getRoiPercent`,
-      {
-        page: 1,
-        limit: 20,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-export async function getUserList(address) {
-  try {
-    const response = await axios.post(`${URLApi}/getUaerList`, {
-      userAddress: address,
-    });
-
-    return response.data;
-  } catch (error) {
-    console.log("Error getLevelIncome Admin:", error);
-  }
-}
-
-export async function getLevelIncome(address) {
-  try {
-    const response = await axios.post(`${URLApi}/level-income`, {
-      userAddress: address,
-    });
-
-    return response.data;
-  } catch (error) {
-    console.log("Error getLevelIncome Admin:", error);
-  }
-}
-
 export async function getAdminDashboard(page, limit) {
   try {
     const response = await axios.get(`${URLApi}/admin-dashboard`, {
@@ -415,5 +371,18 @@ export async function getDepostList(page, limit) {
     return response.data;
   } catch (error) {
     console.log("Error getDepostList Admin:", error);
+  }
+}
+
+export async function getNftStartStop(action, status) {
+  try {
+    const response = await axios.post(`${URLApi}/block-single-nft-creation`, {
+      action,
+      status,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error getLoginCredential Admin:", error);
   }
 }

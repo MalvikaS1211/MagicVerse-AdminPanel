@@ -51,7 +51,6 @@
   gap: 10px;
 }
 
-
 .qustn-btn .btn:hover {
   background-color: #bfcaf3 !important;
 }
@@ -175,23 +174,20 @@ td {
   font-weight: 600;
 }
 .MuiSlider-thumb {
-  display: none !important
+  display: none !important;
 }
-.MuiSlider-rail, .MuiSlider-track{
+.MuiSlider-rail,
+.MuiSlider-track {
   height: 5px !important;
 }
-.div3{
+.div3 {
   display: flex;
   justify-content: space-between;
 }
-.div3 p{
+.div3 p {
   width: fit-content;
   background-color: #bfcaf3;
   padding-left: 10px;
   padding-right: 10px;
   border-radius: 5px;
 }
-
-
-
-

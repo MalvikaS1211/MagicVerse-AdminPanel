@@ -18,7 +18,7 @@ import {
 } from "./web3/transfert";
 import { useAccount } from "wagmi";
 import moment from "moment";
-export const MaturedNFT = () => {
+export const NFTAction = () => {
   const { wallet } = useSelector((state) => state.login);
   const { walletAddress, chainId } = wallet;
   const [apiData, setApiData] = useState([]);
@@ -152,4 +152,4 @@ export const MaturedNFT = () => {
   );
 };
 
-export default MaturedNFT;
+export default NFTAction;

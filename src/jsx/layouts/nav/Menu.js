@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useDispatch } from "react-redux";
 import { RiNftFill, RiQuestionnaireFill } from "react-icons/ri";
 import { FaUserGraduate } from "react-icons/fa";
@@ -18,6 +18,7 @@ import { GiAbstract074 } from "react-icons/gi";
 import { GiAbstract047 } from "react-icons/gi";
 import { BiLogOut } from "react-icons/bi";
 import { TbCircleTriangle } from "react-icons/tb";
+
 export const MenuList = [
   {
     title: "Dashboard",

@@ -4,12 +4,7 @@ import { Tooltip, IconButton } from "@mui/material";
 import { FaRegCopy } from "react-icons/fa";
 import moment from "moment";
 import axios from "axios";
-import {
-  cutAfterDecimal,
-  getAdminDashboard,
-  getUserList,
-  URLApi,
-} from "../../../services/api_function";
+import { getAdminDashboard } from "../../../services/api_function";
 import { useAccount } from "wagmi";
 
 export const Alluser = () => {
@@ -92,10 +87,8 @@ export const Alluser = () => {
                   <tr>
                     <th>S.No.</th>
                     <th>User Id</th>
-
                     <th>User</th>
                     <th>Referral</th>
-                    {/* <th>Deposit Wallet</th> */}
                     <th>Tx Hash</th>
                     <th>Team</th>
                     <th>Direct</th>
@@ -170,9 +163,9 @@ export const Alluser = () => {
               >
                 <div className="filter-pagination mt-3">
                   <button
-                    className="previous-button btn border m-2"
+                    className="next-button btn btn-success pointer border m-2"
                     onClick={handlePreviousPage}
-                    disabled={currentPage === 1}
+                    disabled={currentPage <= 1}
                   >
                     Previous
                   </button>

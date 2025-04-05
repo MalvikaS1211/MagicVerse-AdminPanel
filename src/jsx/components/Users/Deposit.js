@@ -24,7 +24,7 @@ export const Deposit = () => {
 
   const ShowDepositList = async () => {
     const res = await getDepostList(currentPage, itemPerpage);
-    console.log(res, "getRoiPercentfn");
+    console.log(res, "getDepostList");
     setTotalPages(res?.totalPages);
     setDepositList(res?.data);
   };
@@ -134,9 +134,9 @@ export const Deposit = () => {
               >
                 <div className="filter-pagination mt-3">
                   <button
-                    className="previous-button btn border m-2"
+                    className="next-button btn btn-success pointer border m-2"
                     onClick={handlePreviousPage}
-                    disabled={currentPage === 1}
+                    disabled={currentPage <= 1}
                   >
                     Previous
                   </button>
