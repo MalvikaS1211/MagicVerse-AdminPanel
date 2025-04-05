@@ -4,9 +4,16 @@ import { Tooltip, IconButton } from "@mui/material";
 import { FaRegCopy } from "react-icons/fa";
 import moment from "moment";
 import axios from "axios";
-import { cutAfterDecimal, URLApi } from "../../../services/api_function";
+import {
+  cutAfterDecimal,
+  getAdminDashboard,
+  getUserList,
+  URLApi,
+} from "../../../services/api_function";
+import { useAccount } from "wagmi";
 
 export const Alluser = () => {
+  const { address } = useAccount();
   const [usersList, setUsersList] = useState([]);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -23,34 +30,20 @@ export const Alluser = () => {
     setTimeout(() => setTooltipText("Copy address"), 2000);
   };
 
-  // Fetch user list
+  const AllUsers = async () => {
+    try {
+      const res = await getAdminDashboard(currentPage, itemPerPage);
+      setTotalPages(res?.totalPages);
+      setUsersList(res.users);
+      console.log("User List", res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log("total user ", usersList.length);
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.post(
-          `${URLApi}/getUserList`,
-          {
-            page: currentPage,
-            limit: itemPerPage,
-            search: searchValue,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        console.log(response, "response --------");
-        setUsersList(response.data.data);
-
-        setTotalPages(response.data.total);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, [currentPage, searchValue]);
+    AllUsers();
+  }, []);
 
   const handleSearch = (e) => {
     const query = e.target.value;
@@ -73,7 +66,7 @@ export const Alluser = () => {
     <Fragment>
       <Row className="mb-4"></Row>
       <Row>
-        <div className="display_end">
+        {/* <div className="display_end">
           <div className="input-group " style={{ maxWidth: "300px" }}>
             <input
               type="search"
@@ -86,7 +79,7 @@ export const Alluser = () => {
             />
           </div>
           <label className="form-label" htmlFor="form1"></label>
-        </div>
+        </div> */}
 
         <Col lg={12}>
           <Card>
@@ -98,10 +91,14 @@ export const Alluser = () => {
                 <thead>
                   <tr>
                     <th>S.No.</th>
+                    <th>User Id</th>
+
                     <th>User</th>
                     <th>Referral</th>
-                    <th>Deposit Wallet</th>
+                    {/* <th>Deposit Wallet</th> */}
                     <th>Tx Hash</th>
+                    <th>Team</th>
+                    <th>Direct</th>
                     <th>Date & Time</th>
                   </tr>
                 </thead>
@@ -110,10 +107,11 @@ export const Alluser = () => {
                     usersList?.map((user, index) => (
                       <tr key={index}>
                         <td>{(currentPage - 1) * itemPerPage + index + 1}</td>
+                        <td>{user?.uniqueRandomId}</td>
                         <td>
                           {user?.user?.slice(0, 5)}...
                           {user?.user?.slice(-4)}
-                          <Tooltip title={tooltipText} arrow>
+                          {/* <Tooltip title={tooltipText} arrow>
                             <IconButton
                               onClick={() => handleCopy(user?.user)}
                               size="small"
@@ -121,12 +119,12 @@ export const Alluser = () => {
                             >
                               <FaRegCopy />
                             </IconButton>
-                          </Tooltip>
+                          </Tooltip> */}
                         </td>
                         <td>
                           {user?.referrer?.slice(0, 5)}...
                           {user?.referrer?.slice(-4)}
-                          <Tooltip title={tooltipText} arrow>
+                          {/* <Tooltip title={tooltipText} arrow>
                             <IconButton
                               onClick={() => handleCopy(user?.referrer)}
                               size="small"
@@ -134,10 +132,23 @@ export const Alluser = () => {
                             >
                               <FaRegCopy />
                             </IconButton>
-                          </Tooltip>
+                          </Tooltip> */}
                         </td>
-                        <td>{cutAfterDecimal(user?.depositWallet, 2)}</td>
-                        <td>{user?.txHash}</td>
+                        {/* <td>{cutAfterDecimal(user?.depositWallet, 2)}</td> */}
+                        <td>
+                          <a
+                            href={`https://opbnb.bscscan.com/tx/${user?.transactionHash}`}
+                            target="_blank"
+                          >
+                            {`${user?.transactionHash.slice(
+                              0,
+                              5
+                            )}...${user?.transactionHash.slice(-4)}`}
+                          </a>
+                        </td>
+                        <td>{user?.totalTeamCount}</td>
+                        <td>{user?.totalDirectCount}</td>
+
                         <td>
                           {moment(user.createdAt).format("M/D/YYYY h:mm:ss A")}
                         </td>

@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { RiQuestionnaireFill } from "react-icons/ri";
+import { RiNftFill, RiQuestionnaireFill } from "react-icons/ri";
 import { FaUserGraduate } from "react-icons/fa";
 import { FaRankingStar } from "react-icons/fa6";
 import { PiExamFill } from "react-icons/pi";
@@ -11,12 +11,20 @@ import { SlSupport } from "react-icons/sl";
 import { RiMoneyDollarCircleLine } from "react-icons/ri";
 import { FaHandshake } from "react-icons/fa";
 import { GiLevelEndFlag } from "react-icons/gi";
-
+import { LuLayoutDashboard } from "react-icons/lu";
+import { HiOutlineCollection } from "react-icons/hi";
+import { FaThList } from "react-icons/fa";
+import { GiAbstract074 } from "react-icons/gi";
+import { GiAbstract047 } from "react-icons/gi";
+import { BiLogOut } from "react-icons/bi";
+import { TbCircleTriangle } from "react-icons/tb";
 export const MenuList = [
   {
     title: "Dashboard",
     classsChange: "mm-collapse",
-    iconStyle: <i className="material-icons">grid_view</i>,
+    iconStyle: (
+      <LuLayoutDashboard className="material-icons"></LuLayoutDashboard>
+    ),
     to: "admin/dashboard",
   },
 
@@ -26,77 +34,41 @@ export const MenuList = [
     iconStyle: <FaUserGraduate className="fs-3" />,
   },
 
+  // {
+  //   title: "Total NFT List",
+  //   to: "admin/totalnft",
+  //   iconStyle: <HiOutlineCollection className="fs-3" />,
+  // },
+
   {
-    title: "ROI Percentage",
-    to: "admin/roipercentage",
+    title: "NFT Creation List",
+    to: "admin/NFTCreationList",
+    iconStyle: <RiNftFill className="fs-3" />,
+  },
+  // {
+  //   title: "Matured NFT List",
+  //   to: "admin/maturedNft",
+  //   iconStyle: <GiAbstract074 className="fs-3" />,
+  // },
+  {
+    title: "Bulk Package",
+    to: "admin/bulkpackage",
+    iconStyle: <GiAbstract047 className="fs-3" />,
+  },
+  {
+    title: "Package History",
+    to: "admin/packagehistory",
+    iconStyle: <TbCircleTriangle className="fs-3" />,
+  },
+  {
+    title: "Deposit List",
+    to: "admin/deposit",
     iconStyle: <PiHandDepositFill className="fs-3" />,
   },
-  {
-    title: "Deposit",
-    to: "admin/deposit",
-    iconStyle: <SlSupport className="fs-3" />,
-  },
-  {
-    title: "Withdraw List",
-    to: "admin/roiWithdraw",
-    iconStyle: <RiMoneyDollarCircleLine className="fs-3" />,
-  },
-  // {
-  //   title: "Rejected Withdrawal",
-  //   to: "admin/rejected-withdrawal",
-  //   iconStyle: <PiHandDepositFill className="fs-3" />,
-  // },
-  // {
-  //   title: "Approved Withdrawal",
-  //   to: "admin/approved-withdrawal",
-  //   iconStyle: <GiLevelEndFlag className="fs-3" />,
-  // },
-  // {
-  //   title: "Team Profit Trade Withdraw",
-  //   to: "admin/team-profit-trade",
-  //   iconStyle: <FaHandshake className="fs-3" />,
-  // },
 
-  // {
-  //   title: "Level Reward Withdraw",
-  //   to: "admin/level-reward",
-  //   iconStyle: <GiLevelEndFlag className="fs-3" />,
-  // },
-  // {
-  //   title: "Node Group",
-  //   // to:"admin/unstake",
-  //   iconStyle: <PiHandDepositFill className="fs-3" />,
-  //   content: [
-  //     {
-  //       title: "Approved",
-  //       to: "admin/node-approve",
-  //     },
-  //     {
-  //       title: "Pending",
-  //       to: "admin/node-pending",
-  //     },
-  //   ],
-  // },
-  // {
-  //   title:"Deposit List",
-  //   to:"depositList",
-  //   iconStyle:<PiHandDepositFill className="fs-3"/>
-  // },
-
-  // {
-  //   title: "Support",
-  //   iconStyle: <SlSupport className="fs-3" />,
-  //   to: "admin/support-chats",
-  // },
-
-  // {
-  //   title: "Setting",
-  //   to: "admin/setting",
-  //   iconStyle: <IoIosSettings className="fs-3" />,
-  // },
   {
     title: "Logout",
-    iconStyle: <i class="material-icons">logout</i>,
+    iconStyle: <BiLogOut className="fs-3">logout</BiLogOut>,
     to: "admin/login",
   },
 ];

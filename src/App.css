@@ -53,14 +53,14 @@
 
 
 .qustn-btn .btn:hover {
-  background-color: #e5eee5 !important;
+  background-color: #bfcaf3 !important;
 }
 
 .qustn-btn .btn:hover {
   color: black;
 }
 .qustn-btn .active1 {
-  background-color: #e5eee5 !important;
+  background-color: #bfcaf3 !important;
   border: none;
 }
 
@@ -81,7 +81,7 @@ select {
   padding-left: 5px;
 }
 .contest label {
-  background-color: #e5eee5;
+  background-color: #bfcaf3;
   padding: 8px;
   width: fit-content;
   border-radius: 5px;
@@ -111,7 +111,7 @@ select {
 }
 
 .table.table-hover tr:hover {
-  background-color: #e5eee56e;
+  background-color: #bfcaf36e;
 }
 .table {
   margin-bottom: 0px !important;
@@ -149,7 +149,7 @@ td {
 .time {
   font-size: 14px;
   width: fit-content;
-  background-color: #e5eee5;
+  background-color: #bfcaf3;
   padding-left: 10px;
   padding-right: 10px;
   border-radius: 5px;
@@ -167,7 +167,7 @@ td {
 }
 .m2 {
   width: fit-content;
-  background-color: #e5eee5;
+  background-color: #bfcaf3;
   border-radius: 5px;
   font-size: 14px;
   padding-left: 10px;
@@ -186,7 +186,7 @@ td {
 }
 .div3 p{
   width: fit-content;
-  background-color: #e5eee5;
+  background-color: #bfcaf3;
   padding-left: 10px;
   padding-right: 10px;
   border-radius: 5px;

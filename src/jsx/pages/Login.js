@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import bg6 from "../../images/background/bg6.jpg";
-import { adminLogin } from "../../services/api_function";
+
+import { adminLogin, getLoginCredential } from "../../services/api_function";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { setLogin } from "../redux/reducer";
@@ -13,12 +14,13 @@ function Login(props) {
   const [errors, setErrors] = useState({ email: "", password: "" });
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
+
   async function onLogin(e) {
     e.preventDefault();
     let error = false;
     const errorObj = { ...errorsObj };
     if (email === "") {
-      errorObj.email = "username or email is Required";
+      errorObj.email = "Username or Email is Required";
       error = true;
     }
     if (password === "") {
@@ -29,17 +31,47 @@ function Login(props) {
     if (error) {
       return;
     }
-    const res = await adminLogin(email, password);
+    const res = await getLoginCredential(email, password);
     console.log(res, "login API");
 
-    if (res?.status === 200) {
+    if (res?.success) {
+      toast.success("Successfully Login !");
       navigate("/admin/dashboard");
-      toast.success("Successfully Login");
-      dispatch(setLogin(true));
+      // dispatch(setLogin(true));
     } else {
-      toast.error(res.message);
+      toast.error(res?.message || "Login failed. Please try again.");
     }
   }
+
+  const adminLogin = async () => {
+    try {
+      let error = false;
+      const errorObj = { ...errorsObj };
+      if (email === "") {
+        errorObj.email = "Username or Email is Required";
+        error = true;
+      }
+      if (password === "") {
+        errorObj.password = "Password is Required";
+        error = true;
+      }
+      setErrors(errorObj);
+      if (error) {
+        return;
+      }
+      const res = await getLoginCredential(email, password);
+      console.log(res, "login API");
+
+      if (res?.success) {
+        toast.success("Successfully Login !");
+        navigate("/admin/dashboard");
+      } else {
+        toast.error(res?.message || "Login failed. Please try again.");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="page-wraper">
@@ -70,10 +102,10 @@ function Login(props) {
                       <div className="logo-header">
                         <Link to={"#"} className="logo">
                           <img
-                            src="../images/Core_Exchange_Logo_favicon.png"
+                            src="../images/Logo.png"
                             alt=""
                             className=" mCS_img_loaded"
-                            style={{ width: "120px" }}
+                            style={{ width: "281px" }}
                           />
                         </Link>
                       </div>
@@ -93,7 +125,10 @@ function Login(props) {
                                 {props.successMessage}
                               </div>
                             )}
-                            <form className=" dz-form pb-3" onSubmit={onLogin}>
+                            <form
+                              className="dz-form pb-3"
+                              // onSubmit={adminLogin}
+                            >
                               <h3 className="form-title m-t0">
                                 Personal Information
                               </h3>
@@ -101,10 +136,10 @@ function Login(props) {
                                 <div className="dz-separator bg-primary style-liner"></div>
                               </div>
                               <p>
-                                Enter your E-mail address and your password.{" "}
+                                Enter your E-mail address and your password.
                               </p>
+
                               <div className="form-group mb-3">
-                                {/* <input name="dzName" required="" className="form-control" placeholder="User Name" type="text" /> */}
                                 <input
                                   type="text"
                                   className="form-control"
@@ -118,8 +153,8 @@ function Login(props) {
                                   </div>
                                 )}
                               </div>
+
                               <div className="form-group mb-3">
-                                {/* <input name="dzName" required="" className="form-control " placeholder="Type Password" type="password" /> */}
                                 <input
                                   type="password"
                                   className="form-control"
@@ -133,10 +168,12 @@ function Login(props) {
                                   </div>
                                 )}
                               </div>
+
                               <div className="form-group text-left mb-5">
                                 <button
-                                  type="submit"
+                                  type="button"
                                   className="btn btn-primary dz-xs-flex m-r5"
+                                  onClick={adminLogin}
                                 >
                                   Log In
                                 </button>

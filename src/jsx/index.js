@@ -15,13 +15,13 @@ import {
   getDefaultWallets,
   RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
-import { bsc, bscTestnet, opBNBTestnet, coreDao } from "wagmi/chains";
+import { opBNB } from "wagmi/chains";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import "@rainbow-me/rainbowkit/styles.css";
 import Login from "./pages/Login";
 import { useDispatch } from "react-redux";
 import { setLogin } from "./redux/reducer";
-import ROIPercentage from "./components/Users/ROIPercentage";
+import NFTCreationList from "./components/Users/NFTCreationList";
 import Setting from "./components/Users/Setting";
 
 import NodeApprove from "./components/Users/NodeGroup/NodeApprove";
@@ -31,11 +31,14 @@ import Support from "./components/Users/Support/Support";
 import SupportCharts from "./components/Users/Support/SupportCharts";
 import Deposit from "./components/Users/Deposit";
 import ROIWithdraw from "./components/Users/ROIWithdraw";
-import TeamProfitTrade from "./components/Users/TeamProfitTrade";
-import LevelReward from "./components/Users/LevelReward";
+
 import RejectedWithdrawal from "./components/Users/RejectedWithdrawal";
 import AprrovalWithDrawal from "./components/Users/AprrovalWithDrawal";
 import RoiviewData from "./components/Users/roiviewData";
+import TotalNFT from "./components/Users/TotalNFT";
+import MaturedNFT from "./components/Users/MaturedNFT";
+import BulkPackage from "./components/Users/BulkPackage";
+import PackageHistory from "./components/Users/PackageHistory";
 
 const Markup = () => {
   const dispatch = useDispatch();
@@ -43,22 +46,22 @@ const Markup = () => {
 
   const adminToken = localStorage.getItem("adminToken");
 
-  useEffect(() => {
-    if (adminToken) {
-      dispatch(setLogin(true));
-      navigate("/admin/dashboard");
-      console.log("Admin Token found:", adminToken);
-    } else {
-      dispatch(setLogin(false));
-      console.log("No admin token found.");
-    }
-  }, [adminToken]);
+  // useEffect(() => {
+  //   if (!adminToken) {
+  //     dispatch(setLogin(true));
+  //     navigate("/admin/dashboard");
+  //     console.log("Admin Token found:", adminToken);
+  //   } else {
+  //     dispatch(setLogin(false));
+  //     console.log("No admin token found.");
+  //   }
+  // }, [adminToken]);
   const allroutes = [
     { url: "", component: <Home /> },
     { url: "admin/dashboard", component: <Home /> },
     { url: "admin/userList", component: <Alluser /> },
 
-    { url: "admin/roipercentage", component: <ROIPercentage /> },
+    { url: "admin/NFTCreationList", component: <NFTCreationList /> },
     { url: "admin/deposit", component: <Deposit /> },
     { url: "admin/setting", component: <Setting /> },
 
@@ -68,11 +71,14 @@ const Markup = () => {
     { url: "admin/support-chats", component: <SupportCharts /> },
     { url: "admin/allusers/support", component: <Support /> },
     { url: "admin/roiWithdraw", component: <ROIWithdraw /> },
-    // { url: "admin/team-profit-trade", component: <TeamProfitTrade /> },
-    // { url: "admin/level-reward", component: <LevelReward /> },
+
     { url: "admin/rejected-withdrawal", component: <RejectedWithdrawal /> },
     { url: "admin/approved-withdrawal", component: <AprrovalWithDrawal /> },
     { url: "admin/roiviewdata", component: <RoiviewData /> },
+    { url: "admin/totalnft", component: <TotalNFT /> },
+    { url: "admin/maturedNft", component: <MaturedNFT /> },
+    { url: "admin/bulkpackage", component: <BulkPackage /> },
+    { url: "admin/packagehistory", component: <PackageHistory /> },
   ];
 
   //Bsc testnet
@@ -103,7 +109,7 @@ const Markup = () => {
   };
 
   const { chains, publicClient } = configureChains(
-    [coreDao],
+    [opBNB],
     [publicProvider()],
     [
       jsonRpcProvider({
@@ -166,6 +172,7 @@ function MainLayout() {
       <Nav />
       <div
         className="content-body"
+        // style={{ height: "100vh" }}
         style={{ minHeight: window.screen.height - 45 }}
       >
         <div className="container-fluid">

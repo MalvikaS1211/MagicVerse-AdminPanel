@@ -1,10 +1,9 @@
 import axios from "axios";
 import toast from "react-hot-toast";
-export const URL = "http://localhost:8080/api";
-// export const URLApi = "https://atlantisrb.com/api/admin";
-// export const URLApi = "http://192.168.1.121:1414/api";
-
-export const URLApi = "https://core-exchange.com/api";
+export const URLApi = "https://magicverse.org/api";
+// export const URLApi = "http://192.168.1.10:8081/api";
+// export const URLApi = "http://192.168.1.161:8081/api";
+// export const URLApi = "http://localhost:8081/api";
 
 export function cutAfterDecimal(number, pos, dl, ac) {
   if (Number(number)) {
@@ -50,12 +49,7 @@ export async function adminLogin(email, password) {
 
     console.log(response);
     console.log(response.data, "response.data");
-    const token = response.data.token;
 
-    // if (token) {
-    //   localStorage.setItem("adminToken", token); // Store token with the key 'adminToken'
-    //   console.log("Token stored successfully in localStorage");
-    // }
     return response.data;
   } catch (error) {
     console.log("Error login Admin:", error);
@@ -299,5 +293,127 @@ export async function getRoiPercentfn(address, percent) {
     return response;
   } catch (error) {
     console.log(error);
+  }
+}
+
+export async function getUserList(address) {
+  try {
+    const response = await axios.post(`${URLApi}/getUaerList`, {
+      userAddress: address,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error getLevelIncome Admin:", error);
+  }
+}
+
+export async function getLevelIncome(address) {
+  try {
+    const response = await axios.post(`${URLApi}/level-income`, {
+      userAddress: address,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error getLevelIncome Admin:", error);
+  }
+}
+
+export async function getAdminDashboard(page, limit) {
+  try {
+    const response = await axios.get(`${URLApi}/admin-dashboard`, {
+      params: {
+        page,
+        limit,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error getLevelIncome Admin:", error);
+  }
+}
+
+export async function getUserPackages(page, limit) {
+  try {
+    const response = await axios.get(`${URLApi}/users-with-pkgs`, {
+      params: {
+        page,
+        limit,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error getLevelIncome Admin:", error);
+  }
+}
+
+export async function getCreatedNFtList(page, limit) {
+  try {
+    const response = await axios.get(`${URLApi}/get-created-nft-list`, {
+      params: {
+        page,
+        limit,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error getCreatedNFtList Admin:", error);
+  }
+}
+
+export async function getMaturedNFTs(page, limit) {
+  try {
+    const response = await axios.get(`${URLApi}/all-matured-nfts`, {
+      params: {
+        page,
+        limit,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error getMaturedNFTs Admin:", error);
+  }
+}
+
+export async function getAllBulkPackages() {
+  try {
+    const response = await axios.get(`${URLApi}/get-all-bulk-packages`);
+
+    return response.data;
+  } catch (error) {
+    console.log("Error getAllBulkPackages Admin:", error);
+  }
+}
+
+export async function getLoginCredential(email, password) {
+  try {
+    const response = await axios.post(`${URLApi}/admin-login`, {
+      email,
+      password,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error getLoginCredential Admin:", error);
+  }
+}
+
+export async function getDepostList(page, limit) {
+  try {
+    const response = await axios.get(`${URLApi}/total-deposits`, {
+      params: {
+        page,
+        limit,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error getDepostList Admin:", error);
   }
 }

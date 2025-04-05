@@ -1,56 +1,41 @@
 import React, { Fragment, useEffect, useState, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Row, Col, Card, Table, Form, Button } from "react-bootstrap";
-import { styled } from "@mui/material/styles";
+import { Row, Col, Card, Table } from "react-bootstrap";
+
 // import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import Papa from "papaparse";
-import {
-  cutAfterDecimal,
-  daoUsersAdd,
-  getDAOUserList,
-  getRoiPercentfn,
-} from "../../../services/api_function";
+import { getCreatedNFtList } from "../../../services/api_function";
 import toast from "react-hot-toast";
 import { Tooltip, IconButton } from "@mui/material";
 import { FaRegCopy } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import {
-  updateRadiantRewardPercent,
-  getpriceOperator,
-  quantumRewardPercent,
-  getOperator,
-} from "./web3/transfert";
+
 import { useAccount } from "wagmi";
 import moment from "moment";
-export const ROIPercentage = () => {
+export const NFTCreationList = () => {
   const { wallet } = useSelector((state) => state.login);
   const { walletAddress, chainId } = wallet;
   const [apiData, setApiData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [search, setSearch] = useState("");
-  const [daoAddress, setDaoAddress] = useState("");
+  const itemPerpage = 20;
   const [recordStatus, setRecordStatus] = useState("Loading...");
   const [isFetch, setIsFetch] = useState(false);
 
   const { address } = useAccount();
   const [tooltipText, setTooltipText] = useState("Copy address");
-  const [ROIPercentageList, setROIPercentageList] = useState([]);
+  const [NFTCreationList, setNFTCreationList] = useState([]);
 
   const handleCopy = (address) => {
     navigator.clipboard.writeText(address);
     setTooltipText("Copied!");
     setTimeout(() => setTooltipText("Copy address"), 2000);
   };
-
-  const handleSearch = async (e) => {
-    const query = e.target.value.trim().toLowerCase();
-    const sanitizedQuery = query.replace(/[\\|^$*+?.(){}[\]]/g, "");
-    setSearch(sanitizedQuery);
-    if (currentPage !== 1) {
-      setCurrentPage(1);
-    }
+  const handleSearch = (e) => {
+    const query = e.target.value;
+    setSearch(query);
   };
 
   const handleNextPage = () => {
@@ -63,59 +48,20 @@ export const ROIPercentage = () => {
     setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : prevPage));
   };
 
-  const [RoiPercentage, setRoiPercentage] = useState("");
-  const handleRoiPercentage = (e) => setRoiPercentage(e.target.value);
-
-  const handleSubmitROIPercentage = async () => {
-    try {
-      const OperatorRes = await getOperator();
-
-      if (OperatorRes == address) {
-        const response = await getRoiPercentfn(address, RoiPercentage);
-        console.log(response, "getRoiPercentfn");
-        setROIPercentageList(response.data.data);
-      } else {
-        toast.error("Invalid Operator");
-      }
-      console.log(ROIPercentageList, "Roi  Percentage");
-      console.log(OperatorRes, "OperatorRes");
-    } catch (error) {
-      console.log(error);
-    }
+  const ShowCreatedNFTs = async () => {
+    const res = await getCreatedNFtList(currentPage, itemPerpage);
+    console.log(res, "getCreatedNFtList");
+    console.log(currentPage, itemPerpage, "pages");
+    setTotalPages(res?.pagination?.totalPages);
+    setNFTCreationList(res?.data);
   };
+  console.log(totalPages, "1234:::");
+  useEffect(() => {
+    ShowCreatedNFTs();
+  }, [currentPage]);
 
   return (
     <Fragment>
-      <Row className="mb-4">
-        <Col lg={6} className="mx-auto">
-          <Card>
-            <Card.Body>
-              <Form>
-                <Form.Group controlId="formRadiantInput">
-                  <Form.Label>ROI Percentage</Form.Label>
-                  <div className="d-flex align-items-center">
-                    <Form.Control
-                      type="text"
-                      autoComplete="off"
-                      placeholder="Enter ROI Percentage"
-                      value={RoiPercentage}
-                      onChange={handleRoiPercentage}
-                      className="me-2"
-                    />
-                    <Button
-                      variant="primary"
-                      onClick={handleSubmitROIPercentage}
-                    >
-                      Submit
-                    </Button>
-                  </div>
-                </Form.Group>
-              </Form>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-
       <Row>
         {/* <div className="display_end">
           <div className="input-group" style={{ maxWidth: "300px" }}>
@@ -124,6 +70,7 @@ export const ROIPercentage = () => {
               id="form1"
               className="form-control"
               placeholder="Search here..."
+              value={search}
               onChange={handleSearch}
             />
           </div>
@@ -133,29 +80,49 @@ export const ROIPercentage = () => {
         <Col lg={12}>
           <Card>
             <Card.Header>
-              <Card.Title>ROI Percentage</Card.Title>
+              <Card.Title>NFT Creation List</Card.Title>
             </Card.Header>
             <Card.Body>
               <Table responsive>
                 <thead>
                   <tr>
                     <th>S.No.</th>
-                    <th>ROI Percentage</th>
+                    <th>NFT Id</th>
+                    <th>Creator</th>
+                    <th>Price</th>
+                    <th>Tx hash</th>
+                    <th>Ready for Sale</th>
 
                     <th>Date & Time</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {ROIPercentageList?.length > 0 ? (
-                    ROIPercentageList?.map((roi, index) => (
+                  {NFTCreationList?.length > 0 ? (
+                    NFTCreationList?.map((nft, index) => (
                       <tr key={index}>
-                        <td>{index + 1}</td>
-
-                        <td>{roi?.roiPercent}</td>
+                        <td>{(currentPage - 1) * itemPerpage + index + 1}</td>
+                        <td>{nft?.tokenId}</td>
+                        <td>{`${nft?.creator.slice(
+                          0,
+                          5
+                        )}...${nft?.creator.slice(-4)}`}</td>
+                        <td>$ {nft?.price / 1e18}</td>
 
                         <td>
-                          {" "}
-                          {moment(roi.createdAt).format("M/D/YYYY h:mm:ss A")}
+                          <a
+                            href={`https://opbnb.bscscan.com/tx/${nft?.transactionHash}`}
+                            target="_blank"
+                          >
+                            {`${nft?.transactionHash.slice(
+                              0,
+                              5
+                            )}...${nft?.transactionHash.slice(-4)}`}
+                          </a>
+                        </td>
+                        <td>{nft?.isReadyForSale ? "True" : "False"}</td>
+
+                        <td>
+                          {moment(nft.createdAt).format("M/D/YYYY h:mm:ss A")}
                         </td>
                       </tr>
                     ))
@@ -204,4 +171,4 @@ export const ROIPercentage = () => {
   );
 };
 
-export default ROIPercentage;
+export default NFTCreationList;

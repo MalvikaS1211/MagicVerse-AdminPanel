@@ -1,42 +1,48 @@
-import React, { Fragment, useEffect, useState } from "react";
-import { Row, Col, Card, Table } from "react-bootstrap";
+import React, { Fragment, useEffect, useState, useMemo, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { Row, Col, Card, Table, Form, Button } from "react-bootstrap";
+import { styled } from "@mui/material/styles";
+// import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+import Papa from "papaparse";
+import {
+  cutAfterDecimal,
+  daoUsersAdd,
+  getDAOUserList,
+  getMaturedNFTs,
+  getRoiPercentfn,
+} from "../../../services/api_function";
+import toast from "react-hot-toast";
 import { Tooltip, IconButton } from "@mui/material";
 import { FaRegCopy } from "react-icons/fa";
-import axios from "axios";
+import { useSelector } from "react-redux";
+import {
+  updateRadiantRewardPercent,
+  getpriceOperator,
+  quantumRewardPercent,
+  getOperator,
+} from "./web3/transfert";
+import { useAccount } from "wagmi";
 import moment from "moment";
-import { getDepostList } from "../../../services/api_function";
-
-export const Deposit = () => {
+export const MaturedNFT = () => {
+  const { wallet } = useSelector((state) => state.login);
+  const { walletAddress, chainId } = wallet;
+  const [apiData, setApiData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [search, setSearch] = useState("");
-  const [depositList, setDepositList] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
-  const [tooltipText, setTooltipText] = useState("Copy address");
+  const [daoAddress, setDaoAddress] = useState("");
+  const [recordStatus, setRecordStatus] = useState("Loading...");
+  const [isFetch, setIsFetch] = useState(false);
 
-  const itemPerpage = 20;
+  const { address } = useAccount();
+  const [tooltipText, setTooltipText] = useState("Copy address");
+  const [MaturedNFT, setMaturedNFT] = useState([]);
 
   const handleCopy = (address) => {
     navigator.clipboard.writeText(address);
     setTooltipText("Copied!");
     setTimeout(() => setTooltipText("Copy address"), 2000);
-  };
-
-  const ShowDepositList = async () => {
-    const res = await getDepostList(currentPage, itemPerpage);
-    console.log(res, "getRoiPercentfn");
-    setTotalPages(res?.totalPages);
-    setDepositList(res?.data);
-  };
-
-  useEffect(() => {
-    ShowDepositList();
-  }, []);
-
-  const handleSearch = (e) => {
-    const query = e.target.value;
-    setSearch(query);
-    setCurrentPage(1);
   };
 
   const handleNextPage = () => {
@@ -49,6 +55,16 @@ export const Deposit = () => {
     setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : prevPage));
   };
 
+  const ShowMaturedNFTs = async () => {
+    const res = await getMaturedNFTs();
+    console.log(res, "getMaturedNFTs");
+    setMaturedNFT(res.data);
+  };
+
+  useEffect(() => {
+    ShowMaturedNFTs();
+  }, [address]);
+
   return (
     <Fragment>
       <Row>
@@ -58,69 +74,48 @@ export const Deposit = () => {
               type="search"
               id="form1"
               className="form-control"
-              placeholder="Search by user..."
-              autoComplete="off"
-              value={search}
+              placeholder="Search here..."
               onChange={handleSearch}
             />
           </div>
+          <label className="form-label" for="form1"></label>
         </div> */}
 
         <Col lg={12}>
           <Card>
             <Card.Header>
-              <Card.Title>Deposit</Card.Title>
+              <Card.Title>Matured NFTs</Card.Title>
             </Card.Header>
             <Card.Body>
               <Table responsive>
                 <thead>
                   <tr>
                     <th>S.No.</th>
-                    <th>User</th>
-                    <th>Amount</th>
-                    <th>Tx Hash</th>
+                    <th>Token Id</th>
+                    <th>Buyer </th>
+                    <th>Seller </th>
+
                     <th>Date & Time</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {depositList?.length > 0 ? (
-                    depositList?.map((deposit, index) => (
+                  {MaturedNFT?.length > 0 ? (
+                    MaturedNFT?.map((nft, index) => (
                       <tr key={index}>
-                        <td>{(currentPage - 1) * itemPerpage + index + 1}</td>
-                        <td>
-                          {deposit?.user?.slice(0, 5)}...
-                          {deposit?.user?.slice(-4)}
-                          {/* <Tooltip title={tooltipText} arrow>
-                            <IconButton
-                              onClick={() => handleCopy(deposit?.user)}
-                              size="small"
-                              style={{ marginLeft: 4 }}
-                            >
-                              <FaRegCopy />
-                            </IconButton>
-                          </Tooltip> */}
-                        </td>
-                        <td>$ {deposit?.amount / 1e18}</td>
+                        <td>{index + 1}</td>
+
+                        <td>{nft?.tokenId}</td>
+                        <td>{nft?.buyer}</td>
+                        <td>{nft?.seller}</td>
 
                         <td>
-                          <a
-                            href={`https://opbnb.bscscan.com/tx/${deposit?.transactionHash}`}
-                            target="_blank"
-                          >
-                            {deposit?.transactionHash.slice(0, 5)}...
-                            {deposit?.transactionHash.slice(-4)}
-                          </a>
-                        </td>
-                        <td>
-                          {moment(deposit.createdAt).format(
-                            "M/D/YYYY h:mm:ss A"
-                          )}
+                          {moment(nft?.createdAt).format("M/D/YYYY h:mm:ss A")}
                         </td>
                       </tr>
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="5" className="text-center">
+                      <td colSpan="7" className="text-center">
                         No Records Found
                       </td>
                     </tr>
@@ -132,7 +127,7 @@ export const Deposit = () => {
                 className="text-center mb-3 col-lg-6"
                 style={{ margin: "auto" }}
               >
-                <div className="filter-pagination mt-3">
+                <div className=" filter-pagination mt-3 ">
                   <button
                     className="previous-button btn border m-2"
                     onClick={handlePreviousPage}
@@ -140,6 +135,7 @@ export const Deposit = () => {
                   >
                     Previous
                   </button>
+
                   <button
                     type="button"
                     className="next-button btn btn-success pointer border m-2"
@@ -148,6 +144,7 @@ export const Deposit = () => {
                   >
                     Next
                   </button>
+
                   <span>
                     Page {currentPage} of {totalPages}
                   </span>
@@ -161,4 +158,4 @@ export const Deposit = () => {
   );
 };
 
-export default Deposit;
+export default MaturedNFT;

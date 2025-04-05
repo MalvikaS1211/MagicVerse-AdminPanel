@@ -1,125 +1,37 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { FaUserGraduate } from "react-icons/fa";
-import { RiQuestionAnswerFill } from "react-icons/ri";
-import { MdQuiz } from "react-icons/md";
-import Box from "@mui/material/Box";
-import Slider from "@mui/material/Slider";
 
-import axios from "axios";
+import { FaUserGraduate } from "react-icons/fa";
+
+import { AiFillDollarCircle } from "react-icons/ai";
 
 import "swiper/css";
-import { cutAfterDecimal, URLApi } from "../../../../services/api_function";
+import { getAdminDashboard } from "../../../../services/api_function";
+import { useAccount } from "wagmi";
 
 const BalanceCardSlider = () => {
-  const [data, setData] = useState(null);
-  const [data2, setData2] = useState(null);
-  const [token, setToken] = useState();
-  const [user, setUser] = useState();
-  const fetchData = async () => {
+  const { address } = useAccount();
+
+  const [user, setUser] = useState(null);
+
+  const ShowAdminData = async () => {
     try {
-      const userDetails = localStorage.getItem("adminToken");
-      setToken(userDetails);
-      const token = userDetails;
-      const response = await axios.post(
-        `${URLApi}/getUserList`,
-        {
-          page: 1,
-          limit: 20,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      console.log(response.data.totalRecords, "total-user");
-
-      let alluserlist = response.data.total;
-      setUser(alluserlist);
+      const res = await getAdminDashboard();
+      console.log(res, "admin data");
+      setUser(res);
     } catch (error) {
       console.log(error);
     }
   };
+
   useEffect(() => {
-    fetchData();
-  }, []);
+    ShowAdminData();
+  }, [address]);
 
   return (
     <>
-      {/* <label className="form-label h3">Funds Collect</label> */}
-      {/* <div className="row">
-        <div className="col-lg-6">
-          <div className="card ">
-            <div className="card-body">
-              <div className="d-flex gap-3">
-                <div className="circle_bg2">
-                  <div className="text-green h1">70%</div>
-                  <img src="/images/user.png" className="img_50" />
-                  <MdQuiz
-              className="text-dark"
-              style={{ fontSize: "45px" }}
-            />
-                </div>
-                <div className="-info">
-                  <h4 className="count-num">
-                    {cutAfterDecimal(data2?.balance?.nativeBalanceDSC70, 4) ??
-                      0}{" "}
-                    DSC
-                  </h4>
-                  <h4 className="count-num">
-                    {cutAfterDecimal(data2?.balance?.tokenBalance70, 4) ?? 0}{" "}
-                    USDT
-                  </h4>
-
-                  <p className="text_gray mb-0">
-                    {" "}
-                    {data2?.balance?.address70?.slice(0, 5)}
-                    {data2?.balance?.address70?.slice(-5)}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="col-lg-6">
-          <div className="card ">
-            <div className="card-body">
-              <div className="d-flex gap-3">
-                <div className="circle_bg2">
-                  <div className="text-green h1">30%</div>
-                  <img src="/images/user.png" className="img_50" />
-                  <MdQuiz
-              className="text-dark"
-              style={{ fontSize: "45px" }}
-            />
-                </div>
-                <div className="-info">
-                  <h4 className="count-num">
-                    {cutAfterDecimal(data2?.balance?.nativeBalanceDSC30, 4) ??
-                      0}{" "}
-                    DSC
-                  </h4>
-                  <h4 className="count-num">
-                    {cutAfterDecimal(data2?.balance?.tokenBalance30, 4) ?? 0}{" "}
-                    USDT
-                  </h4>
-
-                  <p className="text_gray mb-0">
-                    {" "}
-                    {data2?.balance?.address30?.slice(0, 5)}
-                    {data2?.balance?.address30?.slice(-5)}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> */}
-      <div className="col-xl-12" style={{ paddingTop: "10px" }}>
+      <div className="col-xl-12">
         <label className="form-label h3">Dashboard</label>
-        <div className="row">
+        <div className="row" style={{ paddingTop: "10px" }}>
           <div className="col-lg-4">
             <div className="card ">
               <div className="card-body">
@@ -129,277 +41,34 @@ const BalanceCardSlider = () => {
                   </div>
                   <div className="-info">
                     <h4 className="count-num" style={{ fontSize: "20px" }}>
-                      Total Users : {user}
+                      Total Users : {user?.totalUsers || 0}
                     </h4>
-
-                    <p className="text_gray mb-0">
-                      {" "}
-                      {data2?.firstId?.userAddress?.slice(0, 5)}
-                      {data2?.firstId?.userAddress?.slice(-5)}
-                    </p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          {/* 
-        <div className="col-lg-4">
-          <div className="card ">
-            <div className="card-body">
-              <div className="d-flex gap-3">
-                <div className="circle_bg2">
-                  <div className="text-green h1">3%</div>
-                  <img src="/images/user.png" className="img_50" />
-                  <MdQuiz
-                      className="text-dark"
-                      style={{ fontSize: "45px" }}
-                    />
-                </div>
-                <div className="-info">
-                  <h4 className="count-num">
-                    {cutAfterDecimal(data2?.secondId?.systemIdIncome?.dsc, 4) ??
-                      0}{" "}
-                    DSC
-                  </h4>
-                  <h4 className="count-num">
-                    {cutAfterDecimal(
-                      data2?.secondId?.systemIdIncome?.usdt,
-                      4
-                    ) ?? 0}{" "}
-                    USDT
-                  </h4>
 
-                  <p className="text_gray mb-0">
-                    {" "}
-                    {data2?.secondId?.userAddress?.slice(0, 5)}
-                    {data2?.secondId?.userAddress?.slice(-5)}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> */}
-          {/* 
-        <div className="col-lg-4">
-          <div className="card ">
-            <div className="card-body">
-              <div className="d-flex gap-3">
-                <div className="circle_bg2">
-                  <div className="text-green h1">3%</div>
-                  <img src="/images/user.png" className="img_50" />
-                  <MdQuiz
-                      className="text-dark"
-                      style={{ fontSize: "45px" }}
-                    />
-                </div>
-                <div className="-info">
-                  <h4 className="count-num">
-                    {cutAfterDecimal(data2?.thirdId?.systemIdIncome?.dsc, 4) ??
-                      0}{" "}
-                    DSC
-                  </h4>
-                  <h4 className="count-num">
-                    {cutAfterDecimal(data2?.thirdId?.systemIdIncome?.usdt, 4) ??
-                      0}{" "}
-                    USDT
-                  </h4>
-
-                  <p className="text_gray mb-0">
-                    {" "}
-                    {data2?.thirdId?.userAddress?.slice(0, 5)}
-                    {data2?.thirdId?.userAddress?.slice(-5)}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> */}
-        </div>
-      </div>
-      <div
-        className="d-flex justify-content-end mb-5"
-        style={{ opacity: "0" }}
-      ></div>
-      {data ? (
-        <div className="row">
-          <Link to="/admin/userList" className="col-lg-3">
-            <div>
-              <div className="card ">
-                <div className="card-body">
-                  <div className="d-flex gap-3">
-                    <div className="circle_bg">
-                      {/* <img src="/images/user.png" className="img_50" /> */}
-                      <FaUserGraduate
-                        className="text-dark"
-                        style={{ fontSize: "45px" }}
-                      />
-                    </div>
-                    <div className="-info">
-                      <h4 className="count-num">{data?.totalUsers ?? 0}</h4>
-                      <p className="text_gray mb-0">Total Users</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="card-border"></div>
-              </div>
-            </div>
-          </Link>
-
-          <Link className="col-lg-3" to="/admin/stakeList">
-            <div>
-              <div className="card ">
-                <div className="card-body">
-                  <div className="d-flex gap-3">
-                    <div className="circle_bg">
-                      {/* <img src="/images/user.png" className="img_50" /> */}
-                      <MdQuiz
-                        className="text-dark"
-                        style={{ fontSize: "45px" }}
-                      />
-                    </div>
-                    <div className="-info">
-                      <h4 className="count-num">
-                        ${cutAfterDecimal(data?.totalStake, 4) ?? 0}
-                      </h4>
-                      <p className="text_gray mb-0">Total Stake</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Link>
-          <stakeList className="col-lg-3" to="/admin/unstake">
+          <div className="col-lg-4">
             <div className="card ">
               <div className="card-body">
                 <div className="d-flex gap-3">
-                  <div className="circle_bg">
-                    {/* <img src="/images/user.png" className="img_50" /> */}
-                    <MdQuiz
-                      className="text-dark"
-                      style={{ fontSize: "45px" }}
+                  <div>
+                    <AiFillDollarCircle
+                      style={{ width: "160%", height: "100%" }}
                     />
                   </div>
                   <div className="-info">
-                    <h4 className="count-num">
-                      ${cutAfterDecimal(data?.totalUnstakedTokens, 4) ?? 0}
+                    <h4 className="count-num" style={{ fontSize: "20px" }}>
+                      Fund : {user?.totalFunds || 0}
                     </h4>
-                    <p className="text_gray mb-0">Total Unstake</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </stakeList>
-          <div className="col-lg-3">
-            <div className="card ">
-              <div className="card-body">
-                <div className="d-flex gap-3">
-                  <div className="circle_bg">
-                    {/* <img src="/images/user.png" className="img_50" /> */}
-                    <MdQuiz
-                      className="text-dark"
-                      style={{ fontSize: "45px" }}
-                    />
-                  </div>
-                  <div className="-info">
-                    <h4 className="count-num">
-                      {cutAfterDecimal(data.totalDSCCoin, 4) ?? 0} DSC
-                    </h4>
-                    <p className="text_gray mb-0">Total DSC STAKE</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-lg-3">
-            <div className="card ">
-              <div className="card-body">
-                <div className="d-flex gap-3">
-                  <div className="circle_bg">
-                    {/* <img src="/images/user.png" className="img_50" /> */}
-                    <MdQuiz
-                      className="text-dark"
-                      style={{ fontSize: "45px" }}
-                    />
-                  </div>
-                  <div className="-info">
-                    <h4 className="count-num">
-                      {cutAfterDecimal(data.totalUSDTCoin, 4) ?? 0} USDT
-                    </h4>
-                    <p className="text_gray mb-0">Total USDT STAKE</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-lg-3">
-            <div className="card ">
-              <div className="card-body">
-                <div className="d-flex gap-3">
-                  <div className="circle_bg">
-                    {/* <img src="/images/user.png" className="img_50" /> */}
-                    <MdQuiz
-                      className="text-dark"
-                      style={{ fontSize: "45px" }}
-                    />
-                  </div>
-                  <div className="-info">
-                    <h4 className="count-num">
-                      {cutAfterDecimal(data.totalUnstakedDSC, 4) ?? 0} DSC
-                    </h4>
-                    <p className="text_gray mb-0">Total DSC UNSTAKE</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-lg-3">
-            <div className="card ">
-              <div className="card-body">
-                <div className="d-flex gap-3">
-                  <div className="circle_bg">
-                    {/* <img src="/images/user.png" className="img_50" /> */}
-                    <MdQuiz
-                      className="text-dark"
-                      style={{ fontSize: "45px" }}
-                    />
-                  </div>
-                  <div className="-info">
-                    <h4 className="count-num">
-                      {cutAfterDecimal(data.totalUnstakedUSDT, 4) ?? 0} USDT
-                    </h4>
-                    <p className="text_gray mb-0">Total USDT UNSTAKE</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-lg-3">
-            <div className="card ">
-              <div className="card-body">
-                <div className="d-flex gap-3">
-                  <div className="circle_bg">
-                    {/* <img src="/images/user.png" className="img_50" /> */}
-                    <MdQuiz
-                      className="text-dark"
-                      style={{ fontSize: "45px" }}
-                    />
-                  </div>
-                  <div className="-info">
-                    <h4 className="count-num">{data.totalPaid ?? 0}</h4>
-                    <p className="text_gray mb-0">Total Withdrawal</p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      ) : (
-        <div></div>
-      )}
+      </div>
     </>
   );
 };

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { ThemeContext } from "../../../context/ThemeContext";
 
 //images
-import logo1 from "../../../images/Core_Exchange_Logo_favicon.png";
+import logo1 from "../../../images/Favicon.png";
 
 // import logo1 from "./../../../images/logo/logo.png";
 import logotext1 from "./../../../images/logo/logo-text.png";
@@ -14,7 +14,7 @@ import image from "../../../images/t Text.svg";
 import { PiDotsNineBold } from "react-icons/pi";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { IoArrowBack } from "react-icons/io5";
-
+import { TbGridDots } from "react-icons/tb";
 export function NavMenuToggle() {
   setTimeout(() => {
     let mainwrapper = document.querySelector("#main-wrapper");
@@ -45,7 +45,7 @@ const NavHader = () => {
           src={logo1}
           alt=""
           className="logo-show"
-          style={{ width: "25%" }}
+          style={{ width: "30%" }}
         />
         {/* <img src="../../images/logo.png" class="brand-title" alt="" />   //className="logo-abbr" */}
       </Link>
@@ -60,13 +60,12 @@ const NavHader = () => {
       >
         <div className={`hamburger ${toggle ? "is-active" : ""}`}>
           <div className="">
-            {" "}
             <i className="fa fa-arrow-left-long fs-3 text_green lines"></i>
           </div>
           {/* <span className="line"></span>
           <span className="line"></span>
           <span className="line"></span> */}
-          <PiDotsNineBold style={{ fontSize: "2.5rem" }} />
+          <TbGridDots style={{ fontSize: "2.5rem" }} />
         </div>
       </div>
     </div>
