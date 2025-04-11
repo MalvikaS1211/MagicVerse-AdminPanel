@@ -37340,9 +37340,9 @@ button:focus {
 .btn-primary:active,
 .btn-primary:focus,
 .btn-primary:hover {
-  color: white !important;
-  border-color: var(--primary-hover);
-  background-color: var(--primary-hover);
+  
+  border-color: #047dff;
+  background-color: #047dff;
 }
 .btn-primary:focus {
   box-shadow: 0 0 0 0.25rem var(--rgba-primary-5);
@@ -37366,8 +37366,10 @@ button:focus {
   border-color: var(--primary);
 }
 .btn-outline-primary:hover {
-  border-color: var(--primary-hover);
-  background-color: var(--primary-hover);
+  /* border-color: var(--primary-hover);
+  background-color: var(--primary-hover); */
+  border-color: #047dff;
+  background-color: #047dff;
 }
 
 .sharp {
@@ -46882,3 +46884,12 @@ html[dir="rtl"]
 
 /*# sourceMappingURL=main.css.map */
 
+.login-btn:hover{
+  background-color:"#047dff" !important;
+  border:"#047dff"!important;
+}
+
+.btn-primary:active, .btn-primary:focus, .btn-primary:hover {
+  border-color: #047dff !important;
+  background-color: #047dff !important;
+}

@@ -93,6 +93,8 @@ export const Alluser = () => {
                     <th>Team</th>
                     <th>Direct</th>
                     <th>Date & Time</th>
+                    <th>Package</th>
+                    <th>Amount</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -144,6 +146,16 @@ export const Alluser = () => {
 
                         <td>
                           {moment(user.createdAt).format("M/D/YYYY h:mm:ss A")}
+                        </td>
+                        <td>
+                          {user?.packages[0]?.userPackage
+                            ? user?.packages[0]?.userPackage
+                            : "No Package"}
+                        </td>
+                        <td>
+                          {user?.packages[0]?.amount
+                            ? `$ ${user?.packages[0]?.amount / 1e18}`
+                            : "0"}
                         </td>
                       </tr>
                     ))

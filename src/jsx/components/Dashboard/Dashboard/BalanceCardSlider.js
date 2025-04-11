@@ -84,7 +84,7 @@ const BalanceCardSlider = () => {
             </div>
           </div>
         </div>
-
+{/* 
         <div className="col-lg-4">
           <div
             className="card"
@@ -105,7 +105,7 @@ const BalanceCardSlider = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div className="col-lg-4 mb-4">
           <div
