@@ -9,7 +9,7 @@ import {
   getNftStartStop,
 } from "../../../../services/api_function";
 import { useAccount } from "wagmi";
-import { Card } from "react-bootstrap";
+import { Card, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { setLogin } from "../../../redux/reducer";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,6 +23,8 @@ const BalanceCardSlider = () => {
 
   const [user, setUser] = useState(null);
   const [NftAction, setNftAction] = useState(false);
+  const [UserAddress, setUserAddress] = useState();
+  const [statusAllow, setStatusAllow] = useState(false);
 
   const ShowAdminData = async () => {
     try {
@@ -42,13 +44,30 @@ const BalanceCardSlider = () => {
       console.log(error);
     }
   };
-
+  const handleStatusChange = (e) => {
+    setStatusAllow(e.target.value);
+  };
+  // const toggleNftAction = async () => {
+  //   try {
+  //     await getNftStartStop("UPDATE", !NftAction);
+  //     setNftAction(!NftAction);
+  //   } catch (error) {
+  //     console.error("Error updating NFT status:", error);
+  //   }
+  // };
+  const handleInputUser = async (e) => {
+    const Address = e.target.value;
+    setUserAddress(Address);
+  };
   const toggleNftAction = async () => {
     try {
-      await getNftStartStop("UPDATE", !NftAction);
-      setNftAction(!NftAction);
+      const res = await getNftStartStop(UserAddress, statusAllow);
+
+      console.log(res, "res");
+      setUserAddress("");
+      setStatusAllow(false);
     } catch (error) {
-      console.error("Error updating NFT status:", error);
+      console.log(error);
     }
   };
 
@@ -64,13 +83,11 @@ const BalanceCardSlider = () => {
   return (
     <div className="col-xl-12">
       <label className="form-label h3">Dashboard</label>
-      <div className="row" style={{ paddingTop: "10px" }}>
-        <div className="col-lg-4">
-          <div
-            className="card"
-            style={{ height: "80%", background: "#fff7f7" }}
-          >
-            <div className="card-body  d-flex align-items-center">
+      <div className="" style={{ paddingTop: "10px" }}>
+        {/* Total Users Card */}
+        <div className="col-lg-6 mb-4">
+          <div className="card" style={{ background: "#fff7f7" }}>
+            <div className="card-body d-flex align-items-center">
               <div className="d-flex gap-3">
                 <div>
                   <FaUserGraduate style={{ width: "160%", height: "100%" }} />
@@ -84,67 +101,52 @@ const BalanceCardSlider = () => {
             </div>
           </div>
         </div>
-{/* 
-        <div className="col-lg-4">
+
+        {/* NFT Action Card */}
+        <div className="col-lg-6 mb-4">
           <div
             className="card"
-            style={{ height: "80%", background: "#fff7f7" }}
-          >
-            <div className="card-body d-flex align-items-center">
-              <div className="d-flex gap-3">
-                <div>
-                  <AiFillDollarCircle
-                    style={{ width: "160%", height: "100%" }}
-                  />
-                </div>
-                <div className="-info">
-                  <h4 className="count-num" style={{ fontSize: "20px" }}>
-                    Fund : {user?.totalFunds || 0}
-                  </h4>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> */}
-
-        <div className="col-lg-4 mb-4">
-          <div
-            className="card "
             style={{ height: "100%", background: "#fff7f7" }}
           >
-            <div className="card-body pb-0">
-              <div className="d-flex justify-content-between align-items-center">
+            <div className="card-body pb-4">
+              <div className="d-flex flex-column gap-3">
                 <h4 className="card-title mb-0">NFT Action</h4>
+                <h5>User</h5>
+                <div className="input-group w-100">
+                  <input
+                    type="text"
+                    id="form1"
+                    className="form-control"
+                    placeholder="Enter User Address"
+                    value={UserAddress}
+                    onChange={handleInputUser}
+                  />
+                </div>
+
+                <div>
+                  <h5>Allow User Access</h5>
+                  <select
+                    className="form-select"
+                    value={statusAllow}
+                    onChange={handleStatusChange}
+                  >
+                    <option value="true">True</option>
+                    <option value="false">False</option>
+                  </select>
+                </div>
                 <button
                   type="button"
-                  className="btn btn-success px-4 py-2"
+                  className="btn btn-success w-100 py-2"
                   aria-label="Start NFT Action"
                   onClick={toggleNftAction}
                 >
-                  {NftAction ? "Stop" : "Start"}
+                  Allow
                 </button>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      {/* <div className="col-lg-4">
-        <Card>
-          <Card.Header>
-            <Card.Title as="h5">NFT Action</Card.Title>
-          </Card.Header>
-          <Card.Body className="d-flex flex-wrap align-items-center">
-            <button
-              type="button"
-              className="next-button btn btn-success pointer border m-2"
-              aria-label="Start NFT Action"
-            >
-              Start
-            </button>
-          </Card.Body>
-        </Card>
-      </div> */}
     </div>
   );
 };

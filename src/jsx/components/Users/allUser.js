@@ -25,9 +25,9 @@ export const Alluser = () => {
     setTimeout(() => setTooltipText("Copy address"), 2000);
   };
 
-  const AllUsers = async () => {
+  const allUsers = async (search) => {
     try {
-      const res = await getAdminDashboard(currentPage, itemPerPage);
+      const res = await getAdminDashboard(currentPage, itemPerPage, search);
       setTotalPages(res?.totalPages);
       setUsersList(res.users);
       console.log("User List", res);
@@ -37,7 +37,7 @@ export const Alluser = () => {
   };
   console.log("total user ", usersList.length);
   useEffect(() => {
-    AllUsers();
+    allUsers("");
   }, []);
 
   const handleSearch = (e) => {
@@ -61,7 +61,7 @@ export const Alluser = () => {
     <Fragment>
       <Row className="mb-4"></Row>
       <Row>
-        {/* <div className="display_end">
+        <div className="display_end">
           <div className="input-group " style={{ maxWidth: "300px" }}>
             <input
               type="search"
@@ -70,11 +70,14 @@ export const Alluser = () => {
               placeholder="Search here..."
               autoComplete="off"
               value={searchValue}
-              onChange={handleSearch}
+              onChange={(e) => {
+                setSearchValue(e.target.value);
+                allUsers(e.target.value);
+              }}
             />
           </div>
           <label className="form-label" htmlFor="form1"></label>
-        </div> */}
+        </div>
 
         <Col lg={12}>
           <Card>
@@ -95,6 +98,7 @@ export const Alluser = () => {
                     <th>Date & Time</th>
                     <th>Package</th>
                     <th>Amount</th>
+                    <th>Allow</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -106,7 +110,7 @@ export const Alluser = () => {
                         <td>
                           {user?.user?.slice(0, 5)}...
                           {user?.user?.slice(-4)}
-                          {/* <Tooltip title={tooltipText} arrow>
+                          <Tooltip title={tooltipText} arrow>
                             <IconButton
                               onClick={() => handleCopy(user?.user)}
                               size="small"
@@ -114,7 +118,7 @@ export const Alluser = () => {
                             >
                               <FaRegCopy />
                             </IconButton>
-                          </Tooltip> */}
+                          </Tooltip>
                         </td>
                         <td>
                           {user?.referrer?.slice(0, 5)}...
@@ -157,6 +161,7 @@ export const Alluser = () => {
                             ? `$ ${user?.packages[0]?.amount / 1e18}`
                             : "0"}
                         </td>
+                        <td>{user?.isAllowed ? "True" : "False"}</td>
                       </tr>
                     ))
                   ) : (

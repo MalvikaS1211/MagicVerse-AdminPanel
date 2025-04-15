@@ -276,12 +276,13 @@ export async function nodeGroupApproveAction(selectedIds, token) {
   }
 }
 
-export async function getAdminDashboard(page, limit) {
+export async function getAdminDashboard(page, limit, search) {
   try {
     const response = await axios.get(`${URLApi}/admin-dashboard`, {
       params: {
         page,
         limit,
+        search,
       },
     });
 
@@ -374,10 +375,23 @@ export async function getDepostList(page, limit) {
   }
 }
 
-export async function getNftStartStop(action, status) {
+// export async function getNftStartStop(action, status) {
+//   try {
+//     const response = await axios.post(`${URLApi}/block-single-nft-creation`, {
+//       action,
+//       status,
+//     });
+
+//     return response.data;
+//   } catch (error) {
+//     console.log("Error getLoginCredential Admin:", error);
+//   }
+// }
+
+export async function getNftStartStop(user, status) {
   try {
-    const response = await axios.post(`${URLApi}/block-single-nft-creation`, {
-      action,
+    const response = await axios.post(`${URLApi}/changedStatus`, {
+      user,
       status,
     });
 
