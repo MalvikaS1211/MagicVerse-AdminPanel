@@ -82,6 +82,7 @@ export const PackageHistory = () => {
                 <thead>
                   <tr>
                     <th>S.No.</th>
+                    <th>User Id</th>
                     <th>User</th>
 
                     <th>Package</th>
@@ -96,6 +97,7 @@ export const PackageHistory = () => {
                     packageHistory?.map((pkg, index) => (
                       <tr key={index}>
                         <td>{(currentPage - 1) * itemPerpage + index + 1}</td>
+                        <td>{pkg?.packages[0]?.uniqueRandomId}</td>
                         <td>
                           {`${pkg?.user.slice(0, 7)}...${pkg?.user.slice(-6)}`}
                         </td>
