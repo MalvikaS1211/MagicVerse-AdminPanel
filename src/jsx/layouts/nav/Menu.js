@@ -16,7 +16,7 @@ import { HiOutlineCollection } from "react-icons/hi";
 import { FaThList } from "react-icons/fa";
 import { GiAbstract074 } from "react-icons/gi";
 import { GiAbstract047 } from "react-icons/gi";
-import { BiLogOut } from "react-icons/bi";
+import { BiLogOut, BiSupport } from "react-icons/bi";
 import { TbCircleTriangle } from "react-icons/tb";
 
 export const MenuList = [
@@ -65,6 +65,12 @@ export const MenuList = [
     title: "Deposit List",
     to: "admin/deposit",
     iconStyle: <PiHandDepositFill className="fs-3" />,
+  },
+
+  {
+    title: "Support",
+    to: "admin/support",
+    iconStyle: <BiSupport className="fs-3" />,
   },
 
   {

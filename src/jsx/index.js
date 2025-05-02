@@ -39,6 +39,8 @@ import TotalNFT from "./components/Users/TotalNFT";
 import MaturedNFT from "./components/Users/MaturedNFT";
 import BulkPackage from "./components/Users/BulkPackage";
 import PackageHistory from "./components/Users/PackageHistory";
+import ChatSupport from "./components/Users/ChatSupport";
+import ChatConversation from "./components/Users/ChatConversation";
 
 const Markup = () => {
   const dispatch = useDispatch();
@@ -80,6 +82,11 @@ const Markup = () => {
     { url: "admin/maturedNft", component: <MaturedNFT /> },
     { url: "admin/bulkpackage", component: <BulkPackage /> },
     { url: "admin/packagehistory", component: <PackageHistory /> },
+    { url: "admin/support", component: <ChatSupport /> },
+    {
+      url: "admin/support-chat",
+      component: <ChatConversation />,
+    },
   ];
 
   const { chains, publicClient } = configureChains(

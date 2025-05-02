@@ -13,6 +13,7 @@ import { Card, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { setLogin } from "../../../redux/reducer";
 import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
 
 const BalanceCardSlider = () => {
   const navigate = useNavigate();
@@ -66,6 +67,11 @@ const BalanceCardSlider = () => {
       console.log(res, "res");
       setUserAddress("");
       setStatusAllow(false);
+      if (statusAllow == true) {
+        toast.success("User Allowed to create an NFT !");
+      } else {
+        toast.success("User Not Allowed to create an NFT !");
+      }
     } catch (error) {
       console.log(error);
     }
