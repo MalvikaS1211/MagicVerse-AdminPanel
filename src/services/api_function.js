@@ -1,9 +1,9 @@
 import axios from "axios";
 import toast from "react-hot-toast";
-// export const URLApi = "https://magicverse.org/api";
+export const URLApi = "https://magicverse.org/api";
 // export const URLApi = "http://192.168.1.10:8081/api";
 // export const URLApi = "http://192.168.1.161:8081/api";
-export const URLApi = "http://localhost:8081/api";
+// export const URLApi = "http://localhost:8081/api";
 
 export function cutAfterDecimal(number, pos, dl, ac) {
   if (Number(number)) {
@@ -448,5 +448,19 @@ export async function GetMsgByTicket(TicketId, UserAddress) {
     return response.data;
   } catch (error) {
     console.log("Error getAllTicket Admin:", error);
+  }
+}
+
+export async function ChangeStatusFn(ticketId, status) {
+  console.log(ticketId, status, "ticketId, status");
+  try {
+    const response = await axios.post(`${URLApi}/updateStatus`, {
+      ticketId,
+      status,
+    });
+    console.log(response.data, "ChangeStatusFn");
+    return response.data;
+  } catch (error) {
+    console.log("Error ChangeStatusFn Admin:", error);
   }
 }

@@ -4,21 +4,21 @@ import { useDispatch } from "react-redux";
 import { useAccount, useChainId } from "wagmi";
 import { setWallet } from "../../redux/reducer";
 const Header = ({ onNote }) => {
-  const {address, connector, isConnected, status, isDisconnected } = useAccount();
-  const chainId = useChainId()
+  const { address, connector, isConnected, status, isDisconnected } =
+    useAccount();
+  const chainId = useChainId();
   const dispatch = useDispatch();
   const obj = {
     walletAddress: address,
     chainId: chainId,
     isConnected: isConnected,
     isDisconnected: isDisconnected,
-    connector:connector,
+    connector: connector,
     status: status,
   };
   dispatch(setWallet({ ...obj }));
 
-  const [rightSelect, setRightSelect] = useState("Eng");
-  const [path,setPath]=useState()
+  const [path, setPath] = useState();
   //For fix header
   const [headerFix, setheaderFix] = useState(false);
   useEffect(() => {
@@ -28,9 +28,9 @@ const Header = ({ onNote }) => {
   }, []);
   useEffect(() => {
     var path = window.location.pathname.split("/");
-    console.log(window.location,":::::")
-    setPath(path)
-  },[window.location.pathname]);
+    console.log(window.location, ":::::");
+    setPath(path);
+  }, [window.location.pathname]);
 
   return (
     <div className={`header ${headerFix ? "is-fixed" : ""}`}>
@@ -41,19 +41,16 @@ const Header = ({ onNote }) => {
               <div
                 className="dashboard_bar"
                 style={{ textTransform: "capitalize" }}
-              >
-                {/* {path && path[1]} */}
-              </div>
+              ></div>
             </div>
-            <div className="navbar-nav header-right">
-            </div>
+            <div className="navbar-nav header-right"></div>
             <div>
               <ConnectButton
                 chainStatus="icon"
-            accountStatus={{
-              smallScreen: "avatar",
-              largeScreen: "full",
-            }}
+                accountStatus={{
+                  smallScreen: "avatar",
+                  largeScreen: "full",
+                }}
               />
             </div>
           </div>

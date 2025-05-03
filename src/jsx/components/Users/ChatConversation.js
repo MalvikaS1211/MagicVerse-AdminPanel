@@ -78,13 +78,13 @@ const ChatConversation = () => {
                     <div className="d-flex align-items-start gap-3 flex-wrap message-box">
                       <div className="flex-fill">
                         <h5 className="mb-1 fs-4 fw-medium">{msg.sender}</h5>
-                        <p className="mb-0 text-muted msg-text">
+                        <p className="mb-4 text-muted msg-text text-break">
                           {msg.Message}
                         </p>
                       </div>
                       <div className="msg-date-div">
                         <span className="badge bg-primary-transparent">
-                          {moment(msg.Time).format("DD-MM-YYYY h:mm:ss A")}
+                          {moment(msg.Time).format("DD-MM-YYYY h:mm A")}
                         </span>
                       </div>
                     </div>
@@ -107,7 +107,7 @@ const ChatConversation = () => {
             <textarea
               class="form-control"
               id="exampleFormControlTextarea1"
-              style={{ height: "40%", fontSize: "15px" }}
+              style={{ height: "100%", fontSize: "15px" }}
               value={message}
               placeholder="Enter your Message"
               onChange={(e) => setMessage(e.target.value)}
