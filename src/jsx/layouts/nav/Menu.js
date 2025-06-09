@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useDispatch } from "react-redux";
 import { RiNftFill, RiQuestionnaireFill } from "react-icons/ri";
-import { FaUserGraduate } from "react-icons/fa";
+import { FaUserGraduate, FaUserShield } from "react-icons/fa";
 import { FaRankingStar } from "react-icons/fa6";
 import { PiExamFill } from "react-icons/pi";
 import { FaIdCardAlt } from "react-icons/fa";
@@ -65,6 +65,12 @@ export const MenuList = [
     title: "Deposit List",
     to: "admin/deposit",
     iconStyle: <PiHandDepositFill className="fs-3" />,
+  },
+
+  {
+    title: "User Holding",
+    to: "admin/userholding",
+    iconStyle: <FaUserShield className="fs-3" />,
   },
 
   {

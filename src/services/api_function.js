@@ -464,3 +464,17 @@ export async function ChangeStatusFn(ticketId, status) {
     console.log("Error ChangeStatusFn Admin:", error);
   }
 }
+
+export async function getUserHolders(user, page, limit) {
+  try {
+    const response = await axios.post(`${URLApi}/userHolding`, {
+      user,
+      page,
+      limit,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error getUserHolders Admin:", error);
+  }
+}

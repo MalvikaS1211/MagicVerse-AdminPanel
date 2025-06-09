@@ -41,6 +41,7 @@ import BulkPackage from "./components/Users/BulkPackage";
 import PackageHistory from "./components/Users/PackageHistory";
 import ChatSupport from "./components/Users/ChatSupport";
 import ChatConversation from "./components/Users/ChatConversation";
+import UserHolding from "./components/Users/UserHolding";
 
 const Markup = () => {
   const dispatch = useDispatch();
@@ -87,6 +88,7 @@ const Markup = () => {
       url: "admin/support-chat",
       component: <ChatConversation />,
     },
+    { url: "admin/userholding", component: <UserHolding /> },
   ];
 
   const { chains, publicClient } = configureChains(
