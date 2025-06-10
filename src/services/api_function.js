@@ -478,3 +478,42 @@ export async function getUserHolders(user, page, limit) {
     console.log("Error getUserHolders Admin:", error);
   }
 }
+
+export async function getAllNFTs(page, limit) {
+  try {
+    const response = await axios.post(`${URLApi}/getAllNFTs`, {
+      page,
+      limit,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error getAllNFTs :", error);
+  }
+}
+
+export async function getAllSoldNFTs(page, limit) {
+  try {
+    const response = await axios.post(`${URLApi}/getAllSoldNFTs`, {
+      page,
+      limit,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error getAllSoldNFTs :", error);
+  }
+}
+
+export async function nftValueTracking(page, limit) {
+  try {
+    const response = await axios.post(`${URLApi}/nftValueTracking`, {
+      page,
+      limit,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error nftValueTracking :", error);
+  }
+}

@@ -42,6 +42,9 @@ import PackageHistory from "./components/Users/PackageHistory";
 import ChatSupport from "./components/Users/ChatSupport";
 import ChatConversation from "./components/Users/ChatConversation";
 import UserHolding from "./components/Users/UserHolding";
+import NewNFTsList from "./components/Users/NewNFTsList";
+import SoldNFTs from "./components/Users/SoldNFTs";
+import NFTValueTracking from "./components/Users/NFTValueTracking";
 
 const Markup = () => {
   const dispatch = useDispatch();
@@ -89,6 +92,9 @@ const Markup = () => {
       component: <ChatConversation />,
     },
     { url: "admin/userholding", component: <UserHolding /> },
+    { url: "admin/newnftlist", component: <NewNFTsList /> },
+    { url: "admin/soldNFTs", component: <SoldNFTs /> },
+    { url: "admin/nfttracking", component: <NFTValueTracking /> },
   ];
 
   const { chains, publicClient } = configureChains(

@@ -57,7 +57,7 @@ export const MaturedNFT = () => {
 
   useEffect(() => {
     ShowMaturedNFTs();
-  }, [address]);
+  }, [address, currentPage]);
 
   return (
     <Fragment>

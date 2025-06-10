@@ -4,13 +4,16 @@ import { Tooltip, IconButton } from "@mui/material";
 import { FaRegCopy } from "react-icons/fa";
 import axios from "axios";
 import moment from "moment";
-import { getDepostList } from "../../../services/api_function";
+import {
+  getAllSoldNFTs,
+  nftValueTracking,
+} from "../../../services/api_function";
 
-export const Deposit = () => {
+export const NFTValueTracking = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [search, setSearch] = useState("");
-  const [depositList, setDepositList] = useState([]);
+  const [NFTList, setNFTList] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [tooltipText, setTooltipText] = useState("Copy address");
 
@@ -22,15 +25,15 @@ export const Deposit = () => {
     setTimeout(() => setTooltipText("Copy address"), 2000);
   };
 
-  const ShowDepositList = async () => {
-    const res = await getDepostList(currentPage, itemPerpage);
+  const ShowNFTList = async () => {
+    const res = await nftValueTracking(currentPage, itemPerpage);
     console.log(res, "getDepostList");
-    setTotalPages(res?.totalPages);
-    setDepositList(res?.data);
+    setTotalPages(res?.pagination?.totalPages);
+    setNFTList(res?.data);
   };
 
   useEffect(() => {
-    ShowDepositList();
+    ShowNFTList();
   }, [currentPage]);
 
   const handleSearch = (e) => {
@@ -69,50 +72,59 @@ export const Deposit = () => {
         <Col lg={12}>
           <Card>
             <Card.Header>
-              <Card.Title>Deposit</Card.Title>
+              <Card.Title>Last Transaction Details</Card.Title>
             </Card.Header>
             <Card.Body>
               <Table responsive>
                 <thead>
                   <tr>
                     <th>S.No.</th>
-                    <th>User</th>
-                    <th>Amount</th>
+                    <th>Token Id</th>
+                    <th>Current Estimated NFT Value </th>
+                    <th>Selling Price </th>
+
                     <th>Tx Hash</th>
+
                     <th>Date & Time</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {depositList?.length > 0 ? (
-                    depositList?.map((deposit, index) => (
+                  {NFTList?.length > 0 ? (
+                    NFTList?.map((NFT, index) => (
                       <tr key={index}>
                         <td>{(currentPage - 1) * itemPerpage + index + 1}</td>
+
+                        <td>{NFT?.tokenId}</td>
                         <td>
-                          {deposit?.user?.slice(0, 5)}...
-                          {deposit?.user?.slice(-4)}
-                          {/* <Tooltip title={tooltipText} arrow>
-                            <IconButton
-                              onClick={() => handleCopy(deposit?.user)}
-                              size="small"
-                              style={{ marginLeft: 4 }}
-                            >
-                              <FaRegCopy />
-                            </IconButton>
-                          </Tooltip> */}
+                          {NFT?.details?.tokenId
+                            ? (Number(NFT?.details?.nftPrice) / 1e18).toFixed(4)
+                            : (Number(NFT?.price) / 1e18).toFixed(4)}
                         </td>
-                        <td>$ {deposit?.amount / 1e18}</td>
 
                         <td>
+                          <td>
+                            {NFT?.details?.tokenId
+                              ? (Number(NFT?.details?.newPrice) / 1e18).toFixed(
+                                  4
+                                )
+                              : (
+                                  (Number(NFT?.price) +
+                                    Number(NFT?.price) * 0.03) /
+                                  1e18
+                                ).toFixed(4)}
+                          </td>
+                        </td>
+                        <td>
                           <a
-                            href={`https://opbnb.bscscan.com/tx/${deposit?.transactionHash}`}
+                            href={`https://opbnb.bscscan.com/tx/${NFT?.transactionHash}`}
                             target="_blank"
                           >
-                            {deposit?.transactionHash.slice(0, 5)}...
-                            {deposit?.transactionHash.slice(-4)}
+                            {NFT?.transactionHash.slice(0, 5)}...
+                            {NFT?.transactionHash.slice(-4)}
                           </a>
                         </td>
                         <td>
-                          {moment(deposit.createdAt).format(
+                          {moment(NFT?.createdAt).format(
                             "DD/MM/YYYY h:mm:ss A"
                           )}
                         </td>
@@ -161,4 +173,4 @@ export const Deposit = () => {
   );
 };
 
-export default Deposit;
+export default NFTValueTracking;

@@ -16,9 +16,10 @@ import { HiOutlineCollection } from "react-icons/hi";
 import { FaThList } from "react-icons/fa";
 import { GiAbstract074 } from "react-icons/gi";
 import { GiAbstract047 } from "react-icons/gi";
-import { BiLogOut, BiSupport } from "react-icons/bi";
+import { BiLogoCodepen, BiLogOut, BiSupport } from "react-icons/bi";
 import { TbCircleTriangle } from "react-icons/tb";
-
+import { GrTransaction } from "react-icons/gr";
+import { MdOutlineSpatialTracking } from "react-icons/md";
 export const MenuList = [
   {
     title: "Dashboard",
@@ -72,7 +73,22 @@ export const MenuList = [
     to: "admin/userholding",
     iconStyle: <FaUserShield className="fs-3" />,
   },
+  {
+    title: "New NFT Creation Log",
+    to: "admin/newnftlist",
+    iconStyle: <BiLogoCodepen className="fs-3" />,
+  },
+  {
+    title: "Last Transaction Details",
+    to: "admin/soldNFTs",
+    iconStyle: <GrTransaction className="fs-3" />,
+  },
 
+  {
+    title: "NFT Value Tracking",
+    to: "admin/nfttracking",
+    iconStyle: <MdOutlineSpatialTracking className="fs-3" />,
+  },
   {
     title: "Support",
     to: "admin/support",
