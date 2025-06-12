@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { FaUserGraduate } from "react-icons/fa";
+import {
+  FaCheckCircle,
+  FaShoppingCart,
+  FaTag,
+  FaUserGraduate,
+} from "react-icons/fa";
 import { AiFillDollarCircle } from "react-icons/ai";
 
 import "swiper/css";
 import {
+  AllowToCreateBulk,
   getAdminDashboard,
   getMaturedNFTs,
   getNftStartStop,
@@ -14,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { setLogin } from "../../../redux/reducer";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import { RiNftFill } from "react-icons/ri";
 
 const BalanceCardSlider = () => {
   const navigate = useNavigate();
@@ -24,9 +31,10 @@ const BalanceCardSlider = () => {
 
   const [user, setUser] = useState(null);
   const [NftAction, setNftAction] = useState(false);
-  const [UserAddress, setUserAddress] = useState();
+  const [UserAddressSingle, setUserAddressSingle] = useState();
   const [statusAllow, setStatusAllow] = useState(false);
-
+  const [statusForBulk, setStatusForBulk] = useState(false);
+  const [UserAddressBulk, setUserAddressBulk] = useState();
   const ShowAdminData = async () => {
     try {
       const res = await getAdminDashboard();
@@ -45,32 +53,35 @@ const BalanceCardSlider = () => {
       console.log(error);
     }
   };
-  const handleStatusChange = (e) => {
-    setStatusAllow(e.target.value);
-  };
-  // const toggleNftAction = async () => {
-  //   try {
-  //     await getNftStartStop("UPDATE", !NftAction);
-  //     setNftAction(!NftAction);
-  //   } catch (error) {
-  //     console.error("Error updating NFT status:", error);
-  //   }
-  // };
-  const handleInputUser = async (e) => {
-    const Address = e.target.value;
-    setUserAddress(Address);
-  };
-  const toggleNftAction = async () => {
+
+  const toggleNFTActionForSingle = async () => {
     try {
-      const res = await getNftStartStop(UserAddress, statusAllow);
+      const res = await getNftStartStop(UserAddressSingle, statusAllow);
 
       console.log(res, "res");
-      setUserAddress("");
+      setUserAddressSingle("");
       setStatusAllow(false);
       if (statusAllow == true) {
         toast.success("User Allowed to create an NFT !");
       } else {
         toast.success("User Not Allowed to create an NFT !");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const toggleNFTActionForBulk = async () => {
+    try {
+      const res = await AllowToCreateBulk(UserAddressBulk, statusForBulk);
+
+      console.log(res, "res");
+      setUserAddressBulk("");
+      setStatusForBulk(false);
+      if (statusForBulk == true) {
+        toast.success("User Allowed to create Bulk NFTs !");
+      } else {
+        toast.success("User Not Allowed to create Bulk NFTs !");
       }
     } catch (error) {
       console.log(error);
@@ -91,63 +102,159 @@ const BalanceCardSlider = () => {
       <label className="form-label h3">Dashboard</label>
       <div className="" style={{ paddingTop: "10px" }}>
         {/* Total Users Card */}
-        <div className="col-lg-6 mb-4">
-          <div className="card" style={{ background: "#fff7f7" }}>
-            <div className="card-body d-flex align-items-center">
-              <div className="d-flex gap-3">
-                <div>
-                  <FaUserGraduate style={{ width: "160%", height: "100%" }} />
+        <div className="row">
+          <div className="col-lg-6 mb-4">
+            <div className="card card-bg">
+              <div className="card-body d-flex align-items-center">
+                <div className="d-flex gap-3">
+                  <div>
+                    <FaUserGraduate style={{ width: "160%", height: "100%" }} />
+                  </div>
+                  <div className="-info">
+                    <h4 className="count-num" style={{ fontSize: "20px" }}>
+                      Total Users : {user?.totalUsers || 0}
+                    </h4>
+                  </div>
                 </div>
-                <div className="-info">
-                  <h4 className="count-num" style={{ fontSize: "20px" }}>
-                    Total Users : {user?.totalUsers || 0}
-                  </h4>
+              </div>
+            </div>
+          </div>
+          <div className="col-lg-6 mb-4">
+            <div className="card card-bg">
+              <div className="card-body d-flex align-items-center">
+                <div className="d-flex gap-3">
+                  <div>
+                    <RiNftFill style={{ width: "160%", height: "100%" }} />
+                  </div>
+                  <div className="-info">
+                    <h4 className="count-num" style={{ fontSize: "20px" }}>
+                      Total Created NFTs: {user?.totalNFTs || 0}
+                    </h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-lg-6 mb-4">
+            <div className="card card-bg">
+              <div className="card-body d-flex align-items-center">
+                <div className="d-flex gap-3">
+                  <div>
+                    <FaShoppingCart style={{ width: "160%", height: "100%" }} />
+                  </div>
+                  <div className="-info">
+                    <h4 className="count-num" style={{ fontSize: "20px" }}>
+                      Total Sold NFTs : {user?.NFTSold || 0}
+                    </h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-lg-6 mb-4">
+            <div className="card card-bg">
+              <div className="card-body d-flex align-items-center">
+                <div className="d-flex gap-3">
+                  <div>
+                    <FaTag style={{ width: "160%", height: "100%" }} />
+                  </div>
+                  <div className="-info">
+                    <h4 className="count-num" style={{ fontSize: "20px" }}>
+                      Total In Sale NFTs : {user?.InSaleNFTs || 0}
+                    </h4>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <div className="row">
+          {" "}
+          {/* NFT Action Card  Single*/}
+          <div className="col-lg-6 mb-4">
+            <div className="card card-bg" style={{ height: "100%" }}>
+              <div className="card-body pb-4">
+                <div className="d-flex flex-column gap-3">
+                  <h4 className="card-title mb-0">Single NFT Action</h4>
+                  <h5>User</h5>
+                  <div className="input-group w-100">
+                    <input
+                      type="text"
+                      id="form1"
+                      className="form-control"
+                      placeholder="Enter User Address"
+                      value={UserAddressSingle}
+                      onChange={(e) => setUserAddressSingle(e.target.value)}
+                    />
+                  </div>
 
-        {/* NFT Action Card */}
-        <div className="col-lg-6 mb-4">
-          <div
-            className="card"
-            style={{ height: "100%", background: "#fff7f7" }}
-          >
-            <div className="card-body pb-4">
-              <div className="d-flex flex-column gap-3">
-                <h4 className="card-title mb-0">NFT Action</h4>
-                <h5>User</h5>
-                <div className="input-group w-100">
-                  <input
-                    type="text"
-                    id="form1"
-                    className="form-control"
-                    placeholder="Enter User Address"
-                    value={UserAddress}
-                    onChange={handleInputUser}
-                  />
+                  <div>
+                    <h5>Allow User Access</h5>
+                    <select
+                      className="form-select"
+                      value={statusAllow}
+                      onChange={(e) => setStatusAllow(e.target.value)}
+                    >
+                      <option value="true">True</option>
+                      <option value="false">False</option>
+                    </select>
+                  </div>
+                  <div style={{ alignItems: "center", textAlign: "center" }}>
+                    <button
+                      type="button"
+                      className="btn btn-success w-50 py-2"
+                      aria-label="Start NFT Action"
+                      onClick={toggleNFTActionForSingle}
+                    >
+                      Allow
+                    </button>
+                  </div>
                 </div>
+              </div>
+            </div>
+          </div>
+          {/* NFT action Card For Bulk */}
+          <div className="col-lg-6 mb-4">
+            <div className="card card-bg" style={{ height: "100%" }}>
+              <div className="card-body pb-4">
+                <div className="d-flex flex-column gap-3">
+                  <h4 className="card-title mb-0">Bulk NFT Action </h4>
+                  <h5>User</h5>
+                  <div className="input-group w-100">
+                    <input
+                      type="text"
+                      id="form1"
+                      className="form-control"
+                      placeholder="Enter User Address"
+                      value={UserAddressBulk}
+                      onChange={(e) => setUserAddressBulk(e.target.value)}
+                    />
+                  </div>
 
-                <div>
-                  <h5>Allow User Access</h5>
-                  <select
-                    className="form-select"
-                    value={statusAllow}
-                    onChange={handleStatusChange}
-                  >
-                    <option value="true">True</option>
-                    <option value="false">False</option>
-                  </select>
+                  <div>
+                    <h5>Allow User Access</h5>
+                    <select
+                      className="form-select"
+                      value={statusForBulk}
+                      onChange={(e) => setStatusForBulk(e.target.value)}
+                    >
+                      <option value="true">True</option>
+                      <option value="false">False</option>
+                    </select>
+                  </div>
+                  <div style={{ alignItems: "center", textAlign: "center" }}>
+                    <button
+                      type="button"
+                      className="btn btn-success w-50 py-2"
+                      aria-label="Start NFT Action"
+                      onClick={toggleNFTActionForBulk}
+                    >
+                      Allow
+                    </button>
+                  </div>
                 </div>
-                <button
-                  type="button"
-                  className="btn btn-success w-100 py-2"
-                  aria-label="Start NFT Action"
-                  onClick={toggleNftAction}
-                >
-                  Allow
-                </button>
               </div>
             </div>
           </div>

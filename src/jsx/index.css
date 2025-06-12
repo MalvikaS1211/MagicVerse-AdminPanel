@@ -1002,3 +1002,7 @@ button.react-calendar__tile.react-calendar__tile--active.react-calendar__tile--r
   min-height: 40px;
   min-width: 150px;
 }
+
+.card-bg {
+  background-color: #efefef !important;
+}

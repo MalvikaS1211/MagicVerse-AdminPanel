@@ -20,6 +20,7 @@ import { BiLogoCodepen, BiLogOut, BiSupport } from "react-icons/bi";
 import { TbCircleTriangle } from "react-icons/tb";
 import { GrTransaction } from "react-icons/gr";
 import { MdOutlineSpatialTracking } from "react-icons/md";
+import { AiFillMessage } from "react-icons/ai";
 export const MenuList = [
   {
     title: "Dashboard",
@@ -36,22 +37,12 @@ export const MenuList = [
     iconStyle: <FaUserGraduate className="fs-3" />,
   },
 
-  // {
-  //   title: "Total NFT List",
-  //   to: "admin/totalnft",
-  //   iconStyle: <HiOutlineCollection className="fs-3" />,
-  // },
-
   {
     title: "NFT Creation List",
     to: "admin/NFTCreationList",
     iconStyle: <RiNftFill className="fs-3" />,
   },
-  // {
-  //   title: "Matured NFT List",
-  //   to: "admin/maturedNft",
-  //   iconStyle: <GiAbstract074 className="fs-3" />,
-  // },
+
   {
     title: "Bulk Package",
     to: "admin/bulkpackage",
@@ -88,6 +79,16 @@ export const MenuList = [
     title: "NFT Value Tracking",
     to: "admin/nfttracking",
     iconStyle: <MdOutlineSpatialTracking className="fs-3" />,
+  },
+  {
+    title: "Add NFT to queue",
+    to: "admin/addnftqueue",
+    iconStyle: <GiAbstract074 className="fs-3" />,
+  },
+  {
+    title: "Add Massage",
+    to: "admin/addmessage",
+    iconStyle: <AiFillMessage className="fs-3" />,
   },
   {
     title: "Support",

@@ -45,6 +45,8 @@ import UserHolding from "./components/Users/UserHolding";
 import NewNFTsList from "./components/Users/NewNFTsList";
 import SoldNFTs from "./components/Users/SoldNFTs";
 import NFTValueTracking from "./components/Users/NFTValueTracking";
+import AddNFTToQueue from "./components/Users/AddNFTToQueue";
+import Message from "./components/Users/Message";
 
 const Markup = () => {
   const dispatch = useDispatch();
@@ -95,6 +97,8 @@ const Markup = () => {
     { url: "admin/newnftlist", component: <NewNFTsList /> },
     { url: "admin/soldNFTs", component: <SoldNFTs /> },
     { url: "admin/nfttracking", component: <NFTValueTracking /> },
+    { url: "admin/addnftqueue", component: <AddNFTToQueue /> },
+    { url: "admin/addmessage", component: <Message /> },
   ];
 
   const { chains, publicClient } = configureChains(

@@ -45,7 +45,7 @@ const NavHader = () => {
           src={logo1}
           alt=""
           className="logo-show"
-          style={{ width: "30%" }}
+          style={{ width: "20%" }}
         />
         {/* <img src="../../images/logo.png" class="brand-title" alt="" />   //className="logo-abbr" */}
       </Link>

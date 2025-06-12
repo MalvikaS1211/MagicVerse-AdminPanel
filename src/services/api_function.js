@@ -4,6 +4,7 @@ export const URLApi = "https://magicverse.org/api";
 // export const URLApi = "http://192.168.1.10:8081/api";
 // export const URLApi = "http://192.168.1.161:8081/api";
 // export const URLApi = "http://localhost:8081/api";
+// export const URLApi = "http://192.168.1.19:8081/api";
 
 export function cutAfterDecimal(number, pos, dl, ac) {
   if (Number(number)) {
@@ -515,5 +516,77 @@ export async function nftValueTracking(page, limit) {
     return response.data;
   } catch (error) {
     console.log("Error nftValueTracking :", error);
+  }
+}
+
+export async function AllowToCreateBulk(user, status) {
+  try {
+    const response = await axios.post(`${URLApi}/userAllowForBulk`, {
+      user,
+      status,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error AllowToCreateBulk Admin:", error);
+  }
+}
+
+export async function AddNFTInQueue(tokenId) {
+  try {
+    const response = await axios.post(`${URLApi}/add-nft-to-queue`, {
+      tokenId,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error AddNFTInQueue :", error);
+  }
+}
+
+export async function getAllNFTInQueue(page, limit) {
+  try {
+    const response = await axios.get(`${URLApi}/getAllNftFromQueue`, {
+      params: { page, limit },
+    });
+    return response.data;
+  } catch (error) {
+    console.log("Error AddNFTInQueue :", error);
+  }
+}
+
+export async function DeleteNFt(tokenId) {
+  try {
+    console.log(tokenId, "token id :::");
+    const response = await axios.post(`${URLApi}/delete-nft-from-queue`, {
+      tokenId,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error AddNFTInQueue :", error);
+  }
+}
+
+export async function addMessage(Message) {
+  try {
+    console.log(Message, "token id :::");
+    const response = await axios.post(`${URLApi}/addMessage`, {
+      Message,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error AddNFTInQueue :", error);
+  }
+}
+
+export async function getMessage() {
+  try {
+    const response = await axios.get(`${URLApi}/get-messages`);
+
+    return response.data;
+  } catch (error) {
+    console.log("Error getMessage Admin:", error);
   }
 }
