@@ -116,7 +116,9 @@ export const PackageHistory = () => {
                         </td>
 
                         <td>
-                          {moment(pkg?.createdAt).format("M/D/YYYY h:mm:ss A")}
+                          {moment(pkg?.createdAt).format(
+                            "DD/MM/YYYY h:mm:ss A"
+                          )}
                         </td>
                       </tr>
                     ))

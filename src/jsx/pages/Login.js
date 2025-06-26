@@ -35,7 +35,7 @@ function Login(props) {
       console.log(res, "login API");
 
       if (res?.success) {
-        toast.success("Successfully Login !");
+        toast.success("Login Successfully !");
         dispatch(setLogin(true));
         navigate("/admin/dashboard");
       } else {
@@ -145,8 +145,7 @@ function Login(props) {
                               <div className="form-group text-left mb-5">
                                 <button
                                   type="button"
-                                  className="btn btn-primary dz-xs-flex m-r5 login-btn"
-                                 
+                                  className="btn btn-success dz-xs-flex m-r5"
                                   onClick={adminLogin}
                                 >
                                   Log In

@@ -17,8 +17,10 @@ export const AddNFTToQueue = () => {
 
   const [tokenId, setTokenId] = useState();
   const [tokenIdToDelete, setTokenIdToDelete] = useState();
-
+  const [totalnft, setTotalNFT] = useState(0);
   const [dataList, setDataList] = useState({});
+  const [totalNftValue, setTotalNftValue] = useState(0);
+
   const itemPerpage = 20;
 
   const handleAddNFT = async () => {
@@ -43,6 +45,8 @@ export const AddNFTToQueue = () => {
       const res = await getAllNFTInQueue(currentPage, itemPerpage);
       console.log(currentPage, itemPerpage, "pages:");
       setTotalPages(res?.pagination?.totalPages);
+      setTotalNFT(res?.pagination?.totalCount);
+      setTotalNftValue(res?.totalNewPrice);
       console.log(res, "show data");
       setDataList(res?.data);
     } catch (error) {
@@ -124,13 +128,30 @@ export const AddNFTToQueue = () => {
                   </button>
                 </Col>
               </Row>
+
+              <Row>
+                <div className="d-flex">
+                  <h4 style={{ marginRight: "10px" }}>Total NFT : </h4>
+                  <h4 style={{ fontWeight: 300 }}>{totalnft} </h4>
+                </div>
+              </Row>
+
+              <Row>
+                <div className="d-flex">
+                  <h4 style={{ marginRight: "10px" }}>Total NFT Value: </h4>
+                  <h4 style={{ fontWeight: 300 }}>
+                    {(totalNftValue / 1e18).toFixed(4)}
+                  </h4>
+                </div>
+              </Row>
               <Table responsive>
                 <thead>
                   <tr>
                     <th>S.No.</th>
-                    <th>NFT</th>
+                    <th>Token Id</th>
                     <th>Status </th>
                     <th>Sales Count</th>
+                    <th>Current Price</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -141,7 +162,12 @@ export const AddNFTToQueue = () => {
 
                         <td>{data?.tokenId}</td>
                         <td>{data?.Status ? "true" : "false"}</td>
-                        <td>{data?.soldDetail?.salesCount}</td>
+                        <td>{data?.soldDetail?.salesCount || 0}</td>
+                        <td>
+                          {((data?.soldDetail?.newPrice || 0) / 1e18).toFixed(
+                            4
+                          )}
+                        </td>
                       </tr>
                     ))
                   ) : (

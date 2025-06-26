@@ -122,7 +122,7 @@ export const NFTCreationList = () => {
                         <td>{nft?.isReadyForSale ? "True" : "False"}</td>
 
                         <td>
-                          {moment(nft.createdAt).format("M/D/YYYY h:mm:ss A")}
+                          {moment(nft.createdAt).format("DD/MM/YYYY h:mm:ss A")}
                         </td>
                       </tr>
                     ))

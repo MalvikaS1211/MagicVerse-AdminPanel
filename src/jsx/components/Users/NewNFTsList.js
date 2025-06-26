@@ -2,24 +2,24 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Row, Col, Card, Table } from "react-bootstrap";
 import { Tooltip, IconButton } from "@mui/material";
 import { FaRegCopy } from "react-icons/fa";
-import axios from "axios";
+
 import moment from "moment";
-import { getAllNFTs, getDepostList } from "../../../services/api_function";
+import { getAllNFTs } from "../../../services/api_function";
 
 export const NewNFTsList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [search, setSearch] = useState("");
   const [NFTList, setNFTList] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
+
   const [tooltipText, setTooltipText] = useState("Copy address");
 
   const itemPerpage = 20;
 
-  const handleCopy = (address) => {
-    navigator.clipboard.writeText(address);
-    setTooltipText("Copied!");
-    setTimeout(() => setTooltipText("Copy address"), 2000);
+  const handleCopy = (token) => {
+    navigator.clipboard.writeText(token);
+    setTooltipText("Token Id Copied !");
+    setTimeout(() => setTooltipText("Copy Token Id"), 2000);
   };
 
   const ShowNFTList = async () => {
@@ -77,6 +77,8 @@ export const NewNFTsList = () => {
                   <tr>
                     <th>S.No.</th>
                     <th>Creator</th>
+                    <th>Token Id</th>
+
                     <th>Price</th>
 
                     <th>Date & Time</th>
@@ -90,15 +92,18 @@ export const NewNFTsList = () => {
                         <td>
                           {NFT?.creator?.slice(0, 5)}...
                           {NFT?.creator?.slice(-4)}
-                          {/* <Tooltip title={tooltipText} arrow>
+                        </td>
+                        <td>
+                          {NFT?.tokenId}
+                          <Tooltip title={tooltipText} arrow>
                             <IconButton
-                              onClick={() => handleCopy(NFT?.user)}
+                              onClick={() => handleCopy(NFT?.tokenId)}
                               size="small"
                               style={{ marginLeft: 4 }}
                             >
                               <FaRegCopy />
                             </IconButton>
-                          </Tooltip> */}
+                          </Tooltip>
                         </td>
                         <td>$ {NFT?.price / 1e18}</td>
 

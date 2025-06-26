@@ -30,6 +30,7 @@ export const Alluser = () => {
       const res = await getAdminDashboard(currentPage, itemPerPage, search);
       setTotalPages(res?.totalPages);
       setUsersList(res.users);
+      console.log(search, "search:");
       console.log("User List", res);
     } catch (error) {
       console.log(error);
@@ -149,7 +150,9 @@ export const Alluser = () => {
                         <td>{user?.totalDirectCount}</td>
 
                         <td>
-                          {moment(user.createdAt).format("M/D/YYYY h:mm:ss A")}
+                          {moment(user.createdAt).format(
+                            "DD/MM/YYYY h:mm:ss A"
+                          )}
                         </td>
                         <td>
                           {user?.packages[0]?.userPackage
