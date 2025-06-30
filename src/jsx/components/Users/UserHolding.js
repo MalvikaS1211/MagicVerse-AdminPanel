@@ -12,16 +12,16 @@ export const UserHolding = () => {
 
   const [UserHoldingList, setUserHoldingList] = useState([]);
 
-  const [tooltipText, setTooltipText] = useState("Copy address");
+  const [tooltipText, setTooltipText] = useState("Copy Token Id");
   const [user, setUser] = useState("");
   const [totalAmount, setTotalAmount] = useState(0);
 
   const itemPerpage = 50;
 
-  const handleCopy = (address) => {
-    navigator.clipboard.writeText(address);
-    setTooltipText("Copied!");
-    setTimeout(() => setTooltipText("Copy address"), 2000);
+  const handleCopy = (token) => {
+    navigator.clipboard.writeText(token);
+    setTooltipText("Token Id Copied!");
+    setTimeout(() => setTooltipText("Copy Token Id"), 2000);
   };
 
   const ShowUserHoldingList = async () => {
@@ -93,10 +93,11 @@ export const UserHolding = () => {
                 <thead>
                   <tr>
                     <th>S.No.</th>
-                    <th>Token Id</th>
+
                     <th>Buyer</th>
                     <th>New Price</th>
                     <th>Sales Count</th>
+                    <th>Token Id</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -105,13 +106,24 @@ export const UserHolding = () => {
                       <tr key={index}>
                         <td>{(currentPage - 1) * itemPerpage + index + 1}</td>
 
-                        <td>{holder?.tokenId}</td>
                         <td>
                           {holder?.buyer.slice(0, 5)}...
                           {holder?.buyer.slice(-4)}
                         </td>
                         <td>{(holder?.newPrice / 1e18).toFixed(4)} USDT</td>
                         <td>{holder?.salesCount}</td>
+                        <td>
+                          {holder?.tokenId}
+                          <Tooltip title={tooltipText} arrow>
+                            <IconButton
+                              onClick={() => handleCopy(holder?.tokenId)}
+                              size="small"
+                              style={{ marginLeft: 4 }}
+                            >
+                              <FaRegCopy />
+                            </IconButton>
+                          </Tooltip>
+                        </td>
                       </tr>
                     ))
                   ) : (

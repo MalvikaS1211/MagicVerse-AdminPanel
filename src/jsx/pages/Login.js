@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import bg6 from "../../images/background/bg6.jpg";
+import bg6 from "../../images/background/bg3.jpg";
 
 import { adminLogin, getLoginCredential } from "../../services/api_function";
 import toast from "react-hot-toast";
@@ -50,8 +50,14 @@ function Login(props) {
     <div className="page-wraper">
       <div className="browse-job login-style3">
         <div
-          className="bg-img-fix overflow-hidden"
-          style={{ background: "#fff url(" + bg6 + ")", height: "100vh" }}
+          className=" overflow-hidden"
+          style={{
+            backgroundImage: `url(${bg6})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            minHeight: "100vh",
+          }}
         >
           <div className="row gx-0">
             <div className="col-xl-4 col-lg-5 col-md-6 col-sm-12 vh-100 bg-white ">
@@ -102,17 +108,15 @@ function Login(props) {
                               className="dz-form pb-3"
                               // onSubmit={adminLogin}
                             >
-                              <h3 className="form-title m-t0">
-                                Personal Information
-                              </h3>
-                              <div className="dz-separator-outer m-b5">
-                                <div className="dz-separator bg-primary style-liner"></div>
+                              <div>
+                                <h3 className="form-title m-t0">Welcome</h3>
+                                <p>Please Login to Admin Dashboard</p>
                               </div>
-                              <p>
-                                Enter your E-mail address and your password.
-                              </p>
 
                               <div className="form-group mb-3">
+                                {/* <label className="form-label" for="form1">
+                                  Username
+                                </label> */}
                                 <input
                                   type="text"
                                   className="form-control"
@@ -128,6 +132,9 @@ function Login(props) {
                               </div>
 
                               <div className="form-group mb-3">
+                                {/* <label className="form-label" for="form1">
+                                  Password
+                                </label> */}
                                 <input
                                   type="password"
                                   className="form-control"

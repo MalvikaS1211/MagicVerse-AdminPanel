@@ -105,7 +105,7 @@ export const NewNFTsList = () => {
                             </IconButton>
                           </Tooltip>
                         </td>
-                        <td>$ {NFT?.price / 1e18}</td>
+                        <td>$ {NFT?.price / (1e18).toFixed(4)}</td>
 
                         <td>
                           {moment(NFT.createdAt).format("DD/MM/YYYY h:mm:ss A")}

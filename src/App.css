@@ -191,3 +191,35 @@ td {
   padding-right: 10px;
   border-radius: 5px;
 }
+.bg-img-fix {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-color: #fff;
+}
+.bg-img-fix {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background: rgb(25 25 25 / 93%);
+}
+
+.bg-img-fix::before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  inset-inline-start: 0;
+  inset-inline-end: 0;
+  inset-block-start: 0;
+  inset-block-end: 0;
+  background-image: url(../src/images/background/bg3.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -1;
+}

@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { useDispatch } from "react-redux";
 import { RiNftFill, RiQuestionnaireFill } from "react-icons/ri";
-import { FaUserGraduate, FaUserShield } from "react-icons/fa";
-import { FaRankingStar } from "react-icons/fa6";
+import { FaCommentDots, FaUserGraduate, FaUserShield } from "react-icons/fa";
+import { FaMessage, FaRankingStar, FaRegMessage } from "react-icons/fa6";
 import { PiExamFill } from "react-icons/pi";
 import { FaIdCardAlt } from "react-icons/fa";
 import { PiHandDepositFill } from "react-icons/pi";
@@ -88,7 +88,7 @@ export const MenuList = [
   {
     title: "Add Massage",
     to: "admin/addmessage",
-    iconStyle: <AiFillMessage className="fs-3" />,
+    iconStyle: <FaRegMessage className="fs-3" />,
   },
   {
     title: "Support",
