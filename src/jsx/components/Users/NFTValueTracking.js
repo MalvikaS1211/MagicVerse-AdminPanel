@@ -22,7 +22,18 @@ export const NFTValueTracking = () => {
   const ShowNFTList = async () => {
     const res = await nftValueTracking(currentPage, itemPerpage);
     console.log(res, "nftValueTracking");
-    setTotalNftValue(res?.totalPrice);
+    const prices = res.data.map((nft) => Number(nft.price) || 0);
+
+    // Convert each to ETH
+    const pricesInETH = prices.map((p) => p / 1e18);
+
+    // Sum in ETH
+    const totalPrice = pricesInETH.reduce((acc, curr) => acc + curr, 0);
+
+    console.log(pricesInETH, "Prices in ETH");
+    console.log(totalPrice, "Total Price in ETH");
+
+    setTotalNftValue(totalPrice);
     setTotalPages(res?.pagination?.totalPages);
     setNFTList(res?.data);
   };
@@ -67,9 +78,7 @@ export const NFTValueTracking = () => {
               <Row>
                 <div className="d-flex">
                   <h4 style={{ marginRight: "10px" }}>Total NFT Value: </h4>
-                  <h4 style={{ fontWeight: 300 }}>
-                    {(totalNftValue / 1e18).toFixed(4) || 0}
-                  </h4>
+                  <h4 style={{ fontWeight: 300 }}>{totalNftValue || 0}</h4>
                 </div>
               </Row>
               <Table responsive>

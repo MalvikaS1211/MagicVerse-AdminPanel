@@ -46,7 +46,7 @@ export const AddNFTToQueue = () => {
       console.log(currentPage, itemPerpage, "pages:");
       setTotalPages(res?.pagination?.totalPages);
       setTotalNFT(res?.pagination?.totalCount);
-      setTotalNftValue(res?.totalNewPrice);
+      setTotalNftValue(res?.TotalNFTValue[0]?.totalNewPrice);
       console.log(res, "show data");
       setDataList(res?.data);
     } catch (error) {
