@@ -1,7 +1,12 @@
 import React, { useContext } from "react";
 import { useDispatch } from "react-redux";
 import { RiNftFill, RiQuestionnaireFill } from "react-icons/ri";
-import { FaCommentDots, FaUserGraduate, FaUserShield } from "react-icons/fa";
+import {
+  FaCommentDots,
+  FaUserCheck,
+  FaUserGraduate,
+  FaUserShield,
+} from "react-icons/fa";
 import { FaMessage, FaRankingStar, FaRegMessage } from "react-icons/fa6";
 import { PiExamFill } from "react-icons/pi";
 import { FaIdCardAlt } from "react-icons/fa";
@@ -84,6 +89,11 @@ export const MenuList = [
     title: "Add NFT to queue",
     to: "admin/addnftqueue",
     iconStyle: <GiAbstract074 className="fs-3" />,
+  },
+  {
+    title: "Active Users",
+    to: "admin/active-users",
+    iconStyle: <FaUserCheck className="fs-3" />,
   },
   {
     title: "Add Massage",

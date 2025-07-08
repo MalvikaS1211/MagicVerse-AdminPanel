@@ -590,3 +590,18 @@ export async function getMessage() {
     console.log("Error getMessage Admin:", error);
   }
 }
+
+export async function getActiveUserslast24Hours(page, limit) {
+  try {
+    const response = await axios.get(`${URLApi}/active-users-last-24hours`, {
+      params: {
+        page,
+        limit,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error active-users-last-24hours :", error);
+  }
+}
