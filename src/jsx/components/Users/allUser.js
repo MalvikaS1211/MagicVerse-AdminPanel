@@ -4,7 +4,10 @@ import { Tooltip, IconButton } from "@mui/material";
 import { FaRegCopy } from "react-icons/fa";
 import moment from "moment";
 import axios from "axios";
-import { getAdminDashboard } from "../../../services/api_function";
+import {
+  getActiveUserslast24Hours,
+  getAdminDashboard,
+} from "../../../services/api_function";
 import { useAccount } from "wagmi";
 
 export const Alluser = () => {
@@ -13,12 +16,13 @@ export const Alluser = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [activeList, setActiveList] = useState([]);
 
   const itemPerPage = 20;
 
   const [tooltipText, setTooltipText] = useState("Copy address");
   const [searchValue, setSearchValue] = useState("");
-
+  const [totalUsers, setTotalUsers] = useState(0);
   const handleCopy = (address) => {
     navigator.clipboard.writeText(address);
     setTooltipText("Copied!");
@@ -37,8 +41,19 @@ export const Alluser = () => {
     }
   };
   console.log("total user ", usersList.length);
+
+  const ShowActiveUserList = async () => {
+    const res = await getActiveUserslast24Hours(1, 500);
+    console.log(res?.data, "getActiveUserslast24Hours::");
+
+    setActiveList(res?.data);
+    // setNFTList(res?.data);
+  };
   useEffect(() => {
     allUsers("");
+  }, [currentPage]);
+  useEffect(() => {
+    ShowActiveUserList();
   }, []);
 
   const handleSearch = (e) => {
@@ -91,6 +106,7 @@ export const Alluser = () => {
                   <tr>
                     <th>S.No.</th>
                     <th>User Id</th>
+                    <th>Active User</th>
                     <th>User</th>
                     <th>Referral</th>
                     <th>Tx Hash</th>
@@ -121,6 +137,12 @@ export const Alluser = () => {
                             </IconButton>
                           </Tooltip>
                         </td>
+                        <td>
+                          {activeList?.some((it) => it._id === user.user)
+                            ? "TRUE"
+                            : "FALSE"}
+                        </td>
+
                         <td>
                           {user?.referrer?.slice(0, 5)}...
                           {user?.referrer?.slice(-4)}
