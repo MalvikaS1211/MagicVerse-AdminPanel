@@ -4,7 +4,7 @@ export const URLApi = "https://magicverse.org/api";
 // export const URLApi = "http://192.168.1.10:8081/api";
 // export const URLApi = "http://192.168.1.161:8081/api";
 // export const URLApi = "http://localhost:8081/api";
-// export const URLApi = "http://192.168.1.19:8081/api";
+// export const URLApi = "http://192.168.1.16:8081/api";
 
 export function cutAfterDecimal(number, pos, dl, ac) {
   if (Number(number)) {
@@ -603,5 +603,47 @@ export async function getActiveUserslast24Hours(page, limit) {
     return response.data;
   } catch (error) {
     console.log("Error active-users-last-24hours :", error);
+  }
+}
+
+export async function dueNft(tokenId) {
+  try {
+    const response = await axios.get(`${URLApi}/due-nft`, {
+      params: {
+        tokenId,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error due-nft:", error);
+    return null;
+  }
+}
+
+export async function oldNftList(page, limit) {
+  try {
+    const response = await axios.get(`${URLApi}/getOldNftValueAndList`, {
+      params: {
+        page,
+        limit,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error getOldNftValueAndList :", error);
+  }
+}
+
+export async function burnNft(tokenId) {
+  try {
+    const response = await axios.post(`${URLApi}/burn-nft`, {
+      tokenId,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error getOldNftValueAndList :", error);
   }
 }

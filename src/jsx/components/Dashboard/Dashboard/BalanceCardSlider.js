@@ -60,8 +60,8 @@ const BalanceCardSlider = () => {
 
       console.log(res, "res");
       setUserAddressSingle("");
-      setStatusAllow(false);
-      if (statusAllow == true) {
+      console.log(statusAllow, "statusAllow");
+      if (statusAllow === "true") {
         toast.success("User Allowed to create an NFT !");
       } else {
         toast.success("User Not Allowed to create an NFT !");
@@ -96,7 +96,12 @@ const BalanceCardSlider = () => {
       navigate("/admin/login");
     }
   }, [navigate]);
+  const [isEnabled, setIsEnabled] = useState(false);
 
+  const handleToggle = () => {
+    setIsEnabled((prev) => !prev);
+    console.log("New NFT toggled:", !isEnabled); // or trigger an API call
+  };
   return (
     <div className="col-xl-12">
       <label className="form-label h3">Dashboard</label>
@@ -258,6 +263,23 @@ const BalanceCardSlider = () => {
               </div>
             </div>
           </div>
+          {/* toggle btn */}
+          {/* <div className="d-flex  gap-3">
+            <div className="d-flex align-items-center gap-3 mt-4">
+              <span className="">New NFT</span>
+              <label class="switch">
+                <input type="checkbox" />
+                <span class="slider round"></span>
+              </label>
+            </div>
+            <div className="d-flex align-items-center gap-3 mt-4">
+              <span>Old NFT</span>
+              <label class="switch">
+                <input type="checkbox" />
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </div> */}
         </div>
       </div>
     </div>

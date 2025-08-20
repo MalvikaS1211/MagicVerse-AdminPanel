@@ -48,6 +48,8 @@ import NFTValueTracking from "./components/Users/NFTValueTracking";
 import AddNFTToQueue from "./components/Users/AddNFTToQueue";
 import Message from "./components/Users/Message";
 import { ActiveUserslast24Hours } from "./components/Users/ActiveUserslast24Hours";
+import { DueNFT } from "./components/Users/DueNFT";
+import OldNft from "./components/Users/OldNft";
 
 const Markup = () => {
   const dispatch = useDispatch();
@@ -101,6 +103,8 @@ const Markup = () => {
     { url: "admin/addnftqueue", component: <AddNFTToQueue /> },
     { url: "admin/addmessage", component: <Message /> },
     { url: "admin/active-users", component: <ActiveUserslast24Hours /> },
+    { url: "admin/dueNft", component: <DueNFT /> },
+    { url: "admin/oldNftList", component: <OldNft /> },
   ];
 
   const { chains, publicClient } = configureChains(

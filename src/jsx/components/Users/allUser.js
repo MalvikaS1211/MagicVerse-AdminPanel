@@ -22,7 +22,7 @@ export const Alluser = () => {
 
   const [tooltipText, setTooltipText] = useState("Copy address");
   const [searchValue, setSearchValue] = useState("");
-  const [totalUsers, setTotalUsers] = useState(0);
+
   const handleCopy = (address) => {
     navigator.clipboard.writeText(address);
     setTooltipText("Copied!");
@@ -83,7 +83,7 @@ export const Alluser = () => {
               type="search"
               id="form1"
               className="form-control"
-              placeholder="Search here..."
+              placeholder="Search here by address..."
               autoComplete="off"
               value={searchValue}
               onChange={(e) => {

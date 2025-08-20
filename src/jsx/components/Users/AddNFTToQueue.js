@@ -152,6 +152,7 @@ export const AddNFTToQueue = () => {
                     <th>Status </th>
                     <th>Sales Count</th>
                     <th>Current Price</th>
+                    <th>Date</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -167,6 +168,11 @@ export const AddNFTToQueue = () => {
                           {((data?.soldDetail?.newPrice || 0) / 1e18).toFixed(
                             4
                           )}
+                        </td>
+                        <td>
+                          {moment
+                            .unix(data.lastSoldTime)
+                            .format("DD-MM-YYYY hh:mm A")}
                         </td>
                       </tr>
                     ))

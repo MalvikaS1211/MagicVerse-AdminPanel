@@ -96,6 +96,16 @@ export const MenuList = [
     iconStyle: <FaUserCheck className="fs-3" />,
   },
   {
+    title: "Due NFT",
+    to: "admin/dueNft",
+    iconStyle: <GiLevelEndFlag className="fs-3" />,
+  },
+  {
+    title: "Old NFT",
+    to: "admin/oldNftList",
+    iconStyle: <GiLevelEndFlag className="fs-3" />,
+  },
+  {
     title: "Add Massage",
     to: "admin/addmessage",
     iconStyle: <FaRegMessage className="fs-3" />,
