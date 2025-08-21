@@ -4,7 +4,7 @@ export const URLApi = "https://magicverse.org/api";
 // export const URLApi = "http://192.168.1.10:8081/api";
 // export const URLApi = "http://192.168.1.161:8081/api";
 // export const URLApi = "http://localhost:8081/api";
-// export const URLApi = "http://192.168.1.16:8081/api";
+// export const URLApi = "http://192.168.1.11:8081/api";
 
 export function cutAfterDecimal(number, pos, dl, ac) {
   if (Number(number)) {
@@ -621,12 +621,13 @@ export async function dueNft(tokenId) {
   }
 }
 
-export async function oldNftList(page, limit) {
+export async function oldNftList(page, limit, buyer) {
   try {
     const response = await axios.get(`${URLApi}/getOldNftValueAndList`, {
       params: {
         page,
         limit,
+        buyer,
       },
     });
 

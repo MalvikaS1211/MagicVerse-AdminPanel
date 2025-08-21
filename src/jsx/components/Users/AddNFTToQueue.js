@@ -26,8 +26,8 @@ export const AddNFTToQueue = () => {
   const handleAddNFT = async () => {
     try {
       const response = await AddNFTInQueue(tokenId);
-      if (response.sucess == true) {
-        toast.success("NFT addes in queue !");
+      if (response.success == true) {
+        toast.success("NFT added in queue !");
       } else {
         toast.error(response?.message);
       }

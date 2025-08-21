@@ -6,6 +6,8 @@ import { styled } from "@mui/material/styles";
 // import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 
 import {
+  AddNFTInQueue,
+  burnNft,
   dueNft,
   getUserPackages,
   oldNftList,
@@ -34,7 +36,7 @@ export const OldNft = () => {
   const [totalvalue, setTotalValue] = useState(0);
   const [totalcount, setTotalCount] = useState(0);
   const itemPerpage = 10;
-
+  const [searchValue, setSearchValue] = useState("");
   const handleCopy = (address) => {
     navigator.clipboard.writeText(address);
     setTooltipText("Copied!");
@@ -51,9 +53,9 @@ export const OldNft = () => {
     setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : prevPage));
   };
 
-  const OldNftList = async () => {
+  const OldNftList = async (searchValue) => {
     try {
-      const res = await oldNftList(currentPage, itemPerpage);
+      const res = await oldNftList(currentPage, itemPerpage, searchValue);
 
       setCurrentPage(res.page); // current page from API
       setTotalPages(res.totalPages); // ✅ correct total pages
@@ -64,7 +66,20 @@ export const OldNft = () => {
       console.error("Error fetching NFTs:", error);
     }
   };
-
+  const handleRelease = async (tokenId) => {
+    try {
+      const response = await AddNFTInQueue(tokenId);
+      if (response.success == true) {
+        toast.success("NFT released !");
+        OldNftList();
+      } else {
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      const msg = error?.response?.data?.message;
+      toast.error(msg);
+    }
+  };
   useEffect(() => {
     OldNftList();
   }, [currentPage]);
@@ -72,6 +87,33 @@ export const OldNft = () => {
   return (
     <Fragment>
       <Row>
+        <div className="display_end " style={{ display: "flex", gap: "3px" }}>
+          <div className="input-group" style={{ maxWidth: "300px" }}>
+            <input
+              type="search"
+              id="form1"
+              className="form-control"
+              placeholder="Search here by buyer..."
+              autoComplete="off"
+              value={searchValue}
+              onChange={(e) => {
+                const value = e.target.value;
+                setSearchValue(value);
+                // ShowDueNFT(value); // fetch data with search tokenId
+              }}
+            />
+          </div>
+          <button
+            type="button"
+            className="btn btn-success p-2 pointer border "
+            onClick={() => {
+              OldNftList(searchValue);
+            }}
+          >
+            Serach
+          </button>
+          <label className="form-label" htmlFor="form1"></label>
+        </div>
         <Col lg={12}>
           <Card>
             <Card.Header>
@@ -86,6 +128,9 @@ export const OldNft = () => {
                   <tr>
                     <th>S.No.</th>
                     <th>Token Id</th>
+                    <th>Owner</th>
+                    <th>Value</th>
+                    <th>Release</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -96,6 +141,17 @@ export const OldNft = () => {
 
                         {/* Token ID */}
                         <td>{pkg?.tokenId}</td>
+                        <td>{pkg?.owner}</td>
+                        <td>{(pkg?.latestPrice / 1e18).toFixed(2)}</td>
+                        <td>
+                          <button
+                            type="button"
+                            className="next-button btn btn-success pointer border "
+                            onClick={() => handleRelease(pkg?.tokenId)}
+                          >
+                            Release
+                          </button>
+                        </td>
                       </tr>
                     ))
                   ) : (
