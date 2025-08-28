@@ -25,6 +25,7 @@ export const OldNft = () => {
   const [apiData, setApiData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [daoAddress, setDaoAddress] = useState("");
   const [recordStatus, setRecordStatus] = useState("Loading...");
@@ -55,15 +56,18 @@ export const OldNft = () => {
 
   const OldNftList = async (searchValue) => {
     try {
+      setLoading(true); // start loading
       const res = await oldNftList(currentPage, itemPerpage, searchValue);
 
-      setCurrentPage(res.page); // current page from API
-      setTotalPages(res.totalPages); // ✅ correct total pages
+      setCurrentPage(res.page);
+      setTotalPages(res.totalPages);
       setPackageHistory(res.data);
       setTotalValue(res.totalValue);
       setTotalCount(res.totalCount);
     } catch (error) {
       console.error("Error fetching NFTs:", error);
+    } finally {
+      setLoading(false); // stop loading
     }
   };
   const handleRelease = async (tokenId) => {
@@ -130,23 +134,37 @@ export const OldNft = () => {
                     <th>Token Id</th>
                     <th>Owner</th>
                     <th>Value</th>
+                    <th>Sales Count</th>
+
                     <th>Release</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {packageHistory?.length > 0 ? (
+                  {loading ? (
+                    <tr>
+                      <td colSpan="7" className="text-center">
+                        <div className="d-flex justify-content-center align-items-center py-4">
+                          <div
+                            className="spinner-border text-success"
+                            role="status"
+                          >
+                            <span className="visually-hidden">Loading...</span>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  ) : packageHistory?.length > 0 ? (
                     packageHistory?.map((pkg, index) => (
                       <tr key={pkg._id}>
                         <td>{(currentPage - 1) * itemPerpage + index + 1}</td>
-
-                        {/* Token ID */}
                         <td>{pkg?.tokenId}</td>
                         <td>{pkg?.owner}</td>
                         <td>{(pkg?.latestPrice / 1e18).toFixed(2)}</td>
+                        <td>{pkg?.salesCount}</td>
                         <td>
                           <button
                             type="button"
-                            className="next-button btn btn-success pointer border "
+                            className="next-button btn btn-success pointer border"
                             onClick={() => handleRelease(pkg?.tokenId)}
                           >
                             Release
