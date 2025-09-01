@@ -4,7 +4,12 @@ import { Tooltip, IconButton } from "@mui/material";
 import { FaRegCopy } from "react-icons/fa";
 import axios from "axios";
 import moment from "moment";
-import { getUserHolders } from "../../../services/api_function";
+import {
+  AddNFTInQueue,
+  getUserHolders,
+  RemoveNFt,
+} from "../../../services/api_function";
+import toast from "react-hot-toast";
 
 export const UserHolding = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -16,7 +21,7 @@ export const UserHolding = () => {
   const [user, setUser] = useState("");
   const [totalAmount, setTotalAmount] = useState(0);
 
-  const itemPerpage = 50;
+  const itemPerpage = 10;
 
   const handleCopy = (token) => {
     navigator.clipboard.writeText(token);
@@ -51,6 +56,42 @@ export const UserHolding = () => {
       ShowUserHoldingList();
     }
   }, [currentPage]);
+
+  const handleAddNFT = async (tokenId) => {
+    try {
+      const response = await AddNFTInQueue(tokenId);
+      if (response.success == true) {
+        toast.success("NFT added !");
+      } else {
+        toast.error(response?.message);
+      }
+
+      setTimeout(() => {
+        ShowUserHoldingList();
+      }, 3000);
+    } catch (error) {
+      const msg = error?.response?.data?.message;
+      toast.error(msg);
+    }
+  };
+
+  const handleRemoveNFT = async (tokenId) => {
+    try {
+      const response = await RemoveNFt(tokenId);
+      if (response.success == true) {
+        toast.success("NFT removed !");
+      } else {
+        toast.error(response?.message);
+      }
+
+      setTimeout(() => {
+        ShowUserHoldingList();
+      }, 3000);
+    } catch (error) {
+      const msg = error?.response?.data?.message;
+      toast.error(msg);
+    }
+  };
 
   return (
     <Fragment>
@@ -98,6 +139,10 @@ export const UserHolding = () => {
                     <th>New Price</th>
                     <th>Sales Count</th>
                     <th>Token Id</th>
+                    <th>In queue</th>
+
+                    <th>Add</th>
+                    <th>Remove</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -123,6 +168,26 @@ export const UserHolding = () => {
                               <FaRegCopy />
                             </IconButton>
                           </Tooltip>
+                        </td>
+                        <td>{holder?.inQueue ? "True" : "False"}</td>
+
+                        <td>
+                          <button
+                            type="button"
+                            className="next-button btn btn-success pointer border "
+                            onClick={() => handleAddNFT(holder?.tokenId)}
+                          >
+                            Add
+                          </button>
+                        </td>
+                        <td>
+                          <button
+                            type="button"
+                            className="next-button btn btn-success pointer border "
+                            onClick={() => handleRemoveNFT(holder?.tokenId)}
+                          >
+                            Remove
+                          </button>
                         </td>
                       </tr>
                     ))

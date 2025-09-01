@@ -4,7 +4,7 @@ export const URLApi = "https://magicverse.org/api";
 // export const URLApi = "http://192.168.1.10:8081/api";
 // export const URLApi = "http://192.168.1.161:8081/api";
 // export const URLApi = "http://localhost:8081/api";
-// export const URLApi = "http://192.168.1.11:8081/api";
+// export const URLApi = "http://192.168.1.44:8081/api";
 
 export function cutAfterDecimal(number, pos, dl, ac) {
   if (Number(number)) {
@@ -646,5 +646,17 @@ export async function burnNft(tokenId) {
     return response.data;
   } catch (error) {
     console.log("Error getOldNftValueAndList :", error);
+  }
+}
+
+export async function RemoveNFt(tokenId) {
+  try {
+    const response = await axios.post(`${URLApi}/removeNftFromQueue`, {
+      tokenId,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error RemoveNFt :", error);
   }
 }
