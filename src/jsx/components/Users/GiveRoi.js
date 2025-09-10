@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 
 import { useAccount } from "wagmi";
 import moment from "moment";
+import { payROI } from "./web3/transfert";
 export const GiveRoi = () => {
   const { wallet } = useSelector((state) => state.login);
   const { walletAddress, chainId } = wallet;
@@ -102,6 +103,15 @@ export const GiveRoi = () => {
   useEffect(() => {
     RoiList();
   }, [currentPage]);
+
+  const payRoi = async () => {
+    try {
+      const res = payROI(roiList.user, roiList.amount);
+      console.log(res, "payRoi");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Fragment>

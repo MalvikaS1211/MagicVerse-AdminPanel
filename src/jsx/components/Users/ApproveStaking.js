@@ -53,19 +53,19 @@ export const ApproveStaking = () => {
 
   const ApproveStakingList = async () => {
     try {
-      setLoading(true); // start loading
-      const res = await getStakingList(
-        currentPage,
-        itemPerpage,
-        "pending",
-        walletAddress
-      );
+      setLoading(true);
+
+      const res = await getStakingList(currentPage, itemPerpage, "pending");
+
       console.log(res, walletAddress, "List");
-      setCurrentPage(res.page);
-      setTotalPages(res.totalPages);
-      setStakingList(res.data);
-      setTotalValue(res.totalValue);
-      setTotalCount(res.totalCount);
+
+      const { pagination } = res;
+
+      setCurrentPage(pagination?.currentPage || 1);
+      setTotalPages(pagination?.totalPages || 1);
+      setStakingList(res.data || []);
+      setTotalValue(pagination?.totalDocs || 0);
+      setTotalCount(pagination?.totalDocs || 0);
     } catch (error) {
       console.error("Error fetching NFTs:", error);
     } finally {
