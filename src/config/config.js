@@ -1949,4 +1949,83 @@ export const CONTRACT_ADDRESS_ABI = [
     type: "function",
   },
 ];
+
+export const MVerse_CONTRACT_ADDRESS =
+  "0xce70A86FCEB58E4Fb486D6A7BbcB9683407de938";
+
+export const MVerse_CONTRACT_ADDRESS_ABI = [
+  {
+    constant: false,
+    inputs: [{ name: "newImplementation", type: "address" }],
+    name: "upgradeTo",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    constant: false,
+    inputs: [
+      { name: "newImplementation", type: "address" },
+      { name: "data", type: "bytes" },
+    ],
+    name: "upgradeToAndCall",
+    outputs: [],
+    payable: true,
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "implementation",
+    outputs: [{ name: "", type: "address" }],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    constant: false,
+    inputs: [{ name: "newAdmin", type: "address" }],
+    name: "changeAdmin",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "admin",
+    outputs: [{ name: "", type: "address" }],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { name: "_logic", type: "address" },
+      { name: "_admin", type: "address" },
+    ],
+    payable: true,
+    stateMutability: "payable",
+    type: "constructor",
+  },
+  { payable: true, stateMutability: "payable", type: "fallback" },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: false, name: "previousAdmin", type: "address" },
+      { indexed: false, name: "newAdmin", type: "address" },
+    ],
+    name: "AdminChanged",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [{ indexed: true, name: "implementation", type: "address" }],
+    name: "Upgraded",
+    type: "event",
+  },
+];
 export const base_url = window.location.origin;

@@ -14,7 +14,7 @@ import toast from "react-hot-toast";
 import { Tooltip, IconButton } from "@mui/material";
 import { FaRegCopy } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { getOperator } from "./web3/transfert";
+
 import { useAccount } from "wagmi";
 import moment from "moment";
 export const DueNFT = () => {

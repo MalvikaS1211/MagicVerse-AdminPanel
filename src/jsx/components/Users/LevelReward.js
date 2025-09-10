@@ -14,11 +14,7 @@ import toast from "react-hot-toast";
 import { Tooltip, IconButton } from "@mui/material";
 import { FaRegCopy } from "react-icons/fa";
 import moment from "moment";
-import {
-  getIsUserExist,
-  getOperator,
-  stakeUsdtByAdmin,
-} from "./web3/transfert";
+
 import { useAccount } from "wagmi";
 
 export const LevelReward = () => {
