@@ -50,6 +50,8 @@ import Message from "./components/Users/Message";
 import { ActiveUserslast24Hours } from "./components/Users/ActiveUserslast24Hours";
 import { DueNFT } from "./components/Users/DueNFT";
 import OldNft from "./components/Users/OldNft";
+import ApproveStaking from "./components/Users/ApproveStaking";
+import GiveRoi from "./components/Users/GiveRoi";
 
 const Markup = () => {
   const dispatch = useDispatch();
@@ -72,6 +74,8 @@ const Markup = () => {
     { url: "", component: <Home /> },
     { url: "admin/dashboard", component: <Home /> },
     { url: "admin/userList", component: <Alluser /> },
+    { url: "admin/approveStaking", component: <ApproveStaking /> },
+    { url: "admin/giveRoi", component: <GiveRoi /> },
 
     { url: "admin/NFTCreationList", component: <NFTCreationList /> },
     { url: "admin/deposit", component: <Deposit /> },

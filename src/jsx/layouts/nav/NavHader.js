@@ -4,16 +4,16 @@ import { Link } from "react-router-dom";
 import { ThemeContext } from "../../../context/ThemeContext";
 
 //images
-import logo1 from "../../../images/Favicon.png";
+// import logo1 from "../../../images/Favicon.png";
 
-// import logo1 from "./../../../images/logo/logo.png";
+import logo1 from "./../../../images/logo/logo.png";
 import logotext1 from "./../../../images/logo/logo-text.png";
-import logoColor from "./../../../images/logo/logo-color.png";
-import logoColorText from "./../../../images/logo/logo-text-color.png";
-import image from "../../../images/t Text.svg";
-import { PiDotsNineBold } from "react-icons/pi";
-import { IoMdArrowRoundBack } from "react-icons/io";
-import { IoArrowBack } from "react-icons/io5";
+// import logoColor from "./../../../images/logo/logo-color.png";
+// import logoColorText from "./../../../images/logo/logo-text-color.png";
+// import image from "../../../images/t Text.svg";
+// import { PiDotsNineBold } from "react-icons/pi";
+// import { IoMdArrowRoundBack } from "react-icons/io";
+// import { IoArrowBack } from "react-icons/io5";
 import { TbGridDots } from "react-icons/tb";
 export function NavMenuToggle() {
   setTimeout(() => {
