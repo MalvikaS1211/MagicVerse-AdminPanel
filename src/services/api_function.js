@@ -4,7 +4,7 @@ export const URLApi = "https://magicverse.org/api";
 // export const URLApi = "http://192.168.1.10:8081/api";
 // export const URLApi = "http://192.168.1.161:8081/api";
 // export const URLApi = "http://localhost:8081/api";
-// export const URLApi = "http://192.168.1.193:8081/api";
+// export const URLApi = "http://192.168.1.171:8081/api";
 
 export function cutAfterDecimal(number, pos, dl, ac) {
   if (Number(number)) {
@@ -696,7 +696,6 @@ export async function getROIList(page, limit, filter, user) {
       page,
       limit,
       filter,
-      user,
     });
 
     return response.data;

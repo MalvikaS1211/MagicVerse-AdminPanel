@@ -33,6 +33,10 @@ export const GiveRoi = () => {
   const [totalcount, setTotalCount] = useState(0);
   const itemPerpage = 10;
   const [searchValue, setSearchValue] = useState("");
+  const [approvedIds, setApprovedIds] = useState([]);
+  const [approvedUsers, setApprovedUsers] = useState([]);
+  const [approvedAmounts, setApprovedAmounts] = useState([]);
+  const [txHash, setTxHash] = useState("");
   const handleCopy = (address) => {
     navigator.clipboard.writeText(address);
     setTooltipText("Copied!");
@@ -52,12 +56,7 @@ export const GiveRoi = () => {
   const RoiList = async () => {
     try {
       setLoading(true);
-      const res = await getROIList(
-        currentPage,
-        itemPerpage,
-        "pending",
-        walletAddress
-      );
+      const res = await getROIList(currentPage, itemPerpage, "pending");
       console.log("ROI List response:", res);
 
       setRoiList(res.data || []);
@@ -70,7 +69,7 @@ export const GiveRoi = () => {
       setLoading(false);
     }
   };
-  const handleApproveRejectRoi = async (Id, action) => {
+  const handleApproveRejectRoi = async (Id) => {
     try {
       const roiItem = roiList.find((item) => item._id === Id);
 
@@ -78,12 +77,12 @@ export const GiveRoi = () => {
         toast.error("ROI item not found");
         return;
       }
-
+      const action = txHash ? "approved" : "rejected";
       const response = await roiApproveOrReject(
-        roiItem.user,
-        Id,
-        action, // pass "approve" or "reject"
-        roiItem.txHash
+        approvedUsers,
+        approvedIds,
+        action,
+        txHash || null
       );
 
       if (response.success) {
@@ -106,13 +105,34 @@ export const GiveRoi = () => {
 
   const payRoi = async () => {
     try {
-      const res = payROI(roiList.user, roiList.amount);
+      const res = payROI(approvedUsers, approvedAmounts);
       console.log(res, "payRoi");
+      setTxHash(res);
     } catch (error) {
       console.log(error);
     }
   };
+  const storeApproved = () => {
+    const selectedItems = roiList.filter((item) => item.isSelected);
 
+    if (selectedItems.length === 0) {
+      toast.error("No rows selected!");
+      return;
+    }
+
+    const ids = selectedItems.map((i) => i._id);
+    const users = selectedItems.map((i) => i.user);
+    const amounts = selectedItems.map((i) => i.amount);
+    setApprovedIds(ids);
+    setApprovedUsers(users);
+    setApprovedAmounts(amounts);
+    payRoi();
+    handleApproveRejectRoi(ids);
+    toast.success("Selected rows stored for approval!");
+    console.log("Approved IDs:", ids);
+    console.log("Approved Users:", users);
+    console.log("Approved Amounts:", amounts);
+  };
   return (
     <Fragment>
       <Row>
@@ -147,18 +167,61 @@ export const GiveRoi = () => {
           <Card>
             <Card.Header>
               <Card.Title>ROI List</Card.Title>
-              {/* <Card.Title>Total Count : {totalcount} NFT</Card.Title> */}
             </Card.Header>
             <Card.Body>
+              <div className="d-flex justify-content-end mb-3 gap-2">
+                <button
+                  type="button"
+                  className="btn btn-success"
+                  onClick={storeApproved}
+                >
+                  Approve
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={() => {
+                    const selectedIds = roiList
+                      .filter((item) => item.isSelected)
+                      .map((i) => i._id);
+                    if (selectedIds.length === 0) {
+                      toast.error("No rows selected!");
+                      return;
+                    }
+                    selectedIds.forEach((id) =>
+                      handleApproveRejectRoi(id, "rejected")
+                    );
+                  }}
+                >
+                  Reject
+                </button>
+              </div>
+
               <Table responsive>
                 <thead>
                   <tr>
-                    <th></th>
+                    <th>
+                      <input
+                        type="checkbox"
+                        checked={
+                          roiList?.length > 0 &&
+                          roiList.every((item) => item.isSelected)
+                        }
+                        onChange={(e) => {
+                          const checked = e.target.checked;
+                          const updated = roiList.map((item) => ({
+                            ...item,
+                            isSelected: checked,
+                          }));
+                          setRoiList(updated);
+                        }}
+                      />
+                    </th>
                     <th>S.No.</th>
                     <th>User Address</th>
                     <th>Amount</th>
-                    <th>Approve</th>
-                    <th>Reject</th>
+                    {/* <th>Approve</th>
+                    <th>Reject</th> */}
                   </tr>
                 </thead>
                 <tbody>
@@ -176,7 +239,7 @@ export const GiveRoi = () => {
                       </td>
                     </tr>
                   ) : roiList?.length > 0 ? (
-                    roiList?.map((roi, index) => (
+                    roiList.map((roi, index) => (
                       <tr key={roi._id}>
                         <td>
                           <input
@@ -195,7 +258,7 @@ export const GiveRoi = () => {
                         <td>{(currentPage - 1) * itemPerpage + index + 1}</td>
                         <td>{roi?.user}</td>
                         <td>{roi?.amount.toFixed(4)}</td>
-                        <td>
+                        {/* <td>
                           <button
                             type="button"
                             className="next-button btn btn-success pointer border"
@@ -216,7 +279,7 @@ export const GiveRoi = () => {
                           >
                             Reject
                           </button>
-                        </td>
+                        </td> */}
                       </tr>
                     ))
                   ) : (

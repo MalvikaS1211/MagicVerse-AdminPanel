@@ -149,6 +149,7 @@ export const ApproveStaking = () => {
                     <th>Amount</th>
                     {/* <th>Value</th>
                     <th>Sales Count</th> */}
+                    <th>Date & Time</th>
 
                     <th>Approve</th>
                     <th>Reject</th>
@@ -174,7 +175,9 @@ export const ApproveStaking = () => {
                         <td>{(currentPage - 1) * itemPerpage + index + 1}</td>
                         <td>{stake?.user}</td>
                         <td>{stake?.stakingAmount.toFixed(4)}</td>
-
+                        <td>
+                          {moment(stake.createdAt).format("M/D/YYYY h:mm:ss A")}
+                        </td>
                         <td>
                           <button
                             type="button"
