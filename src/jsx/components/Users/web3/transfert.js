@@ -15,6 +15,8 @@ import {
   MULTI_SEND_ABI,
   MULTI_SEND_ADDRESS,
   MULTI_SEND_ADDRESS_USDT,
+  MVerse_CONTRACT_ADDRESS,
+  MVerse_CONTRACT_ADDRESS_ABI,
   TOKEN_ABI,
   TOKEN_ADDRESS_USDT,
 } from "../../../../config/config";
@@ -214,4 +216,20 @@ export async function getOperator() {
   });
 
   return result;
+}
+
+export async function payROI(recipients, amounts) {
+  const result = await writeContract({
+    abi: MVerse_CONTRACT_ADDRESS,
+    address: MVerse_CONTRACT_ADDRESS_ABI,
+    functionName: "payROI",
+    args: [recipients, amounts],
+  });
+  const res = waitForTransaction(result);
+  const data = await toast.promise(res, {
+    loading: "Update ROI is pending...",
+    success: "ROI updated successfully!",
+    error: (error) => error.message ?? "request failed.",
+  });
+  return data;
 }

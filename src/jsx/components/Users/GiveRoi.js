@@ -5,13 +5,7 @@ import { Row, Col, Card, Table, Form, Button } from "react-bootstrap";
 import { styled } from "@mui/material/styles";
 // import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 
-import {
-  AddNFTInQueue,
-  burnNft,
-  dueNft,
-  getUserPackages,
-  oldNftList,
-} from "../../../services/api_function";
+import { getROIList, roiApproveOrReject } from "../../../services/api_function";
 import toast from "react-hot-toast";
 import { Tooltip, IconButton } from "@mui/material";
 import { FaRegCopy } from "react-icons/fa";
@@ -19,7 +13,8 @@ import { useSelector } from "react-redux";
 
 import { useAccount } from "wagmi";
 import moment from "moment";
-export const OldNft = () => {
+import { payROI } from "./web3/transfert";
+export const GiveRoi = () => {
   const { wallet } = useSelector((state) => state.login);
   const { walletAddress, chainId } = wallet;
   const [apiData, setApiData] = useState([]);
@@ -27,13 +22,13 @@ export const OldNft = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
-  const [daoAddress, setDaoAddress] = useState("");
+
   const [recordStatus, setRecordStatus] = useState("Loading...");
   const [isFetch, setIsFetch] = useState(false);
   const [limit] = useState(1);
   const { address } = useAccount();
   const [tooltipText, setTooltipText] = useState("Copy address");
-  const [packageHistory, setPackageHistory] = useState([]);
+  const [roiList, setRoiList] = useState([]);
   const [totalvalue, setTotalValue] = useState(0);
   const [totalcount, setTotalCount] = useState(0);
   const itemPerpage = 10;
@@ -54,44 +49,74 @@ export const OldNft = () => {
     setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : prevPage));
   };
 
-  const OldNftList = async (searchValue) => {
+  const RoiList = async () => {
     try {
-      setLoading(true); // start loading
-      const res = await oldNftList(currentPage, itemPerpage, searchValue);
+      setLoading(true);
+      const res = await getROIList(
+        currentPage,
+        itemPerpage,
+        "pending",
+        walletAddress
+      );
+      console.log("ROI List response:", res);
 
-      setCurrentPage(res.page);
-      setTotalPages(res.totalPages);
-      setPackageHistory(res.data);
-      setTotalValue(res.totalValue);
-      setTotalCount(res.totalCount);
+      setRoiList(res.data || []);
+      setCurrentPage(res.pagination?.currentPage || 1);
+      setTotalPages(res.pagination?.totalPages || 1);
+      setTotalCount(res.pagination?.totalDocs || 0);
     } catch (error) {
-      console.error("Error fetching NFTs:", error);
+      console.error("Error fetching ROI list:", error);
     } finally {
-      setLoading(false); // stop loading
+      setLoading(false);
     }
   };
-  const handleRelease = async (tokenId) => {
+  const handleApproveRejectRoi = async (Id, action) => {
     try {
-      const response = await AddNFTInQueue(tokenId);
-      if (response.success == true) {
-        toast.success("NFT released !");
-        OldNftList();
-      } else {
-        toast.error(response?.message);
+      const roiItem = roiList.find((item) => item._id === Id);
+
+      if (!roiItem) {
+        toast.error("ROI item not found");
+        return;
       }
+
+      const response = await roiApproveOrReject(
+        roiItem.user,
+        Id,
+        action, // pass "approve" or "reject"
+        roiItem.txHash
+      );
+
+      if (response.success) {
+        toast.success(`${action === "approve" ? "Approved" : "Rejected"}!`);
+      } else {
+        toast.error(response?.message || "Action failed");
+      }
+      setTimeout(() => {
+        RoiList();
+      }, 3000);
     } catch (error) {
-      const msg = error?.response?.data?.message;
+      const msg = error?.response?.data?.message || "Something went wrong";
       toast.error(msg);
     }
   };
+
   useEffect(() => {
-    OldNftList();
+    RoiList();
   }, [currentPage]);
+
+  const payRoi = async () => {
+    try {
+      const res = payROI(roiList.user, roiList.amount);
+      console.log(res, "payRoi");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Fragment>
       <Row>
-        <div className="display_end " style={{ display: "flex", gap: "3px" }}>
+        {/* <div className="display_end " style={{ display: "flex", gap: "3px" }}>
           <div className="input-group" style={{ maxWidth: "300px" }}>
             <input
               type="search"
@@ -111,32 +136,29 @@ export const OldNft = () => {
             type="button"
             className="btn btn-success p-2 pointer border "
             onClick={() => {
-              OldNftList(searchValue);
+              RoiList(searchValue);
             }}
           >
             Serach
           </button>
           <label className="form-label" htmlFor="form1"></label>
-        </div>
+        </div> */}
         <Col lg={12}>
           <Card>
             <Card.Header>
-              <Card.Title>
-                Old NFT : {(Number(totalvalue) / 1e18).toFixed(2)} USDT
-              </Card.Title>
-              <Card.Title>Total Count : {totalcount} NFT</Card.Title>
+              <Card.Title>ROI List</Card.Title>
+              {/* <Card.Title>Total Count : {totalcount} NFT</Card.Title> */}
             </Card.Header>
             <Card.Body>
               <Table responsive>
                 <thead>
                   <tr>
+                    <th></th>
                     <th>S.No.</th>
-                    <th>Token Id</th>
-                    <th>Owner</th>
-                    <th>Value</th>
-                    <th>Sales Count</th>
-
-                    <th>Release</th>
+                    <th>User Address</th>
+                    <th>Amount</th>
+                    <th>Approve</th>
+                    <th>Reject</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -153,21 +175,46 @@ export const OldNft = () => {
                         </div>
                       </td>
                     </tr>
-                  ) : packageHistory?.length > 0 ? (
-                    packageHistory?.map((pkg, index) => (
-                      <tr key={pkg._id}>
+                  ) : roiList?.length > 0 ? (
+                    roiList?.map((roi, index) => (
+                      <tr key={roi._id}>
+                        <td>
+                          <input
+                            type="checkbox"
+                            checked={roi?.isSelected || false}
+                            onChange={(e) => {
+                              const updated = roiList.map((item) =>
+                                item._id === roi._id
+                                  ? { ...item, isSelected: e.target.checked }
+                                  : item
+                              );
+                              setRoiList(updated);
+                            }}
+                          />
+                        </td>
                         <td>{(currentPage - 1) * itemPerpage + index + 1}</td>
-                        <td>{pkg?.tokenId}</td>
-                        <td>{pkg?.owner}</td>
-                        <td>{(pkg?.latestPrice / 1e18).toFixed(2)}</td>
-                        <td>{pkg?.salesCount}</td>
+                        <td>{roi?.user}</td>
+                        <td>{roi?.amount.toFixed(4)}</td>
                         <td>
                           <button
                             type="button"
                             className="next-button btn btn-success pointer border"
-                            onClick={() => handleRelease(pkg?.tokenId)}
+                            onClick={() =>
+                              handleApproveRejectRoi(roi._id, "approved")
+                            }
                           >
-                            Release
+                            Approve
+                          </button>
+                        </td>
+                        <td>
+                          <button
+                            type="button"
+                            className="next-button btn btn-danger pointer border"
+                            onClick={() =>
+                              handleApproveRejectRoi(roi._id, "rejected")
+                            }
+                          >
+                            Reject
                           </button>
                         </td>
                       </tr>
@@ -217,4 +264,4 @@ export const OldNft = () => {
   );
 };
 
-export default OldNft;
+export default GiveRoi;
