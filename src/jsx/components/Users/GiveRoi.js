@@ -86,7 +86,7 @@ export const GiveRoi = () => {
       );
 
       if (response.success) {
-        toast.success(`${action === "approve" ? "Approved" : "Rejected"}!`);
+        toast.success(`${action === "approved" ? "Approved" : "Rejected"}!`);
       } else {
         toast.error(response?.message || "Action failed");
       }
@@ -188,9 +188,7 @@ export const GiveRoi = () => {
                       toast.error("No rows selected!");
                       return;
                     }
-                    selectedIds.forEach((id) =>
-                      handleApproveRejectRoi(id, "rejected")
-                    );
+                    selectedIds.forEach((id) => handleApproveRejectRoi(id));
                   }}
                 >
                   Reject

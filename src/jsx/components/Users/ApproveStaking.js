@@ -55,7 +55,12 @@ export const ApproveStaking = () => {
     try {
       setLoading(true);
 
-      const res = await getStakingList(currentPage, itemPerpage, "pending");
+      const res = await getStakingList(
+        currentPage,
+        itemPerpage,
+        "pending",
+        searchValue
+      );
 
       console.log(res, walletAddress, "List");
 
@@ -102,18 +107,18 @@ export const ApproveStaking = () => {
 
   useEffect(() => {
     ApproveStakingList();
-  }, [currentPage]);
+  }, [currentPage, searchValue]);
 
   return (
     <Fragment>
       <Row>
-        {/* <div className="display_end " style={{ display: "flex", gap: "3px" }}>
+        <div className="display_end " style={{ display: "flex", gap: "3px" }}>
           <div className="input-group" style={{ maxWidth: "300px" }}>
             <input
               type="search"
               id="form1"
               className="form-control"
-              placeholder="Search here by buyer..."
+              placeholder="Search here by User Address..."
               autoComplete="off"
               value={searchValue}
               onChange={(e) => {
@@ -123,7 +128,7 @@ export const ApproveStaking = () => {
               }}
             />
           </div>
-          <button
+          {/* <button
             type="button"
             className="btn btn-success p-2 pointer border "
             onClick={() => {
@@ -131,9 +136,9 @@ export const ApproveStaking = () => {
             }}
           >
             Serach
-          </button>
+          </button> */}
           <label className="form-label" htmlFor="form1"></label>
-        </div> */}
+        </div>
         <Col lg={12}>
           <Card>
             <Card.Header>

@@ -667,6 +667,7 @@ export async function getStakingList(page = 1, limit = 10, filter, user) {
       page,
       limit,
       filter,
+      user,
     });
 
     return response.data;
