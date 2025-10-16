@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from "react";
-import { Routes, Route, Outlet, useNavigate } from "react-router-dom";
+import React, { useContext } from "react";
+import { Routes, Route, Outlet } from "react-router-dom";
 import "./index.css";
 import "./chart.css";
 import "./step.css";
@@ -15,17 +15,13 @@ import {
   getDefaultWallets,
   RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
-import { opBNB } from "wagmi/chains";
+import { opBNB, opBNBTestnet } from "wagmi/chains";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import "@rainbow-me/rainbowkit/styles.css";
 import Login from "./pages/Login";
-import { useDispatch } from "react-redux";
-import { setLogin } from "./redux/reducer";
+
 import NFTCreationList from "./components/Users/NFTCreationList";
 import Setting from "./components/Users/Setting";
-
-import NodeApprove from "./components/Users/NodeGroup/NodeApprove";
-import NodePending from "./components/Users/NodeGroup/NodePending";
 
 import Support from "./components/Users/Support/Support";
 import SupportCharts from "./components/Users/Support/SupportCharts";
@@ -52,24 +48,9 @@ import { DueNFT } from "./components/Users/DueNFT";
 import OldNft from "./components/Users/OldNft";
 import ApproveStaking from "./components/Users/ApproveStaking";
 import GiveRoi from "./components/Users/GiveRoi";
+import BuyNFT from "./components/Users/BuyNFT";
 
 const Markup = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const adminToken = localStorage.getItem("adminToken");
-
-  // useEffect(() => {
-  //   if (adminToken) {
-  //     dispatch(setLogin(true));
-  //     navigate("/admin/dashboard");
-  //     console.log("Admin Token found:", adminToken);
-  //   } else {
-  //     dispatch(setLogin(false));
-  //     console.log("No admin token found.");
-  //   }
-  // }, [adminToken]);
-
   const allroutes = [
     { url: "", component: <Home /> },
     { url: "admin/dashboard", component: <Home /> },
@@ -80,9 +61,6 @@ const Markup = () => {
     { url: "admin/NFTCreationList", component: <NFTCreationList /> },
     { url: "admin/deposit", component: <Deposit /> },
     { url: "admin/setting", component: <Setting /> },
-
-    { url: "admin/node-approve", component: <NodeApprove /> },
-    { url: "admin/node-pending", component: <NodePending /> },
 
     { url: "admin/support-chats", component: <SupportCharts /> },
     { url: "admin/allusers/support", component: <Support /> },
@@ -109,10 +87,11 @@ const Markup = () => {
     { url: "admin/active-users", component: <ActiveUserslast24Hours /> },
     { url: "admin/dueNft", component: <DueNFT /> },
     { url: "admin/oldNftList", component: <OldNft /> },
+    { url: "admin/buy-nft", component: <BuyNFT /> },
   ];
 
   const { chains, publicClient } = configureChains(
-    [opBNB],
+    [opBNBTestnet],
     [publicProvider()],
     [
       jsonRpcProvider({

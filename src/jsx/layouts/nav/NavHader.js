@@ -6,8 +6,7 @@ import { ThemeContext } from "../../../context/ThemeContext";
 //images
 // import logo1 from "../../../images/Favicon.png";
 
-import logo1 from "./../../../images/logo/logo.png";
-import logotext1 from "./../../../images/logo/logo-text.png";
+// import logotext1 from "./../../../images/logo/logo-text.png";
 // import logoColor from "./../../../images/logo/logo-color.png";
 // import logoColorText from "./../../../images/logo/logo-text-color.png";
 // import image from "../../../images/t Text.svg";
@@ -35,17 +34,17 @@ const NavHader = () => {
       <Link to="/admin/dashboard" className="brand-logo">
         {/* //for mobile */}
         <img
-          src={logo1}
+          src={"/images/Favicon.png"}
           className="logo-color"
           alt=""
           style={{ width: "60%" }}
         />
         {/* for // Desktop */}
         <img
-          src={logo1}
+          src={"/images/Logo.png"}
           alt=""
           className="logo-show"
-          style={{ width: "20%" }}
+          style={{ width: "70%", height: "100%", objectFit: "contain" }}
         />
         {/* <img src="../../images/logo.png" class="brand-title" alt="" />   //className="logo-abbr" */}
       </Link>

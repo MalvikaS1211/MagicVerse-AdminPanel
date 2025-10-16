@@ -6,7 +6,6 @@ import { adminLogin, getLoginCredential } from "../../services/api_function";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { setLogin } from "../redux/reducer";
-
 function Login(props) {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -81,7 +80,7 @@ function Login(props) {
                       <div className="logo-header">
                         <Link to={"#"} className="logo">
                           <img
-                            src="../images/Logo.png"
+                            src={"/images/Logo.png"}
                             alt=""
                             className=" mCS_img_loaded"
                             style={{ width: "281px" }}

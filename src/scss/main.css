@@ -16477,7 +16477,7 @@ html[dir="rtl"]
   position: absolute;
   top: 7.5rem;
   padding-top: 0;
-  z-index: 6;
+  /* z-index: 6; */
   background-color: var(--sidebar-bg);
   transition: all 0.2s ease;
   box-shadow: 0rem 0.9375rem 1.875rem 0rem rgba(0, 0, 0, 0.02);

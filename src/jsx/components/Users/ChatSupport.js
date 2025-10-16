@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import {
-  ChangeStatusFn,
-  getAllTicket,
-  getDepostList,
-} from "../../../services/api_function";
+import { ChangeStatusFn, getAllTicket } from "../../../services/api_function";
 import moment from "moment";
 import toast from "react-hot-toast";
 

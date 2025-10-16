@@ -41,94 +41,99 @@ export const MenuList = [
     to: "admin/userList",
     iconStyle: <FaUserGraduate className="fs-3" />,
   },
-
   {
-    title: "Approve Staking",
-    to: "admin/approveStaking",
-    iconStyle: <FaHandshake className="fs-3" />
-
-  },
-
-  {
-    title: "Give Roi",
-    to: "admin/giveRoi",
-    iconStyle: <RiMoneyDollarCircleLine className="fs-3" />
-
-  },
-
-  {
-    title: "NFT Creation List",
-    to: "admin/NFTCreationList",
+    title: "Buy",
+    to: "admin/buy-nft",
     iconStyle: <RiNftFill className="fs-3" />,
   },
 
-  {
-    title: "Bulk Package",
-    to: "admin/bulkpackage",
-    iconStyle: <GiAbstract047 className="fs-3" />,
-  },
-  {
-    title: "Package History",
-    to: "admin/packagehistory",
-    iconStyle: <TbCircleTriangle className="fs-3" />,
-  },
+  // {
+  //   title: "Approve Staking",
+  //   to: "admin/approveStaking",
+  //   iconStyle: <FaHandshake className="fs-3" />
+
+  // },
+
+  // {
+  //   title: "Give Roi",
+  //   to: "admin/giveRoi",
+  //   iconStyle: <RiMoneyDollarCircleLine className="fs-3" />
+
+  // },
+
+  // {
+  //   title: "NFT Creation List",
+  //   to: "admin/NFTCreationList",
+  //   iconStyle: <RiNftFill className="fs-3" />,
+  // },
+
+  // {
+  //   title: "Bulk Package",
+  //   to: "admin/bulkpackage",
+  //   iconStyle: <GiAbstract047 className="fs-3" />,
+  // },
+  // {
+  //   title: "Package History",
+  //   to: "admin/packagehistory",
+  //   iconStyle: <TbCircleTriangle className="fs-3" />,
+  // },
   {
     title: "Deposit List",
     to: "admin/deposit",
     iconStyle: <PiHandDepositFill className="fs-3" />,
   },
 
-  {
-    title: "User Holding",
-    to: "admin/userholding",
-    iconStyle: <FaUserShield className="fs-3" />,
-  },
-  {
-    title: "New NFT Creation Log",
-    to: "admin/newnftlist",
-    iconStyle: <BiLogoCodepen className="fs-3" />,
-  },
-  {
-    title: "Last Transaction Details",
-    to: "admin/soldNFTs",
-    iconStyle: <GrTransaction className="fs-3" />,
-  },
+  // {
+  //   title: "User Holding",
+  //   to: "admin/userholding",
+  //   iconStyle: <FaUserShield className="fs-3" />,
+  // },
+  // {
+  //   title: "New NFT Creation Log",
+  //   to: "admin/newnftlist",
+  //   iconStyle: <BiLogoCodepen className="fs-3" />,
+  // },
+  // {
+  //   title: "Last Transaction Details",
+  //   to: "admin/soldNFTs",
+  //   iconStyle: <GrTransaction className="fs-3" />,
+  // },
 
-  {
-    title: "NFT Value Tracking",
-    to: "admin/nfttracking",
-    iconStyle: <MdOutlineSpatialTracking className="fs-3" />,
-  },
-  {
-    title: "Add NFT to queue",
-    to: "admin/addnftqueue",
-    iconStyle: <GiAbstract074 className="fs-3" />,
-  },
-  {
-    title: "Active Users",
-    to: "admin/active-users",
-    iconStyle: <FaUserCheck className="fs-3" />,
-  },
-  {
-    title: "Due NFT",
-    to: "admin/dueNft",
-    iconStyle: <GiLevelEndFlag className="fs-3" />,
-  },
-  {
-    title: "Old NFT",
-    to: "admin/oldNftList",
-    iconStyle: <GiLevelEndFlag className="fs-3" />,
-  },
-  {
-    title: "Add Massage",
-    to: "admin/addmessage",
-    iconStyle: <FaRegMessage className="fs-3" />,
-  },
-  {
-    title: "Support",
-    to: "admin/support",
-    iconStyle: <BiSupport className="fs-3" />,
-  },
+  // {
+  //   title: "NFT Value Tracking",
+  //   to: "admin/nfttracking",
+  //   iconStyle: <MdOutlineSpatialTracking className="fs-3" />,
+  // },
+  // {
+  //   title: "Add NFT to queue",
+  //   to: "admin/addnftqueue",
+  //   iconStyle: <GiAbstract074 className="fs-3" />,
+  // },
+  // {
+  //   title: "Active Users",
+  //   to: "admin/active-users",
+  //   iconStyle: <FaUserCheck className="fs-3" />,
+  // },
+  // {
+  //   title: "Due NFT",
+  //   to: "admin/dueNft",
+  //   iconStyle: <GiLevelEndFlag className="fs-3" />,
+  // },
+  // {
+  //   title: "Old NFT",
+  //   to: "admin/oldNftList",
+  //   iconStyle: <GiLevelEndFlag className="fs-3" />,
+  // },
+  // {
+  //   title: "Add Massage",
+  //   to: "admin/addmessage",
+  //   iconStyle: <FaRegMessage className="fs-3" />,
+  // },
+  // {
+  //   title: "Support",
+  //   to: "admin/support",
+  //   iconStyle: <BiSupport className="fs-3" />,
+  // },
 
   {
     title: "Logout",

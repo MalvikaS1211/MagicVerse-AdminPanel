@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useAccount, useChainId } from "wagmi";
 import { setWallet } from "../../redux/reducer";
+import ConnectWallet from "./ConnectWallet";
 const Header = ({ onNote }) => {
   const { address, connector, isConnected, status, isDisconnected } =
     useAccount();
@@ -45,13 +46,14 @@ const Header = ({ onNote }) => {
             </div>
             <div className="navbar-nav header-right"></div>
             <div>
-              <ConnectButton
+              {/* <ConnectButton
                 chainStatus="icon"
                 accountStatus={{
                   smallScreen: "avatar",
                   largeScreen: "full",
                 }}
-              />
+              /> */}
+              <ConnectWallet />
             </div>
           </div>
         </nav>

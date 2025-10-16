@@ -1,10 +1,9 @@
 import axios from "axios";
 import toast from "react-hot-toast";
-export const URLApi = "https://magicverse.org/api";
-// export const URLApi = "http://192.168.1.10:8081/api";
-// export const URLApi = "http://192.168.1.161:8081/api";
-// export const URLApi = "http://localhost:8081/api";
-// export const URLApi = "http://192.168.1.171:8081/api";
+// export const URLApi = "https://magicverse.org/api";
+
+// export const URLApi = "http://192.168.1.47:8081/api";
+export const URLApi = "http://173.212.221.63:8081/api";
 
 export function cutAfterDecimal(number, pos, dl, ac) {
   if (Number(number)) {
@@ -713,6 +712,50 @@ export async function roiApproveOrReject(user = [], id = [], status, txHash) {
       id,
       status,
       txHash,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error roiApproveOrReject :", error);
+  }
+}
+
+export async function getReadyForBuyFn(
+  userAddress,
+  initialPrice,
+  title,
+  description,
+  metadataURI,
+  tokenId,
+  totalAmount
+) {
+  try {
+    if (!title) {
+      return;
+    }
+    const response = await axios.post(`${URLApi}/buy-nft-vrs`, {
+      userAddress,
+      initialPrice,
+      title,
+      description,
+      metadataURI,
+      tokenId,
+      totalAmount,
+    });
+    console.log(response?.data, "getReadyForBuyFn");
+    return response?.data;
+  } catch (error) {
+    console.log("Error getReadyForBuyFn :", error);
+    throw error;
+    return false;
+  }
+}
+
+export async function getLastNFTs(page, limit) {
+  try {
+    const response = await axios.post(`${URLApi}/getLastNft`, {
+      page,
+      limit,
     });
 
     return response.data;

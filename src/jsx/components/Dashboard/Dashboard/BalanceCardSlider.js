@@ -1,21 +1,14 @@
 import React, { useState, useEffect } from "react";
-import {
-  FaCheckCircle,
-  FaShoppingCart,
-  FaTag,
-  FaUserGraduate,
-} from "react-icons/fa";
-import { AiFillDollarCircle } from "react-icons/ai";
+import { FaShoppingCart, FaTag, FaUserGraduate } from "react-icons/fa";
 
 import "swiper/css";
 import {
   AllowToCreateBulk,
   getAdminDashboard,
-  getMaturedNFTs,
   getNftStartStop,
 } from "../../../../services/api_function";
 import { useAccount } from "wagmi";
-import { Card, Row } from "react-bootstrap";
+
 import { useNavigate } from "react-router-dom";
 import { setLogin } from "../../../redux/reducer";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,7 +17,7 @@ import { RiNftFill } from "react-icons/ri";
 
 const BalanceCardSlider = () => {
   const navigate = useNavigate();
-  const { address } = useAccount();
+
   const dispatch = useDispatch();
 
   const { login } = useSelector((state) => state.login);
@@ -221,7 +214,7 @@ const BalanceCardSlider = () => {
             </div>
           </div>
           {/* NFT action Card For Bulk */}
-          <div className="col-lg-6 mb-4">
+          {/* <div className="col-lg-6 mb-4">
             <div className="card card-bg" style={{ height: "100%" }}>
               <div className="card-body pb-4">
                 <div className="d-flex flex-column gap-3">
@@ -262,7 +255,7 @@ const BalanceCardSlider = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
           {/* toggle btn */}
           {/* <div className="d-flex  gap-3">
             <div className="d-flex align-items-center gap-3 mt-4">
