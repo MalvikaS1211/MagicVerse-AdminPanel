@@ -91,9 +91,6 @@ const ThemeContextProvider = (props) => {
     "color_10",
     "color_11",
     "color_12",
-    //"color_13",
-    //"color_14",
-    //"color_15",
   ];
   const directionPosition = [
     { value: "ltr", label: "LTR" },
