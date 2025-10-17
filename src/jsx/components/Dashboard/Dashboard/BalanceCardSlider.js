@@ -31,7 +31,7 @@ const BalanceCardSlider = () => {
   const ShowAdminData = async () => {
     try {
       const res = await getAdminDashboard();
-      console.log(res, "admin data");
+      // console.log(res, "admin data");
       setUser(res);
     } catch (error) {
       console.log(error);

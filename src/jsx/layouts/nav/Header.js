@@ -29,7 +29,7 @@ const Header = ({ onNote }) => {
   }, []);
   useEffect(() => {
     var path = window.location.pathname.split("/");
-    console.log(window.location, ":::::");
+    // console.log(window.location, ":::::");
     setPath(path);
   }, [window.location.pathname]);
 

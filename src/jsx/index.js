@@ -12,6 +12,7 @@ import { publicProvider } from "wagmi/providers/public";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import {
   darkTheme,
+  lightTheme,
   getDefaultWallets,
   RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
@@ -92,13 +93,11 @@ const Markup = () => {
 
   const { chains, publicClient } = configureChains(
     [opBNBTestnet],
-    [publicProvider()],
     [
       jsonRpcProvider({
-        rpc: (chain) => ({
-          http: `${chain.rpcUrls.default.http[0]}`,
-        }),
+        rpc: (chain) => ({ http: chain.rpcUrls.default.http[0] }),
       }),
+      publicProvider(),
     ]
   );
   const projectId = "24fb23164e7f77e68afeff05da5f7026";
@@ -123,7 +122,7 @@ const Markup = () => {
         <RainbowKitProvider
           chains={chains}
           modalSize="compact"
-          theme={darkTheme()}
+          theme={lightTheme()}
         >
           <Routes>
             <Route element={<MainLayout />}>

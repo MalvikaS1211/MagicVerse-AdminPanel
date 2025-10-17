@@ -46,8 +46,8 @@ export async function buyNFTFn(
     });
 
     const result = await writeContract({
-      abi: MiraiVault_CONTRACT_ADDRESS_ABI,
       address: MiraiVault_CONTRACT_ADDRESS,
+      abi: MiraiVault_CONTRACT_ADDRESS_ABI,
       functionName: "buyNFT",
       args: [tokenId, formattedPrice, v, r, s, title, description, metadataURI],
     });
@@ -62,8 +62,8 @@ export async function buyNFTFn(
 
 export async function approveToken(amt) {
   const result = await writeContract({
-    abi: USDT_TOKEN_ABI,
     address: USDT_TOKEN,
+    abi: USDT_TOKEN_ABI,
     functionName: "approve",
     args: [
       MiraiVault_CONTRACT_ADDRESS,
@@ -90,8 +90,8 @@ export async function fetchUserTokenBalance(address) {
 export async function getNfts(tokenId) {
   try {
     const result = await readContract({
-      abi: MiraiVault_CONTRACT_ADDRESS_ABI,
       address: MiraiVault_CONTRACT_ADDRESS,
+      abi: MiraiVault_CONTRACT_ADDRESS_ABI,
       functionName: "nfts",
       args: [tokenId],
     });
