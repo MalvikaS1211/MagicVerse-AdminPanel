@@ -760,6 +760,6 @@ export async function getLastNFTs(page, limit) {
 
     return response.data;
   } catch (error) {
-    console.log("Error roiApproveOrReject :", error);
+    console.log("Error getLastNFTs :", error);
   }
 }
