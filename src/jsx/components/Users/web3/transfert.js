@@ -220,16 +220,12 @@ export async function getOperator() {
 
 export async function payROI(recipients, amounts) {
   const result = await writeContract({
-    abi: MVerse_CONTRACT_ADDRESS,
-    address: MVerse_CONTRACT_ADDRESS_ABI,
+    abi: MVerse_CONTRACT_ADDRESS_ABI,
+    address: MVerse_CONTRACT_ADDRESS,
     functionName: "payROI",
     args: [recipients, amounts],
   });
-  const res = waitForTransaction(result);
-  const data = await toast.promise(res, {
-    loading: "Update ROI is pending...",
-    success: "ROI updated successfully!",
-    error: (error) => error.message ?? "request failed.",
-  });
-  return data;
+  const res = await waitForTransaction({ hash: result.hash });
+
+  return res;
 }

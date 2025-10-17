@@ -1951,7 +1951,7 @@ export const CONTRACT_ADDRESS_ABI = [
 ];
 
 export const MVerse_CONTRACT_ADDRESS =
-  "0xce70A86FCEB58E4Fb486D6A7BbcB9683407de938";
+  "0x34d415A3b06eE5a2311e5E71d3fDD5aa07FAeb53";
 
 export const MVerse_CONTRACT_ADDRESS_ABI = [
   {
@@ -2310,6 +2310,26 @@ export const MVerse_CONTRACT_ADDRESS_ABI = [
   {
     anonymous: false,
     inputs: [
+      { indexed: true, internalType: "address", name: "user", type: "address" },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "timestamp",
+        type: "uint256",
+      },
+    ],
+    name: "PremiumPaid",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
       { indexed: true, internalType: "address", name: "to", type: "address" },
       {
         indexed: false,
@@ -2499,6 +2519,13 @@ export const MVerse_CONTRACT_ADDRESS_ABI = [
     ],
     name: "sponsorIncome",
     type: "event",
+  },
+  {
+    inputs: [],
+    name: "MVT",
+    outputs: [{ internalType: "contract IERC20", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
   },
   {
     inputs: [
@@ -2728,6 +2755,13 @@ export const MVerse_CONTRACT_ADDRESS_ABI = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "payPremium",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [
       { internalType: "address[]", name: "recipients", type: "address[]" },
       { internalType: "uint256[]", name: "amounts", type: "uint256[]" },
@@ -2773,6 +2807,13 @@ export const MVerse_CONTRACT_ADDRESS_ABI = [
       { internalType: "bool", name: "approved", type: "bool" },
     ],
     name: "setApprovalForAll",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "_mvt", type: "address" }],
+    name: "setMVT",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -2872,6 +2913,13 @@ export const MVerse_CONTRACT_ADDRESS_ABI = [
       { internalType: "uint256", name: "totalRoyalityIncome", type: "uint256" },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "amt", type: "uint256" }],
+    name: "withdrawMVTToken",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {

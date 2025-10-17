@@ -36,7 +36,7 @@ export const GiveRoi = () => {
   const [approvedIds, setApprovedIds] = useState([]);
   const [approvedUsers, setApprovedUsers] = useState([]);
   const [approvedAmounts, setApprovedAmounts] = useState([]);
-  const [txHash, setTxHash] = useState("");
+  const [txHash, setTxHash] = useState("0x123456abcd");
   const handleCopy = (address) => {
     navigator.clipboard.writeText(address);
     setTooltipText("Copied!");
@@ -71,13 +71,19 @@ export const GiveRoi = () => {
   };
   const handleApproveRejectRoi = async (Id) => {
     try {
-      const roiItem = roiList.find((item) => item._id === Id);
-
+      const roiItem = roiList.find(
+        (item) => item._id.toString() === Id.toString()
+      );
+      console.log(roiItem, "roiItem");
       if (!roiItem) {
         toast.error("ROI item not found");
         return;
       }
+
       const action = txHash ? "approved" : "rejected";
+
+      console.log(approvedUsers, approvedIds, action, txHash, "approvedUsers,");
+
       const response = await roiApproveOrReject(
         approvedUsers,
         approvedIds,
@@ -87,15 +93,27 @@ export const GiveRoi = () => {
 
       if (response.success) {
         toast.success(`${action === "approved" ? "Approved" : "Rejected"}!`);
+        setApprovedIds([]);
+        setApprovedUsers([]);
+        setApprovedAmounts([]);
       } else {
         toast.error(response?.message || "Action failed");
+        setApprovedIds([]);
+        setApprovedUsers([]);
+        setApprovedAmounts([]);
       }
       setTimeout(() => {
         RoiList();
+        setApprovedIds([]);
+        setApprovedUsers([]);
+        setApprovedAmounts([]);
       }, 3000);
     } catch (error) {
-      const msg = error?.response?.data?.message || "Something went wrong";
-      toast.error(msg);
+      // const msg = error?.response?.data?.message || "Something went wrong";
+      // toast.error(msg);
+      // setApprovedIds([]);
+      // setApprovedUsers([]);
+      // setApprovedAmounts([]);
     }
   };
 
@@ -103,35 +121,63 @@ export const GiveRoi = () => {
     RoiList();
   }, [currentPage]);
 
-  const payRoi = async () => {
+  // const payRoi = async () => {
+  //   try {
+  //     const res = payROI(approvedUsers, approvedAmounts);
+  //     console.log(res, "payRoi");
+  //     setTxHash(res);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  const storeApproved = async () => {
     try {
-      const res = payROI(approvedUsers, approvedAmounts);
-      console.log(res, "payRoi");
-      setTxHash(res);
+      if (!address) {
+        toast.error("Wallet not connected!");
+        return;
+      }
+      const selectedItems = roiList.filter((item) => item.isSelected);
+
+      if (selectedItems.length === 0) {
+        toast.error("No rows selected!");
+        return;
+      }
+
+      const ids = selectedItems.map((i) => i._id);
+      const users = selectedItems.map((i) => i.user);
+      const amounts = selectedItems.map((i) =>
+        (i.amount * 1e18).toLocaleString("fullwide", { useGrouping: false })
+      );
+      console.log(ids, users, amounts, "amounts");
+      setApprovedIds(ids);
+      setApprovedUsers(users);
+      setApprovedAmounts(amounts);
+      const resp = payROI(users, amounts);
+      setTxHash(resp)
+      await toast.promise(resp, {
+        loading: "Transaction is pending...",
+        success: "Transaction successful!",
+        error: (error) => error.message || "Transaction failed!",
+      });
+
+      if (resp) {
+      await handleApproveRejectRoi(ids);
+      toast.success("Selected rows stored for approval!");
+      console.log("Approved IDs:", ids);
+      console.log("Approved Users:", users);
+      console.log("Approved Amounts:", amounts);
+      } else {
+        setApprovedIds([]);
+        setApprovedUsers([]);
+        setApprovedAmounts([]);
+        toast.error("Something went wrong!");
+      }
     } catch (error) {
       console.log(error);
+      setApprovedIds([]);
+      setApprovedUsers([]);
+      setApprovedAmounts([]);
     }
-  };
-  const storeApproved = () => {
-    const selectedItems = roiList.filter((item) => item.isSelected);
-
-    if (selectedItems.length === 0) {
-      toast.error("No rows selected!");
-      return;
-    }
-
-    const ids = selectedItems.map((i) => i._id);
-    const users = selectedItems.map((i) => i.user);
-    const amounts = selectedItems.map((i) => i.amount);
-    setApprovedIds(ids);
-    setApprovedUsers(users);
-    setApprovedAmounts(amounts);
-    payRoi();
-    handleApproveRejectRoi(ids);
-    toast.success("Selected rows stored for approval!");
-    console.log("Approved IDs:", ids);
-    console.log("Approved Users:", users);
-    console.log("Approved Amounts:", amounts);
   };
   return (
     <Fragment>
