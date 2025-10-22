@@ -708,6 +708,7 @@ export async function getROIList(page, limit, filter, user) {
 
 export async function roiApproveOrReject(user = [], id = [], status, txHash) {
   try {
+    console.log("roiApproveOrReject called with:", user, id, status, txHash);
     const response = await axios.post(`${URLApi}/RoiApproveOrReject`, {
       user,
       id,

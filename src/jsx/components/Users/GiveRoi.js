@@ -69,7 +69,7 @@ export const GiveRoi = () => {
       setLoading(false);
     }
   };
-  const handleApproveRejectRoi = async (Id) => {
+  const handleApproveRejectRoi = async (Id, user, amount, hash) => {
     try {
       const roiItem = roiList.find(
         (item) => item._id.toString() === Id.toString()
@@ -82,13 +82,13 @@ export const GiveRoi = () => {
 
       const action = txHash ? "approved" : "rejected";
 
-      console.log(approvedUsers, approvedIds, action, txHash, "approvedUsers,");
+      console.log(user, Id, action, txHash, hash, "approvedUsers,");
 
       const response = await roiApproveOrReject(
-        approvedUsers,
-        approvedIds,
+        user,
+        Id,
         action,
-        txHash || null
+        hash
       );
 
       if (response.success) {
@@ -153,7 +153,8 @@ export const GiveRoi = () => {
       setApprovedUsers(users);
       setApprovedAmounts(amounts);
       const resp = payROI(users, amounts);
-      setTxHash(resp)
+      console.log(resp, "payRoi response");
+      setTxHash(resp);
       await toast.promise(resp, {
         loading: "Transaction is pending...",
         success: "Transaction successful!",
@@ -161,11 +162,11 @@ export const GiveRoi = () => {
       });
 
       if (resp) {
-      await handleApproveRejectRoi(ids);
-      toast.success("Selected rows stored for approval!");
-      console.log("Approved IDs:", ids);
-      console.log("Approved Users:", users);
-      console.log("Approved Amounts:", amounts);
+        await handleApproveRejectRoi(ids, users, amounts, resp);
+        toast.success("Selected rows stored for approval!");
+        console.log("Approved IDs:", ids);
+        console.log("Approved Users:", users);
+        console.log("Approved Amounts:", amounts);
       } else {
         setApprovedIds([]);
         setApprovedUsers([]);
