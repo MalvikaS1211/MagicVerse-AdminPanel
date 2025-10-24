@@ -191,7 +191,7 @@ export const Alluser = () => {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="7" className="text-center">
+                      <td colSpan="12" className="text-center">
                         No Records Found
                       </td>
                     </tr>
