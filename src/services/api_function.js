@@ -697,6 +697,7 @@ export async function getROIList(page, limit, filter, user) {
       page,
       limit,
       filter,
+      user,
     });
 
     return response.data;

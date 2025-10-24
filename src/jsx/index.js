@@ -11,8 +11,10 @@ import { Toaster } from "react-hot-toast";
 import { publicProvider } from "wagmi/providers/public";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import {
+  connectorsForWallets,
   darkTheme,
   getDefaultWallets,
+  lightTheme,
   RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
 import { opBNB } from "wagmi/chains";
@@ -52,7 +54,15 @@ import { DueNFT } from "./components/Users/DueNFT";
 import OldNft from "./components/Users/OldNft";
 import ApproveStaking from "./components/Users/ApproveStaking";
 import GiveRoi from "./components/Users/GiveRoi";
-
+import {
+  metaMaskWallet,
+  walletConnectWallet,
+  coinbaseWallet,
+  braveWallet,
+  rabbyWallet,
+  safepalWallet,
+  tokenPocketWallet,
+} from "@rainbow-me/rainbowkit/wallets";
 const Markup = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -111,10 +121,12 @@ const Markup = () => {
     { url: "admin/oldNftList", component: <OldNft /> },
   ];
 
-  const { chains, publicClient } = configureChains(
+
+  const projectId = "24fb23164e7f77e68afeff05da5f7026";
+    const { chains, publicClient } = configureChains(
     [opBNB],
-    [publicProvider()],
     [
+      publicProvider(),
       jsonRpcProvider({
         rpc: (chain) => ({
           http: `${chain.rpcUrls.default.http[0]}`,
@@ -122,13 +134,34 @@ const Markup = () => {
       }),
     ]
   );
-  const projectId = "24fb23164e7f77e68afeff05da5f7026";
-  const { connectors } = getDefaultWallets({
-    appName: "My RainbowKit App",
-    projectId,
-    chains,
-  });
-
+  // const { connectors } = getDefaultWallets({
+  //   appName: "My RainbowKit App",
+  //   projectId,
+  //   chains,
+  // });
+  // const { chains, publicClient } = configureChains(
+  //   [opBNB],
+  //   [publicProvider()],
+  //   [
+  //     jsonRpcProvider({
+  //       rpc: (chain) => ({
+  //         http: `${chain.rpcUrls.default.http[0]}`,
+  //       }),
+  //     }),
+  //   ]
+  // );
+  const connectors = connectorsForWallets([
+    {
+      groupName: "Recommended",
+      wallets: [
+        metaMaskWallet({ projectId, chains }),
+        walletConnectWallet({ projectId, chains }),
+        coinbaseWallet({ appName: "My App", chains }),      
+        tokenPocketWallet({projectId, chains }),
+        safepalWallet({projectId, chains }),
+      ],
+    },
+  ]);
   const wagmiClient = createConfig({
     autoConnect: true,
     connectors,
@@ -144,7 +177,7 @@ const Markup = () => {
         <RainbowKitProvider
           chains={chains}
           modalSize="compact"
-          theme={darkTheme()}
+          theme={lightTheme()}
         >
           <Routes>
             <Route element={<MainLayout />}>

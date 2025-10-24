@@ -56,7 +56,12 @@ export const GiveRoi = () => {
   const RoiList = async () => {
     try {
       setLoading(true);
-      const res = await getROIList(currentPage, itemPerpage, "pending");
+      const res = await getROIList(
+        currentPage,
+        itemPerpage,
+        "pending",
+        searchValue
+      );
       console.log("ROI List response:", res);
 
       setRoiList(res.data || []);
@@ -84,12 +89,7 @@ export const GiveRoi = () => {
 
       console.log(user, Id, action, txHash, hash, "approvedUsers,");
 
-      const response = await roiApproveOrReject(
-        user,
-        Id,
-        action,
-        hash
-      );
+      const response = await roiApproveOrReject(user, Id, action, hash);
 
       if (response.success) {
         toast.success(`${action === "approved" ? "Approved" : "Rejected"}!`);
@@ -119,7 +119,7 @@ export const GiveRoi = () => {
 
   useEffect(() => {
     RoiList();
-  }, [currentPage]);
+  }, [currentPage, searchValue]);
 
   // const payRoi = async () => {
   //   try {
@@ -183,13 +183,13 @@ export const GiveRoi = () => {
   return (
     <Fragment>
       <Row>
-        {/* <div className="display_end " style={{ display: "flex", gap: "3px" }}>
+        <div className="display_end " style={{ display: "flex", gap: "3px" }}>
           <div className="input-group" style={{ maxWidth: "300px" }}>
             <input
               type="search"
               id="form1"
               className="form-control"
-              placeholder="Search here by buyer..."
+              placeholder="Search here by User Address..."
               autoComplete="off"
               value={searchValue}
               onChange={(e) => {
@@ -199,7 +199,7 @@ export const GiveRoi = () => {
               }}
             />
           </div>
-          <button
+          {/* <button
             type="button"
             className="btn btn-success p-2 pointer border "
             onClick={() => {
@@ -207,9 +207,9 @@ export const GiveRoi = () => {
             }}
           >
             Serach
-          </button>
+          </button> */}
           <label className="form-label" htmlFor="form1"></label>
-        </div> */}
+        </div>
         <Col lg={12}>
           <Card>
             <Card.Header>
