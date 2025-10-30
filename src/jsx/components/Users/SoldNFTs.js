@@ -105,7 +105,7 @@ export const SoldNFTs = () => {
                         <td>{(NFT?.newPrice / 1e18).toFixed(4)}</td>
                         <td>
                           <a
-                            href={`https://opbnb.bscscan.com/tx/${NFT?.transactionHash}`}
+                            href={`https://bscscan.com/tx/${NFT?.transactionHash}`}
                             target="_blank"
                           >
                             {NFT?.transactionHash.slice(0, 5)}...

@@ -17,7 +17,7 @@ export const Alluser = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [activeList, setActiveList] = useState([]);
-
+  const [loading, setLoading] = useState(false);
   const itemPerPage = 20;
 
   const [tooltipText, setTooltipText] = useState("Copy address");
@@ -31,6 +31,7 @@ export const Alluser = () => {
 
   const allUsers = async (search) => {
     try {
+      setLoading(true)
       const res = await getAdminDashboard(currentPage, itemPerPage, search);
       setTotalPages(res?.totalPages);
       setUsersList(res.users);
@@ -38,6 +39,10 @@ export const Alluser = () => {
       console.log("User List", res);
     } catch (error) {
       console.log(error);
+      
+    }
+    finally{
+      setLoading(false);
     }
   };
   console.log("total user ", usersList.length);
@@ -159,7 +164,7 @@ export const Alluser = () => {
                         {/* <td>{cutAfterDecimal(user?.depositWallet, 2)}</td> */}
                         <td>
                           <a
-                            href={`https://opbnb.bscscan.com/tx/${user?.transactionHash}`}
+                            href={`https://bscscan.com/tx/${user?.transactionHash}`}
                             target="_blank"
                           >
                             {`${user?.transactionHash.slice(

@@ -171,7 +171,7 @@ const BalanceCardSlider = () => {
         <div className="row">
           {" "}
           {/* NFT Action Card  Single*/}
-          <div className="col-lg-6 mb-4">
+          {/* <div className="col-lg-6 mb-4">
             <div className="card card-bg" style={{ height: "100%" }}>
               <div className="card-body pb-4">
                 <div className="d-flex flex-column gap-3">
@@ -212,7 +212,7 @@ const BalanceCardSlider = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
           {/* NFT action Card For Bulk */}
           {/* <div className="col-lg-6 mb-4">
             <div className="card card-bg" style={{ height: "100%" }}>

@@ -91,7 +91,7 @@ export const NFTCreationList = () => {
                     <th>Creator</th>
                     <th>Price</th>
                     <th>Tx hash</th>
-                    <th>Ready for Sale</th>
+                    {/* <th>Ready for Sale</th> */}
 
                     <th>Date & Time</th>
                   </tr>
@@ -110,7 +110,7 @@ export const NFTCreationList = () => {
 
                         <td>
                           <a
-                            href={`https://opbnb.bscscan.com/tx/${nft?.transactionHash}`}
+                            href={`https://bscscan.com/tx/${nft?.transactionHash}`}
                             target="_blank"
                           >
                             {`${nft?.transactionHash.slice(
@@ -119,7 +119,7 @@ export const NFTCreationList = () => {
                             )}...${nft?.transactionHash.slice(-4)}`}
                           </a>
                         </td>
-                        <td>{nft?.isReadyForSale ? "True" : "False"}</td>
+                        {/* <td>{nft?.isReadyForSale ? "True" : "False"}</td> */}
 
                         <td>
                           {moment(nft.createdAt).format("DD/MM/YYYY h:mm:ss A")}

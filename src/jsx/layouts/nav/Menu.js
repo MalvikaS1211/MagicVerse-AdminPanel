@@ -61,11 +61,11 @@ export const MenuList = [
 
   // },
 
-  // {
-  //   title: "NFT Creation List",
-  //   to: "admin/NFTCreationList",
-  //   iconStyle: <RiNftFill className="fs-3" />,
-  // },
+  {
+    title: "NFT Creation List",
+    to: "admin/NFTCreationList",
+    iconStyle: <RiNftFill className="fs-3" />,
+  },
 
   // {
   //   title: "Bulk Package",
@@ -93,11 +93,11 @@ export const MenuList = [
   //   to: "admin/newnftlist",
   //   iconStyle: <BiLogoCodepen className="fs-3" />,
   // },
-  // {
-  //   title: "Last Transaction Details",
-  //   to: "admin/soldNFTs",
-  //   iconStyle: <GrTransaction className="fs-3" />,
-  // },
+  {
+    title: "Last Transaction Details",
+    to: "admin/soldNFTs",
+    iconStyle: <GrTransaction className="fs-3" />,
+  },
 
   // {
   //   title: "NFT Value Tracking",

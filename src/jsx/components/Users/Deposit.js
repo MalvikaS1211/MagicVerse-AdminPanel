@@ -104,7 +104,7 @@ export const Deposit = () => {
 
                         <td>
                           <a
-                            href={`https://opbnb.bscscan.com/tx/${deposit?.transactionHash}`}
+                            href={`https://bscscan.com/tx/${deposit?.transactionHash}`}
                             target="_blank"
                           >
                             {deposit?.transactionHash.slice(0, 5)}...

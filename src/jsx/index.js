@@ -16,7 +16,7 @@ import {
   getDefaultWallets,
   RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
-import { opBNB, opBNBTestnet } from "wagmi/chains";
+import { bsc, opBNB, opBNBTestnet } from "wagmi/chains";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import "@rainbow-me/rainbowkit/styles.css";
 import Login from "./pages/Login";

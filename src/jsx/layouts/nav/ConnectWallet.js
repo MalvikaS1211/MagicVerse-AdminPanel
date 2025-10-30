@@ -80,14 +80,17 @@ function ConnectWallet() {
                           </div>
                         </button>
                       </div>
-                 
                     </>
                   );
                 }
 
                 if (chain.unsupported) {
                   return (
-                    <button onClick={openChainModal} type="button"  >
+                    <button
+                      onClick={openChainModal}
+                      type="button"
+                      className="btn btn-success pointer border m-2 d-flex align-items-center gap-2"
+                    >
                       Wrong network
                     </button>
                   );

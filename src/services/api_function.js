@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 // export const URLApi = "https://magicverse.org/api";
 
 // export const URLApi = "http://192.168.1.47:8081/api";
-// export const URLApi = "http://173.212.221.63:8081/api";
+// export const URLApi = "http://192.168.1.166:8081/api";
 export const URLApi = "https://iftglobal.org/api";
 
 export function cutAfterDecimal(number, pos, dl, ac) {
