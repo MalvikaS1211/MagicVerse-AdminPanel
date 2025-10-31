@@ -178,7 +178,8 @@ export const Alluser = () => {
                         </td>
                         <td>
                           {user?.packages?.length > 0
-                            ? user?.packages?.length
+                            ? user?.packages[user?.packages?.length - 1]
+                                ?.userPackage
                             : "No Package"}
                         </td>
 
