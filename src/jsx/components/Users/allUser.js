@@ -177,10 +177,11 @@ export const Alluser = () => {
                           )}
                         </td>
                         <td>
-                          {user?.packages[0]?.userPackage
-                            ? user?.packages[0]?.userPackage
+                          {user?.packages?.length > 0
+                            ? user?.packages?.length
                             : "No Package"}
                         </td>
+
                         <td>
                           {user?.packages[0]?.amount
                             ? `$ ${user?.packages[0]?.amount / 1e18}`
