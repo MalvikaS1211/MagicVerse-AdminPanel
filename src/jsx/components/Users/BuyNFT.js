@@ -55,13 +55,15 @@ export const BuyNFT = () => {
   };
 
   const handleNextPage = () => {
-    setCurrentPage((prevPage) =>
-      prevPage < totalPages ? prevPage + 1 : prevPage
-    );
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
   };
 
   const handlePreviousPage = () => {
-    setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : prevPage));
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
   };
 
   const NFTListing = async () => {
@@ -130,11 +132,12 @@ export const BuyNFT = () => {
       );
 
       console.log(mappedData, "mappedData");
-      setCurrentPage(pagination.currentPage || 1);
-      setTotalPages(pagination.totalPages || 1);
+      // setCurrentPage(res.page || 1);
+      setTotalPages(res.totalPages || 1);
+      setTotalCount(res.totalItems || 0);
+
+      // Set NFT list
       setNFTList(mappedData);
-      setTotalValue(pagination.totalDocs || 0);
-      setTotalCount(pagination.totalDocs || 0);
     } catch (error) {
       console.error("Error fetching NFTs:", error);
     } finally {
@@ -391,7 +394,12 @@ export const BuyNFT = () => {
 
                         <td>{nft?.buyer}</td>
                         <td>{nft?.salesCount}</td>
-                        <td>{(Number(nft?.price) / 1e18)?.toFixed(4)}</td>
+                        <td>
+                          {isNaN(Number(nft?.price))
+                            ? "0.0000"
+                            : (Number(nft.price) / 1e18).toFixed(4)}
+                        </td>
+
                         <td>
                           {moment(nft.createdAt).format("M/D/YYYY h:mm:ss A")}
                         </td>
