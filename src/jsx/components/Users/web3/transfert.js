@@ -95,7 +95,7 @@ export async function getNfts(tokenId) {
       functionName: "nfts",
       args: [tokenId],
     });
-
+    console.log("NFT Details:", result);
     return result;
   } catch (error) {
     console.log(error);

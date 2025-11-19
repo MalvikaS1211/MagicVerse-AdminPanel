@@ -91,8 +91,28 @@ const Markup = () => {
     { url: "admin/buy-nft", component: <BuyNFT /> },
   ];
 
+  const bscM = {
+    id: 56,
+    name: "BNB Smart Chain",
+    network: "bsc",
+    nativeCurrency: {
+      decimals: 18,
+      name: "BNB",
+      symbol: "BNB",
+    },
+    rpcUrls: {
+      default: { http: ["https://56.rpc.thirdweb.com"] },
+      public: { http: ["https://56.rpc.thirdweb.com"] },
+    },
+    blockExplorers: {
+      etherscan: { name: "BscScan", url: "https://bscscan.com" },
+      default: { name: "BscScan", url: "https://bscscan.com" },
+    },
+    testnet: false,
+  };
+
   const { chains, publicClient } = configureChains(
-    [opBNBTestnet],
+    [bscM],
     [
       jsonRpcProvider({
         rpc: (chain) => ({ http: chain.rpcUrls.default.http[0] }),

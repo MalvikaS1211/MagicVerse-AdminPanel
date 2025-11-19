@@ -1,5 +1,5 @@
 export const MiraiVault_CONTRACT_ADDRESS =
-  "0xd054fba7875f7b3c5c858b476f7860b85dF9a7eb";
+  "0x1420Aaf1f4ABA1b361A34d16b9001e92923F33a0";
 
 export const MiraiVault_CONTRACT_ADDRESS_ABI = [
   {
