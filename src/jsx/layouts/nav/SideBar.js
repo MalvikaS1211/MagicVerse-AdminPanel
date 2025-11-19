@@ -76,7 +76,7 @@ const SideBar = () => {
 
   return (
     <div
-      className={`deznav  border-right ${iconHover} ${
+      className={`deznav  border-right  ${iconHover} ${
         sidebarposition.value === "fixed" &&
         sidebarLayout.value === "horizontal" &&
         headerposition.value === "static"
@@ -85,6 +85,7 @@ const SideBar = () => {
             : ""
           : ""
       }`}
+      style={{ zIndex: "1" }}
     >
       <PerfectScrollbar className="deznav-scroll">
         <ul className="metismenu pt-4" id="menu">

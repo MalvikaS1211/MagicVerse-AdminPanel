@@ -3,8 +3,8 @@ import toast from "react-hot-toast";
 // export const URLApi = "https://magicverse.org/api";
 
 // export const URLApi = "http://192.168.1.47:8081/api";
-// export const URLApi = "http://192.168.1.166:8081/api";
-export const URLApi = "https://iftglobal.org/api";
+export const URLApi = "http://localhost:8081/api";
+// export const URLApi = "https://iftglobal.org/api";
 
 export function cutAfterDecimal(number, pos, dl, ac) {
   if (Number(number)) {
@@ -752,11 +752,12 @@ export async function getReadyForBuyFn(
   }
 }
 
-export async function getLastNFTs(page, limit) {
+export async function getLastNFTs(page, limit, search) {
   try {
     const response = await axios.post(`${URLApi}/getLastNft`, {
       page,
       limit,
+      search,
     });
 
     return response.data;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaShoppingCart, FaTag, FaUserGraduate } from "react-icons/fa";
-
+import { BsShieldCheck } from "react-icons/bs";
 import "swiper/css";
 import {
   AllowToCreateBulk,
@@ -8,7 +8,7 @@ import {
   getNftStartStop,
 } from "../../../../services/api_function";
 import { useAccount } from "wagmi";
-
+import { BadgeCheck } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { setLogin } from "../../../redux/reducer";
 import { useDispatch, useSelector } from "react-redux";
@@ -167,6 +167,22 @@ const BalanceCardSlider = () => {
               </div>
             </div>
           </div>
+          {/* <div className="col-lg-6 mb-4">
+            <div className="card card-bg">
+              <div className="card-body d-flex align-items-center">
+                <div className="d-flex gap-3">
+                  <div>
+                    <BadgeCheck style={{ width: "130%", height: "100%" }} />
+                  </div>
+                  <div className="-info d-flex align-items-center">
+                    <h4 className="count-num" style={{ fontSize: "20px" }}>
+                      Total Matured NFTs : {user?.InSaleNFTs || 0}
+                    </h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> */}
         </div>
         <div className="row">
           {" "}

@@ -70,7 +70,7 @@ export const BuyNFT = () => {
     try {
       setLoading(true);
 
-      const res = await getLastNFTs(currentPage, itemPerpage);
+      const res = await getLastNFTs(currentPage, itemPerpage,searchValue);
       const data = res?.data || [];
       const pagination = res?.pagination || res?.data?.pagination || {};
 
