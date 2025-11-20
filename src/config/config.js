@@ -986,7 +986,7 @@ export const MiraiVault_CONTRACT_ADDRESS_ABI = [
   },
 ];
 
-export const USDT_TOKEN = "0x8c5884b8B8281151abe5E381E252514b47FBCD05";
+export const USDT_TOKEN = "0x55d398326f99059ff775485246999027b3197955";
 export const USDT_TOKEN_ABI = [
   { inputs: [], stateMutability: "nonpayable", type: "constructor" },
   {

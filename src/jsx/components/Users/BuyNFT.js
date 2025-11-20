@@ -280,7 +280,7 @@ export const BuyNFT = () => {
             // const imageUrl = metadata.image
             //   ? metadata.image.replace("ipfs://", "https://ipfs.io/ipfs/")
             //   : "https://i.guim.co.uk/img/media/ef8492feb3715ed4de705727d9f513c168a8b196/37_0_1125_675/master/1125.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=d456a2af571d980d8b2985472c262b31";
-            console.log(res,Number(res[7]), "NFT Details:");
+            console.log(res, Number(res[7]), "NFT Details:");
             return {
               ...trade,
               title: "",
@@ -290,7 +290,7 @@ export const BuyNFT = () => {
               owner: res[6],
               metadataURI: res[2],
               creator: res[3],
-              ip:Number(res[7])/1e18,
+              ip: Number(res[7]) / 1e18,
             };
           } catch (err) {
             console.error(
@@ -368,7 +368,7 @@ export const BuyNFT = () => {
                     <th>Buyer</th>
                     <th>Sales Count</th>
                     {/* <th>NFT Start Price</th> */}
-                    <th>NFT Current  Price</th>
+                    <th>NFT Current Price</th>
                     <th>Date & Time</th>
                     <th>Buy </th>
                   </tr>
@@ -392,14 +392,27 @@ export const BuyNFT = () => {
                       <tr key={nft._id}>
                         <td>{(currentPage - 1) * itemPerpage + index + 1}</td>
                         <td>{nft?.tokenId}</td>
-
-                        <td>{nft?.buyer}</td>
+                        <td>
+                          {nft?.buyer?.slice(0, 8)}...
+                          {nft?.buyer?.slice(-8)}
+                          <Tooltip title={tooltipText} arrow>
+                            <IconButton
+                              onClick={() => handleCopy(nft?.buyer)}
+                              size="small"
+                              style={{ marginLeft: 4 }}
+                            >
+                              <FaRegCopy />
+                            </IconButton>
+                          </Tooltip>
+                        </td>
+                        {/* <td>{nft?.buyer}</td> */}
                         <td>{nft?.salesCount}</td>
                         {/* <td>{nft?.ip || "0.00"}</td> */}
                         <td>
                           {isNaN(Number(nft?.price))
                             ? "0.0000"
-                            : (Number(nft.price) / 1e18).toFixed(4)} USDT
+                            : (Number(nft.price) / 1e18).toFixed(4)}{" "}
+                          USDT
                         </td>
 
                         <td>

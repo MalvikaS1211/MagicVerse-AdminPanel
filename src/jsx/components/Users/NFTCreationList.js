@@ -102,10 +102,20 @@ export const NFTCreationList = () => {
                       <tr key={index}>
                         <td>{(currentPage - 1) * itemPerpage + index + 1}</td>
                         <td>{nft?.tokenId}</td>
-                        <td>{`${nft?.creator.slice(
-                          0,
-                          5
-                        )}...${nft?.creator.slice(-4)}`}</td>
+                        <td>
+                          {`${nft?.creator.slice(0, 5)}...${nft?.creator.slice(
+                            -4
+                          )}`}
+                          <Tooltip title={tooltipText} arrow>
+                            <IconButton
+                              onClick={() => handleCopy(nft?.creator)}
+                              size="small"
+                              style={{ marginLeft: 4 }}
+                            >
+                              <FaRegCopy />
+                            </IconButton>
+                          </Tooltip>
+                        </td>
                         <td>$ {nft?.price / 1e18}</td>
 
                         <td>

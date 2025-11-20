@@ -97,10 +97,28 @@ export const SoldNFTs = () => {
                         <td>
                           {NFT?.buyer?.slice(0, 5)}...
                           {NFT?.buyer?.slice(-4)}
+                          <Tooltip title={tooltipText} arrow>
+                            <IconButton
+                              onClick={() => handleCopy(NFT?.buyer)}
+                              size="small"
+                              style={{ marginLeft: 4 }}
+                            >
+                              <FaRegCopy />
+                            </IconButton>
+                          </Tooltip>
                         </td>
                         <td>
                           {NFT?.seller?.slice(0, 5)}...
                           {NFT?.seller?.slice(-4)}
+                          <Tooltip title={tooltipText} arrow>
+                            <IconButton
+                              onClick={() => handleCopy(NFT?.buyer)}
+                              size="small"
+                              style={{ marginLeft: 4 }}
+                            >
+                              <FaRegCopy />
+                            </IconButton>
+                          </Tooltip>
                         </td>
                         <td>{(NFT?.newPrice / 1e18).toFixed(4)}</td>
                         <td>

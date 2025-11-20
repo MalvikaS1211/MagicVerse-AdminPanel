@@ -90,7 +90,7 @@ export const Deposit = () => {
                         <td>
                           {deposit?.user?.slice(0, 5)}...
                           {deposit?.user?.slice(-4)}
-                          {/* <Tooltip title={tooltipText} arrow>
+                          <Tooltip title={tooltipText} arrow>
                             <IconButton
                               onClick={() => handleCopy(deposit?.user)}
                               size="small"
@@ -98,7 +98,7 @@ export const Deposit = () => {
                             >
                               <FaRegCopy />
                             </IconButton>
-                          </Tooltip> */}
+                          </Tooltip>
                         </td>
                         <td>$ {deposit?.amount / 1e18}</td>
 
