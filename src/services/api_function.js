@@ -1,9 +1,9 @@
 import axios from "axios";
 import toast from "react-hot-toast";
-export const URLApi = "https://magicverse.org/api";
+// export const URLApi = "https://magicverse.org/api";
 // export const URLApi = "http://192.168.1.10:8081/api";
 // export const URLApi = "http://192.168.1.161:8081/api";
-// export const URLApi = "http://localhost:8081/api";
+export const URLApi = "http://localhost:8081/api";
 // export const URLApi = "http://192.168.1.171:8081/api";
 
 export function cutAfterDecimal(number, pos, dl, ac) {
@@ -417,9 +417,13 @@ export async function createMessageFn(Sender, Receiver, Message, TicketId) {
   }
 }
 
-export async function getAllTicket() {
+export async function getAllTicket(page, limit, search) {
   try {
-    const response = await axios.post(`${URLApi}/getAllTicketsByAdmin`, {});
+    const response = await axios.post(`${URLApi}/getAllTicketsByAdmin`, {
+      page,
+      limit,
+      search,
+    });
 
     return response.data;
   } catch (error) {

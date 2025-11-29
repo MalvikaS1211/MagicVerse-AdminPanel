@@ -26,7 +26,8 @@ const ChatSupport = () => {
   };
   const getAllTickets = async () => {
     try {
-      const res = await getAllTicket();
+      const res = await getAllTicket(currentPage, itemPerpage, search);
+      setTotalPages(res.totalPages);
       setAllTicket(res.data);
     } catch (error) {
       console.log("error in getAllTickets", error);
@@ -51,7 +52,7 @@ const ChatSupport = () => {
 
   useEffect(() => {
     getAllTickets();
-  }, []);
+  }, [currentPage, search]);
 
   return (
     <Card>
