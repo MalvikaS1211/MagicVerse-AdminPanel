@@ -104,11 +104,11 @@ export const MenuList = [
   //   to: "admin/nfttracking",
   //   iconStyle: <MdOutlineSpatialTracking className="fs-3" />,
   // },
-  // {
-  //   title: "Add NFT to queue",
-  //   to: "admin/addnftqueue",
-  //   iconStyle: <GiAbstract074 className="fs-3" />,
-  // },
+  {
+    title: "Add NFT to queue",
+    to: "admin/addnftqueue",
+    iconStyle: <GiAbstract074 className="fs-3" />,
+  },
   // {
   //   title: "Active Users",
   //   to: "admin/active-users",
