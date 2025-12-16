@@ -1,10 +1,10 @@
 import axios from "axios";
 import toast from "react-hot-toast";
-// export const URLApi = "https://magicverse.org/api";
 
-// export const URLApi = "http://192.168.1.47:8081/api";
+
+export const URLApi = "http://192.168.1.117:8081/api";
 // export const URLApi = "http://localhost:8081/api";
-export const URLApi = "https://iftglobal.org/api";
+// export const URLApi = "https://iftglobal.org/api";
 
 export function cutAfterDecimal(number, pos, dl, ac) {
   if (Number(number)) {
@@ -376,18 +376,7 @@ export async function getDepostList(page, limit) {
   }
 }
 
-// export async function getNftStartStop(action, status) {
-//   try {
-//     const response = await axios.post(`${URLApi}/block-single-nft-creation`, {
-//       action,
-//       status,
-//     });
 
-//     return response.data;
-//   } catch (error) {
-//     console.log("Error getLoginCredential Admin:", error);
-//   }
-// }
 
 export async function getNftStartStop(user, status) {
   try {
@@ -763,5 +752,20 @@ export async function getLastNFTs(page, limit, search) {
     return response.data;
   } catch (error) {
     console.log("Error getLastNFTs :", error);
+  }
+}
+
+export async function get15Nft(page, limit) {
+  try {
+    const response = await axios.get(`${URLApi}/get15Nft`, {
+      params: {
+        page,
+        limit,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error get15Nft Admin:", error);
   }
 }
