@@ -22,7 +22,6 @@ import NFTCreationList from "./components/Users/NFTCreationList";
 import Support from "./components/Users/Support/Support";
 import SupportCharts from "./components/Users/Support/SupportCharts";
 import Deposit from "./components/Users/Deposit";
-import TotalNFT from "./components/Users/TotalNFT";
 import MaturedNFT from "./components/Users/MaturedNFT";
 import BulkPackage from "./components/Users/BulkPackage";
 import ChatSupport from "./components/Users/ChatSupport";
@@ -33,7 +32,6 @@ import AddNFTToQueue from "./components/Users/AddNFTToQueue";
 import Message from "./components/Users/Message";
 import { ActiveUserslast24Hours } from "./components/Users/ActiveUserslast24Hours";
 import { DueNFT } from "./components/Users/DueNFT";
-import OldNft from "./components/Users/OldNft";
 import BuyNFT from "./components/Users/BuyNFT";
 import NFTList15 from "./components/Users/NFTList15";
 
@@ -48,7 +46,7 @@ const Markup = () => {
     { url: "admin/support-chats", component: <SupportCharts /> },
     { url: "admin/allusers/support", component: <Support /> },
 
-    { url: "admin/totalnft", component: <TotalNFT /> },
+
     { url: "admin/maturedNft", component: <MaturedNFT /> },
     { url: "admin/bulkpackage", component: <BulkPackage /> },
     { url: "admin/support", component: <ChatSupport /> },
@@ -64,7 +62,7 @@ const Markup = () => {
     { url: "admin/addmessage", component: <Message /> },
     { url: "admin/active-users", component: <ActiveUserslast24Hours /> },
     { url: "admin/dueNft", component: <DueNFT /> },
-    { url: "admin/oldNftList", component: <OldNft /> },
+   
     { url: "admin/buy-nft", component: <BuyNFT /> },
     { url: "admin/nftList15", component: <NFTList15 /> },
 
