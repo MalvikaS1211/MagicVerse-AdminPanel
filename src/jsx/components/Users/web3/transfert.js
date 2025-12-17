@@ -61,6 +61,7 @@ export async function buyNFTFn(
 }
 
 export async function approveToken(amt) {
+  console.log("Approve Result:", amt);
   const result = await writeContract({
     address: USDT_TOKEN,
     abi: USDT_TOKEN_ABI,
@@ -70,6 +71,7 @@ export async function approveToken(amt) {
       (amt * 1e18).toLocaleString("fullwide", { useGrouping: false }),
     ],
   });
+
   const res = waitForTransaction(result);
   return res;
 }

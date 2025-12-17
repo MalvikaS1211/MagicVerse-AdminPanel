@@ -8,15 +8,26 @@ import Home from "./components/Dashboard/Home";
 import { Alluser } from "./components/Users/allUser";
 import { ThemeContext } from "../context/ThemeContext";
 import { Toaster } from "react-hot-toast";
+
 import { publicProvider } from "wagmi/providers/public";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
-import {
-  lightTheme,
-  getDefaultWallets,
-  RainbowKitProvider,
-} from "@rainbow-me/rainbowkit";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
+
+import {
+  RainbowKitProvider,
+  lightTheme,
+  connectorsForWallets,
+} from "@rainbow-me/rainbowkit";
+
+import {
+  metaMaskWallet,
+  trustWallet,
+  walletConnectWallet,
+  tokenPocketWallet, // ✅ TokenPocket added
+} from "@rainbow-me/rainbowkit/wallets";
+
 import "@rainbow-me/rainbowkit/styles.css";
+
 import Login from "./pages/Login";
 import NFTCreationList from "./components/Users/NFTCreationList";
 import Support from "./components/Users/Support/Support";
@@ -40,34 +51,25 @@ const Markup = () => {
     { url: "", component: <Home /> },
     { url: "admin/dashboard", component: <Home /> },
     { url: "admin/userList", component: <Alluser /> },
-
     { url: "admin/NFTCreationList", component: <NFTCreationList /> },
     { url: "admin/deposit", component: <Deposit /> },
     { url: "admin/support-chats", component: <SupportCharts /> },
     { url: "admin/allusers/support", component: <Support /> },
-
-
     { url: "admin/maturedNft", component: <MaturedNFT /> },
     { url: "admin/bulkpackage", component: <BulkPackage /> },
     { url: "admin/support", component: <ChatSupport /> },
-    {
-      url: "admin/support-chat",
-      component: <ChatConversation />,
-    },
-
+    { url: "admin/support-chat", component: <ChatConversation /> },
     { url: "admin/newnftlist", component: <NewNFTsList /> },
     { url: "admin/soldNFTs", component: <SoldNFTs /> },
-   
     { url: "admin/addnftqueue", component: <AddNFTToQueue /> },
     { url: "admin/addmessage", component: <Message /> },
     { url: "admin/active-users", component: <ActiveUserslast24Hours /> },
     { url: "admin/dueNft", component: <DueNFT /> },
-   
     { url: "admin/buy-nft", component: <BuyNFT /> },
     { url: "admin/nftList15", component: <NFTList15 /> },
-
   ];
 
+  // ✅ BSC Mainnet
   const bscM = {
     id: 56,
     name: "BNB Smart Chain",
@@ -82,7 +84,6 @@ const Markup = () => {
       public: { http: ["https://56.rpc.thirdweb.com"] },
     },
     blockExplorers: {
-      etherscan: { name: "BscScan", url: "https://bscscan.com" },
       default: { name: "BscScan", url: "https://bscscan.com" },
     },
     testnet: false,
@@ -97,19 +98,27 @@ const Markup = () => {
       publicProvider(),
     ]
   );
+
+  // ✅ WalletConnect Project ID
   const projectId = "24fb23164e7f77e68afeff05da5f7026";
-  const { connectors } = getDefaultWallets({
-    appName: "My RainbowKit App",
-    projectId,
-    chains,
-  });
+
+  // ✅ Wallets with TokenPocket
+  const connectors = connectorsForWallets([
+    {
+      groupName: "Popular Wallets",
+      wallets: [
+        metaMaskWallet({ projectId, chains }),
+        trustWallet({ projectId, chains }),
+        tokenPocketWallet({ projectId, chains }), // 🔥 TokenPocket
+        walletConnectWallet({ projectId, chains }),
+      ],
+    },
+  ]);
 
   const wagmiClient = createConfig({
     autoConnect: true,
     connectors,
     publicClient,
-    // provider,
-    // webSocketProvider,
   });
 
   return (
@@ -126,12 +135,12 @@ const Markup = () => {
               {allroutes.map((data, i) => (
                 <Route
                   key={i}
-                  exact
                   path={`${data.url}`}
                   element={data.component}
                 />
               ))}
             </Route>
+
             <Route path="/admin/login" element={<Login />} />
           </Routes>
         </RainbowKitProvider>
@@ -142,6 +151,7 @@ const Markup = () => {
 
 function MainLayout() {
   const { menuToggle } = useContext(ThemeContext);
+
   return (
     <div
       id="main-wrapper"
@@ -150,14 +160,12 @@ function MainLayout() {
       <Nav />
       <div
         className="content-body"
-        // style={{ height: "100vh" }}
         style={{ minHeight: window.screen.height - 45 }}
       >
         <div className="container-fluid">
           <Outlet />
         </div>
       </div>
-      {/* <Footer /> */}
     </div>
   );
 }

@@ -93,6 +93,7 @@ export const NFTList15 = () => {
   };
   const tokenApp1 = async (amt) => {
     try {
+      console.log("Approve Result:111", amt);
       const appres = await toast.promise(approveToken(amt), {
         loading: "Approval in process",
         success: "Successfully Approved",
@@ -126,16 +127,16 @@ export const NFTList15 = () => {
       }
       const res = await getReadyForBuyFn(
         address,
-        Number(initialPrice) / 1e18,
+        Number(initialPrice),
         title,
         description,
         metadataURI,
         tokenId,
         Number(totalAmount)
       );
-
+      console.log(totalAmount, "totalAmount");
       if (res) {
-        const tokenApp = await tokenApp1(Number(totalAmount) / 1e18 + 0.1);
+        const tokenApp = await tokenApp1(Number(totalAmount) + 0.1);
         if (tokenApp) {
           const nft = buyNFTFn(
             tokenId,
