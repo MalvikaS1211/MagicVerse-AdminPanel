@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Row, Col, Card, Table } from "react-bootstrap";
-import { Tooltip, IconButton } from "@mui/material";
+import { Tooltip, IconButton, Pagination } from "@mui/material";
 import { FaRegCopy } from "react-icons/fa";
 import moment from "moment";
 import axios from "axios";
@@ -31,7 +31,7 @@ export const Alluser = () => {
 
   const allUsers = async (search) => {
     try {
-      setLoading(true)
+      setLoading(true);
       const res = await getAdminDashboard(currentPage, itemPerPage, search);
       setTotalPages(res?.totalPages);
       setUsersList(res.users);
@@ -39,9 +39,7 @@ export const Alluser = () => {
       console.log("User List", res);
     } catch (error) {
       console.log(error);
-      
-    }
-    finally{
+    } finally {
       setLoading(false);
     }
   };
@@ -77,7 +75,9 @@ export const Alluser = () => {
   const handlePreviousPage = () => {
     setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : prevPage));
   };
-
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
   return (
     <Fragment>
       <Row className="mb-4"></Row>
@@ -204,32 +204,29 @@ export const Alluser = () => {
                 </tbody>
               </Table>
 
-              <div
-                className="text-center mb-3 col-lg-6"
-                style={{ margin: "auto" }}
-              >
-                <div className="filter-pagination mt-3">
-                  <button
-                    className="next-button btn btn-success pointer border m-2"
-                    onClick={handlePreviousPage}
-                    disabled={currentPage <= 1}
-                  >
-                    Previous
-                  </button>
-
-                  <button
-                    type="button"
-                    className="next-button btn btn-success pointer border m-2"
-                    onClick={handleNextPage}
-                    disabled={currentPage === totalPages}
-                  >
-                    Next
-                  </button>
-
-                  <span>
-                    Page {currentPage} of {totalPages}
-                  </span>
-                </div>
+              <div className="filter-pagination mt-3 d-flex justify-content-center">
+                <Pagination
+                  count={totalPages}
+                  page={currentPage}
+                  onChange={handlePageChange}
+                  sx={{
+                    "& .MuiPaginationItem-root": {
+                      color: "#0c0c0cff",
+                      border: "1px solid #cbcbcb",
+                    },
+                    "& .Mui-selected": {
+                      backgroundColor: "#047dff !important",
+                      color: "#fff !important",
+                      fontWeight: "600",
+                    },
+                    "& .MuiPaginationItem-root:hover": {
+                      backgroundColor: "#c9a14a22",
+                    },
+                  }}
+                  shape="rounded"
+                  siblingCount={1}
+                  boundaryCount={1}
+                />
               </div>
             </Card.Body>
           </Card>

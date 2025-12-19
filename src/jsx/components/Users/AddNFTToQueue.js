@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Row, Col, Card, Table, Button, Form } from "react-bootstrap";
-import { Tooltip, IconButton, useForkRef } from "@mui/material";
+import { Tooltip, IconButton, useForkRef, Pagination } from "@mui/material";
 import { FaRegCopy } from "react-icons/fa";
 import axios from "axios";
 import moment from "moment";
@@ -78,7 +78,9 @@ export const AddNFTToQueue = () => {
   useEffect(() => {
     handleDataShow();
   }, [currentPage]);
-
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
   return (
     <Fragment>
       <Row>
@@ -149,7 +151,7 @@ export const AddNFTToQueue = () => {
                   <tr>
                     <th>S.No.</th>
                     <th>Token Id</th>
-                    <th>Status </th>
+                    <th>Buyer</th>
                     <th>Sales Count</th>
                     <th>Current Price</th>
                     <th>Date</th>
@@ -162,7 +164,7 @@ export const AddNFTToQueue = () => {
                         <td>{(currentPage - 1) * itemPerpage + index + 1}</td>
 
                         <td>{data?.tokenId}</td>
-                        <td>{data?.Status ? "true" : "false"}</td>
+                        <td>{data?.soldDetail?.buyer}</td>
                         <td>{data?.soldDetail?.salesCount || 0}</td>
                         <td>
                           {((data?.soldDetail?.newPrice || 0) / 1e18).toFixed(
@@ -186,30 +188,29 @@ export const AddNFTToQueue = () => {
                 </tbody>
               </Table>
 
-              <div
-                className="text-center mb-3 col-lg-6"
-                style={{ margin: "auto" }}
-              >
-                <div className="filter-pagination mt-3">
-                  <button
-                    className="next-button btn btn-success pointer border m-2"
-                    onClick={handlePreviousPage}
-                    disabled={currentPage <= 1}
-                  >
-                    Previous
-                  </button>
-                  <button
-                    type="button"
-                    className="next-button btn btn-success pointer border m-2"
-                    onClick={handleNextPage}
-                    disabled={currentPage === totalPages}
-                  >
-                    Next
-                  </button>
-                  <span>
-                    Page {currentPage} of {totalPages}
-                  </span>
-                </div>
+              <div className="filter-pagination mt-3 d-flex justify-content-center">
+                <Pagination
+                  count={totalPages}
+                  page={currentPage}
+                  onChange={handlePageChange}
+                  sx={{
+                    "& .MuiPaginationItem-root": {
+                      color: "#0c0c0cff",
+                      border: "1px solid #cbcbcb",
+                    },
+                    "& .Mui-selected": {
+                      backgroundColor: "#047dff !important",
+                      color: "#fff !important",
+                      fontWeight: "600",
+                    },
+                    "& .MuiPaginationItem-root:hover": {
+                      backgroundColor: "#c9a14a22",
+                    },
+                  }}
+                  shape="rounded"
+                  siblingCount={1}
+                  boundaryCount={1}
+                />
               </div>
             </Card.Body>
           </Card>

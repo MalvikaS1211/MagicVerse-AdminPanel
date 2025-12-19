@@ -13,7 +13,7 @@ import {
   getTradeUserFn,
 } from "../../../services/api_function";
 import toast from "react-hot-toast";
-import { Tooltip, IconButton } from "@mui/material";
+import { Tooltip, IconButton, Pagination } from "@mui/material";
 import { FaRegCopy } from "react-icons/fa";
 import { useSelector } from "react-redux";
 
@@ -65,7 +65,9 @@ export const BuyNFT = () => {
       setCurrentPage(currentPage - 1);
     }
   };
-
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
   const NFTListing = async () => {
     try {
       setLoading(true);
@@ -457,32 +459,29 @@ export const BuyNFT = () => {
                 </tbody>
               </Table>
 
-              <div
-                className="text-center mb-3 col-lg-6"
-                style={{ margin: "auto" }}
-              >
-                <div className=" filter-pagination mt-3 ">
-                  <button
-                    className="next-button btn btn-success pointer border m-2"
-                    onClick={handlePreviousPage}
-                    disabled={currentPage <= 1}
-                  >
-                    Previous
-                  </button>
-
-                  <button
-                    type="button"
-                    className="next-button btn btn-success pointer border m-2 "
-                    onClick={handleNextPage}
-                    disabled={currentPage >= totalPages} // ✅ fixed
-                  >
-                    Next
-                  </button>
-
-                  <span>
-                    Page {currentPage} of {totalPages}
-                  </span>
-                </div>
+              <div className="filter-pagination mt-3 d-flex justify-content-center">
+                <Pagination
+                  count={totalPages}
+                  page={currentPage}
+                  onChange={handlePageChange}
+                  sx={{
+                    "& .MuiPaginationItem-root": {
+                      color: "#0c0c0cff",
+                      border: "1px solid #cbcbcb",
+                    },
+                    "& .Mui-selected": {
+                      backgroundColor: "#047dff !important",
+                      color: "#fff !important",
+                      fontWeight: "600",
+                    },
+                    "& .MuiPaginationItem-root:hover": {
+                      backgroundColor: "#c9a14a22",
+                    },
+                  }}
+                  shape="rounded"
+                  siblingCount={1}
+                  boundaryCount={1}
+                />
               </div>
             </Card.Body>
           </Card>
