@@ -4,9 +4,10 @@ import { RiNftFill } from "react-icons/ri";
 import { FaUserGraduate } from "react-icons/fa";
 import { PiHandDepositFill } from "react-icons/pi";
 import { LuLayoutDashboard } from "react-icons/lu";
-import { GiAbstract074 } from "react-icons/gi";
-import { BiLogOut } from "react-icons/bi";
+import { GiAbstract007, GiAbstract074 } from "react-icons/gi";
+import { BiLogOut, BiSupport } from "react-icons/bi";
 import { GrTransaction } from "react-icons/gr";
+import { FaMessage, FaRankingStar, FaRegMessage } from "react-icons/fa6";
 export const MenuList = [
   {
     title: "Dashboard",
@@ -46,10 +47,20 @@ export const MenuList = [
     to: "admin/addnftqueue",
     iconStyle: <GiAbstract074 className="fs-3" />,
   },
-    {
+  {
     title: "15 $ NFT List",
     to: "admin/nftList15",
-    iconStyle: <GiAbstract074 className="fs-3" />,
+    iconStyle: <GiAbstract007  className="fs-3" />,
+  },
+  {
+    title: "Add Massage",
+    to: "admin/addmessage",
+    iconStyle: <FaRegMessage className="fs-3" />,
+  },
+  {
+    title: "Support",
+    to: "admin/support",
+    iconStyle: <BiSupport className="fs-3" />,
   },
   {
     title: "Logout",
