@@ -50,7 +50,7 @@ export const MenuList = [
   {
     title: "15 $ NFT List",
     to: "admin/nftList15",
-    iconStyle: <GiAbstract007  className="fs-3" />,
+    iconStyle: <GiAbstract007 className="fs-3" />,
   },
   {
     title: "Add Massage",
@@ -62,6 +62,8 @@ export const MenuList = [
     to: "admin/support",
     iconStyle: <BiSupport className="fs-3" />,
   },
+
+ 
   {
     title: "Logout",
     iconStyle: <BiLogOut className="fs-3">logout</BiLogOut>,

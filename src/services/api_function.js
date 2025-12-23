@@ -769,3 +769,15 @@ export async function get15Nft(page, limit) {
     console.log("Error get15Nft Admin:", error);
   }
 }
+
+export async function getTransactionHash(recoverMissedTx) {
+  try {
+    const response = await axios.post(`${URLApi}/recoverMissedTx`, {
+      recoverMissedTx,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error getTransactionHash :", error);
+  }
+}

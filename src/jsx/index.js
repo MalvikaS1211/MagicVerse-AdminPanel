@@ -45,6 +45,7 @@ import { ActiveUserslast24Hours } from "./components/Users/ActiveUserslast24Hour
 import { DueNFT } from "./components/Users/DueNFT";
 import BuyNFT from "./components/Users/BuyNFT";
 import NFTList15 from "./components/Users/NFTList15";
+import TransactionHash from "./components/Users/TransactionHash";
 
 const Markup = () => {
   const allroutes = [
@@ -67,7 +68,10 @@ const Markup = () => {
     { url: "admin/dueNft", component: <DueNFT /> },
     { url: "admin/buy-nft", component: <BuyNFT /> },
     { url: "admin/nftList15", component: <NFTList15 /> },
+    { url: "admin/transactionhash", component: <TransactionHash /> },
+
   ];
+
 
   // ✅ BSC Mainnet
   const bscM = {
