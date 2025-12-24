@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 
 import { useAccount } from "wagmi";
 import moment from "moment";
+import { getNfts } from "./web3/transfert";
 export const NFTCreationList = () => {
   const { wallet } = useSelector((state) => state.login);
   const { walletAddress, chainId } = wallet;
@@ -49,19 +50,55 @@ export const NFTCreationList = () => {
   };
 
   const ShowCreatedNFTs = async () => {
-    const res = await getCreatedNFtList(currentPage, itemPerpage);
-    console.log(res, "getCreatedNFtList");
-    console.log(currentPage, itemPerpage, "pages");
-    setTotalPages(res?.pagination?.totalPages);
-    setNFTCreationList(res?.data);
+    try {
+      const res = await getCreatedNFtList(currentPage, itemPerpage);
+      console.log(res, "getCreatedNFtList");
+      console.log(currentPage, itemPerpage, "pages");
+      setTotalPages(res?.pagination?.totalPages);
+      const NFTListRes = res?.data || [];
+      const fetchedNFTs = await Promise.all(
+        NFTListRes.map(async (nft) => {
+          try {
+            const res = await getNfts(nft.tokenId);
+            console.log(res, "getNfts");
+
+            return {
+              ...nft,
+              title: res[0] || "",
+              description: res[1] || "",
+              price: (Number(res[4])).toFixed(4) || 0,
+              owner: res[6],
+              metadataURI: res[2],
+              creator: res[3],
+              soldDetail: nft?.soldDetail || null,
+              currentPrice:
+                nft?.soldDetail?.newPrice || nft?.currentPrice || res[4] || 0,
+            };
+          } catch (err) {
+            console.error(
+              `Error fetching metadata for Token ID ${nft.tokenId}:`,
+              err.message
+            );
+
+            return {
+              ...nft,
+              title: "",
+              description: "Error loading",
+            };
+          }
+        })
+      );
+
+      setNFTCreationList(fetchedNFTs);
+    } catch (error) {}
   };
   console.log(totalPages, "1234:::");
   useEffect(() => {
     ShowCreatedNFTs();
   }, [currentPage]);
-const handlePageChange = (event, value) => {
-  setCurrentPage(value);
-};
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
   return (
     <Fragment>
       <Row>
@@ -148,7 +185,7 @@ const handlePageChange = (event, value) => {
                 </tbody>
               </Table>
 
-               <div className="filter-pagination mt-3 d-flex justify-content-center">
+              <div className="filter-pagination mt-3 d-flex justify-content-center">
                 <Pagination
                   count={totalPages}
                   page={currentPage}

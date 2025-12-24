@@ -323,20 +323,7 @@ export async function getCreatedNFtList(page, limit) {
   }
 }
 
-export async function getMaturedNFTs(page, limit) {
-  try {
-    const response = await axios.get(`${URLApi}/all-matured-nfts`, {
-      params: {
-        page,
-        limit,
-      },
-    });
 
-    return response.data;
-  } catch (error) {
-    console.log("Error getMaturedNFTs Admin:", error);
-  }
-}
 
 export async function getAllBulkPackages() {
   try {
@@ -779,5 +766,20 @@ export async function getTransactionHash(recoverMissedTx) {
     return response.data;
   } catch (error) {
     console.log("Error getTransactionHash :", error);
+  }
+}
+
+
+export async function getMaturedNFTs(address, page = 1, limit = 10) {
+  try {
+    const response = await axios.post(`${URLApi}/user-matured-nfts`, {
+      userAddress: address,
+      page,
+      limit,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error getMaturedNFTs Admin:", error);
   }
 }

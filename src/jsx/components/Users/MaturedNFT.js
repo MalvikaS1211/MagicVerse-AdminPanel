@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 
 import { useAccount } from "wagmi";
 import moment from "moment";
+import { getNfts } from "./web3/transfert";
 export const MaturedNFT = () => {
   const { wallet } = useSelector((state) => state.login);
   const { walletAddress, chainId } = wallet;
@@ -23,7 +24,7 @@ export const MaturedNFT = () => {
   const [daoAddress, setDaoAddress] = useState("");
   const [recordStatus, setRecordStatus] = useState("Loading...");
   const [isFetch, setIsFetch] = useState(false);
-
+  const itemPerpage = 20;
   const { address } = useAccount();
   const [tooltipText, setTooltipText] = useState("Copy address");
   const [MaturedNFT, setMaturedNFT] = useState([]);
@@ -44,14 +45,51 @@ export const MaturedNFT = () => {
     setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : prevPage));
   };
 
-  const ShowMaturedNFTs = async () => {
-    const res = await getMaturedNFTs();
-    console.log(res, "getMaturedNFTs");
-    setMaturedNFT(res.data);
+  const ShowNFTList = async () => {
+    const res = await getMaturedNFTs(address, currentPage, itemPerpage);
+    console.log(res, "getDepostList");
+    setTotalPages(res?.totalPages);
+
+    const NFTListRes = res?.userMaturedNfts || [];
+    const fetchedNFTs = await Promise.all(
+      NFTListRes.map(async (nft) => {
+        try {
+          const res = await getNfts(nft.tokenId);
+          console.log(res, "getNfts");
+
+          return {
+            ...nft,
+            title: res[0] || "",
+            description: res[1] || "",
+            price: (Number(res[4]) / 1e18).toFixed(4) || 0,
+            owner: res[6],
+            metadataURI: res[2],
+            creator: res[3],
+            soldDetail: nft?.soldDetail || null,
+            currentPrice:
+              nft?.soldDetail?.newPrice || nft?.currentPrice || res[4] || 0,
+            salesCount: res[5] ? Number(res[5]) : 0,
+          };
+        } catch (err) {
+          console.error(
+            `Error fetching metadata for Token ID ${nft.tokenId}:`,
+            err.message
+          );
+
+          return {
+            ...nft,
+            title: "",
+            description: "Error loading",
+          };
+        }
+      })
+    );
+
+    setMaturedNFT(fetchedNFTs);
   };
 
   useEffect(() => {
-    ShowMaturedNFTs();
+    ShowNFTList();
   }, [address, currentPage]);
 
   return (
@@ -82,9 +120,10 @@ export const MaturedNFT = () => {
                     <th>S.No.</th>
                     <th>Token Id</th>
                     <th>Buyer </th>
-                    <th>Seller </th>
+                    <th>Price </th>
+                    <th>Sales Count</th>
 
-                    <th>Date & Time</th>
+                    {/* <th>Date & Time</th> */}
                   </tr>
                 </thead>
                 <tbody>
@@ -94,12 +133,13 @@ export const MaturedNFT = () => {
                         <td>{index + 1}</td>
 
                         <td>{nft?.tokenId}</td>
-                        <td>{nft?.buyer}</td>
-                        <td>{nft?.seller}</td>
+                        <td>{nft?.owner}</td>
+                        <td>{nft?.price}</td>
+                        <td>{nft?.salesCount}</td>
 
-                        <td>
+                        {/* <td>
                           {moment(nft?.createdAt).format("M/D/YYYY h:mm:ss A")}
-                        </td>
+                        </td> */}
                       </tr>
                     ))
                   ) : (

@@ -176,8 +176,8 @@ export const NFTList15 = () => {
   };
 
   const handlePageChange = (event, value) => {
-  setCurrentPage(value);
-};
+    setCurrentPage(value);
+  };
   return (
     <Fragment>
       <Row>
@@ -258,29 +258,29 @@ export const NFTList15 = () => {
                 </tbody>
               </Table>
 
-                <div className="filter-pagination mt-3 d-flex justify-content-center">
-              <Pagination
-                               count={totalPages}
-                               page={currentPage}
-                               onChange={handlePageChange}
-                               sx={{
-                                 "& .MuiPaginationItem-root": {
-                                   color: "#0c0c0cff",
-                                   border: "1px solid #cbcbcb",
-                                 },
-                                 "& .Mui-selected": {
-                                   backgroundColor: "#047dff !important",
-                                   color: "#fff !important",
-                                   fontWeight: "600",
-                                 },
-                                 "& .MuiPaginationItem-root:hover": {
-                                   backgroundColor: "#c9a14a22",
-                                 },
-                               }}
-                               shape="rounded"
-                               siblingCount={1}
-                               boundaryCount={1}
-                             />
+              <div className="filter-pagination mt-3 d-flex justify-content-center">
+                <Pagination
+                  count={totalPages}
+                  page={currentPage}
+                  onChange={handlePageChange}
+                  sx={{
+                    "& .MuiPaginationItem-root": {
+                      color: "#0c0c0cff",
+                      border: "1px solid #cbcbcb",
+                    },
+                    "& .Mui-selected": {
+                      backgroundColor: "#047dff !important",
+                      color: "#fff !important",
+                      fontWeight: "600",
+                    },
+                    "& .MuiPaginationItem-root:hover": {
+                      backgroundColor: "#c9a14a22",
+                    },
+                  }}
+                  shape="rounded"
+                  siblingCount={1}
+                  boundaryCount={1}
+                />
               </div>
             </Card.Body>
           </Card>
