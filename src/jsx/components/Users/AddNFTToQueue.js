@@ -8,21 +8,31 @@ import {
   AddNFTInQueue,
   DeleteNFt,
   getAllNFTInQueue,
+  getReadyForBuyFn,
 } from "../../../services/api_function";
 import toast from "react-hot-toast";
+import {
+  approveToken,
+  buyNFTFn,
+  fetchUserTokenBalance,
+  getNfts,
+} from "./web3/transfert";
+import { useAccount } from "wagmi";
 
 export const AddNFTToQueue = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-
   const [tokenId, setTokenId] = useState();
   const [tokenIdToDelete, setTokenIdToDelete] = useState();
   const [totalnft, setTotalNFT] = useState(0);
   const [dataList, setDataList] = useState({});
   const [totalNftValue, setTotalNftValue] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isfetch, setIsFetch] = useState(false);
+
+  const { address } = useAccount();
 
   const itemPerpage = 20;
-
   const handleAddNFT = async () => {
     try {
       const response = await AddNFTInQueue(tokenId);
@@ -43,17 +53,44 @@ export const AddNFTToQueue = () => {
   const handleDataShow = async () => {
     try {
       const res = await getAllNFTInQueue(currentPage, itemPerpage);
-      console.log(currentPage, itemPerpage, "pages:");
+
       setTotalPages(res?.pagination?.totalPages);
       setTotalNFT(res?.pagination?.totalCount);
-      setTotalNftValue(res?.TotalNFTValue[0]?.totalNewPrice);
-      console.log(res, "show data");
-      setDataList(res?.data);
+      setTotalNftValue(res?.TotalNFTValue?.[0]?.totalNewPrice);
+
+      const mappedData = await Promise.all(
+        (res?.data || []).map(async (trade) => {
+          try {
+            const nftRes = await getNfts(trade.tokenId);
+
+            return {
+              ...trade,
+              title: nftRes?.[0] || "", 
+              description: nftRes?.[1] || "",
+              metadataURI: nftRes?.[2],
+              creator: nftRes?.[3],
+              price: Number(nftRes?.[4])  ,
+              owner: nftRes?.[6],
+            };
+          } catch (err) {
+            console.error(
+              `Error fetching metadata for Token ID ${trade.tokenId}:`,
+              err.message
+            );
+            return {
+              ...trade,
+              title: "",
+              description: "Error loading",
+            };
+          }
+        })
+      );
+
+      setDataList(mappedData);
     } catch (error) {
-      console.log("Error in handleshowdata", error);
+      console.log("Error in handleDataShow", error);
     }
   };
-
   const handleDeleteNFT = async () => {
     try {
       const response = await DeleteNFt(tokenIdToDelete);
@@ -66,21 +103,99 @@ export const AddNFTToQueue = () => {
       toast.error(msg);
     }
   };
-  const handleNextPage = () => {
-    setCurrentPage((prevPage) =>
-      prevPage < totalPages ? prevPage + 1 : prevPage
-    );
-  };
 
-  const handlePreviousPage = () => {
-    setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : prevPage));
-  };
   useEffect(() => {
     handleDataShow();
   }, [currentPage]);
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
+
+  const tokenApp1 = async (amt) => {
+    try {
+      const appres = await toast.promise(approveToken(amt), {
+        loading: "Approval in process",
+        success: "Successfully Approved",
+        error: "Approval failed",
+      });
+
+      return appres;
+    } catch (error) {
+      console.error("Approval error:", error);
+      return false;
+    }
+  };
+
+  const BuyNft = async (
+    initialPrice,
+    title,
+    description,
+    metadataURI,
+    tokenId,
+    totalAmount
+  ) => {
+    try {
+      setIsLoading(true);
+
+      const userBalance = await fetchUserTokenBalance(address);
+
+      if (Number(userBalance) < Number(totalAmount) / 1e18) {
+        setIsLoading(false);
+        return toast.error(
+          `You need at least ${Number(totalAmount) / 1e18} USDT to Buy`
+        );
+      }
+
+      const res = await getReadyForBuyFn(
+        address,
+        Number(initialPrice) / 1e18,
+        title,
+        description,
+        metadataURI,
+        tokenId,
+        Number(totalAmount) / 1e18
+      );
+
+      if (res) {
+        const tokenApp = await tokenApp1(Number(totalAmount) / 1e18 + 0.1);
+        if (tokenApp) {
+          const nft = buyNFTFn(
+            tokenId,
+            res.vrs.initialPrice,
+            res.vrs.signature.v,
+            res.vrs.signature.r,
+            res.vrs.signature.s,
+            res.vrs.title,
+            res.vrs.description,
+            res.vrs.metadataURI
+          );
+          await toast.promise(nft, {
+            loading: "Processing buy...",
+            success: "NFT Buy successfully!",
+            error: "Nft Buy failed!",
+          });
+
+          setIsLoading(false);
+        }
+        setIsLoading(false);
+      }
+
+      setIsLoading(false);
+    } catch (error) {
+      const message =
+        error?.response?.data?.message ||
+        "Something went wrong. Please try again.";
+      toast.error(message);
+      setIsLoading(false);
+      console.log(error);
+    } finally {
+      setTimeout(() => {
+        setIsFetch(!isfetch);
+      }, 5000);
+      setIsLoading(false);
+    }
+  };
+
   return (
     <Fragment>
       <Row>
@@ -155,26 +270,52 @@ export const AddNFTToQueue = () => {
                     <th>Sales Count</th>
                     <th>Current Price</th>
                     <th>Date</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {dataList?.length > 0 ? (
-                    dataList.map((data, index) => (
+                    dataList.map((nft, index) => (
                       <tr key={index}>
                         <td>{(currentPage - 1) * itemPerpage + index + 1}</td>
 
-                        <td>{data?.tokenId}</td>
-                        <td>{data?.soldDetail?.buyer}</td>
-                        <td>{data?.soldDetail?.salesCount || 0}</td>
+                        <td>{nft?.tokenId}</td>
+                        <td>{nft?.soldDetail?.buyer}</td>
+                        <td>{nft?.soldDetail?.salesCount || 0}</td>
                         <td>
-                          {((data?.soldDetail?.newPrice || 0) / 1e18).toFixed(
-                            4
-                          )}
+                          {((nft?.price || 0) / 1e18).toFixed(4)}
                         </td>
                         <td>
                           {moment
-                            .unix(data.lastSoldTime)
+                            .unix(nft.lastSoldTime)
                             .format("DD-MM-YYYY hh:mm A")}
+                        </td>
+                        <td>
+                          <button
+                            type="button"
+                            className="next-button btn btn-success pointer border"
+                            onClick={() => {
+                              // console.log(
+                              //   nft.price,
+                              //   nft.title,
+                              //   nft.description,
+                              //   nft.metadataURI,
+                              //   nft.tokenId,
+                              //   Number(nft.price),
+                              //   "testing"
+                              // );
+                              BuyNft(
+                                nft.price,
+                                nft.title,
+                                nft.description,
+                                nft.metadataURI,
+                                nft.tokenId,
+                                Number(nft.price)
+                              );
+                            }}
+                          >
+                            Buy
+                          </button>
                         </td>
                       </tr>
                     ))

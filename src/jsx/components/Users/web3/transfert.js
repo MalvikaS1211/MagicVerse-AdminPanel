@@ -41,6 +41,16 @@ export async function buyNFTFn(
   metadataURI
 ) {
   try {
+    console.log({
+      tokenId,
+      initialPrice,
+      v,
+      r,
+      s,
+      title,
+      description,
+      metadataURI,
+    });
     const formattedPrice = initialPrice.toLocaleString("fullwide", {
       useGrouping: false,
     });
@@ -97,7 +107,7 @@ export async function getNfts(tokenId) {
       functionName: "nfts",
       args: [tokenId],
     });
-    console.log("NFT Details:", result);
+    // console.log("NFT Details:", result);
     return result;
   } catch (error) {
     console.log(error);

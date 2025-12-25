@@ -150,6 +150,7 @@ export const BuyNFT = () => {
   useEffect(() => {
     NFTListing();
   }, [currentPage, searchValue]);
+  
 
   const tokenApp1 = async (amt) => {
     try {
