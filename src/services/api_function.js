@@ -1,8 +1,7 @@
 import axios from "axios";
 import toast from "react-hot-toast";
 
-
-// export const URLApi = "http://192.168.1.117:8081/api";
+// export const URLApi = "http://192.168.1.53:8081/api";
 // export const URLApi = "http://localhost:8081/api";
 export const URLApi = "https://iftglobal.org/api";
 
@@ -323,8 +322,6 @@ export async function getCreatedNFtList(page, limit) {
   }
 }
 
-
-
 export async function getAllBulkPackages() {
   try {
     const response = await axios.get(`${URLApi}/get-all-bulk-packages`);
@@ -362,8 +359,6 @@ export async function getDepostList(page, limit) {
     console.log("Error getDepostList Admin:", error);
   }
 }
-
-
 
 export async function getNftStartStop(user, status) {
   try {
@@ -769,7 +764,6 @@ export async function getTransactionHash(recoverMissedTx) {
   }
 }
 
-
 export async function getMaturedNFTs(address, page = 1, limit = 10) {
   try {
     const response = await axios.post(`${URLApi}/user-matured-nfts`, {
@@ -781,5 +775,17 @@ export async function getMaturedNFTs(address, page = 1, limit = 10) {
     return response.data;
   } catch (error) {
     console.log("Error getMaturedNFTs Admin:", error);
+  }
+}
+
+export async function allowBulkCreation(status) {
+  try {
+    const response = await axios.post(`${URLApi}/userAllowForBulk`, {
+      status,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error allowBulkCreation Admin:", error);
   }
 }

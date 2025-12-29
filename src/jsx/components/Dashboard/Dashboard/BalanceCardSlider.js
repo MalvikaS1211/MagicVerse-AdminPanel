@@ -3,6 +3,7 @@ import { FaShoppingCart, FaTag, FaUserGraduate } from "react-icons/fa";
 import { BsShieldCheck } from "react-icons/bs";
 import "swiper/css";
 import {
+  allowBulkCreation,
   AllowToCreateBulk,
   getAdminDashboard,
   getNftStartStop,
@@ -21,7 +22,7 @@ const BalanceCardSlider = () => {
   const dispatch = useDispatch();
 
   const { login } = useSelector((state) => state.login);
-
+  const [bulkLoading, setBulkLoading] = useState(false);
   const [user, setUser] = useState(null);
   const [NftAction, setNftAction] = useState(false);
   const [UserAddressSingle, setUserAddressSingle] = useState();
@@ -47,39 +48,7 @@ const BalanceCardSlider = () => {
     }
   };
 
-  const toggleNFTActionForSingle = async () => {
-    try {
-      const res = await getNftStartStop(UserAddressSingle, statusAllow);
 
-      console.log(res, "res");
-      setUserAddressSingle("");
-      console.log(statusAllow, "statusAllow");
-      if (statusAllow === "true") {
-        toast.success("User Allowed to create an NFT !");
-      } else {
-        toast.success("User Not Allowed to create an NFT !");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const toggleNFTActionForBulk = async () => {
-    try {
-      const res = await AllowToCreateBulk(UserAddressBulk, statusForBulk);
-
-      console.log(res, "res");
-      setUserAddressBulk("");
-      setStatusForBulk(false);
-      if (statusForBulk == true) {
-        toast.success("User Allowed to create Bulk NFTs !");
-      } else {
-        toast.success("User Not Allowed to create Bulk NFTs !");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   useEffect(() => {
     if (login === true) {
@@ -95,6 +64,28 @@ const BalanceCardSlider = () => {
     setIsEnabled((prev) => !prev);
     console.log("New NFT toggled:", !isEnabled); // or trigger an API call
   };
+
+  const handleBulkToggle = async () => {
+    try {
+      setBulkLoading(true);
+
+      const newStatus = !statusForBulk;
+      setStatusForBulk(newStatus);
+
+      // pass boolean value to API
+      await allowBulkCreation(newStatus);
+
+      toast.success(
+        newStatus ? "Bulk NFT creation ENABLED" : "Bulk NFT creation DISABLED"
+      );
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to update bulk NFT status");
+    } finally {
+      setBulkLoading(false);
+    }
+  };
+
   return (
     <div className="col-xl-12">
       <label className="form-label h3">Dashboard</label>
@@ -167,128 +158,31 @@ const BalanceCardSlider = () => {
               </div>
             </div>
           </div>
-          {/* <div className="col-lg-6 mb-4">
-            <div className="card card-bg">
-              <div className="card-body d-flex align-items-center">
-                <div className="d-flex gap-3">
-                  <div>
-                    <BadgeCheck style={{ width: "130%", height: "100%" }} />
-                  </div>
-                  <div className="-info d-flex align-items-center">
-                    <h4 className="count-num" style={{ fontSize: "20px" }}>
-                      Total Matured NFTs : {user?.InSaleNFTs || 0}
-                    </h4>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> */}
         </div>
         <div className="row">
-          {" "}
-          {/* NFT Action Card  Single*/}
-          {/* <div className="col-lg-6 mb-4">
-            <div className="card card-bg" style={{ height: "100%" }}>
-              <div className="card-body pb-4">
-                <div className="d-flex flex-column gap-3">
-                  <h4 className="card-title mb-0">Single NFT Action</h4>
-                  <h5>User</h5>
-                  <div className="input-group w-100">
-                    <input
-                      type="text"
-                      id="form1"
-                      className="form-control"
-                      placeholder="Enter User Address"
-                      value={UserAddressSingle}
-                      onChange={(e) => setUserAddressSingle(e.target.value)}
-                    />
-                  </div>
-
-                  <div>
-                    <h5>Allow User Access</h5>
-                    <select
-                      className="form-select"
-                      value={statusAllow}
-                      onChange={(e) => setStatusAllow(e.target.value)}
-                    >
-                      <option value="true">True</option>
-                      <option value="false">False</option>
-                    </select>
-                  </div>
-                  <div style={{ alignItems: "center", textAlign: "center" }}>
-                    <button
-                      type="button"
-                      className="btn btn-success w-50 py-2"
-                      aria-label="Start NFT Action"
-                      onClick={toggleNFTActionForSingle}
-                    >
-                      Allow
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> */}
-          {/* NFT action Card For Bulk */}
-          {/* <div className="col-lg-6 mb-4">
-            <div className="card card-bg" style={{ height: "100%" }}>
-              <div className="card-body pb-4">
-                <div className="d-flex flex-column gap-3">
-                  <h4 className="card-title mb-0">Bulk NFT Action </h4>
-                  <h5>User</h5>
-                  <div className="input-group w-100">
-                    <input
-                      type="text"
-                      id="form1"
-                      className="form-control"
-                      placeholder="Enter User Address"
-                      value={UserAddressBulk}
-                      onChange={(e) => setUserAddressBulk(e.target.value)}
-                    />
-                  </div>
-
-                  <div>
-                    <h5>Allow User Access</h5>
-                    <select
-                      className="form-select"
-                      value={statusForBulk}
-                      onChange={(e) => setStatusForBulk(e.target.value)}
-                    >
-                      <option value="true">True</option>
-                      <option value="false">False</option>
-                    </select>
-                  </div>
-                  <div style={{ alignItems: "center", textAlign: "center" }}>
-                    <button
-                      type="button"
-                      className="btn btn-success w-50 py-2"
-                      aria-label="Start NFT Action"
-                      onClick={toggleNFTActionForBulk}
-                    >
-                      Allow
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> */}
-          {/* toggle btn */}
-          {/* <div className="d-flex  gap-3">
-            <div className="d-flex align-items-center gap-3 mt-4">
-              <span className="">New NFT</span>
-              <label class="switch">
-                <input type="checkbox" />
-                <span class="slider round"></span>
-              </label>
-            </div>
-            <div className="d-flex align-items-center gap-3 mt-4">
-              <span>Old NFT</span>
-              <label class="switch">
-                <input type="checkbox" />
-                <span class="slider round"></span>
-              </label>
-            </div>
-          </div> */}
+          <div className="col">
+            <button
+              className={`btn ${
+                statusForBulk ? "btn-success" : "btn-danger"
+              } pointer border m-2`}
+              onClick={handleBulkToggle}
+              disabled={bulkLoading}
+              style={{
+                marginBottom: "20px",
+                minWidth: "260px",
+                fontWeight: "600",
+              }}
+            >
+              {bulkLoading ? (
+                "Updating..."
+              ) : (
+                <>
+                  Allow Bulk NFT Creation :{" "}
+                  <strong>{statusForBulk ? "ON" : "OFF"}</strong>
+                </>
+              )}
+            </button>
+          </div>
         </div>
       </div>
     </div>
