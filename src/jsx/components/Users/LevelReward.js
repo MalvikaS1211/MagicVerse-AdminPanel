@@ -2,12 +2,11 @@ import React, { Fragment, useEffect, useState, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Row, Col, Card, Table, Form, Button } from "react-bootstrap";
 import { styled } from "@mui/material/styles";
-// import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+
 import axios from "axios";
 
 import {
-  cutAfterDecimal,
-  getAllStakeUsers,
+
   URLApi,
 } from "../../../services/api_function";
 import toast from "react-hot-toast";
@@ -51,7 +50,7 @@ export const LevelReward = () => {
       );
 
       let alllevelRewardList = response.data;
-      console.log(alllevelRewardList);
+   
       setTotalPages(response.data.meta.totalPages);
       setlevelRewardList(alllevelRewardList);
 

@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
-
-import AdminIcon from "../../../../src/images/BlakeBanks.jpg";
-import UserIcon from "../../../../src/images/creativeArt.jpg";
-import {
-  addMessage,
-  createMessageFn,
-  getMessage,
-  GetMsgByTicket,
-} from "../../../services/api_function";
+import { addMessage, getMessage } from "../../../services/api_function";
 import moment from "moment";
 import toast from "react-hot-toast";
 import { Card, Col, Row, Table } from "react-bootstrap";
@@ -19,7 +11,7 @@ const Message = () => {
   const handleSendMsg = async () => {
     try {
       const res = await addMessage(message);
-      console.log("handleSendMsg", res);
+
       if (res.success == true) {
         toast.success("Message Created!");
         setMessage("");

@@ -2,20 +2,15 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Row, Col, Card, Table } from "react-bootstrap";
 import { Tooltip, IconButton } from "@mui/material";
 import { FaRegCopy } from "react-icons/fa";
-
 import moment from "moment";
 import { getAllNFTs } from "../../../services/api_function";
-
 export const NewNFTsList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [search, setSearch] = useState("");
   const [NFTList, setNFTList] = useState([]);
-
   const [tooltipText, setTooltipText] = useState("Copy address");
-
   const itemPerpage = 20;
-
   const handleCopy = (token) => {
     navigator.clipboard.writeText(token);
     setTooltipText("Token Id Copied !");
@@ -24,7 +19,7 @@ export const NewNFTsList = () => {
 
   const ShowNFTList = async () => {
     const res = await getAllNFTs(currentPage, itemPerpage);
-    console.log(res, "getDepostList");
+  
     setTotalPages(res?.pagination?.totalPages);
     setNFTList(res?.data);
   };

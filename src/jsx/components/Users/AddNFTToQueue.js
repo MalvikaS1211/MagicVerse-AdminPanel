@@ -295,15 +295,7 @@ export const AddNFTToQueue = () => {
                             type="button"
                             className="next-button btn btn-success pointer border"
                             onClick={() => {
-                              // console.log(
-                              //   nft.price,
-                              //   nft.title,
-                              //   nft.description,
-                              //   nft.metadataURI,
-                              //   nft.tokenId,
-                              //   Number(nft.price),
-                              //   "testing"
-                              // );
+                           
                               BuyNft(
                                 nft.price,
                                 nft.title,

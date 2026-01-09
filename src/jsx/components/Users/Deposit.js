@@ -2,7 +2,6 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Row, Col, Card, Table } from "react-bootstrap";
 import { Tooltip, IconButton, Pagination } from "@mui/material";
 import { FaRegCopy } from "react-icons/fa";
-import axios from "axios";
 import moment from "moment";
 import { getDepostList } from "../../../services/api_function";
 
@@ -24,7 +23,7 @@ export const Deposit = () => {
 
   const ShowDepositList = async () => {
     const res = await getDepostList(currentPage, itemPerpage);
-    console.log(res, "getDepostList");
+ 
     setTotalPages(res?.totalPages);
     setDepositList(res?.data);
   };

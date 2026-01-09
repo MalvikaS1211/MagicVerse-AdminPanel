@@ -35,19 +35,18 @@ export const Alluser = () => {
       const res = await getAdminDashboard(currentPage, itemPerPage, search);
       setTotalPages(res?.totalPages);
       setUsersList(res.users);
-      console.log(search, "search:");
-      console.log("User List", res);
+     
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
     }
   };
-  console.log("total user ", usersList.length);
+
 
   const ShowActiveUserList = async () => {
     const res = await getActiveUserslast24Hours(1, 500);
-    console.log(res?.data, "getActiveUserslast24Hours::");
+   
 
     setActiveList(res?.data);
     // setNFTList(res?.data);
@@ -64,7 +63,7 @@ export const Alluser = () => {
     setSearchValue(query);
     setCurrentPage(1);
   };
-  console.log(searchValue, "search----------Value");
+ 
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) =>

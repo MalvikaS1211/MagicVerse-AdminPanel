@@ -24,7 +24,7 @@ export const ActiveUserslast24Hours = () => {
 
   const ShowNFTList = async () => {
     const res = await getActiveUserslast24Hours(currentPage, itemPerpage);
-    console.log(res?.data, "getActiveUserslast24Hours::");
+    
     setTotalPages(res?.pagination?.totalPages);
     setTotalUsers(res?.pagination?.totalCount);
     setNFTList(res?.data);

@@ -52,15 +52,15 @@ export const NFTCreationList = () => {
   const ShowCreatedNFTs = async () => {
     try {
       const res = await getCreatedNFtList(currentPage, itemPerpage);
-      console.log(res, "getCreatedNFtList");
-      console.log(currentPage, itemPerpage, "pages");
+     
+      
       setTotalPages(res?.pagination?.totalPages);
       const NFTListRes = res?.data || [];
       const fetchedNFTs = await Promise.all(
         NFTListRes.map(async (nft) => {
           try {
             const res = await getNfts(nft.tokenId);
-            console.log(res, "getNfts");
+         
 
             return {
               ...nft,
@@ -92,7 +92,7 @@ export const NFTCreationList = () => {
       setNFTCreationList(fetchedNFTs);
     } catch (error) {}
   };
-  console.log(totalPages, "1234:::");
+  
   useEffect(() => {
     ShowCreatedNFTs();
   }, [currentPage]);

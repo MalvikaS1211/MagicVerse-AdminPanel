@@ -1,16 +1,11 @@
 import React, { Fragment, useEffect, useState, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-
 import { Row, Col, Card, Table, Form, Button } from "react-bootstrap";
-import { styled } from "@mui/material/styles";
-// import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
-
 import { getMaturedNFTs } from "../../../services/api_function";
 import toast from "react-hot-toast";
 import { Tooltip, IconButton } from "@mui/material";
 import { FaRegCopy } from "react-icons/fa";
 import { useSelector } from "react-redux";
-
 import { useAccount } from "wagmi";
 import moment from "moment";
 export const NFTAction = () => {
@@ -46,7 +41,7 @@ export const NFTAction = () => {
 
   const ShowMaturedNFTs = async () => {
     const res = await getMaturedNFTs();
-    console.log(res, "getMaturedNFTs");
+  
     setMaturedNFT(res.data);
   };
 

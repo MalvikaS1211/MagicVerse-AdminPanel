@@ -24,7 +24,7 @@ export const SoldNFTs = () => {
 
   const ShowNFTList = async () => {
     const res = await getAllSoldNFTs(currentPage, itemPerpage);
-    console.log(res, "getDepostList");
+
     setTotalPages(res?.pagination?.totalPages);
     setNFTList(res?.data);
   };

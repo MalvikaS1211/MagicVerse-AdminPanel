@@ -22,11 +22,11 @@ const ChatConversation = () => {
       const userAdd = res.get("userAddress");
       setTicketId(ticketID);
       setAddress(userAdd);
-      console.log(ticketID, userAdd, "in getMessage");
+    
       if (ticketID && userAdd) {
         const res = await GetMsgByTicket(ticketID, userAdd);
         setMessages(res.data);
-        console.log(res, "from getAll");
+        
       }
     } catch (error) {
       console.log(error);
@@ -39,7 +39,7 @@ const ChatConversation = () => {
   const handleSendMsg = async () => {
     try {
       const res = await createMessageFn("Admin", address, message, ticketId);
-      console.log("handleSendMsg", res);
+     
       if (res.success == true) {
         toast.success("Message Created!");
         setMessage("");

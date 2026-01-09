@@ -1,16 +1,8 @@
 import React, { Fragment, useEffect, useState, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-
 import { Row, Col, Card, Table, Form, Button } from "react-bootstrap";
-import { styled } from "@mui/material/styles";
-// import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
-import Papa from "papaparse";
 import { getMaturedNFTs } from "../../../services/api_function";
-import toast from "react-hot-toast";
-import { Tooltip, IconButton } from "@mui/material";
-import { FaRegCopy } from "react-icons/fa";
 import { useSelector } from "react-redux";
-
 import { useAccount } from "wagmi";
 import moment from "moment";
 import { getNfts } from "./web3/transfert";
@@ -47,7 +39,7 @@ export const MaturedNFT = () => {
 
   const ShowNFTList = async () => {
     const res = await getMaturedNFTs(address, currentPage, itemPerpage);
-    console.log(res, "getDepostList");
+   
     setTotalPages(res?.totalPages);
 
     const NFTListRes = res?.userMaturedNfts || [];
@@ -55,7 +47,7 @@ export const MaturedNFT = () => {
       NFTListRes.map(async (nft) => {
         try {
           const res = await getNfts(nft.tokenId);
-          console.log(res, "getNfts");
+
 
           return {
             ...nft,

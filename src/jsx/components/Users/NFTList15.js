@@ -32,7 +32,7 @@ export const NFTList15 = () => {
 
   const ShowNFTList = async () => {
     const res = await get15Nft(currentPage, itemPerpage);
-    console.log(res, "getDepostList");
+ 
     setTotalPages(res?.totalPages);
     setNFTList(res?.data);
     const NFTListRes = res?.data || [];
@@ -40,7 +40,7 @@ export const NFTList15 = () => {
       NFTListRes.map(async (nft) => {
         try {
           const res = await getNfts(nft.tokenId);
-          console.log(res, "getNfts");
+          
 
           return {
             ...nft,
@@ -71,7 +71,7 @@ export const NFTList15 = () => {
 
     setNFTList(fetchedNFTs);
   };
-  console.log(NFTList, "nft list");
+ 
   useEffect(() => {
     ShowNFTList();
   }, [currentPage]);
@@ -93,7 +93,7 @@ export const NFTList15 = () => {
   };
   const tokenApp1 = async (amt) => {
     try {
-      console.log("Approve Result:111", amt);
+
       const appres = await toast.promise(approveToken(amt), {
         loading: "Approval in process",
         success: "Successfully Approved",
@@ -118,7 +118,7 @@ export const NFTList15 = () => {
       setIsLoading(true);
 
       const userBalance = await fetchUserTokenBalance(address);
-      console.log(totalAmount, "userBalance");
+ 
       if (Number(userBalance) < Number(totalAmount)) {
         setIsLoading(false);
         return toast.error(
@@ -134,7 +134,7 @@ export const NFTList15 = () => {
         tokenId,
         Number(totalAmount)
       );
-      console.log(totalAmount, "totalAmount");
+     
       if (res) {
         const tokenApp = await tokenApp1(Number(totalAmount) + 0.1);
         if (tokenApp) {
@@ -224,15 +224,7 @@ export const NFTList15 = () => {
                             type="button"
                             className="next-button btn btn-success pointer border"
                             onClick={() => {
-                              console.log(
-                                nft.price,
-                                nft.title,
-                                nft.description,
-                                nft.metadataURI,
-                                nft.tokenId,
-                                Number(nft.price),
-                                "nft buy 15"
-                              );
+                            
                               BuyNft(
                                 nft?.price,
                                 nft?.title,

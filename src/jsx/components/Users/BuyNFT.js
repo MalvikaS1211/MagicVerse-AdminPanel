@@ -1,22 +1,11 @@
 import React, { Fragment, useEffect, useState, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-
 import { Row, Col, Card, Table, Form, Button } from "react-bootstrap";
-import { styled } from "@mui/material/styles";
-// import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
-
-import {
-  getStakingList,
-  approveRejectStaking,
-  getReadyForBuyFn,
-  getLastNFTs,
-  getTradeUserFn,
-} from "../../../services/api_function";
+import { getReadyForBuyFn, getLastNFTs } from "../../../services/api_function";
 import toast from "react-hot-toast";
 import { Tooltip, IconButton, Pagination } from "@mui/material";
 import { FaRegCopy } from "react-icons/fa";
 import { useSelector } from "react-redux";
-
 import { useAccount } from "wagmi";
 import moment from "moment";
 import {
@@ -25,7 +14,6 @@ import {
   fetchUserTokenBalance,
   getNfts,
 } from "./web3/transfert";
-import axios from "axios";
 export const BuyNFT = () => {
   const { wallet } = useSelector((state) => state.login);
 
@@ -35,7 +23,7 @@ export const BuyNFT = () => {
   const [search, setSearch] = useState("");
 
   const [recordStatus, setRecordStatus] = useState("Loading...");
-  //   const [isFetch, setIsFetch] = useState(false);
+
   const [isfetch, setIsFetch] = useState(false);
   const [limit] = useState(1);
   const { address } = useAccount();
@@ -80,43 +68,15 @@ export const BuyNFT = () => {
         data.map(async (trade) => {
           try {
             const res = await getNfts(trade.tokenId);
-            const ipfsHash = res[2].replace("ipfs://", "");
-
-            const gateways = [
-              "https://ipfs.io/ipfs/",
-              "https://gateway.pinata.cloud/ipfs/",
-              "https://cloudflare-ipfs.com/ipfs/",
-            ];
-
-            let metadata;
-
-            for (const gateway of gateways) {
-              try {
-                const response = await axios.get(`${gateway}${ipfsHash}`, {
-                  timeout: 5000,
-                });
-                metadata = response.data;
-                break;
-              } catch {
-                console.warn(`Failed to fetch from ${gateway}, trying next...`);
-              }
-            }
-
-            if (!metadata) throw new Error("All IPFS gateways failed");
-
-            const imageUrl = metadata.image
-              ? metadata.image.replace("ipfs://", "https://ipfs.io/ipfs/")
-              : "https://i.guim.co.uk/img/media/ef8492feb3715ed4de705727d9f513c168a8b196/37_0_1125_675/master/1125.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=d456a2af571d980d8b2985472c262b31";
 
             return {
               ...trade,
-              title: metadata.name || "",
-              description: metadata.description || "",
-              img: imageUrl,
+              title: res[0] || "",
+              description: res[1] || "",
               price: res[4],
               owner: res[6],
               metadataURI: res[2],
-              creator: res[3],
+              creator: res[3] || "",
             };
           } catch (err) {
             console.error(
@@ -133,12 +93,10 @@ export const BuyNFT = () => {
         })
       );
 
-      console.log(mappedData, "mappedData");
-      // setCurrentPage(res.page || 1);
       setTotalPages(res.totalPages || 1);
       setTotalCount(res.totalItems || 0);
+      console.log(mappedData, "mappedData");
 
-      // Set NFT list
       setNFTList(mappedData);
     } catch (error) {
       console.error("Error fetching NFTs:", error);
@@ -150,7 +108,6 @@ export const BuyNFT = () => {
   useEffect(() => {
     NFTListing();
   }, [currentPage, searchValue]);
-  
 
   const tokenApp1 = async (amt) => {
     try {
@@ -186,7 +143,6 @@ export const BuyNFT = () => {
           `You need at least ${Number(totalAmount) / 1e18} USDT to Buy`
         );
       }
-      console.log("123");
 
       const res = await getReadyForBuyFn(
         address,
@@ -233,9 +189,8 @@ export const BuyNFT = () => {
     } finally {
       setTimeout(() => {
         setIsFetch(!isfetch);
-        // console.log("time :");
       }, 5000);
-      // socket.emit("TradeDone", tokenId);
+
       setIsLoading(false);
     }
   };
@@ -248,42 +203,12 @@ export const BuyNFT = () => {
       setApiLoading(true);
 
       const { data: userTrades } = await getLastNFTs();
-      // console.log(userTrades, "userTrades");
+
       const fetchedTrades = await Promise.all(
         userTrades.map(async (trade) => {
           try {
             const res = await getNfts(trade.tokenId);
-            // console.log(res, "getNfts");
-            // const ipfsHash = res[2].replace("ipfs://", "");
 
-            // const gateways = [
-            //   "https://ipfs.io/ipfs/",
-            //   "https://gateway.pinata.cloud/ipfs/",
-            //   "https://cloudflare-ipfs.com/ipfs/",
-            // ];
-
-            // let metadata, metadataUrl;
-
-            // for (const gateway of gateways) {
-            //   try {
-            //     metadataUrl = `${gateway}${ipfsHash}`;
-            //     const response = await axios.get(metadataUrl, {
-            //       timeout: 5000,
-            //     });
-            //     metadata = response.data;
-            //     break;
-            //   } catch (error) {
-            //     console.warn(`Failed to fetch from ${gateway}, trying next...`);
-            //   }
-            // }
-
-            // if (!metadata) throw new Error("All IPFS gateways failed");
-
-            // Fix image URL
-            // const imageUrl = metadata.image
-            //   ? metadata.image.replace("ipfs://", "https://ipfs.io/ipfs/")
-            //   : "https://i.guim.co.uk/img/media/ef8492feb3715ed4de705727d9f513c168a8b196/37_0_1125_675/master/1125.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=d456a2af571d980d8b2985472c262b31";
-            console.log(res, Number(res[7]), "NFT Details:");
             return {
               ...trade,
               title: "",
@@ -309,11 +234,7 @@ export const BuyNFT = () => {
           }
         })
       );
-      console.log(
-        fetchedTrades.length,
-        "fetchedTrades length",
-        userTrades.length
-      );
+
       setAllTrade(fetchedTrades);
       return;
     } catch (error) {
@@ -360,7 +281,6 @@ export const BuyNFT = () => {
           <Card>
             <Card.Header>
               <Card.Title>Buy NFT</Card.Title>
-              {/* <Card.Title>Total Count : {totalcount} NFT</Card.Title> */}
             </Card.Header>
             <Card.Body>
               <Table responsive>
@@ -370,7 +290,7 @@ export const BuyNFT = () => {
                     <th>Token Id</th>
                     <th>Buyer</th>
                     <th>Sales Count</th>
-                    {/* <th>NFT Start Price</th> */}
+
                     <th>NFT Current Price</th>
                     <th>Date & Time</th>
                     <th>Buy </th>
@@ -408,9 +328,9 @@ export const BuyNFT = () => {
                             </IconButton>
                           </Tooltip>
                         </td>
-                        {/* <td>{nft?.buyer}</td> */}
+
                         <td>{nft?.salesCount}</td>
-                        {/* <td>{nft?.ip || "0.00"}</td> */}
+
                         <td>
                           {isNaN(Number(nft?.price))
                             ? "0.0000"
@@ -427,13 +347,13 @@ export const BuyNFT = () => {
                             className="next-button btn btn-success pointer border"
                             onClick={() => {
                               console.log(
-                                nft.price,
-                                nft.title,
-                                nft.description,
-                                nft.metadataURI,
-                                nft.tokenId,
-                                Number(nft.price),
-                                "testing"
+                                nft?.price,
+                                nft?.title,
+                                nft?.description,
+                                nft?.metadataURI,
+                                nft?.tokenId,
+                                Number(nft?.price),
+                                "yyyyy"
                               );
                               BuyNft(
                                 nft.price,
