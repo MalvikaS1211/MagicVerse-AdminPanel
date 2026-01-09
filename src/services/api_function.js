@@ -1,7 +1,7 @@
 import axios from "axios";
 import toast from "react-hot-toast";
 
-// export const URLApi = "http://192.168.1.53:8081/api";
+// export const URLApi = "http://192.168.1.80:8081/api";
 // export const URLApi = "http://localhost:8081/api";
 export const URLApi = "https://iftglobal.org/api";
 

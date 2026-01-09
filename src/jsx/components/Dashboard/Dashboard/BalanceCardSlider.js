@@ -48,8 +48,6 @@ const BalanceCardSlider = () => {
     }
   };
 
-
-
   useEffect(() => {
     if (login === true) {
       ShowAdminData();
@@ -152,6 +150,22 @@ const BalanceCardSlider = () => {
                   <div className="-info">
                     <h4 className="count-num" style={{ fontSize: "20px" }}>
                       Total In Sale NFTs : {user?.InSaleNFTs || 0}
+                    </h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-lg-6 mb-4">
+            <div className="card card-bg">
+              <div className="card-body d-flex align-items-center">
+                <div className="d-flex gap-3">
+                  <div>
+                    <FaShoppingCart style={{ width: "160%", height: "100%" }} />
+                  </div>
+                  <div className="-info">
+                    <h4 className="count-num" style={{ fontSize: "20px" }}>
+                      Today Burned NFTs : {user?.todayBurnedNFTs || 0}
                     </h4>
                   </div>
                 </div>
