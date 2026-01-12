@@ -1,82 +1,66 @@
-import React, { Fragment, useEffect, useState, useMemo, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import { Row, Col, Card, Table, Form, Button } from "react-bootstrap";
-import { getReadyForBuyFn, getLastNFTs } from "../../../services/api_function";
-import toast from "react-hot-toast";
-import { Tooltip, IconButton, Pagination } from "@mui/material";
+import React, { Fragment, useEffect, useState } from "react";
+import { Row, Col, Card, Table, Button, Form } from "react-bootstrap";
+import { Tooltip, IconButton, useForkRef, Pagination } from "@mui/material";
 import { FaRegCopy } from "react-icons/fa";
-import { useSelector } from "react-redux";
-import { useAccount } from "wagmi";
+import axios from "axios";
 import moment from "moment";
+import {
+  AddNFTInQueue,
+  DeleteNFt,
+  getAllNFTInQueue,
+  getOldNft,
+  getReadyForBuyFn,
+} from "../../../services/api_function";
+import toast from "react-hot-toast";
 import {
   approveToken,
   buyNFTFn,
   fetchUserTokenBalance,
   getNfts,
 } from "./web3/transfert";
-export const BuyNFT = () => {
-  const { wallet } = useSelector((state) => state.login);
+import { useAccount } from "wagmi";
 
+export const OldNFTs = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const [search, setSearch] = useState("");
+  const [tokenId, setTokenId] = useState();
 
-  const [recordStatus, setRecordStatus] = useState("Loading...");
-
+  const [totalnft, setTotalNFT] = useState(0);
+  const [dataList, setDataList] = useState({});
+  const [totalNftValue, setTotalNftValue] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const [isfetch, setIsFetch] = useState(false);
-  const [limit] = useState(1);
+  const [search, setSearch] = useState("");
   const { address } = useAccount();
   const [tooltipText, setTooltipText] = useState("Copy address");
-  const [NFTList, setNFTList] = useState([]);
-  const [totalvalue, setTotalValue] = useState(0);
-  const [totalcount, setTotalCount] = useState(0);
-  const itemPerpage = 10;
-  const [searchValue, setSearchValue] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [apiLoading, setApiLoading] = useState(false);
-  const [allTrade, setAllTrade] = useState([]);
-  const handleCopy = (address) => {
-    navigator.clipboard.writeText(address);
-    setTooltipText("Copied!");
-    setTimeout(() => setTooltipText("Copy address"), 2000);
-  };
+  const itemPerpage = 20;
 
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
+  const handleSearch = (e) => {
+    const query = e.target.value;
+    setSearch(query);
+    setCurrentPage(1);
   };
-
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-  const handlePageChange = (event, value) => {
-    setCurrentPage(value);
-  };
-  const NFTListing = async () => {
+  const handleDataShow = async () => {
     try {
-      setLoading(true);
+      const res = await getOldNft(currentPage, itemPerpage, search);
 
-      const res = await getLastNFTs(currentPage, itemPerpage, searchValue);
-      const data = res?.data || [];
-      const pagination = res?.pagination || res?.data?.pagination || {};
+      setTotalPages(res?.totalPages);
+      setTotalNFT(res?.totalItems);
+      setTotalNftValue(res?.TotalNFTValue?.[0]?.totalNewPrice);
 
       const mappedData = await Promise.all(
-        data.map(async (trade) => {
+        (res?.data || []).map(async (trade) => {
           try {
-            const res = await getNfts(trade.tokenId);
+            const nftRes = await getNfts(trade.tokenId);
 
             return {
               ...trade,
-              title: res[0] || "",
-              description: res[1] || "",
-              price: res[4],
-              owner: res[6],
-              metadataURI: res[2],
-              creator: res[3] || "",
+              title: nftRes?.[0] || "",
+              description: nftRes?.[1] || "",
+              metadataURI: nftRes?.[2],
+              creator: nftRes?.[3],
+              price: Number(nftRes?.[4]),
+              owner: nftRes?.[6],
             };
           } catch (err) {
             console.error(
@@ -87,27 +71,23 @@ export const BuyNFT = () => {
               ...trade,
               title: "",
               description: "Error loading",
-              img: "",
             };
           }
         })
       );
 
-      setTotalPages(res.totalPages || 1);
-      setTotalCount(res.totalItems || 0);
-      console.log(mappedData, "mappedData");
-
-      setNFTList(mappedData);
+      setDataList(mappedData);
     } catch (error) {
-      console.error("Error fetching NFTs:", error);
-    } finally {
-      setLoading(false);
+      console.log("Error in handleDataShow", error);
     }
   };
 
   useEffect(() => {
-    NFTListing();
-  }, [currentPage, searchValue]);
+    handleDataShow();
+  }, [currentPage, search, isfetch]);
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
 
   const tokenApp1 = async (amt) => {
     try {
@@ -190,99 +170,66 @@ export const BuyNFT = () => {
       setTimeout(() => {
         setIsFetch(!isfetch);
       }, 5000);
-
       setIsLoading(false);
     }
   };
-
-  const getTrade = async () => {
-    try {
-      if (!address) {
-        return;
-      }
-      setApiLoading(true);
-
-      const { data: userTrades } = await getLastNFTs();
-
-      const fetchedTrades = await Promise.all(
-        userTrades.map(async (trade) => {
-          try {
-            const res = await getNfts(trade.tokenId);
-
-            return {
-              ...trade,
-              title: "",
-              description: "",
-              img: "",
-              price: res[5],
-              owner: res[6],
-              metadataURI: res[2],
-              creator: res[3],
-              ip: Number(res[7]) / 1e18,
-            };
-          } catch (err) {
-            console.error(
-              `Error fetching metadata for Token ID ${trade.tokenId}:`,
-              err.message
-            );
-            return {
-              ...trade,
-              title: "",
-              description: "Error loading",
-              img: "",
-            };
-          }
-        })
-      );
-
-      setAllTrade(fetchedTrades);
-      return;
-    } catch (error) {
-      setApiLoading(false);
-      console.error("Error fetching user-created NFTs:", error);
-    }
+  const handleSearchClick = () => {
+    setCurrentPage(1);
+    handleDataShow(); // manually trigger search
   };
 
-  useEffect(() => {
-    getTrade();
-  }, []);
+  const handleCopy = (address) => {
+    navigator.clipboard.writeText(address);
+    setTooltipText("Copied!");
+    setTimeout(() => setTooltipText("Copy address"), 2000);
+  };
 
   return (
     <Fragment>
       <Row>
-        <div className="display_end " style={{ display: "flex", gap: "3px" }}>
+        <div className="display_end gap-1">
           <div className="input-group" style={{ maxWidth: "300px" }}>
             <input
               type="search"
-              id="form1"
               className="form-control"
-              placeholder="Search here by User Address..."
+              placeholder="Search by tokenId..."
               autoComplete="off"
-              value={searchValue}
-              onChange={(e) => {
-                const value = e.target.value;
-                setSearchValue(value);
-                // ShowDueNFT(value); // fetch data with search tokenId
-              }}
+              value={search}
+              onChange={handleSearch}
             />
           </div>
+
           <button
             type="button"
-            className="btn btn-success p-2 pointer border "
-            onClick={() => {
-              NFTListing(searchValue);
-            }}
+            className="next-button btn btn-success pointer border"
+            onClick={handleSearchClick}
+            style={{ padding: "5px 10px" }}
           >
-            Serach
+            Search
           </button>
-          <label className="form-label" htmlFor="form1"></label>
         </div>
+
         <Col lg={12}>
           <Card>
             <Card.Header>
-              <Card.Title>Buy NFT</Card.Title>
+              <Card.Title>Old NFTs</Card.Title>
             </Card.Header>
             <Card.Body>
+              {/* <Row>
+                <div className="d-flex">
+                  <h4 style={{ marginRight: "10px" }}>Total NFT : </h4>
+                  <h4 style={{ fontWeight: 300 }}>{totalnft} </h4>
+                </div>
+              </Row>
+
+              <Row>
+                <div className="d-flex">
+                  <h4 style={{ marginRight: "10px" }}>Total NFT Value: </h4>
+                  <h4 style={{ fontWeight: 300 }}>
+                    {(totalNftValue / 1e18).toFixed(4)}
+                  </h4>
+                </div>
+              </Row> */}
               <Table responsive>
                 <thead>
                   <tr>
@@ -290,34 +237,21 @@ export const BuyNFT = () => {
                     <th>Token Id</th>
                     <th>Buyer</th>
                     <th>Sales Count</th>
-
-                    <th>NFT Current Price</th>
-                    <th>Date & Time</th>
-                    <th>Buy </th>
+                    <th>Current Price</th>
+                    <th>Date</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {loading ? (
-                    <tr>
-                      <td colSpan="7" className="text-center">
-                        <div className="d-flex justify-content-center align-items-center py-4">
-                          <div
-                            className="spinner-border text-success"
-                            role="status"
-                          >
-                            <span className="visually-hidden">Loading...</span>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  ) : NFTList?.length > 0 ? (
-                    NFTList?.map((nft, index) => (
-                      <tr key={nft._id}>
+                  {dataList?.length > 0 ? (
+                    dataList.map((nft, index) => (
+                      <tr key={index}>
                         <td>{(currentPage - 1) * itemPerpage + index + 1}</td>
+
                         <td>{nft?.tokenId}</td>
                         <td>
-                          {nft?.buyer?.slice(0, 8)}...
-                          {nft?.buyer?.slice(-8)}
+                          {nft?.buyer?.slice(0, 5)}...
+                          {nft?.buyer?.slice(-4)}
                           <Tooltip title={tooltipText} arrow>
                             <IconButton
                               onClick={() => handleCopy(nft?.buyer)}
@@ -328,33 +262,16 @@ export const BuyNFT = () => {
                             </IconButton>
                           </Tooltip>
                         </td>
-
-                        <td>{nft?.salesCount}</td>
-
+                        <td>{nft?.salesCount || 0}</td>
+                        <td>{((nft?.price || 0) / 1e18).toFixed(4)}</td>
                         <td>
-                          {isNaN(Number(nft?.price))
-                            ? "0.0000"
-                            : (Number(nft.price) / 1e18).toFixed(4)}{" "}
-                          USDT
-                        </td>
-
-                        <td>
-                          {moment(nft.createdAt).format("M/D/YYYY h:mm:ss A")}
+                          {moment.unix(nft.time).format("DD-MM-YYYY hh:mm A")}
                         </td>
                         <td>
                           <button
                             type="button"
                             className="next-button btn btn-success pointer border"
                             onClick={() => {
-                              console.log(
-                                nft?.price,
-                                nft?.title,
-                                nft?.description,
-                                nft?.metadataURI,
-                                nft?.tokenId,
-                                Number(nft?.price),
-                                "yyyyy"
-                              );
                               BuyNft(
                                 nft.price,
                                 nft.title,
@@ -412,4 +329,4 @@ export const BuyNFT = () => {
   );
 };
 
-export default BuyNFT;
+export default OldNFTs;

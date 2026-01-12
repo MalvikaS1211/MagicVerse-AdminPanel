@@ -46,6 +46,7 @@ import { DueNFT } from "./components/Users/DueNFT";
 import BuyNFT from "./components/Users/BuyNFT";
 import NFTList15 from "./components/Users/NFTList15";
 import TransactionHash from "./components/Users/TransactionHash";
+import OldNFTs from "./components/Users/OldNfts";
 
 const Markup = () => {
   const allroutes = [
@@ -69,6 +70,8 @@ const Markup = () => {
     { url: "admin/buy-nft", component: <BuyNFT /> },
     { url: "admin/nftList15", component: <NFTList15 /> },
     { url: "admin/transactionhash", component: <TransactionHash /> },
+    { url: "admin/oldNFTs", component: <OldNFTs /> },
+
 
   ];
 

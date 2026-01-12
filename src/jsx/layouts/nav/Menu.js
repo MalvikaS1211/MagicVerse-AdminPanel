@@ -4,7 +4,7 @@ import { RiNftFill } from "react-icons/ri";
 import { FaUserGraduate } from "react-icons/fa";
 import { PiHandDepositFill } from "react-icons/pi";
 import { LuLayoutDashboard } from "react-icons/lu";
-import { GiAbstract007, GiAbstract047, GiAbstract074 } from "react-icons/gi";
+import { GiAbstract007, GiAbstract039, GiAbstract047, GiAbstract074 } from "react-icons/gi";
 import { BiLogOut, BiSupport } from "react-icons/bi";
 import { GrTransaction } from "react-icons/gr";
 import { FaMessage, FaRankingStar, FaRegMessage } from "react-icons/fa6";
@@ -56,6 +56,11 @@ export const MenuList = [
     title: "Matured NFT List",
     to: "admin/maturedNft",
     iconStyle: <GiAbstract047  className="fs-3" />,
+  },
+    {
+    title: "Old NFT List",
+    to: "admin/oldNFTs",
+    iconStyle: <GiAbstract039   className="fs-3" />,
   },
   {
     title: "Add Massage",

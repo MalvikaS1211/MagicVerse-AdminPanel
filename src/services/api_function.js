@@ -789,3 +789,17 @@ export async function allowBulkCreation(status) {
     console.log("Error allowBulkCreation Admin:", error);
   }
 }
+
+export async function getOldNft(page, limit, search) {
+  try {
+    const response = await axios.post(`${URLApi}/getOldNft`, {
+      page,
+      limit,
+      search,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error getMaturedNFTs Admin:", error);
+  }
+}

@@ -35,7 +35,6 @@ export const Alluser = () => {
       const res = await getAdminDashboard(currentPage, itemPerPage, search);
       setTotalPages(res?.totalPages);
       setUsersList(res.users);
-     
     } catch (error) {
       console.log(error);
     } finally {
@@ -43,10 +42,8 @@ export const Alluser = () => {
     }
   };
 
-
   const ShowActiveUserList = async () => {
     const res = await getActiveUserslast24Hours(1, 500);
-   
 
     setActiveList(res?.data);
     // setNFTList(res?.data);
@@ -63,7 +60,6 @@ export const Alluser = () => {
     setSearchValue(query);
     setCurrentPage(1);
   };
- 
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) =>
@@ -77,26 +73,35 @@ export const Alluser = () => {
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
+
   return (
     <Fragment>
       <Row className="mb-4"></Row>
       <Row>
-        <div className="display_end">
-          <div className="input-group " style={{ maxWidth: "300px" }}>
+        <div className="display_end gap-1">
+          <div className="input-group" style={{ maxWidth: "300px" }}>
             <input
               type="search"
-              id="form1"
               className="form-control"
               placeholder="Search here by address..."
               autoComplete="off"
               value={searchValue}
               onChange={(e) => {
                 setSearchValue(e.target.value);
-                allUsers(e.target.value);
               }}
             />
           </div>
-          <label className="form-label" htmlFor="form1"></label>
+
+          <button
+            type="button"
+            className="next-button btn btn-success pointer border"
+            onClick={() => {
+              allUsers(searchValue);
+            }}
+            style={{ padding: "5px 10px" }}
+          >
+            Search
+          </button>
         </div>
 
         <Col lg={12}>
