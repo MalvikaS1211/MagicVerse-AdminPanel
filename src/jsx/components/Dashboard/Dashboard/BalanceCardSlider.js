@@ -4,12 +4,11 @@ import { BsShieldCheck } from "react-icons/bs";
 import "swiper/css";
 import {
   allowBulkCreation,
-  AllowToCreateBulk,
   getAdminDashboard,
+  getAllowBulkNFT,
   getNftStartStop,
 } from "../../../../services/api_function";
-import { useAccount } from "wagmi";
-import { BadgeCheck } from "lucide-react";
+
 import { useNavigate } from "react-router-dom";
 import { setLogin } from "../../../redux/reducer";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,7 +19,7 @@ const BalanceCardSlider = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
-
+  const address = useSelector((state) => state.login.address);
   const { login } = useSelector((state) => state.login);
   const [bulkLoading, setBulkLoading] = useState(false);
   const [user, setUser] = useState(null);
@@ -29,6 +28,7 @@ const BalanceCardSlider = () => {
   const [statusAllow, setStatusAllow] = useState(false);
   const [statusForBulk, setStatusForBulk] = useState(false);
   const [UserAddressBulk, setUserAddressBulk] = useState();
+  const [eligibleForCreate, setEligibleForCreate] = useState(null);
   const ShowAdminData = async () => {
     try {
       const res = await getAdminDashboard();
@@ -47,37 +47,44 @@ const BalanceCardSlider = () => {
       console.log(error);
     }
   };
+  const getstatusForButton = async () => {
+    console.log("getting status for bulk button");
+    try {
+      const res = await getAllowBulkNFT(address);
+      console.log("res bulk allow", res.isBulkAllow);
+
+      // ✅ SINGLE SOURCE OF TRUTH
+      setStatusForBulk(res?.isBulkAllow);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
-    if (login === true) {
+   
       ShowAdminData();
       handleNftAction();
-    } else {
-      navigate("/admin/login");
-    }
+      getstatusForButton(address);
+    
   }, [navigate]);
-  const [isEnabled, setIsEnabled] = useState(false);
-
-  const handleToggle = () => {
-    setIsEnabled((prev) => !prev);
-    console.log("New NFT toggled:", !isEnabled); // or trigger an API call
-  };
 
   const handleBulkToggle = async () => {
     try {
       setBulkLoading(true);
 
       const newStatus = !statusForBulk;
+
+      // optimistic UI update
       setStatusForBulk(newStatus);
 
-      // pass boolean value to API
       await allowBulkCreation(newStatus);
 
       toast.success(
         newStatus ? "Bulk NFT creation ENABLED" : "Bulk NFT creation DISABLED"
       );
     } catch (error) {
-      console.error(error);
+      // rollback on failure
+      setStatusForBulk((prev) => !prev);
       toast.error("Failed to update bulk NFT status");
     } finally {
       setBulkLoading(false);

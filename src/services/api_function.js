@@ -803,3 +803,13 @@ export async function getOldNft(page, limit, search) {
     console.log("Error getMaturedNFTs Admin:", error);
   }
 }
+
+export async function getAllowBulkNFT() {
+  try {
+    const response = await axios.get(`${URLApi}/bulk-status`, {});
+
+    return response.data;
+  } catch (error) {
+    console.log("Error eligibleForCreate Admin:", error);
+  }
+}

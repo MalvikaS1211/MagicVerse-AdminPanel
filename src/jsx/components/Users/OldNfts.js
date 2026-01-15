@@ -117,12 +117,12 @@ export const OldNFTs = () => {
 
       const userBalance = await fetchUserTokenBalance(address);
 
-      if (Number(userBalance) < Number(totalAmount) / 1e18) {
-        setIsLoading(false);
-        return toast.error(
-          `You need at least ${Number(totalAmount) / 1e18} USDT to Buy`
-        );
-      }
+      // if (Number(userBalance) < Number(totalAmount) / 1e18) {
+      //   setIsLoading(false);
+      //   return toast.error(
+      //     `You need at least ${Number(totalAmount) / 1e18} USDT to Buy`
+      //   );
+      // }
 
       const res = await getReadyForBuyFn(
         address,
@@ -272,6 +272,13 @@ export const OldNFTs = () => {
                             type="button"
                             className="next-button btn btn-success pointer border"
                             onClick={() => {
+                              console.log(
+                                nft?.price,
+                                nft?.title,
+                                nft?.description,
+                                nft?.metadataURI,
+                                nft?.tokenId
+                              );
                               BuyNft(
                                 nft.price,
                                 nft.title,
