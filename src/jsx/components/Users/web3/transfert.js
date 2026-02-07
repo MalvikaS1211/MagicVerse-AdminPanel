@@ -38,7 +38,7 @@ export async function buyNFTFn(
   s,
   title,
   description,
-  metadataURI
+  metadataURI,
 ) {
   try {
     console.log({
@@ -111,5 +111,22 @@ export async function getNfts(tokenId) {
     return result;
   } catch (error) {
     console.log(error);
+  }
+}
+
+export async function multiSend(users, amounts, statuses, objectIds) {
+  try {
+    const hash = await writeContract({
+      address: MiraiVault_CONTRACT_ADDRESS,
+      abi: MiraiVault_CONTRACT_ADDRESS_ABI,
+      functionName: "multiSendBatch",
+      args: [users, amounts, statuses, objectIds],
+    });
+
+    const receipt = await waitForTransaction({ hash });
+    return receipt;
+  } catch (err) {
+    console.error("multiSend error:", err);
+    throw err;
   }
 }

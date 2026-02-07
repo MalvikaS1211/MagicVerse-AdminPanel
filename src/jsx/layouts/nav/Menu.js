@@ -58,6 +58,11 @@ export const MenuList = [
     iconStyle: <GiAbstract047  className="fs-3" />,
   },
     {
+    title: "Salary Requests",
+    to: "admin/salryRequests",
+    iconStyle: <GiAbstract047  className="fs-3" />,
+  },
+    {
     title: "Old NFT List",
     to: "admin/oldNFTs",
     iconStyle: <GiAbstract039   className="fs-3" />,

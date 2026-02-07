@@ -62,7 +62,7 @@ export function replyTicket(
   replyfile,
   closed,
   subject,
-  token
+  token,
 ) {
   const formData = new FormData();
   if (replyfile) {
@@ -198,7 +198,7 @@ export async function updateStakeSetting(newSettings, token) {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-      }
+      },
     );
     return response.data;
   } catch (error) {
@@ -267,7 +267,7 @@ export async function nodeGroupApproveAction(selectedIds, token) {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-      }
+      },
     );
     console.log(response.data, "response.data");
     return response.data;
@@ -699,7 +699,7 @@ export async function getReadyForBuyFn(
   description,
   metadataURI,
   tokenId,
-  totalAmount
+  totalAmount,
 ) {
   try {
     if (!title) {
@@ -811,5 +811,23 @@ export async function getAllowBulkNFT() {
     return response.data;
   } catch (error) {
     console.log("Error eligibleForCreate Admin:", error);
+  }
+}
+
+export async function getIncomeRequest(page, limit, user, status, incomeType) {
+  try {
+    const response = await axios.get(`${URLApi}/incomeRequest`, {
+      params: {
+        page,
+        limit,
+        user,
+        status,
+        incomeType,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error getIncomeRequest :", error);
   }
 }
