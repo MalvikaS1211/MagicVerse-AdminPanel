@@ -48,6 +48,7 @@ import NFTList15 from "./components/Users/NFTList15";
 import TransactionHash from "./components/Users/TransactionHash";
 import OldNFTs from "./components/Users/OldNfts";
 import SalaryRequests from "./components/Users/SalaryRequests";
+import DirectUser from "./components/Users/DirectUser";
 
 const Markup = () => {
   const allroutes = [
@@ -73,11 +74,8 @@ const Markup = () => {
     { url: "admin/transactionhash", component: <TransactionHash /> },
     { url: "admin/oldNFTs", component: <OldNFTs /> },
     { url: "admin/salryRequests", component: <SalaryRequests /> },
-
-
-
+    { url: "admin/userDirects/:userid?", component: <DirectUser /> },
   ];
-
 
   // ✅ BSC Mainnet
   const bscM = {
@@ -106,7 +104,7 @@ const Markup = () => {
         rpc: (chain) => ({ http: chain.rpcUrls.default.http[0] }),
       }),
       publicProvider(),
-    ]
+    ],
   );
 
   // ✅ WalletConnect Project ID
@@ -143,11 +141,7 @@ const Markup = () => {
           <Routes>
             <Route element={<MainLayout />}>
               {allroutes.map((data, i) => (
-                <Route
-                  key={i}
-                  path={`${data.url}`}
-                  element={data.component}
-                />
+                <Route key={i} path={`${data.url}`} element={data.component} />
               ))}
             </Route>
 

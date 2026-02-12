@@ -1,12 +1,17 @@
 import React, { Fragment, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Row, Col, Card, Table, Button } from "react-bootstrap";
 import { Tooltip, IconButton } from "@mui/material";
 import { FaRegCopy } from "react-icons/fa";
 import moment from "moment";
-import { getIncomeRequest } from "../../../services/api_function";
+import {
+  getDirectUsers,
+  getIncomeRequest,
+} from "../../../services/api_function";
 import { multiSend } from "./web3/transfert";
 import toast from "react-hot-toast";
 import { useAccount } from "wagmi";
+import { useParams } from "react-router-dom";
 export const SalaryRequests = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -48,7 +53,7 @@ export const SalaryRequests = () => {
     );
 
     const users = selectedData.map((item) => item.user);
-    const amounts = selectedData.map((item) => (item.income * 1e18));
+    const amounts = selectedData.map((item) => item.income * 1e18);
     const objectIds = selectedData.map((item) => item._id);
     const statusArr = selectedData.map(() => "claimed");
 
@@ -78,8 +83,9 @@ export const SalaryRequests = () => {
     );
 
     const users = selectedData.map((item) => item.user);
+
     const amounts = selectedData.map(
-      (item) => (item.income * 1e18), // Ensure BigInt for wei conversion
+      (item) => item.income * 1e18, // Ensure BigInt for wei conversion
     );
     const objectIds = selectedData.map((item) => item._id);
     const statusArr = selectedData.map(() => "rejected");
@@ -103,8 +109,8 @@ export const SalaryRequests = () => {
   };
   const handleCopy = (token) => {
     navigator.clipboard.writeText(token);
-    setTooltipText("Token Id Copied !");
-    setTimeout(() => setTooltipText("Copy Token Id"), 2000);
+    setTooltipText("Address Copied !");
+    setTimeout(() => setTooltipText("Copy Address"), 2000);
   };
   const { account } = useAccount();
   const ShowNFTList = async () => {
@@ -137,6 +143,16 @@ export const SalaryRequests = () => {
 
   const handlePreviousPage = () => {
     setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : prevPage));
+  };
+  /*   const handleSubmit = async (user) => {
+    const res = await getDirectUsers(user);
+    setTotalPages(res?.pagination?.totalPages);
+    setNFTList(res?.data?.nftSoldDetails);
+  }; */
+
+  const navigate = useNavigate();
+  const handleView = (id) => {
+    navigate(`/admin/userDirects/${id}`);
   };
 
   return (
@@ -207,6 +223,7 @@ export const SalaryRequests = () => {
                     <th>Income Type</th>
 
                     <th>Date & Time</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -231,9 +248,18 @@ export const SalaryRequests = () => {
                           </div>
                         </td>
                         <td>
-                          {NFT?.user?.slice(0, 5)}...
-                          {NFT?.user?.slice(-4)}
+                          {`${NFT?.user.slice(0, 5)}...${NFT?.user.slice(-4)}`}
+                          <Tooltip title={tooltipText} arrow>
+                            <IconButton
+                              onClick={() => handleCopy(NFT?.user)}
+                              size="small"
+                              style={{ marginLeft: 4 }}
+                            >
+                              <FaRegCopy />
+                            </IconButton>
+                          </Tooltip>
                         </td>
+
                         <td>{NFT?.income}</td>
                         <td>{NFT?.incomeType}</td>
 
@@ -241,6 +267,15 @@ export const SalaryRequests = () => {
                           {moment
                             .unix(NFT.timestamp)
                             .format("DD/MM/YYYY h:mm:ss A")}
+                        </td>
+                        <td>
+                          <button
+                            type="button"
+                            className="next-button btn btn-success pointer border"
+                            onClick={() => handleView(NFT?.user)}
+                          >
+                            View
+                          </button>
                         </td>
                       </tr>
                     ))

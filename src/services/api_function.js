@@ -831,3 +831,17 @@ export async function getIncomeRequest(page, limit, user, status, incomeType) {
     console.log("Error getIncomeRequest :", error);
   }
 }
+
+export async function getDirectUsers(page, limit, user) {
+  try {
+    const response = await axios.post(`${URLApi}/getDirectNftBusinesss`, {
+      page,
+      limit,
+      user,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error getDirectUsers Admin:", error);
+  }
+}
