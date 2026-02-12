@@ -11,8 +11,8 @@ import {
 } from "../../../../services/api_function";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
-import { TOKEN_ADDRESS_USDT } from "../../../../config/config";
-import { useSwitchNetwork } from "wagmi";
+
+
 
 const HtmlTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />

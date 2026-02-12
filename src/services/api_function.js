@@ -1,10 +1,10 @@
 import axios from "axios";
 import toast from "react-hot-toast";
-export const URLApi = "https://magicverse.org/api";
+// export const URLApi = "https://magicverse.org/api";
 // export const URLApi = "http://192.168.1.10:8081/api";
 // export const URLApi = "http://192.168.1.161:8081/api";
-// export const URLApi = "http://localhost:8081/api";
-// export const URLApi = "http://192.168.1.44:8081/api";
+export const URLApi = "http://localhost:8081/api";
+// export const URLApi = "http://192.168.1.171:8081/api";
 
 export function cutAfterDecimal(number, pos, dl, ac) {
   if (Number(number)) {
@@ -417,9 +417,13 @@ export async function createMessageFn(Sender, Receiver, Message, TicketId) {
   }
 }
 
-export async function getAllTicket() {
+export async function getAllTicket(page, limit, search) {
   try {
-    const response = await axios.post(`${URLApi}/getAllTicketsByAdmin`, {});
+    const response = await axios.post(`${URLApi}/getAllTicketsByAdmin`, {
+      page,
+      limit,
+      search,
+    });
 
     return response.data;
   } catch (error) {
@@ -658,5 +662,67 @@ export async function RemoveNFt(tokenId) {
     return response.data;
   } catch (error) {
     console.log("Error RemoveNFt :", error);
+  }
+}
+
+export async function getStakingList(page = 1, limit = 10, filter, user) {
+  try {
+    const response = await axios.post(`${URLApi}/get-staking-list`, {
+      page,
+      limit,
+      filter,
+      user,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error getStakingList :", error);
+    throw error; // so ApproveStakingList catch can handle it
+  }
+}
+
+export async function approveRejectStaking(user, id, status) {
+  try {
+    const response = await axios.post(`${URLApi}/approve-or-reject`, {
+      user,
+      id,
+      status,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error ApproveStaking :", error);
+  }
+}
+
+export async function getROIList(page, limit, filter, user) {
+  try {
+    const response = await axios.post(`${URLApi}/get-roi-list`, {
+      page,
+      limit,
+      filter,
+      user,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error getROIList :", error);
+    throw error;
+  }
+}
+
+export async function roiApproveOrReject(user = [], id = [], status, txHash) {
+  try {
+    console.log("roiApproveOrReject called with:", user, id, status, txHash);
+    const response = await axios.post(`${URLApi}/RoiApproveOrReject`, {
+      user,
+      id,
+      status,
+      txHash,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error roiApproveOrReject :", error);
   }
 }

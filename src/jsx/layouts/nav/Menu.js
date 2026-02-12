@@ -43,6 +43,20 @@ export const MenuList = [
   },
 
   {
+    title: "Approve Staking",
+    to: "admin/approveStaking",
+    iconStyle: <FaHandshake className="fs-3" />
+
+  },
+
+  {
+    title: "Give Roi",
+    to: "admin/giveRoi",
+    iconStyle: <RiMoneyDollarCircleLine className="fs-3" />
+
+  },
+
+  {
     title: "NFT Creation List",
     to: "admin/NFTCreationList",
     iconStyle: <RiNftFill className="fs-3" />,

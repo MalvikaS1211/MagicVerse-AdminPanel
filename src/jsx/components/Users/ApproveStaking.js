@@ -6,11 +6,8 @@ import { styled } from "@mui/material/styles";
 // import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 
 import {
-  AddNFTInQueue,
-  burnNft,
-  dueNft,
-  getUserPackages,
-  oldNftList,
+  getStakingList,
+  approveRejectStaking,
 } from "../../../services/api_function";
 import toast from "react-hot-toast";
 import { Tooltip, IconButton } from "@mui/material";
@@ -19,7 +16,7 @@ import { useSelector } from "react-redux";
 
 import { useAccount } from "wagmi";
 import moment from "moment";
-export const OldNft = () => {
+export const ApproveStaking = () => {
   const { wallet } = useSelector((state) => state.login);
   const { walletAddress, chainId } = wallet;
   const [apiData, setApiData] = useState([]);
@@ -33,7 +30,7 @@ export const OldNft = () => {
   const [limit] = useState(1);
   const { address } = useAccount();
   const [tooltipText, setTooltipText] = useState("Copy address");
-  const [packageHistory, setPackageHistory] = useState([]);
+  const [stakingList, setStakingList] = useState([]);
   const [totalvalue, setTotalValue] = useState(0);
   const [totalcount, setTotalCount] = useState(0);
   const itemPerpage = 10;
@@ -54,39 +51,63 @@ export const OldNft = () => {
     setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : prevPage));
   };
 
-  const OldNftList = async (searchValue) => {
+  const ApproveStakingList = async () => {
     try {
-      setLoading(true); // start loading
-      const res = await oldNftList(currentPage, itemPerpage, searchValue);
+      setLoading(true);
 
-      setCurrentPage(res.page);
-      setTotalPages(res.totalPages);
-      setPackageHistory(res.data);
-      setTotalValue(res.totalValue);
-      setTotalCount(res.totalCount);
+      const res = await getStakingList(
+        currentPage,
+        itemPerpage,
+        "pending",
+        searchValue
+      );
+
+      console.log(res, walletAddress, "List");
+
+      const { pagination } = res;
+
+      setCurrentPage(pagination?.currentPage || 1);
+      setTotalPages(pagination?.totalPages || 1);
+      setStakingList(res.data || []);
+      setTotalValue(pagination?.totalDocs || 0);
+      setTotalCount(pagination?.totalDocs || 0);
     } catch (error) {
       console.error("Error fetching NFTs:", error);
     } finally {
-      setLoading(false); // stop loading
+      setLoading(false);
     }
   };
-  const handleRelease = async (tokenId) => {
+  const handleApproveReject = async (Id, action) => {
     try {
-      const response = await AddNFTInQueue(tokenId);
-      if (response.success == true) {
-        toast.success("NFT released !");
-        OldNftList();
-      } else {
-        toast.error(response?.message);
+      // find the staking item by its id
+      const stakingItem = stakingList.find((item) => item._id === Id);
+
+      if (!stakingItem) {
+        toast.error("Staking item not found");
+        return;
       }
+
+      const response = await approveRejectStaking(stakingItem.user, Id, action);
+
+      if (response.success) {
+        toast.success(`${action === "approved" ? "Approved" : "Rejected"}!`);
+        // ApproveStakingList();
+      } else {
+        toast.error(response?.message || "Action failed");
+      }
+
+      setTimeout(() => {
+        ApproveStakingList();
+      }, 3000);
     } catch (error) {
-      const msg = error?.response?.data?.message;
+      const msg = error?.response?.data?.message || "Something went wrong";
       toast.error(msg);
     }
   };
+
   useEffect(() => {
-    OldNftList();
-  }, [currentPage]);
+    ApproveStakingList();
+  }, [currentPage, searchValue]);
 
   return (
     <Fragment>
@@ -97,7 +118,7 @@ export const OldNft = () => {
               type="search"
               id="form1"
               className="form-control"
-              placeholder="Search here by buyer..."
+              placeholder="Search here by User Address..."
               autoComplete="off"
               value={searchValue}
               onChange={(e) => {
@@ -107,36 +128,36 @@ export const OldNft = () => {
               }}
             />
           </div>
-          <button
+          {/* <button
             type="button"
             className="btn btn-success p-2 pointer border "
             onClick={() => {
-              OldNftList(searchValue);
+              ApproveStakingList(searchValue);
             }}
           >
             Serach
-          </button>
+          </button> */}
           <label className="form-label" htmlFor="form1"></label>
         </div>
         <Col lg={12}>
           <Card>
             <Card.Header>
-              <Card.Title>
-                Old NFT : {(Number(totalvalue) / 1e18).toFixed(2)} USDT
-              </Card.Title>
-              <Card.Title>Total Count : {totalcount} NFT</Card.Title>
+              <Card.Title>Approve Staking</Card.Title>
+              {/* <Card.Title>Total Count : {totalcount} NFT</Card.Title> */}
             </Card.Header>
             <Card.Body>
               <Table responsive>
                 <thead>
                   <tr>
                     <th>S.No.</th>
-                    <th>Token Id</th>
-                    <th>Owner</th>
-                    <th>Value</th>
-                    <th>Sales Count</th>
+                    <th>User Address</th>
+                    <th>Amount</th>
+                    {/* <th>Value</th>
+                    <th>Sales Count</th> */}
+                    <th>Date & Time</th>
 
-                    <th>Release</th>
+                    <th>Approve</th>
+                    <th>Reject</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -153,21 +174,36 @@ export const OldNft = () => {
                         </div>
                       </td>
                     </tr>
-                  ) : packageHistory?.length > 0 ? (
-                    packageHistory?.map((pkg, index) => (
-                      <tr key={pkg._id}>
+                  ) : stakingList?.length > 0 ? (
+                    stakingList?.map((stake, index) => (
+                      <tr key={stake._id}>
                         <td>{(currentPage - 1) * itemPerpage + index + 1}</td>
-                        <td>{pkg?.tokenId}</td>
-                        <td>{pkg?.owner}</td>
-                        <td>{(pkg?.latestPrice / 1e18).toFixed(2)}</td>
-                        <td>{pkg?.salesCount}</td>
+                        <td>{stake?.user}</td>
+                        <td>{stake?.stakingAmount.toFixed(4)}</td>
+                        <td>
+                          {moment(stake.createdAt).format("M/D/YYYY h:mm:ss A")}
+                        </td>
                         <td>
                           <button
                             type="button"
                             className="next-button btn btn-success pointer border"
-                            onClick={() => handleRelease(pkg?.tokenId)}
+                            onClick={() =>
+                              handleApproveReject(stake._id, "approved")
+                            }
                           >
-                            Release
+                            Approve
+                          </button>
+                        </td>
+
+                        <td>
+                          <button
+                            type="button"
+                            className="next-button btn btn-danger pointer border"
+                            onClick={() =>
+                              handleApproveReject(stake._id, "rejected")
+                            }
+                          >
+                            Reject
                           </button>
                         </td>
                       </tr>
@@ -217,4 +253,4 @@ export const OldNft = () => {
   );
 };
 
-export default OldNft;
+export default ApproveStaking;
