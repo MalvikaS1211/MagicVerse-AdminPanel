@@ -58,12 +58,9 @@ export const DirectUser = () => {
                   <thead>
                     <tr>
                       <th>S.No.</th>
-                      <th>Token Id</th>
-                      <th>Creator</th>
-
-                      <th>Price</th>
-                      <th>Tx Hash</th>
-                      <th>Date & Time</th>
+                      <th>User</th>
+                      <th>Total Business</th>
+                      <th>Total Sales</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -71,40 +68,25 @@ export const DirectUser = () => {
                       NFTList?.map((NFT, index) => (
                         <tr key={index}>
                           <td>{(currentPage - 1) * itemPerpage + index + 1}</td>
-                          <td>
-                            {NFT?.tokenId}
-                            <Tooltip title={tooltipText} arrow>
-                              <IconButton
-                                onClick={() => handleCopy(NFT?.tokenId)}
-                                size="small"
-                                style={{ marginLeft: 4 }}
-                              >
-                                <FaRegCopy />
-                              </IconButton>
-                            </Tooltip>
-                          </td>
-                          <td>
-                            {NFT?.buyer?.slice(0, 5)}...
-                            {NFT?.buyer?.slice(-4)}
-                          </td>
+                           <td>
+                                                   {`${NFT?._id.slice(0, 5)}...${NFT?._id.slice(
+                                                     -4
+                                                   )}`}
+                                                   <Tooltip title={tooltipText} arrow>
+                                                     <IconButton
+                                                       onClick={() => handleCopy(NFT?._id,"Address Copied !")}
+                                                       size="small"
+                                                       style={{ marginLeft: 4 }}
+                                                     >
+                                                       <FaRegCopy />
+                                                     </IconButton>
+                                                   </Tooltip>
+                                                 </td>
+                          
 
-                          <td>$ {Number(NFT?.buyerPaid / 1e18).toFixed(4)}</td>
-                          <td>
-                            <a
-                              href={`https://bscscan.com/tx/${NFT?.transactionHash}`}
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              {NFT?.transactionHash?.slice(0, 5)}...
-                              {NFT?.transactionHash?.slice(-4)}
-                            </a>
-                          </td>
+                          <td>$ {Number(NFT?.totalBusiness / 1e18).toFixed(4)}</td>
+                        <td>{NFT?.totalSales}</td>
 
-                          <td>
-                            {moment
-                              .unix(NFT.time)
-                              .format("DD/MM/YYYY h:mm:ss A")}
-                          </td>
                         </tr>
                       ))
                     ) : (
