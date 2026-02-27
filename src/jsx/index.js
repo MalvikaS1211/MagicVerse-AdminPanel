@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Routes, Route, Outlet } from "react-router-dom";
+import { Routes, Route, Outlet, Navigate } from "react-router-dom";
 import "./index.css";
 import "./chart.css";
 import "./step.css";
@@ -7,6 +7,7 @@ import Nav from "./layouts/nav";
 import Home from "./components/Dashboard/Home";
 import { Alluser } from "./components/Users/allUser";
 import { ThemeContext } from "../context/ThemeContext";
+import { useSelector } from "react-redux";
 import { Toaster } from "react-hot-toast";
 
 import { publicProvider } from "wagmi/providers/public";
@@ -139,7 +140,7 @@ const Markup = () => {
           theme={lightTheme()}
         >
           <Routes>
-            <Route element={<MainLayout />}>
+            <Route element={<PrivateRoute />}>
               {allroutes.map((data, i) => (
                 <Route key={i} path={`${data.url}`} element={data.component} />
               ))}
@@ -152,6 +153,16 @@ const Markup = () => {
     </>
   );
 };
+
+function PrivateRoute() {
+  const isLoggedIn = useSelector((state) => state.login.login);
+
+  if (!isLoggedIn) {
+    return <Navigate to="/admin/login" replace />;
+  }
+
+  return <MainLayout />;
+}
 
 function MainLayout() {
   const { menuToggle } = useContext(ThemeContext);
